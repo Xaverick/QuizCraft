@@ -1,29 +1,47 @@
 const router = require('express').Router();
 const catchAsync = require('../utils/CatchAsync');
-// const admin = require('../controllers/adminController.js');
+const admin = require('../controllers/adminController.js');
 const {isAdmin} = require('../middleware.js');
+const quizzes = require('../models/quizzes');
 
 
-// router.route('/adminlogin')
-//     .get(admin.renderLogin)
-//     .post(catchAsync(admin.adminlogin));
+router.route('/login')
+    .post(catchAsync(admin.adminlogin));
 
-// router.route('/adminregister')
-//     .get(admin.renderRegister)
-//     .post(catchAsync(admin.adminregister));
+router.route('/logout')
+    .get(catchAsync(admin.adminlogout));
 
-// router.route('/adminlogout')
-//     .get(catchAsync(admin.adminlogout));
+router.route('/register')
+    .post(catchAsync(admin.adminregister));
 
 
-// router.route('/adminHome')
-//     .get(isAdmin, catchAsync(admin.adminHome));
+router.route('/createquiz')
+    .post(isAdmin, catchAsync(admin.createQuiz));
 
-// router.route('/sendOTP/:ticketid')
-//     .get(isAdmin, catchAsync(admin.renderOTP))
-//     .post(isAdmin, catchAsync(admin.sendOTP));
+router.route('/updatequiz/:quizid')
+    .post(isAdmin, catchAsync(admin.updateQuiz));
 
-// router.route('/verifyOTP')
-//     .post(isAdmin, catchAsync(admin.validateTicket));
+router.route('/deletequiz/:quizid')
+    .delete(isAdmin, catchAsync(admin.deleteQuiz));
+
+router.route('/createquestion/:quizid')
+    .post(isAdmin, catchAsync(admin.createQuestion));
+
+router.route('/updatequestion/:questionid')
+    .post(isAdmin, catchAsync(admin.updateQuestion));
+
+router.route('/deletequestion/:questionid')
+    .delete(isAdmin, catchAsync(admin.deleteQuestion));
+
+
+router.route('/getquizzes')
+    .get(isAdmin, catchAsync(admin.getQuizzes));
+
+router.route('/getquiz/:quizid')
+    .get(isAdmin, catchAsync(admin.getQuiz));
+
+router.route('/getquestions/:quizid')
+    .get(isAdmin, catchAsync(admin.getQuestions));
+
 
 module.exports = router;
