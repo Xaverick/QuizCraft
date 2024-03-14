@@ -44,11 +44,6 @@ const admin = require('./routes/adminRoutes');
 app.use('/admin', admin);
 
 
-// app.get('/', (req, res) => {
-//     res.render('./admins/home')
-// })
-
-
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404));
 });
