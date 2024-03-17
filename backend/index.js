@@ -19,25 +19,19 @@ app.engine('ejs',ejsMate)
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname,'views'))
 
+app.use (cookieParser(process.env.SECRET));
 app.use(express.static(path.join(__dirname,'public')))
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use((req, res, next) => {
-//     res.locals.currentUser = req.user;
-//     next();
-// })
 
-app.use(cors({ origin: true, credentials: true}));
-// app.use(cors({ origin: [`${process.env.ORIGIN}`, "https://secure-ticket-gen.vercel.app"], credentials: true}));
-app.use (cookieParser(process.env.SECRET));
+app.use(cors({origin: 'http://localhost:5173', credentials: true}));
+// Allow requests from the specified origin(s)
 app.use(express.json());
+
 
 
 const user = require('./routes/userRoutes');
 app.use('/user', user);
-
-// const general = require('./routes/qrRoutes');
-// app.use('/', general); 
 
 const admin = require('./routes/adminRoutes');
 app.use('/admin', admin);

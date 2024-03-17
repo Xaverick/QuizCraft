@@ -1,6 +1,7 @@
 const User = require('./models/userModel')
 const jwt = require('jsonwebtoken');
-const admin = require('./models/adminModel');
+const Admin = require('./models/adminModel');
+
 
 module.exports.isLoggedIn = async  (req, res, next) => {   
     const token = req.signedCookies.jwt;
@@ -35,16 +36,22 @@ module.exports.isVerified = async (req, res, next) => {
 
 module.exports.isAdmin = async (req, res, next) => {
     const token = req.signedCookies.jwt;
+    console.log(token);
     if(token){
         const decoded = jwt.verify(token, `${process.env.SECRET}`);
-        const Admin = await admin.findById(decoded.id);
-        if(Admin) {
-            req.adminId = Admin._id;
+        const admin = await Admin.findById(decoded.adminId);
+        console.log(admin);
+        if(admin) {
+            req.adminId = admin._id;
             next();
         }
-        else res.status(400).json('not admin');
+       
+        else {
+            console.log('not admin');
+            res.status(420).json('not admin');
+        }
     }
     else{
-        res.status(400).json('no token');
+        res.status(404).json('no token');
     }
 }
