@@ -27,8 +27,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //     next();
 // })
 
-
-app.use(cors({ origin: "*", credentials: true}));
+app.use(cors({ origin: true, credentials: true}));
 // app.use(cors({ origin: [`${process.env.ORIGIN}`, "https://secure-ticket-gen.vercel.app"], credentials: true}));
 app.use (cookieParser(process.env.SECRET));
 app.use(express.json());
