@@ -35,6 +35,7 @@ const { user } = useSelector((state) => state.profile)
     startTime: "",
     endTime:"",
     duration: "",
+    adminId: user._id
 
   });
   const [quesionData, setQuestionData] = useState({
