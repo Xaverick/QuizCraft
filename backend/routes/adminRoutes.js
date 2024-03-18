@@ -16,7 +16,9 @@ router.route('/register')
 
 
 router.route('/createquiz')
+
     .post(isAdmin, catchAsync(admin.createQuiz));
+
 
 router.route('/updatequiz/:quizid')
     .post(isAdmin, catchAsync(admin.updateQuiz));

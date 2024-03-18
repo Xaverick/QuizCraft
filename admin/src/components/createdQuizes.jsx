@@ -23,7 +23,7 @@ const createdQuizes=()=> {
 
       const fetchUserQuizes = async () => {
         try {
-          const response = await fetch(`${apiUrl}/api/v1/form/userForms?userId=${String(user?._id)}`, {
+          const response = await fetch(`${apiUrl}/admin/getQuizeByAdminId/${user}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
