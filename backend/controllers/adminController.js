@@ -45,20 +45,20 @@ module.exports.adminregister = async (req, res) => {
     }
 }
 
+
 module.exports.createQuiz = async (req, res) => {
     // console.log(req.body);
     const { title, description, startTime, endTime, duration } = req.body;
 
-    if(!title || !description || !startTime || !endTime || !duration){
+    if (!title || !description || !startTime || !endTime || !duration) {
         res.status(500).json('missing fields');
-    } 
-    else{
-        const newQuiz = new Quiz({ title, description, startTime, endTime, duration, adminId: req.adminId});
-        await newQuiz.save();
-        res.json('quiz created');
-    }  
-
+    } else {
+        const newQuiz = new Quiz({ title, description, startTime, endTime, duration, adminId: req.adminId });
+        const savedQuiz = await newQuiz.save();
+        res.json({ message: 'quiz created', quizId: savedQuiz._id });
+    }
 }
+
 
 module.exports.updateQuiz = async (req, res) => {
     const { title, description, startTime, endTime, duration } = req.body;
@@ -105,7 +105,7 @@ module.exports.createQuestion = async (req, res) => {
     const {type, text, options, correctOption } = req.body;
     const quizId = req.params.quizid;
 
-    if(!text || !type || !options || !correctOption){
+    if(!text || !type || !correctOption){
         res.status(400).json('missing fields');
     } 
     else{

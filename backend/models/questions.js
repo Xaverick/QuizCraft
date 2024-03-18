@@ -12,7 +12,7 @@ const questionSchema = new schema({
     type: {
         type: String,
         required: true,
-        enum: ["MCQ", "Fill in the blanks", "True/False"],
+        enum: ["text", "radio", "checkbox"],
     },
 
     text: {

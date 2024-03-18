@@ -42,7 +42,8 @@ const { user } = useSelector((state) => state.profile)
     quizId: "",
     text: "",
     type: "text",
-    options: [] 
+    options: [] ,
+    correctOption:""
    
   });
   
@@ -71,7 +72,7 @@ const { user } = useSelector((state) => state.profile)
     console.log(quesionData);
     try {
 
-      const response = await fetch(`${apiUrl}/admin/createquestion/`, {
+      const response = await fetch(`${apiUrl}/admin/createquestion/${quesionData.quizId}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -138,7 +139,7 @@ const { user } = useSelector((state) => state.profile)
         const data = await response.json();
         console.log("Quiz Created Successfully", data);
         setQuestionData((prevquesionData) => {
-          const updatedquesionData = { ...prevquesionData,    quizId: data.quiz._id };
+          const updatedquesionData = { ...prevquesionData,    quizId: data.quizId };
           setAdd(true);
           
           return updatedquesionData;
@@ -238,6 +239,10 @@ setNoOfInputs(e.target.value);
   </>):(<></>)
 
 }
+<label>Enter the correct Option</label>
+      <input onChange={(e)=>{
+        handleInputChange2("correctOption",e.target.value);
+      }}  name="correctOption" className=" border-2" type="text"></input>
 
 <button className="bg-black text-white p-4 rounded-lg"  onClick={()=>{
   handleSubmit2();
