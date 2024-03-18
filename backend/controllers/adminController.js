@@ -80,7 +80,8 @@ module.exports.deleteQuiz = async (req, res) => {
 };
 
 module.exports.getQuizzes = async (req, res) => {
-    const quizzes = await Quiz.find({adminId: req.adminId});
+    const adminId = req.params.adminid;
+    const quizzes = await Quiz.find({adminId: adminId});
     res.json(quizzes);
 };
 

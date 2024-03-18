@@ -34,7 +34,7 @@ router.route('/deletequestion/:questionid')
     .delete(isAdmin, catchAsync(admin.deleteQuestion));
 
 
-router.route('/getquizzes')
+router.route('/getquizzes/:adminid')
     .get(isAdmin, catchAsync(admin.getQuizzes));
 
 router.route('/getquiz/:quizid')
