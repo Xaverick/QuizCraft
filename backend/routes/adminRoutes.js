@@ -16,7 +16,7 @@ router.route('/register')
 
 
 router.route('/createquiz')
-    .post(catchAsync(admin.createQuiz));
+    .post(isAdmin, catchAsync(admin.createQuiz));
 
 router.route('/updatequiz/:quizid')
     .post(isAdmin, catchAsync(admin.updateQuiz));
@@ -25,7 +25,7 @@ router.route('/deletequiz/:quizid')
     .delete(isAdmin, catchAsync(admin.deleteQuiz));
 
 router.route('/createquestion/:quizid')
-    .post( catchAsync(admin.createQuestion));
+    .post(isAdmin, catchAsync(admin.createQuestion));
 
 router.route('/updatequestion/:questionid')
     .post(isAdmin, catchAsync(admin.updateQuestion));
