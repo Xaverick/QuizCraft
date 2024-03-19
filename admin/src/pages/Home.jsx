@@ -1,7 +1,7 @@
 
 
 import React, { useEffect, useState } from "react"
-import createdQuizes from "../components/createdQuizes";
+import CreatedQuizes from "../components/createdQuizes";
 
 import {
     Dialog,
@@ -78,6 +78,7 @@ const { user } = useSelector((state) => state.profile)
           "Content-Type": "application/json",
         },
         body: JSON.stringify(quesionData),
+        credentials: "include",
       });
 
       if (response.ok) {
@@ -312,7 +313,7 @@ setNoOfInputs(e.target.value);
 </Dialog>
 
      
-<createdQuizes/>
+<CreatedQuizes/>
      </div>
      
     

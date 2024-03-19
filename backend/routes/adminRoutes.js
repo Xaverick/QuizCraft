@@ -45,5 +45,6 @@ router.route('/getquiz/:quizid')
 router.route('/getquestions/:quizid')
     .get(isAdmin, catchAsync(admin.getQuestions));
 
-
+router.route('/getquestion/:questionId')
+    .get(isAdmin, catchAsync(admin.getQuestionByQuestionId));
 module.exports = router;
