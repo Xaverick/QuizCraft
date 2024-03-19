@@ -98,21 +98,41 @@ module.exports.getQuestions = async (req, res) => {
 
 }
 
-
+module.exports.getQuestionByQuestionId = async (req, res) => {
+    const questionId = req.params.questionId;
+    console.log(questionId);
+    const question=await Question.findById(questionId);
+    res.json(question);
+}
 
 
 
 module.exports.createQuestion = async (req, res) => {
-    const {type, text, options, correctOption } = req.body;
+    const { type, text, options, correctOption } = req.body;
     const quizId = req.params.quizid;
 
-    if(!text || !type || !correctOption){
+    if (!text || !type || !correctOption) {
         res.status(400).json('missing fields');
-    } 
-    else{
-        const newQuestion = new Question({ type, text, options, correctOption, quizId});
-        await newQuestion.save();
-        res.json('question created');
+    } else {
+        try {
+            const newQuestion = new Question({ type, text, options, correctOption, quizId });
+            const savedQuestion = await newQuestion.save();
+
+            // Find the quiz by ID and update its questions array
+            const quiz = await Quiz.findByIdAndUpdate(
+                quizId,
+                { $push: { questions: savedQuestion._id } },
+                { new: true }
+            );
+
+            if (!quiz) {
+                res.status(404).json('Quiz not found');
+            } else {
+                res.json({ message: 'question created', questionId: savedQuestion._id });
+            }
+        } catch (err) {
+            res.status(500).json({ error: err.message });
+        }
     }
 };
 

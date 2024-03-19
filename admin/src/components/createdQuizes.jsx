@@ -1,70 +1,111 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../components/ui/dialog"
+const CreatedQuizes=()=> {  
 
-const createdQuizes=()=> {  
-
+  const apiUrl = "http://localhost:4000";
     const { user } = useSelector((state) => state.profile)
-    const [userForms, setUserForms] = useState([]);
-    const [selectedForm, setSelectedForm] = useState();
+    const [userQuizes, setUserQuizes] = useState([]);
+    const [selectedQuiz, setSelectedQuizes] = useState();
     const     [quizId, setquizId] = useState("");
     const [isFormDetailsDialogOpen, setFormDetailsDialogOpen] = useState(false);
     const [response2, setResponse] = useState([]);
-    const [inputs2, setQuestionDatas] = useState([]);
+    const [questions, setQuestionDatas] = useState([]);
     useEffect(() => {
         if (user) {
+          console.log(user);
           fetchUserQuizes();
         }
       }, [user]);
+      const handleDelete = async (quizId) => {
+        try {
+          const response = await fetch(`${apiUrl}/admin/deletequiz/${quizId}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },  
+            credentials: "include",
+          });
+          if(response.ok){
+            console.log("Quiz deleted");
+            fetchUserQuizes();
+          }
+          else{
+            console.error("Failed to delete quiz. Status:", response.status);
+          }
+        } catch (error) {
+          console.error("Failed to delete quiz:", error);
+        }
+      };
+
       const handleQuizClick = (quizId) => {
-        // Fetch and display form details when a form is clicked
+        // Fetch and display quiz details when a quiz is clicked
+        console.log("id of the quiz is", quizId);
         fetchQuizDetails (quizId);
-           console.log("id of the form is", quizId);
+          
       };
 
       const fetchUserQuizes = async () => {
         try {
-          const response = await fetch(`${apiUrl}/admin/getQuizeByAdminId/${user}`, {
+          const adminid = user;
+          const response = await fetch(`${apiUrl}/admin/getquizzes/${adminid}`, {
             method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
+            credentials: "include",
           });
       
           if (response.ok) {
             const data = await response.json();
-            setUserForms(data.forms);
-            console.log(userForms);
+           
+            console.log(data);
+            setUserQuizes(data);
           } else {
-            console.error("Failed to fetch user forms. Status:", response.status);
+            console.error("Failed to fetch admin Quizes. Status:", response.status);
           }
         } catch (error) {
-          console.error("Failed to fetch user forms:", error);
+          console.error("Failed to fetch admin Quizes.:", error);
         }
       };
 
    
-    const fetchQuizDetails = async () => {
+    const fetchQuizDetails = async (quizId) => {
 
-        const fetchInputDetails = async () => {
+        const fetchQuestionDetails = async (questionId) => {
             try {
-              const response = await fetch(`${apiUrl}/api/v1/form/getINputDetails?inputId=${inputId}`);
+              
+              const response = await fetch(`${apiUrl}/admin/getquestion/${questionId}`,{
+                method: "GET",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                credentials: "include",
+              });
           
               if (response.ok) {
                 const data = await response.json();
                console.log(data);
                setQuestionDatas((prevData) => [...prevData, data]);
-              console.log(inputs2);
+              console.log("Question details -:"+questions);
               } else {
-                console.error("Failed to fetch input. Status:", response.status);
+                console.error("Failed to fetch question. Status:", response.status);
               }
             } catch (error) {
-              console.error("Failed to fetch input:", error);
+              console.error("Failed to fetch question:", error);
             }
           };
       
           const fetchResponseDetails = async () => {
             try {
-              const response = await fetch(`${apiUrl}/api/v1/form/getResponseDetails?responseId=${responseId}`);
+              const response = await fetch(`${apiUrl}/admin/getResponse/${quizId}`);
           
               if (response.ok) {
                 const data = await response.json();
@@ -78,34 +119,39 @@ const createdQuizes=()=> {
             } catch (error) {
               console.error("Failed to fetch input:", error);
             }
-          };
+          }
         try {
-          const response = await fetch(`${apiUrl}/api/v1/form/FormDetail    quizId=$    quizId}`);
-      
-          if (response.ok) {
+          console.log(quizId);
+          const response = await fetch(`${apiUrl}/admin/getquiz/${quizId}`,{
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          });
+         
             setQuestionDatas([]);
             setResponse([]);
             const data = await response.json();
             console.log(data);
-            setSelectedForm(data.form);
-            console.log(selectedForm);
-            setquizId(data.form._id); 
-            console.log("id of the form is",quizId);
+            setSelectedQuizes(data);
+            console.log(selectedQuiz);
+            setquizId(data._id); 
+            console.log("id of the quiz is",quizId);
             setFormDetailsDialogOpen(true);
       
             // Fetch and display input details for each input
-            data.form.input.forEach(() => {
-              fetchInputDetails(inputId);
+            data.questions.forEach((question) => {
+              console.log(question);
+              fetchQuestionDetails(question);
             });
       
             // Fetch and display response details for each response
-            data.form.response.forEach(() => {
-              fetchResponseDetails(responseId);
-            });
-          } else {
-            console.error("Failed to fetch responses. Status:", response.status);
-          }
-        } catch (error) {
+            // data.quiz.response.forEach(() => {
+            //   fetchResponseDetails(responseId);
+            // });
+          } 
+         catch (error) {
           console.error("Failed to fetch responses:", error);
         }
       };
@@ -118,27 +164,27 @@ const createdQuizes=()=> {
            <h2 className="text-xl ">Your Quizes:</h2>
 <div className="flex flex-row w-[70%] flex-wrap justify-center gap-4 items-center text-white">
         
-          {userForms.map((form) => (
-            <div  key={form._id} className=" flex gap-4 flex-col items-center justify-center">
+          {userQuizes.map((quiz) => (
+            <div  key={quiz._id} className=" flex gap-4 flex-col items-center justify-center">
               <div
              
               className="cursor-pointer hover:bg-black flex-col hover:text-white transition-all duration-200 bg-white text-black w-[100px] h-[100px] flex items-center justify-center hover:underline"
             
               
             >
-              <p   onClick={() => handleQuizClick(form._id)}>{form.title}</p>
+              <p   onClick={() => handleQuizClick(quiz._id)}>{quiz.title}</p>
              
       
             </div>
             <div onClick={ ()=>{
-                handleDelete(form._id);
+                handleDelete(quiz._id);
                 
               }}> Delete </div>
             </div>
             
           ))}
         </div>
-        <div className="bg-white text-black ">     {selectedForm ?(
+        <div className="bg-white text-black ">     {selectedQuiz ?(
         <div className=" overflow-scroll" onDoubleClick={()=>{
           setFormDetailsDialogOpen(false);
         }}>
@@ -147,28 +193,27 @@ const createdQuizes=()=> {
     <DialogHeader>
      
     </DialogHeader>
-    {/* Display all details of the form here */}
+    {/* Display all details of the quiz here */}
     <div className=" flex flex-col items-center justify-center bg-white text-black p-4 rounded-lg">
   <h2 className="text-xl text-black">Form Details:</h2>
-  <p>Title: {selectedForm ? selectedForm.title : "N/A"}</p>
+  <p>Title: {selectedQuiz ? selectedQuiz.title : "N/A"}</p>
   <h3>Form:</h3>
   <div className="bg-black flex flex-col flex-wrap overflow-scroll justify-center items-center text-white p-4">
-  {inputs2.map((form, formIndex) => (
+  {questions.length>0&&questions.map((question, formIndex) => (
   <div key={formIndex}>
   
     <form>
-      {form.inputs.map((quesionData, index) => (
-        <div className=" flex gap-4 items-center justify-center  mt-3" key={index}>
-          <label>{quesionData.text}</label>
-          {quesionData.type === 'text' && (
+    <div className=" flex gap-4 items-center justify-center  mt-3" >
+          <label>{question.text}</label>
+          {question.type === 'text' && (
             <input className="text-black" type="text" />
           )}
-          {quesionData.type === 'radio' && (
+          {question.type === 'radio' && (
         <>
         {
-          quesionData.options && quesionData.options.length > 0 && (
+          question.options && question.options.length > 0 && (
             <div>
-              {quesionData.options.map((option) => (
+              {question.options.map((option) => (
                 <label key={option}>
                   <input className="text-black" type="radio" />
                   {option}
@@ -180,12 +225,11 @@ const createdQuizes=()=> {
         </>
             
           )}
-          {quesionData.type === 'checkbox' && (
+          {question.type === 'checkbox' && (
             <input className="text-black" type="checkbox" />
           )}
           {/* Add more input types as needed */}
         </div>
-      ))}
     </form>
   </div>
 ))}
@@ -218,7 +262,7 @@ const createdQuizes=()=> {
 
 
 
-  {/* Add more form details as needed */}
+  {/* Add more quiz details as needed */}
 </div>
 <Dialog> 
   <DialogTrigger>
@@ -242,4 +286,4 @@ const createdQuizes=()=> {
     )
 }
 
-export default createdQuizes
+export default CreatedQuizes
