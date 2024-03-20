@@ -8,8 +8,17 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../components/ui/dialog"
-const CreatedQuizes=()=> {  
 
+
+const CreatedQuizes=()=> {  
+  const [quesionData, setQuestionData] = useState({
+    quizId: "",
+    text: "",
+    type: "text",
+    options: [] ,
+    correctOption:""
+   
+  });
   const apiUrl = "http://localhost:4000";
     const { user } = useSelector((state) => state.profile)
     const [userQuizes, setUserQuizes] = useState([]);
@@ -18,6 +27,39 @@ const CreatedQuizes=()=> {
     const [isFormDetailsDialogOpen, setFormDetailsDialogOpen] = useState(false);
     const [response2, setResponse] = useState([]);
     const [questions, setQuestionDatas] = useState([]);
+    const [initialQuestion, setInitialQuestion] = useState({
+        text: "",
+        type: "",
+        options: [],
+        correctOption: "",
+      });
+      const handleSubmit2 = async (questionId) => {
+   
+        console.log(quesionData);
+        try {
+    
+          const response = await fetch(`${apiUrl}/admin/updatequestion/${questionId}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(quesionData),
+            credentials: "include",
+          });
+    
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Input added Successfully", data);
+           
+          } else {
+            console.error("failed. Status:", response.status);
+          }
+         
+    
+        } catch (error) {
+          console.error("Failed", error);
+        }
+      };
     useEffect(() => {
         if (user) {
           console.log(user);
@@ -44,7 +86,27 @@ const CreatedQuizes=()=> {
           console.error("Failed to delete quiz:", error);
         }
       };
-
+      const [noOfInputs,setNoOfInputs]=useState("0");
+      const handleInputChange2 = (name,value) => {
+        setQuestionData((prevData) => {
+          if (name.startsWith("options")) {
+            const optionIndex = Number(name.replace("options", ""));
+            const updatedOptions = [...prevData.options];
+            updatedOptions[optionIndex] = String(value); // Ensure value is a string
+      
+            return {
+              ...prevData,
+              options: updatedOptions,
+            };
+          }
+      
+          return {
+            ...prevData,
+            [name]: value,
+          };
+        });
+      };
+    
       const handleQuizClick = (quizId) => {
         // Fetch and display quiz details when a quiz is clicked
         console.log("id of the quiz is", quizId);
@@ -76,7 +138,27 @@ const CreatedQuizes=()=> {
         }
       };
 
-   
+   const handleDeleteQuestion = async (questionid) => {
+        try {
+          const response = await fetch(`${apiUrl}/admin/deletequestion/${questionid}`, {
+            method: "DELETE",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          });
+          if(response.ok){
+            console.log("Question deleted");
+           
+          }
+          else{
+            console.error("Failed to delete question. Status:", response.status);
+          }
+        } catch (error) {
+          console.error("Failed to delete question:", error);
+        }
+      };
+
     const fetchQuizDetails = async (quizId) => {
 
         const fetchQuestionDetails = async (questionId) => {
@@ -180,7 +262,10 @@ const CreatedQuizes=()=> {
                 handleDelete(quiz._id);
                 
               }}> Delete </div>
+          
+
             </div>
+            
             
           ))}
         </div>
@@ -200,7 +285,7 @@ const CreatedQuizes=()=> {
   <h3>Form:</h3>
   <div className="bg-black flex flex-col flex-wrap overflow-scroll justify-center items-center text-white p-4">
   {questions.length>0&&questions.map((question, formIndex) => (
-  <div key={formIndex}>
+  <div className='flex flex-row items-center justify-center gap-4' key={formIndex}>
   
     <form>
     <div className=" flex gap-4 items-center justify-center  mt-3" >
@@ -231,10 +316,84 @@ const CreatedQuizes=()=> {
           {/* Add more input types as needed */}
         </div>
     </form>
+    <Dialog >
+  <DialogTrigger><div
+    
+   className="bg-black text-white p-4 rounded-lg" >Edit</div></DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Update Your Question</DialogTitle>
+      <DialogDescription>
+     <div className=" flex flex-col items-center justify-center">
+      <label>Enter the Question</label>
+      <input onChange={(e)=>{
+        handleInputChange2("text",e.target.value);
+      }}  name="text" className=" border-2" type="text"></input>
+      <label>Enter the type of response you want</label>
+      <select  onChange={(e) => {
+  handleInputChange2("type", e.target.value);
+}}>
+  
+  <option value="text">Text</option>
+  <option value="radio">radio</option> 
+   <option value="checkbox">checkbox</option>
+
+  
+</select>
+
+{
+  quesionData.type=="radio"?(<>
+  <label>Enter the no of radio buttons you want</label>
+  <input onChange={(e)=>{
+setNoOfInputs(e.target.value);
+  }} name="options" className=" border-2" type="number"></input>
+  {Array.from({ length: Number(noOfInputs) }).map((_, index) => (
+    <div key={index}>
+      <label>Enter the label</label>
+      <input
+        onChange={(e) => {
+          handleInputChange2(`options${index}`, e.target.value);
+        }}
+        name={`options${index}`}
+        className="border-2"
+        type="text"
+      ></input>
+     
+    </div>
+  ))}
+
+  
+  </>):(<></>)
+
+}
+<label>Enter the correct Option</label>
+      <input onChange={(e)=>{
+        handleInputChange2("correctOption",e.target.value);
+      }}  name="correctOption" className=" border-2" type="text"></input>
+
+<button className="bg-black text-white p-4 rounded-lg"  onClick={()=>{
+  handleSubmit2(question._id);
+}}>
+  
+  Update Question
+</button>
+
+     
+     </div>
+      </DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+<button onClick={()=>{
+  handleDeleteQuestion(question._id);
+}}>
+  Delete
+</button>
   </div>
 ))}
-  </div>
 
+  </div>
+ 
 
 
 <div className=" flex flex-col items-center justify-center">

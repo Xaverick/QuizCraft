@@ -140,7 +140,7 @@ module.exports.updateQuestion = async (req, res) => {
     const {type, text, options, correctOption } = req.body;
     const questionId = req.params.questionid;
 
-    if(!text || !type || !options || !correctOption){
+    if(!text || !type || !correctOption){
         res.status(400).json('missing fields');
     } 
     else{
@@ -152,9 +152,20 @@ module.exports.updateQuestion = async (req, res) => {
 
 module.exports.deleteQuestion = async (req, res) => {
     const questionId = req.params.questionid;
+
+    // Delete the question
     await Question.findByIdAndDelete(questionId);
-    res.json('question deleted');
+
+    // Remove the question ID from the Quiz array of questions
+    await Quiz.updateMany(
+        { },
+        { $pull: { questions: questionId } },
+        { multi: true }
+    );
+
+    res.json('Question deleted and removed from Quiz');
 }
+
 
 
 
