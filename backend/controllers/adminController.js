@@ -85,6 +85,7 @@ module.exports.getQuizzes = async (req, res) => {
     res.json(quizzes);
 };
 
+
 module.exports.getQuiz = async (req, res) => {
     const quizId = req.params.quizid;
     const quiz = await Quiz.findById(quizId);   
@@ -111,6 +112,7 @@ module.exports.createQuestion = async (req, res) => {
     } 
     else{
         const newQuestion = new Question({ type, text, options, correctOption, quizId});
+        
         await newQuestion.save();
         res.json('question created');
     }

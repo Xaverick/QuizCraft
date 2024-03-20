@@ -1,0 +1,28 @@
+.AllQuiz{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    height: 100%;
+    width: 100%;
+}
+
+.AllQuiz h1{
+    font-size: 2.5rem;
+}
+
+.AllQuiz div{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    /* gap: 20px; */
+    width: 85%;
+}
+
+@media screen and (max-width: 768px){
+    .AllQuiz div{
+        grid-template-columns: 1fr;
+    }
+    
+}
