@@ -27,6 +27,7 @@ const AllQuiz = () => {
             startTime={quiz.startTime}
             heading={quiz.heading}
             duration={quiz.duration}
+            id={quiz.id}
           />
         ))}
       </div>

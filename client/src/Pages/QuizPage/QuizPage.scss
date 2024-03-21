@@ -1,0 +1,56 @@
+/* QuizPage.scss */
+$primary-color: #3f51b5;
+$secondary-color: #ff4081;
+$font-family: Arial, sans-serif;
+
+
+.quiz-info {
+    width: 80%;  
+    margin: 1rem auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+
+    .heading{
+        font-size: 4rem;
+        margin-bottom: 1rem;
+        color: #333;
+        font-weight: 700;    
+    }
+    .description{
+        font-size: 1.5rem;
+        color: #888;
+        margin-bottom: 1rem;
+    
+    }
+
+    .info{
+        font-size: 1.5rem;
+        color: #888;
+        margin-bottom: 1rem;
+    
+    }
+}
+
+
+
+.take-quiz-btn {
+  padding: 10px 20px;
+  background-color: $primary-color;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.take-quiz-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.take-quiz-btn:hover {
+  background-color: $secondary-color;
+}

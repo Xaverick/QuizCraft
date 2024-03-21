@@ -5,14 +5,22 @@ import { Routes, Route } from 'react-router-dom'
 import Navbar from './components/Navbar/Navbar'
 import Login from './Pages/Auth/Login/Login'
 import Signup from './Pages/Auth/Signup/Signup'
+import TakeQuiz from './Pages/TakeQuiz/TakeQuiz'
+import PrivateRoutes from './utils/PrivateRoutes'
+
 
 function App() {
   return (
     <>
-
     <Navbar />
     <Routes>
       <Route path="/" element={<AllQuiz />} />
+      
+      <Route element={<PrivateRoutes />} >
+        <Route path="/take-quiz/:id" element={<TakeQuiz />} />
+
+      </Route>
+      
       <Route path="/quiz/:id" element={<QuizPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />

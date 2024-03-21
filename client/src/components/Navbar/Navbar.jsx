@@ -19,7 +19,7 @@ const Navbar = () => {
     <nav className={`navbar ${showMenu ? 'show-menu' : ''}`}>
       <div className="navbar-left">
         <Link to="/" className="navbar-link">All Quiz</Link>
-        <Link to="/quiz/:id" className="navbar-link">Take Quiz</Link>
+        <Link to="/take-quiz/:id" className="navbar-link">Take Quiz</Link>
         {/* <Link to="#" className="navbar-link">Services</Link> */}
       </div>
       <div className="navbar-right">
