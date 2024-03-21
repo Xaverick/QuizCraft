@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const user  = require('../controllers/userController');
 const catchAsync = require('../utils/CatchAsync');
-const { isLoggedIn } = require('../middleware.js');
+const { isLoggedIn, isClient } = require('../middleware.js');
 
 
 router.route('/login')
@@ -19,7 +19,7 @@ router.route('/register')
 
 
 router.route('/logout')
-    .get(catchAsync(user.logout));
+    .get(isClient,catchAsync(user.logout));
 
 
 router.route('/forgotpassword')
@@ -31,7 +31,28 @@ router.route('/resetpassword/:id/:token')
 
 
 router.route('/profile')
-    .get(isLoggedIn,catchAsync(user.profile));
+    .get(isClient,catchAsync(user.profile));
+
+router.route('/updateprofile')
+    .post(isClient,catchAsync(user.updateProfile));
+
+router.route('/getAllQuizzes')
+    .get(isClient,catchAsync(user.getAllQuizes));
+
+router.route('/getQuiz/:quizid')
+    .get(isClient,catchAsync(user.getQuiz));
+
+router.route('/getQuestions/:quizid')
+    .get(isClient,catchAsync(user.getQuestions));
+
+router.route('/submitQuiz/:quizid')
+    .post(isClient,catchAsync(user.addResponseAndUpdateSubmission));
+
+router.route('/getSubmissions')
+    .get(isClient,catchAsync(user.getSubmissions));
+
+router.route('/getScore/:userid/:quizid')
+    .get(isClient,catchAsync(user.getFinalScore));
 
 
 module.exports = router;

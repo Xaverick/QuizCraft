@@ -2,7 +2,17 @@
 
 import React, { useEffect, useState } from "react"
 import CreatedQuizes from "../components/createdQuizes";
-
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer"
+import { Button } from "@/components/ui/button"
 import {
     Dialog,
     DialogContent,
@@ -13,7 +23,7 @@ import {
   } from "../components/ui/dialog"
 import { useSelector } from "react-redux";
 
-
+import Navbar from "../components/ui/Navbar";
 
 const Home=()=>{
     // Assuming you are using Node.js
@@ -23,7 +33,7 @@ const Home=()=>{
 
 const [dialogInput, setDialogInput] = useState(false);
 const apiUrl = "http://localhost:4000";
-
+const [drawerClose, setDrawerClose] = useState(false);
 const { user } = useSelector((state) => state.profile)
     const [noOfInputs,setNoOfInputs]=useState("0");
     const [addInput,setAdd]=useState(false);
@@ -142,7 +152,7 @@ const { user } = useSelector((state) => state.profile)
         setQuestionData((prevquesionData) => {
           const updatedquesionData = { ...prevquesionData,    quizId: data.quizId };
           setAdd(true);
-          
+          setDrawerClose(true);
           return updatedquesionData;
         });
       } else {
@@ -158,15 +168,16 @@ const { user } = useSelector((state) => state.profile)
 
 
 return(
-    <div className=" w-[100%] flex flex-col items-center justify-center h-screen ">
-      <h1 className=" bg-white text-black p-4 rounded-xl text-3xl">QuizCraft</h1>
-      <div className="w-[80%] h-[80%] overflow-scroll  bg-black text-white">
+  <div className=" w-screen min-h-screen   bg-black ">
+  <div className="w-screen overflow-y-hidden flex flex-col items-center justify-center h-screen ">
+      <div className="w-[100%] h-[100%]   bg-black text-white">
      <nav className="  mx-auto">
- 
+      <Navbar/>
      </nav>
      <div className="flex flex-col   h-[100%] items-center justify-center  w-[100%] ">
     <div className="z-10 mx-auto flex flex-col   h-[100%] items-center justify-around  w-[100%] gap-2">
-     <Dialog >
+    <CreatedQuizes/>
+     {/* <Dialog >
   <DialogTrigger><div className=" bg-white text-black p-4 rounded-lg">Add Quiz</div></DialogTrigger>
   <DialogContent>
     <DialogHeader>
@@ -310,10 +321,157 @@ setNoOfInputs(e.target.value);
      </div>
     </DialogHeader>
   </DialogContent>
-</Dialog>
+</Dialog> */}
+<Drawer>
+  <DrawerTrigger><div className=" bg-white text-black p-4 rounded-lg">Add Quiz</div></DrawerTrigger>
+  <DrawerContent>
+    <DrawerHeader>
+      <DrawerTitle>Quiz</DrawerTitle>
+      <DrawerDescription>   {
+      addInput?(<>
+       
+      <div className="text-xl flex flex-col gap-4">
+        <h1 className=" text-black">{quizData.title}</h1>
+        
+      <Dialog open={dialogInput}>
+  <DialogTrigger><div onClick={()=>{
+    setDialogInput(true)
+  }} className="bg-black text-white p-4 rounded-lg" >Add Question</div></DialogTrigger>
+  {addedQuestions.length > 0 && (
+        <div className=" bg-black text-white">
+          <h1>Added Questions:</h1>
+          <ul className="flex flex-col justify-center items-center gap-4">
+            {addedQuestions.map((input, index) => (
+              <li key={index}>{`${input.text} - ${input.type}`}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Input</DialogTitle>
+      <DialogDescription>
+     <div className=" flex flex-col items-center justify-center">
+      <label>Enter the Question</label>
+      <input onChange={(e)=>{
+        handleInputChange2("text",e.target.value);
+      }}  name="text" className=" border-2" type="text"></input>
+      <label>Enter the type of response you want</label>
+      <select  onChange={(e) => {
+  handleInputChange2("type", e.target.value);
+}}>
+  
+  <option value="text">Text</option>
+  <option value="radio">radio</option> 
+   <option value="checkbox">checkbox</option>
+
+  
+</select>
+
+{
+  quesionData.type=="radio"?(<>
+  <label>Enter the no of radio buttons you want</label>
+  <input onChange={(e)=>{
+setNoOfInputs(e.target.value);
+  }} name="options" className=" border-2" type="number"></input>
+  {Array.from({ length: Number(noOfInputs) }).map((_, index) => (
+    <div key={index}>
+      <label>Enter the label</label>
+      <input
+        onChange={(e) => {
+          handleInputChange2(`options${index}`, e.target.value);
+        }}
+        name={`options${index}`}
+        className="border-2"
+        type="text"
+      ></input>
+     
+    </div>
+  ))}
+
+  
+  </>):(<></>)
+
+}
+<label>Enter the correct Option</label>
+      <input onChange={(e)=>{
+        handleInputChange2("correctOption",e.target.value);
+      }}  name="correctOption" className=" border-2" type="text"></input>
+
+<button className="bg-black text-white p-4 rounded-lg"  onClick={()=>{
+  handleSubmit2();
+  setDialogInput(false);
+ 
+}}>
+  
+  Add Input Section
+</button>
 
      
-<CreatedQuizes/>
+     </div>
+      </DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+
+
+      </div>
+      </>):(<>  <div className=" flex flex-col text-xl min-w-[100%] flex-wrap gap-3 items-center">
+        <label className="text-black"> Enter the Title of the Quiz</label>
+        <input
+            id="title"
+            onChange={(e) => handleInputChange("title", e.target.value)}
+        className="text-black border-4 " type="text"></input>
+        <label className="text-black"> Enter the description of the Quiz</label>
+         <input
+            id="description"
+            onChange={(e) => handleInputChange("description", e.target.value)}
+        className="text-black border-4 " type="text"></input>
+            <div className=" flex flex-row justify-center items-center">
+            <label className="text-black"> Start time :-</label>
+        <input
+            id="startTime"
+            onChange={(e) => handleInputChange("startTime", e.target.value)}
+        className="text-black border-4 " type="date"></input>
+            </div>
+            <div className=" flex flex-row justify-center items-center">
+            <label className="text-black"> End time :-</label>
+        <input
+            id="endTime"
+            onChange={(e) => handleInputChange("endTime", e.target.value)}
+        className="text-black border-4 " type="date"></input>
+            </div>
+            <div className=" flex flex-row justify-center items-center">
+            <label className="text-black"> Duration :-</label>
+        <input
+            id="duration"
+            onChange={(e) => handleInputChange("duration", e.target.value)}
+        className="text-black border-4 " type="number"></input>
+            </div>
+        
+      
+
+       </div></>)
+       }
+</DrawerDescription>
+    </DrawerHeader>
+    <DrawerFooter>
+      <Button onClick={()=>{
+          handleSubmit();
+       
+        }} >Submit</Button>
+      <DrawerClose>
+        {
+          drawerClose
+        }
+        <Button variant="outline">Close</Button>
+      </DrawerClose>
+    </DrawerFooter>
+  </DrawerContent>
+</Drawer>
+
+     
+
      </div>
      
     
@@ -322,6 +480,8 @@ setNoOfInputs(e.target.value);
      </div>
     </div>
     </div>
+  </div>
+  
 )
 
 }

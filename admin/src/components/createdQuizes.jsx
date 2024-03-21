@@ -243,18 +243,21 @@ const CreatedQuizes=()=> {
           
     return (
         <div>
-           <h2 className="text-xl ">Your Quizes:</h2>
-<div className="flex flex-row w-[70%] flex-wrap justify-center gap-4 items-center text-white">
+           <h2 className="text-xl text-center mb-4 ">Your Quizes:</h2>
+<div className="flex flex-col w-[screen] flex-wrap justify-center gap-4 items-center text-white">
         
           {userQuizes.map((quiz) => (
-            <div  key={quiz._id} className=" flex gap-4 flex-col items-center justify-center">
+            <div  key={quiz._id} className=" flex gap-4 flex-row items-center justify-center">
               <div
-             
-              className="cursor-pointer hover:bg-black flex-col hover:text-white transition-all duration-200 bg-white text-black w-[100px] h-[100px] flex items-center justify-center hover:underline"
+             onClick={() => handleQuizClick(quiz._id)}
+              className=" p-4 cursor-pointer hover:bg-black flex-row rounded-lg  hover:text-white transition-all duration-200 bg-white text-black w-[400px] h-[100px] flex items-center justify-between "
             
               
             >
-              <p   onClick={() => handleQuizClick(quiz._id)}>{quiz.title}</p>
+              <p className='text-xl font-extrabold' >{quiz.title}</p>
+             <div>
+             {quiz.startTime.substring(5,10)} - {quiz.endTime.substring(5,10)}
+              </div>
              
       
             </div>
