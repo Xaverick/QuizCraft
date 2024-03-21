@@ -55,3 +55,17 @@ module.exports.isAdmin = async (req, res, next) => {
         res.status(404).json('no token');
     }
 }
+
+
+module.exports.isClient = async (req, res, next) => {
+    const token = req.signedCookies.jwt;
+    if(token){
+        const decoded = jwt.verify(token, `${process.env.SECRET}`);
+        const user = await User.findById(decoded.id);
+        if(user.role === 'client') next();
+        else res.status(400).json('not client');
+    }
+    else{
+        res.status(400).json('no token');
+    }
+}

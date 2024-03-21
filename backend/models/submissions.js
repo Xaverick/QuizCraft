@@ -19,6 +19,7 @@ const submissionSchema = new schema({
     answers: [{
         questionId: {
             type: schema.Types.ObjectId,
+            unique: true,
             ref: 'Question',
         },
         response: {
