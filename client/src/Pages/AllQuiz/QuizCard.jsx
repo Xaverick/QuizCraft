@@ -20,5 +20,6 @@ QuizCard.propTypes = {
    startTime: PropTypes.string.isRequired,
    heading: PropTypes.string.isRequired,
    duration: PropTypes.string.isRequired,
+   id: PropTypes.string.isRequired
 };
 export default QuizCard;
