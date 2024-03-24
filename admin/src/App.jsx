@@ -10,7 +10,7 @@ function App() {
   return (
     <>
       <Routes>
-    <Route path='/Dashboard' element={<Home />}/>
+    <Route path='/' element={<Home />}/>
     <Route path='/login' element={<SignInForm />}/>
   </Routes>
   
