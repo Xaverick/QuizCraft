@@ -1,37 +1,68 @@
 import { useState } from 'react';
 import './Signup.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Signup = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
-  const [name, setName] = useState('');
+  const Navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    username: '',
+    name: ''
+  });
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    if (name === 'email') {
-      setEmail(value);
-    } else if (name === 'password') {
-      setPassword(value);
-    } else if (name === 'username') {
-      setUsername(value);
-    } else if (name === 'name') {
-      setName(value);
-    }
+    setFormData({
+      ...formData,
+      [name]: value
+    });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Simulate signup logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Username:', username);
-    console.log('Name:', name);
-    setEmail('');
-    setPassword('');
-    setUsername('');
-    setName('');
+    
+    const response = await fetch('http://localhost:4000/user/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+
+    if(response.ok){
+      
+      toast.success('Signup successfull', {
+        position: "top-left",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+
+      setFormData({
+        email: '',
+        password: '',
+        username: '',
+        name: ''
+      });
+
+      setTimeout(() => {
+        Navigate('/login');
+      }, 1000);
+      
+    }
+
+    else{
+      toast.error('Signup failed', {
+        position: "top-left",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+    } 
+
+
   };
 
   return (
@@ -46,7 +77,7 @@ const Signup = () => {
             name="username"
             id="username"
             placeholder='Enter your username'
-            value={username}
+            value={formData.username}
             onChange={handleChange}
             required
           />
@@ -58,7 +89,7 @@ const Signup = () => {
             name="name"
             id="name"
             placeholder='Enter your name'
-            value={name}
+            value={formData.name}
             onChange={handleChange}
             required
           />
@@ -70,7 +101,7 @@ const Signup = () => {
             name="email"
             id="email"
             placeholder='Enter your email'
-            value={email}
+            value={formData.email}
             onChange={handleChange}
             required
           />
@@ -82,7 +113,7 @@ const Signup = () => {
             name="password"
             id="password"
             placeholder='Enter your password'
-            value={password}
+            value={formData.password}
             onChange={handleChange}
             required
           />
@@ -95,6 +126,7 @@ const Signup = () => {
           </Link>
         </div>
       </form>
+      <ToastContainer />
     </div>
   );
 };

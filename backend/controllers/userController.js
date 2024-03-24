@@ -3,9 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const Mailgen = require('mailgen');
-const Quiz = require('../models/quizzes');
-const Question = require('../models/questions');
-const Submission  = require('../models/submissions');
+
 
 module.exports.login = async (req, res) => {
     let { email, password } = req.body;
@@ -14,9 +12,10 @@ module.exports.login = async (req, res) => {
         email = email.toLowerCase();
         const user = await User.findOne({ email: email});
         if(user && bcrypt.compareSync(password, user.password)) {
-            const token = jwt.sign({ id: user._id, username: user.username, email: user.email}, `${process.env.SECRET}`, { expiresIn: '1h' });
-            
-            res.cookie('jwt', token, { signed: true,httpOnly: false, sameSite: 'none', maxAge: 1000 * 60 * 60,secure: true }).json('login');
+            const payload = { userId: user._id, email: user.email, username: user.username };
+            const token = jwt.sign( payload, `${process.env.SECRET}`, { expiresIn: '5h' });
+            res.cookie('jwt', token, { signed: true,httpOnly: false, sameSite: 'none', maxAge: 1000 * 60 * 60,secure: true })
+            res.status(200).json({token, payload});
         } 
         else {
             res.status(400).json('login failed');
@@ -41,7 +40,7 @@ module.exports.register = async (req, res) => {
         const hash = bcrypt.hashSync(password, salt);
         const user = await User.create({name, username, email, password: hash});
         // await sendVerificationEmail(email,user);
-        res.json('register');
+        res.status(200).json('register');
     }
 }
 
@@ -144,66 +143,3 @@ module.exports.resetPassword = async (req, res) => {
 
 }
 
-module.exports.getAllQuizes= async (req, res) => {
-    const quizes = await Quiz.find();
-    res.json(quizes);
-}
-
-module.exports.getQuiz = async (req, res) => {
-    const quiz = await Quiz.findById(req.params.quizid);
-    res.json(quiz);
-}
-
-module.exports.addResponseAndUpdateSubmission = async (req, res) => {
-    const { userId, quizId, answers } = req.body;
-    if(!userId || !quizId ) {
-      return res.status(400).json('Invalid request Give full parameters');
-    }
-    // Fetch questions to validate questionIds and check correctness of answers
-    const questions = await Question.find({ _id: { $in: answers.map(ans => ans.questionId) } });
-  
-    // Calculate score and update isCorrect for each answer
-    let score = 0;
-    const updatedAnswers = answers.map(answer => {
-      const question = questions.find(q => q._id.toString() === answer.questionId.toString());
-      if (!question) {
-        return { ...answer, isCorrect: false }; // Question not found, mark as incorrect
-      }
-      const isCorrect = question.correctOption === answer.response; // Assuming correctOption is the correct answer
-      if (isCorrect) {
-        score++;
-      }
-      return { ...answer, isCorrect };
-    });
-  
-    // Create or update submission
-    const submission = await Submission.findOneAndUpdate(
-      { userId, quizId },
-      { $set: { answers: updatedAnswers, score } },
-      { new: true, upsert: true }
-    );
-  
-    res.status(200).json({ submission });
-  };
-  
-  module.exports.getFinalScore = async (req, res) => {
-    const { userId, quizId } = req.params;
-    if (!userId || !quizId) {
-      return res.status(400).json('Invalid request Give full parameters');
-    }
-    const submission = await Submission.findOne({ userId, quizId });
-    if (!submission) {
-      return res.status(404).json('No submission found');
-    }
-    res.status(200).json({ score: submission.score });
-  }
-  
-  module.exports.getQuestions = async (req, res) => {
-    const questions = await Question.find({ quizId: req.params.quizid });
-    res.status(200).json({ questions });
-  }
-
-  module.exports.getSubmissions = async (req, res) => {
-    const submissions = await Submission.find({ userId: req.userId });
-    res.status(200).json({ submissions });
-  }

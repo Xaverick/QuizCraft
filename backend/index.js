@@ -36,6 +36,9 @@ app.use('/user', user);
 const admin = require('./routes/adminRoutes');
 app.use('/admin', admin);
 
+const quiz = require('./routes/quizRoutes');
+app.use('/quiz', quiz);
+
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404));

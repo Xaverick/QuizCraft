@@ -1,10 +1,18 @@
 import { useState } from 'react';
 import './Login.scss';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from 'react-redux';
+import { login } from '../../../store/slices/authSlice';
+
+
 
 const Login = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const Navigate = useNavigate();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -15,13 +23,44 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // Simulate login logic here
-    console.log('Email:', email);
-    console.log('Password:', password);
-    setEmail('');
-    setPassword('');
+    
+    const response = await fetch('http://localhost:4000/user/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password }),
+      credentials: 'include'
+    })
+
+    if(response.ok){
+      const data = await response.json();
+      localStorage.setItem('user', JSON.stringify(data.payload));
+      localStorage.setItem('token', data.token);  
+      dispatch(login());
+      toast.success('Login successfull', {
+        position: "top-left",
+        autoClose: 2000,
+        hideProgressBar: true,
+        })
+      setEmail('');
+      setPassword('');    
+      setTimeout(() => {
+        Navigate('/');
+      }, 1000);  
+ 
+    }
+
+    else{
+      toast.error('Login failed', {
+        position: "top-left",
+        autoClose: 2000,
+        hideProgressBar: true,
+      })
+    }
+
   };
 
   return (
@@ -63,8 +102,11 @@ const Login = () => {
           </a>
 
         </div>
+    
 
       </form>
+
+      <ToastContainer />
 
     </div>
     

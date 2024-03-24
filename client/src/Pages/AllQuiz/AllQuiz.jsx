@@ -1,20 +1,35 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import QuizCard from './QuizCard.jsx';
 import './AllQuiz.css';
 
 const AllQuiz = () => {
   const [quizzes, setQuizzes] = useState([]);
 
-  // Simulated data fetching (replace with actual API call)
-  useEffect(() => {
-    // Example data
-    const data = [
-      { id: 1, startTime: 'March 21, 2024 09:00:00', heading: 'Math Quiz', duration: '60 minutes' },
-      { id: 2, startTime: 'March 22, 2024 10:00:00', heading: 'Science Quiz', duration: '45 minutes' },
-      { id: 3, startTime: 'March 23, 2024 11:00:00', heading: 'History Quiz', duration: '30 minutes' },
-    ];
 
-    setQuizzes(data);
+  useEffect(() => {
+
+    const getQuizzes = async () => {
+      const response = await fetch('http://localhost:4000/quiz/getAllQuizzes', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setQuizzes(data);
+      }
+      else {
+        console.log('Failed to fetch quizzes');
+      }    
+    
+  
+    }
+
+    getQuizzes();
+    
   }, []);
 
   return (
@@ -23,11 +38,11 @@ const AllQuiz = () => {
       <div>
         {quizzes.map(quiz => (
           <QuizCard
-            key={quiz.id}
+            key={quiz._id}
             startTime={quiz.startTime}
-            heading={quiz.heading}
+            heading={quiz.title}
             duration={quiz.duration}
-            id={quiz.id}
+            id={quiz._id}
           />
         ))}
       </div>

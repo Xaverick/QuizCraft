@@ -7,6 +7,7 @@ import Login from './Pages/Auth/Login/Login'
 import Signup from './Pages/Auth/Signup/Signup'
 import TakeQuiz from './Pages/TakeQuiz/TakeQuiz'
 import PrivateRoutes from './utils/PrivateRoutes'
+import YourQuiz from './Pages/YourQuiz/YourQuiz'
 
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
       
       <Route element={<PrivateRoutes />} >
         <Route path="/take-quiz/:id" element={<TakeQuiz />} />
-
+        <Route path="/your-quizzes" element={<YourQuiz />} />
       </Route>
       
       <Route path="/quiz/:id" element={<QuizPage />} />

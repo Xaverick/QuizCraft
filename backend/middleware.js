@@ -3,11 +3,11 @@ const jwt = require('jsonwebtoken');
 const Admin = require('./models/adminModel');
 
 
-module.exports.isLoggedIn = async  (req, res, next) => {   
+module.exports.isClient = async  (req, res, next) => {   
     const token = req.signedCookies.jwt;
     if(token){
         const decoded = jwt.verify(token, `${process.env.SECRET}`);
-        const user = await User.findById(decoded.id);
+        const user = await User.findById(decoded.userId);
         if(user) {
             req.userId = user._id;
             next();
@@ -57,15 +57,3 @@ module.exports.isAdmin = async (req, res, next) => {
 }
 
 
-module.exports.isClient = async (req, res, next) => {
-    const token = req.signedCookies.jwt;
-    if(token){
-        const decoded = jwt.verify(token, `${process.env.SECRET}`);
-        const user = await User.findById(decoded.id);
-        if(user.role === 'client') next();
-        else res.status(400).json('not client');
-    }
-    else{
-        res.status(400).json('no token');
-    }
-}

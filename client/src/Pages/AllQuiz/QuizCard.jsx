@@ -19,7 +19,7 @@ const QuizCard = ({ startTime, heading, duration, id}) => {
 QuizCard.propTypes = {
    startTime: PropTypes.string.isRequired,
    heading: PropTypes.string.isRequired,
-   duration: PropTypes.string.isRequired,
+   duration: PropTypes.number.isRequired,
    id: PropTypes.string.isRequired
 };
 export default QuizCard;
