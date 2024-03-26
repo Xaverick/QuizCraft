@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import './QuizPage.scss';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const QuizPage = () => {
@@ -36,6 +38,36 @@ const QuizPage = () => {
     fetchQuizData();
   }, [id]);
 
+  const handleRegister = async () => {
+    const response = await fetch(`http://localhost:4000/quiz/registerQuiz/${id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include'
+    });
+
+    const message = await response.json();
+    console.log(message);
+
+    if (response.ok) {
+      toast.success(message, {
+        position: "top-left",
+        autoClose: 2000,
+        hideProgressBar: true,
+      })
+    }
+
+    else{
+      toast.error(message, {
+        position: "top-left",
+        autoClose: 2000,
+        hideProgressBar: true,
+      })
+    }
+
+  }
+
   const startDate = new Date(quizData.startTime);
   const endDate = new Date(quizData.endTime);
 
@@ -58,9 +90,10 @@ const QuizPage = () => {
         <p className='info'>End Date: {endDate.toLocaleString()}</p>
         
         <p className='info'>Number of registered students: 0</p>
-        <button className="take-quiz-btn">Register for Quiz</button>
+        <button className="take-quiz-btn" onClick={handleRegister}>Register for Quiz</button>
       </div>
     )}
+      <ToastContainer />
   </>
   );
 };

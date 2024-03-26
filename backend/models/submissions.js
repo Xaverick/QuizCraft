@@ -32,6 +32,7 @@ const submissionSchema = new schema({
 
     score: {
         type: Number,
+        default: 0,
     },
 
     submittedAt: {

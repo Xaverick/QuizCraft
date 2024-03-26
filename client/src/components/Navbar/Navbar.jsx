@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './Navbar.scss';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -7,8 +7,8 @@ import { logout } from '../../store/slices/authSlice';
 const Navbar = () => {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   const dispatch = useDispatch();
-
   const [showMenu, setShowMenu] = useState(false);
+
 
   const handleLogout = async () => {
     const response = await fetch('http://localhost:4000/user/logout', {
@@ -20,15 +20,10 @@ const Navbar = () => {
       
     });
 
-    if (response.ok) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       dispatch(logout());
-    }
 
-    else{
-      console.log('Logout failed');
-    }
 
   };
 

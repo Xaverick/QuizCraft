@@ -9,6 +9,41 @@ const YourQuiz = () => {
     { id: 2, quizTitle: "Science Quiz", score: 75, isLive: false, premium: true},
     // Add more users as needed
   ]);
+
+
+  useEffect(() => {
+
+    const fetchQuizData = async () => {    
+      const response = await fetch(`http://localhost:4000/quiz/yourQuizzes`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      });
+
+      if (response.ok) {
+        const data = await response.json();       
+        const finalData = data.map((user) => {
+          return {
+            ...user,
+            isLive: new Date(user.endTime) > new Date() ? true : false
+          };
+        })
+        setUsers(finalData); 
+      }
+
+      else {
+        console.log('Failed to fetch quiz data');
+      }
+    }
+    fetchQuizData();
+
+  }, []);
+
+
+
+
   return (
     <>
       <div className="content">
@@ -16,7 +51,7 @@ const YourQuiz = () => {
         <div id="user-list">
           {users.map(user => (
           <div key={user.id} className="user-row">
-            <p><strong> {user.quizTitle} </strong></p>
+            <p><strong> {user.title} </strong></p>
             <p><strong>Score:</strong> {user.score}</p>
             <p><strong>Status:</strong> {user.isLive ? "Live" : "Not Live"}</p>
             <div className="actions">

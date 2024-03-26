@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
+const Quiz = require('./quizzes');
 
 const userSchema = new schema({
 
@@ -40,10 +41,10 @@ const userSchema = new schema({
         enum: ["free", "bronze"],
     },
 
-    // verified: {
-    //     type: Boolean,
-    //     default: false,
-    // },
+    registeredQuizzes: [{
+        type: schema.Types.ObjectId,
+        ref: 'Quiz',
+    }],
 
 });
 

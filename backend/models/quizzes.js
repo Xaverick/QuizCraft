@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 const Question = require('./questions');
-const User = require('./adminModel');
+const Admin = require('./adminModel');
+
 
 
 const quizSchema = new schema({
@@ -41,9 +42,14 @@ const quizSchema = new schema({
 
     adminId: {
         type: schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Admin',
     },
 
+    totalRegistered: {
+        type: Number,
+        default: 0,
+    }, 
+    
     createdAt: {
         type: Date,
         default: Date.now,

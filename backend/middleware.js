@@ -15,7 +15,7 @@ module.exports.isClient = async  (req, res, next) => {
         else res.status(400).json('invalid token');
     }
     else{
-        res.status(400).json('no token');
+        res.status(400).json('Pls Login First');
     }
 }
 

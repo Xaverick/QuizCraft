@@ -13,9 +13,10 @@ module.exports.login = async (req, res) => {
         const user = await User.findOne({ email: email});
         if(user && bcrypt.compareSync(password, user.password)) {
             const payload = { userId: user._id, email: user.email, username: user.username };
-            const token = jwt.sign( payload, `${process.env.SECRET}`, { expiresIn: '5h' });
-            res.cookie('jwt', token, { signed: true,httpOnly: false, sameSite: 'none', maxAge: 1000 * 60 * 60,secure: true })
-            res.status(200).json({token, payload});
+            const token = jwt.sign( payload, `${process.env.SECRET}`, { expiresIn: '1h' });
+            res.cookie('jwt', token, { signed: true,httpOnly: true, sameSite: 'none', maxAge: 1000 * 60 * 60, secure: true })
+            // const expiration = Math.floor(Date.now() / 1000) + 3600;
+            res.status(200).json({token, payload, expiresIn: 1000 * 60 * 60});
         } 
         else {
             res.status(400).json('login failed');

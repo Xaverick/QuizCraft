@@ -36,9 +36,10 @@ const Login = () => {
     })
 
     if(response.ok){
-      const data = await response.json();
-      localStorage.setItem('user', JSON.stringify(data.payload));
-      localStorage.setItem('token', data.token);  
+      const data = await response.json(); 
+      const { token, payload } = data; // Assuming the response contains token and expiration
+      localStorage.setItem('user', JSON.stringify(payload));
+      localStorage.setItem('token', token);  
       dispatch(login());
       toast.success('Login successfull', {
         position: "top-left",

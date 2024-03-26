@@ -11,6 +11,11 @@ router.route('/getAllQuizzes')
 router.route('/getQuiz/:quizid')
     .get(catchAsync(quiz.getQuiz));
 
+router.route('/registerQuiz/:quizId')
+    .post(isClient,catchAsync(quiz.registerQuiz));
+
+router.route('/yourQuizzes')
+    .get(isClient, catchAsync(quiz.getYourQuizzes));
 
 router.route('/getQuestions/:quizid')
     .get(isClient,catchAsync(quiz.getQuestions));
