@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     Dialog,
     DialogContent,
@@ -7,9 +7,11 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "../components/ui/dialog"
+  import { useToast } from "@/components/ui/use-toast"
   import { useState } from "react"; 
 const apiUrl = "http://localhost:4000";
-const QuizSlected = ({selectedQuiz,questions,quizId}) => {
+const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails}) => {
+  const toast = useToast();  
     const [quesionData, setQuestionData] = useState({
         quizId: quizId,
         text: "",
@@ -18,6 +20,10 @@ const QuizSlected = ({selectedQuiz,questions,quizId}) => {
         correctOption:""
        
       });
+      useEffect(() => {
+        fetchQuiz();
+        fetchQuizDetails(quizId);
+      }, []);
       const [noOfInputs, setNoOfInputs] = useState(0);
       const handleDeleteQuestion = async (questionid) => {
         try {
@@ -30,6 +36,7 @@ const QuizSlected = ({selectedQuiz,questions,quizId}) => {
           });
           if(response.ok){
             console.log("Question deleted");
+           alert("Question Deleted")
            
           }
           else{
@@ -124,19 +131,19 @@ const QuizSlected = ({selectedQuiz,questions,quizId}) => {
   {questions.length ? (
     <>
       {questions.map((question, formIndex) => (
-        <div className='flex flex-row items-center  justify-center gap-4' key={formIndex} >
-          <form className="flex gap-4 items-center justify-center mt-3">
-            <label style={{ fontWeight: 'bold' }}>{question.text}</label>
+        <div className='flex flex-row items-center  justify-between p-4 gap-4' key={formIndex} >
+          <form className="flex flex-col w-[50%]  gap-4 items-center justify-center mt-3">
+            <label className="" style={{ fontWeight: 'bold' }}>{question.text}</label>
             {question.type === 'text' && (
               <input className="text-black border border-gray-300 rounded-md px-2 py-1" type="text" />
             )}
             {question.type === 'radio' && (
               <>
                 {question.options && question.options.length > 0 && (
-                  <div>
+                  <div className=" flex-col flex items-center justify-center">
                     {question.options.map((option) => (
                       <label key={option}>
-                        <input className="text-black mr-2" type="radio" />
+                        <input className="text-black mr-2" type="radio" name={question.text} value={option} />
                         {option}
                       </label>
                     ))}
@@ -149,6 +156,7 @@ const QuizSlected = ({selectedQuiz,questions,quizId}) => {
             )}
             {/* Add more input types as needed */}
           </form>
+          <div className=" flex items-center justify-center gap-4 w-[50%] ">
           <Dialog>
             <DialogTrigger>
               <div className="bg-black text-white p-2 rounded-md cursor-pointer">Edit</div>
@@ -234,6 +242,7 @@ const QuizSlected = ({selectedQuiz,questions,quizId}) => {
           >
             Delete
           </button>
+          </div>
        
           <div>
         

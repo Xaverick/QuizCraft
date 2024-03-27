@@ -13,6 +13,8 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer"
 import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import { useToast } from "@/components/ui/use-toast"
 import {
     Dialog,
     DialogContent,
@@ -28,10 +30,12 @@ import { Link } from "lucide-react";
 
 const Home=()=>{
     // Assuming you are using Node.js
-
+    const [startdate, setStartDate] = useState(new Date());
+    const [enddate, setEndDate] =useState(new Date() );
+    
 
 // Your API URL
-
+const { toast } = useToast();
 const [dialogInput, setDialogInput] = useState(false);
 const apiUrl = "http://localhost:4000";
 const [drawerClose, setDrawerClose] = useState(false);
@@ -43,8 +47,8 @@ const { user } = useSelector((state) => state.profile)
   const [quizData, setQuizData] = useState({ 
     title: "",
     description: "",
-    startTime: "",
-    endTime:"",
+    startTime: startdate,
+    endTime: enddate,
     duration: "",
     adminId: user ? user._id : null
   });
@@ -95,6 +99,12 @@ const { user } = useSelector((state) => state.profile)
         const data = await response.json();
         console.log("Input added Successfully", data);
         setaddedQuestions((prevInputs) => [...prevInputs, { text: quesionData.text, type: quesionData.type }]);
+        quesionData.text = "";
+        quesionData.type = "text";
+        quesionData.options = [];
+        quesionData.correctOption = "";
+        alert("Question added Successfully")
+     
 
       } else {
         console.error("failed. Status:", response.status);
@@ -105,26 +115,7 @@ const { user } = useSelector((state) => state.profile)
       console.error("Failed", error);
     }
   };
-  const handleDelete = async () => {
-    try {
-      const response = await fetch(`${apiUrl}/api/v1/form/deleteForm    quizId=$    quizId}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Form Deleted Successfully", data);
-        fetchUserForms();
-      } else {
-        console.error("failed. Status:", response.status);
-      }
-    } catch (error) {
-      console.error("Failed", error);
-    }
-  }
 
   const handleInputChange = (name,value) => {
     setQuizData((prevData) => ({
@@ -153,6 +144,7 @@ const { user } = useSelector((state) => state.profile)
           const updatedquesionData = { ...prevquesionData,    quizId: data.quizId };
           setAdd(true);
           setDrawerClose(true);
+         alert("Quiz Created Successfully")
           return updatedquesionData;
         });
       } else {
@@ -182,15 +174,15 @@ return(
   
 
 <CreatedQuizes/>
-<div className="absolute top-[0%] left-0 "><Drawer>
-  <DrawerTrigger><div className=" bg-yellow-400 text-black w-[435px] p-4 rounded-lg">+</div></DrawerTrigger>
+<div className="absolute top-[0%] left-0  "><Drawer>
+  <DrawerTrigger><div className=" bg-yellow-400   text-black w-[435px] p-4 rounded-lg">+</div></DrawerTrigger>
   <DrawerContent>
     <DrawerHeader>
       <DrawerTitle>Quiz</DrawerTitle>
       <DrawerDescription>   {
       addInput?(<>
        
-      <div className="text-xl flex flex-col gap-4">
+      <div className="text-xl flex max-h-[500px] overflow-y-scroll  flex-col gap-4">
         <h1 className=" text-black">{quizData.title}</h1>
         
       <Dialog open={dialogInput}>
@@ -276,7 +268,7 @@ setNoOfInputs(e.target.value);
 
 
       </div>
-      </>):(<>  <div className=" flex flex-col text-xl min-w-[100%] flex-wrap gap-3 items-center">
+      </>):(<>  <div className=" flex flex-col text-xl min-w-[100%] overflow-scroll max-h-[500px]  items-center gap-3 ">
         <label className="text-black"> Enter the Title of the Quiz</label>
         <input
             id="title"
@@ -289,17 +281,21 @@ setNoOfInputs(e.target.value);
         className="text-black border-4 " type="text"></input>
             <div className=" flex flex-row justify-center items-center">
             <label className="text-black"> Start time :-</label>
-        <input
-            id="startTime"
-            onChange={(e) => handleInputChange("startTime", e.target.value)}
-        className="text-black border-4 " type="date"></input>
+            <Calendar
+    mode="single"
+    selected={startdate}
+    onSelect={setStartDate}
+    className="rounded-md border"
+  />
             </div>
             <div className=" flex flex-row justify-center items-center">
             <label className="text-black"> End time :-</label>
-        <input
-            id="endTime"
-            onChange={(e) => handleInputChange("endTime", e.target.value)}
-        className="text-black border-4 " type="date"></input>
+            <Calendar 
+    mode="single"
+    selected={enddate}
+    onSelect={setEndDate}
+    className="rounded-md border"
+  />
             </div>
             <div className=" flex flex-row justify-center items-center">
             <label className="text-black"> Duration :-</label>
@@ -334,8 +330,8 @@ setNoOfInputs(e.target.value);
 
      </div></>):(<>
      <div className=" flex flex-col items-center justify-center gap-4">
-      <h1 className="text-3xl">You need to login to create a quiz</h1>
-    <button className="text-black bg-white p-4 rounded-xl" onClick={()=>{
+      <h1 className="text-3xl text-black">You need to login to create a quiz</h1>
+    <button className="text-white bg-black p-4 rounded-xl" onClick={()=>{
       window.location.href="/login"
     }}>LogIn</button> 
       </div>

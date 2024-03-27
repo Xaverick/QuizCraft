@@ -10,7 +10,7 @@ import {
 } from "../components/ui/dialog"
 import QuizSlected from './selectedQuiz';
 
-
+import { MdDelete } from "react-icons/md";
 const CreatedQuizes=()=> {  
   const [quesionData, setQuestionData] = useState({
     quizId: "",
@@ -66,7 +66,7 @@ const CreatedQuizes=()=> {
           console.log(user);
           fetchUserQuizes();
         }
-      }, [user]);
+      }, []);
       const handleDelete = async (quizId) => {
         try {
           const response = await fetch(`${apiUrl}/admin/deletequiz/${quizId}`, {
@@ -79,6 +79,7 @@ const CreatedQuizes=()=> {
           if(response.ok){
             console.log("Quiz deleted");
             fetchUserQuizes();
+            alert("Quiz deleted successfully");
           }
           else{
             console.error("Failed to delete quiz. Status:", response.status);
@@ -251,7 +252,7 @@ const CreatedQuizes=()=> {
             <div className='text-black' onClick={ ()=>{
                 handleDelete(quiz._id);
                 
-              }}> Delete </div>
+              }}> <MdDelete style={{fontSize:"2rem", color:"orange" }} /> </div>
           
 
             </div>
@@ -263,7 +264,7 @@ const CreatedQuizes=()=> {
         {
           console.log("quiz id is -",quizId)
         } 
-        <QuizSlected selectedQuiz={selectedQuiz} questions={questions} quizId={quizId}/>
+        <QuizSlected fetchQuizDetails={fetchQuizDetails} fetchQuiz={fetchUserQuizes} selectedQuiz={selectedQuiz} questions={questions} quizId={quizId}/>
         </div>
         </div>
     )
