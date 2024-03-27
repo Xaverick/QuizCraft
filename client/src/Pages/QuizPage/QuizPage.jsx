@@ -89,7 +89,7 @@ const QuizPage = () => {
         <p className='info'>Start Date: {startDate.toLocaleString()}</p>
         <p className='info'>End Date: {endDate.toLocaleString()}</p>
         
-        <p className='info'>Number of registered students: 0</p>
+        <p className='info'>Number of registered students: {quizData.totalRegistered}</p>
         <button className="take-quiz-btn" onClick={handleRegister}>Register for Quiz</button>
       </div>
     )}

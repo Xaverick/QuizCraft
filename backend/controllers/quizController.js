@@ -128,6 +128,7 @@ module.exports.addResponseAndUpdateSubmission = async (req, res) => {
     res.status(200).json({ questions });
   }
 
+  
   module.exports.getSubmissions = async (req, res) => {
     const submissions = await Submission.find({ userId: req.userId });
     res.status(200).json({ submissions });

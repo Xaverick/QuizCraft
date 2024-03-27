@@ -1,16 +1,19 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import './QuizCard.css';
+import './QuizCard.scss';
 import { Link } from 'react-router-dom';
 
 
 const QuizCard = ({ startTime, heading, duration, id}) => {
+
+  const startDate = new Date(startTime);
   return (
-    <div className="quiz-card">
-      <div className="quiz-details">
-        <h2 className="quiz-heading" onClick={() => {}}> <Link to={`/quiz/${id}`}>{heading}</Link></h2>
-        <p>Start Time: {startTime}</p>
-        <p>Duration: {duration}</p>
+    <div className="all-quiz-card">
+      <div className="quiz-content">
+        <h2 className="card-title" onClick={() => {}}> <Link to={`/quiz/${id}`}>{heading}</Link></h2>
+        <div className="card-info">
+          <p>Start Time: {startDate.toLocaleString()}</p>
+          <p>Duration: {duration}</p>
+        </div>
       </div>
     </div>
   );

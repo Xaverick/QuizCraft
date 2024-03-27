@@ -30,6 +30,8 @@ const YourQuiz = () => {
             isLive: new Date(user.endTime) > new Date() ? true : false
           };
         })
+
+        console.log(finalData);
         setUsers(finalData); 
       }
 
@@ -55,7 +57,7 @@ const YourQuiz = () => {
             <p><strong>Score:</strong> {user.score}</p>
             <p><strong>Status:</strong> {user.isLive ? "Live" : "Not Live"}</p>
             <div className="actions">
-              {user.isLive && <Link to='/take-quiz/:id' className="take-quiz-btn">Take Quiz </Link>}
+              {user.isLive && <Link to={`/take-quiz/${1}`} className="take-quiz-btn">Take Quiz </Link>}
               {user.premium && <button className="analytics-quiz-btn">view Analytics</button>}
             </div>
           </div>))}

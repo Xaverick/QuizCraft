@@ -24,7 +24,7 @@ app.use(express.static(path.join(__dirname,'public')))
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.use(cors({origin: 'http://localhost:5173', credentials: true}));
+app.use(cors({origin: ['http://localhost:5173', 'http://localhost:5174'], credentials: true}));
 // Allow requests from the specified origin(s)
 app.use(express.json());
 

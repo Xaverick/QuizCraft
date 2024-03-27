@@ -35,7 +35,7 @@ const AllQuiz = () => {
   return (
     <div className='AllQuiz'>
       <h1>Upcoming Quizzes</h1>
-      <div>
+      <div className='all-quizzes-section'>
         {quizzes.map(quiz => (
           <QuizCard
             key={quiz._id}
