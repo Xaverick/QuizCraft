@@ -4,11 +4,7 @@ import{ useEffect, useState } from 'react';
 
 
 const YourQuiz = () => {
-  const [users, setUsers] = useState([
-    { id: 1, quizTitle: "Math Quiz", score: 80, isLive: true, premium: true},
-    { id: 2, quizTitle: "Science Quiz", score: 75, isLive: false, premium: true},
-    // Add more users as needed
-  ]);
+  const [users, setUsers] = useState([]);
 
 
   useEffect(() => {
@@ -44,8 +40,6 @@ const YourQuiz = () => {
   }, []);
 
 
-
-
   return (
     <>
       <div className="content">
@@ -54,10 +48,13 @@ const YourQuiz = () => {
           {users.map(user => (
           <div key={user.id} className="user-row">
             <p><strong> {user.title} </strong></p>
-            <p><strong>Score:</strong> {user.score}</p>
-            <p><strong>Status:</strong> {user.isLive ? "Live" : "Not Live"}</p>
+            <p><strong>Score: </strong> 
+              { user.score === -2 ? "Not Attempted" : (user.score === -1 ? "In Progress" : user.score) }              
+            
+            </p>
+            <p><strong>Status: </strong> {user.isLive ? "Live" : "Not Live"}</p>
             <div className="actions">
-              {user.isLive && <Link to={`/take-quiz/${1}`} className="take-quiz-btn">Take Quiz </Link>}
+              {user.isLive && <Link to={`/take-quiz/${user.id}`} className="take-quiz-btn">Take Quiz </Link>}
               {user.premium && <button className="analytics-quiz-btn">view Analytics</button>}
             </div>
           </div>))}

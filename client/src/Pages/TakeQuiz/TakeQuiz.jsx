@@ -10,6 +10,7 @@ const quizData = [
       { id: 4, text: "Mark Twain", isCorrect: false }
     ]
   },
+
   {
     id: 2,
     type: 'single',
@@ -21,6 +22,7 @@ const quizData = [
       { id: 4, text: "O2", isCorrect: false }
     ]
   },
+
   {
     id: 3,
     type: 'single', // Question type: single correct option
@@ -36,11 +38,10 @@ const quizData = [
     id: 4,
     type: 'trueFalse', // Question type: true/false
     question: "Water boils at 100 degrees Celsius.",
-    correctAnswer: true
   },
   {
     id: 5,
-    type: 'fillBlank', // Question type: fill in the blank
+    type: 'text', // Question type: fill in the blank
     question: "The capital of India is __________."
   },
   // Add more questions as needed
@@ -50,16 +51,44 @@ const quizData = [
 import './TakeQuiz.scss';
 import { useState, useEffect} from 'react';
 import { useParams } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TakeQuiz = () => {
   const { id } = useParams();
   const [questions, setQuestions] = useState(quizData);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [responses, setResponses] = useState(Array(quizData.length).fill(null));
+  const [responses, setResponses] = useState(Array(questions.length).fill(null));
   const [timer, setTimer] = useState(300);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const currentQuestion = questions[currentIndex];
   let timerInterval;
+
+
+  useEffect(() => {
+    const getQuestions = async () => {
+      const response = await fetch(`http://localhost:4000/quiz/getQuestions/${id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setQuestions(data);
+
+      }
+
+      else {
+        console.log('Failed to fetch quiz data 12');
+      }
+    }
+ 
+    getQuestions();
+    setResponses(Array(questions.length).fill(null));
+  }, []);
 
   useEffect(() => {
     initializeQuiz();
@@ -138,11 +167,49 @@ const TakeQuiz = () => {
     setCurrentIndex((prevIndex) => Math.min(questions.length - 1, prevIndex + 1));
   };
 
-  const handleSubmit = () => {
+
+  const handleSubmit = async () => {
     setFormSubmitted(true);
     setTimer(0); // Set timer to 0
     sessionStorage.setItem(`quizFormSubmitted_${id}`, 'true'); // Set form submitted flag in session storage
-    console.log('Form submitted with responses:', responses);
+    
+    // Transform responses into the desired format
+    const formattedResponses = questions.map((question, index) => ({
+      questionId: question._id, // Assuming `_id` is the unique identifier for each question
+      response: responses[index], // Assuming responses are stored in the same order as questions
+    }));
+    
+
+    // Output the formatted responses
+    console.log('Formatted responses:', formattedResponses);
+
+    const response = await fetch(`http://localhost:4000/quiz/submitQuiz/${id}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      // body: JSON.stringify(formattedResponses)
+      body: JSON.stringify({answers: formattedResponses})
+      
+    })
+
+    if (response.ok) {
+      toast.success('Quiz submitted successfully', {
+        position: "top-left",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+    }
+    else {
+      toast.error('Failed to submit quiz', {
+        position: "top-left",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+    }
+
+
   };
 
   return (
@@ -157,8 +224,8 @@ const TakeQuiz = () => {
         <form>
           {currentQuestion && (
             <div className='grid items-start gap-4'>
-              <div className='text-xl font-semibold' key={currentQuestion.id}>
-                {currentQuestion.id}. {currentQuestion.question}
+              <div className='text-xl font-semibold' key={currentQuestion._id}>
+              {currentIndex + 1}. {currentQuestion.text}
               </div>
               {currentQuestion.type === 'single' && (
                 <div className='grid items-start gap-2'>
@@ -205,7 +272,7 @@ const TakeQuiz = () => {
                   <label className='text-sm cursor-pointer dark:text-gray-400' htmlFor={`false-${currentQuestion.id}`}>False</label>
                 </div>
               )}
-              {currentQuestion.type === 'fillBlank' && (
+              {currentQuestion.type === 'text' && (
                 <input
                   type='text'
                   name={`question-${currentIndex}`}
@@ -231,6 +298,7 @@ const TakeQuiz = () => {
           </button>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };

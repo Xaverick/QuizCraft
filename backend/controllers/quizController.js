@@ -46,7 +46,8 @@ module.exports.registerQuiz = async (req, res) => {
 const getscore = async (quizId, userId) => {
   try {
       const response = await Submission.findOne({ quizId: quizId, userId: userId });
-      return response ? response.score : 0; // Return score if submission found, else 0
+      //-2 if quiz not attempted
+      return response ? response.score : -2; // Return score if submission found, else 0
   } catch (error) {
       console.error("Error fetching score:", error);
       return 0; // Return 0 in case of any error
@@ -80,36 +81,56 @@ module.exports.getYourQuizzes = async (req, res) => {
 
 
 module.exports.addResponseAndUpdateSubmission = async (req, res) => {
-    const { userId, quizId, answers } = req.body;
+    const { answers } = req.body;
+    const userId = req.userId;
+    const { quizId } = req.params;
     if(!userId || !quizId ) {
       return res.status(400).json('Invalid request Give full parameters');
     }
-    // Fetch questions to validate questionIds and check correctness of answers
-    const questions = await Question.find({ _id: { $in: answers.map(ans => ans.questionId) } });
+
+
+    //checkin if the submiision time is less than quiz end time
+    const now = new Date();
+    const quiz = await Quiz.findById(quizId);
+    if (quiz.endTime < now) {
+      return res.status(400).json("Quiz has ended");
+    }
+
+    //check if quiz has been alreday submitted
+
+    const previousSubmission = await Submission.findOne({ userId, quizId });
+    if (previousSubmission) {
+      return res.status(400).json("Quiz has already been submitted");
+    }
+
+    // // Fetch questions to validate questionIds and check correctness of answers
+    // const questions = await Question.find({ _id: { $in: answers.map(ans => ans.questionId) } });
   
-    // Calculate score and update isCorrect for each answer
-    let score = 0;
-    const updatedAnswers = answers.map(answer => {
-      const question = questions.find(q => q._id.toString() === answer.questionId.toString());
-      if (!question) {
-        return { ...answer, isCorrect: false }; // Question not found, mark as incorrect
-      }
-      const isCorrect = question.correctOption === answer.response; // Assuming correctOption is the correct answer
-      if (isCorrect) {
-        score++;
-      }
-      return { ...answer, isCorrect };
-    });
-  
+    // // Calculate score and update isCorrect for each answer
+    // let score = 0;
+    // const updatedAnswers = answers.map(answer => {
+    //   const question = questions.find(q => q._id.toString() === answer.questionId.toString());
+    //   if (!question) {
+    //     return { ...answer, isCorrect: false }; // Question not found, mark as incorrect
+    //   }
+    //   const isCorrect = question.correctOption === answer.response; // Assuming correctOption is the correct answer
+    //   if (isCorrect) {
+    //     score++;
+    //   }
+    //   return { ...answer, isCorrect };
+    // });
     // Create or update submission
+
     const submission = await Submission.findOneAndUpdate(
       { userId, quizId },
-      { $set: { answers: updatedAnswers, score } },
+      { $set: { answers } },
       { new: true, upsert: true }
     );
   
-    res.status(200).json({ submission });
+    res.status(200).json("quiz submitted");
   };
+
+
   
   module.exports.getFinalScore = async (req, res) => {
     const { userId, quizId } = req.params;
@@ -124,8 +145,19 @@ module.exports.addResponseAndUpdateSubmission = async (req, res) => {
   }
   
   module.exports.getQuestions = async (req, res) => {
+
+    const userId = req.userId;
+    //check if the user is registered for the quiz
+    const user = await User.findById(userId);
+    const registeredQuizzes = user.registeredQuizzes;
+    if (!registeredQuizzes.includes(req.params.quizid)) {
+      return res.status(400).json('You are not registered for this quiz');
+    }
+
+    const quizId = req.params.quizid;
     const questions = await Question.find({ quizId: req.params.quizid });
-    res.status(200).json({ questions });
+    res.status(200).json(questions);
+  
   }
 
   

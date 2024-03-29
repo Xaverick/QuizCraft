@@ -13,7 +13,7 @@ module.exports.login = async (req, res) => {
         const user = await User.findOne({ email: email});
         if(user && bcrypt.compareSync(password, user.password)) {
             const payload = { userId: user._id, email: user.email, username: user.username };
-            const token = jwt.sign( payload, `${process.env.SECRET}`, { expiresIn: '1h' });
+            const token = jwt.sign( payload, `${process.env.USER_SECRET}`, { expiresIn: '1h' });
             res.cookie('jwt', token, { signed: true,httpOnly: true, sameSite: 'none', maxAge: 1000 * 60 * 60, secure: true })
             // const expiration = Math.floor(Date.now() / 1000) + 3600;
             res.status(200).json({token, payload, expiresIn: 1000 * 60 * 60});
@@ -53,7 +53,7 @@ module.exports.logout = (req, res) => {
 module.exports.profile = async (req, res) => {
     const token = req.signedCookies.jwt;
     if(token){
-        const decoded = jwt.verify(token, `${process.env.SECRET}`);
+        const decoded = jwt.verify(token, `${process.env.USER_SECRET}`);
         const user = await User.findById(decoded.id);
         res.json(user);
     }
@@ -67,7 +67,7 @@ module.exports.forgotPassword = async (req, res) => {
     const { email} = req.body;
     const user = await User.findOne({email: email});
     if(user){
-        const secret = `${process.env.SECRET}${user.password}`;
+        const secret = `${process.env.USER_SECRET}${user.password}`;
         const token = jwt.sign({ id: user._id } , secret , { expiresIn: '5m' });
 
         let config = {
@@ -131,7 +131,7 @@ module.exports.resetPassword = async (req, res) => {
         res.status(400).json('user not found');
     }
     else{
-        const secret = `${process.env.SECRET}${oldUser.password}`;
+        const secret = `${process.env.USER_SECRET}${oldUser.password}`;
         if(jwt.verify(token,secret)){
             oldUser.password = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
             await oldUser.save();

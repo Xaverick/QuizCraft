@@ -13,7 +13,7 @@ module.exports.adminlogin = async (req, res) => {
         const user = await User.findOne({ email: email});
         if(user && bcrypt.compareSync(password, user.password)) {
             const payload = { adminId: user._id, email: user.email, username: user.username };
-            const token = jwt.sign( payload, `${process.env.SECRET}`, { expiresIn: '1h' });
+            const token = jwt.sign( payload, `${process.env.ADMIN_SECRET}`, { expiresIn: '1h' });
             res.cookie('jwt', token, { signed: true,httpOnly: false, sameSite: 'none', maxAge: 1000 * 60 * 60,secure: true })
             res.status(200).json({token, user: user._id});
           

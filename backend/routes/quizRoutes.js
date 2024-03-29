@@ -18,15 +18,15 @@ router.route('/yourQuizzes')
     .get(isClient, catchAsync(quiz.getYourQuizzes));
 
 router.route('/getQuestions/:quizid')
-    .get(isClient,catchAsync(quiz.getQuestions));
+    .get(isClient, catchAsync(quiz.getQuestions));
 
-router.route('/submitQuiz/:quizid')
+router.route('/submitQuiz/:quizId')
     .post(isClient,catchAsync(quiz.addResponseAndUpdateSubmission));
 
 router.route('/getSubmissions')
     .get(isClient,catchAsync(quiz.getSubmissions));
 
 router.route('/getScore/:userid/:quizid')
-    .get(isClient,catchAsync(quiz.getFinalScore));
+    .get(isClient, catchAsync(quiz.getFinalScore));
 
 module.exports = router;
