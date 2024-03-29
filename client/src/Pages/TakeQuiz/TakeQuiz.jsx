@@ -189,7 +189,6 @@ const TakeQuiz = () => {
         'Content-Type': 'application/json'
       },
       credentials: 'include',
-      // body: JSON.stringify(formattedResponses)
       body: JSON.stringify({answers: formattedResponses})
       
     })

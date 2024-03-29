@@ -11,17 +11,22 @@ const Navbar = () => {
 
 
   const handleLogout = async () => {
-    const response = await fetch('http://localhost:4000/user/logout', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-      
-    });
+      const response = await fetch('http://localhost:4000/user/logout', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        
+      });
 
-      localStorage.removeItem('token');
+      if (!response.ok) {
+        localStorage.removeItem('user');
+        localStorage.removeItem('expiresIn');
+      }
+
       localStorage.removeItem('user');
+      localStorage.removeItem('expiresIn');
       dispatch(logout());
 
 

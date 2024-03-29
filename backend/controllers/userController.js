@@ -16,7 +16,7 @@ module.exports.login = async (req, res) => {
             const token = jwt.sign( payload, `${process.env.USER_SECRET}`, { expiresIn: '1h' });
             res.cookie('jwt', token, { signed: true,httpOnly: true, sameSite: 'none', maxAge: 1000 * 60 * 60, secure: true })
             // const expiration = Math.floor(Date.now() / 1000) + 3600;
-            res.status(200).json({token, payload, expiresIn: 1000 * 60 * 60});
+            res.status(200).json({payload, expiresIn: 1000 * 60 * 60});
         } 
         else {
             res.status(400).json('login failed');

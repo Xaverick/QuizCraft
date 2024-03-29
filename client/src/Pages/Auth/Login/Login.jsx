@@ -37,9 +37,9 @@ const Login = () => {
 
     if(response.ok){
       const data = await response.json(); 
-      const { token, payload } = data; // Assuming the response contains token and expiration
+      const { payload, expiresIn } = data; // Assuming the response contains token and expiration
       localStorage.setItem('user', JSON.stringify(payload));
-      localStorage.setItem('token', token);  
+      localStorage.setItem('expiresIn', Date.now() + expiresIn); 
       dispatch(login());
       toast.success('Login successfull', {
         position: "top-left",

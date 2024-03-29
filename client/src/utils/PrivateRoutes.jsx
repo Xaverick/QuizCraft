@@ -1,9 +1,9 @@
 import { Navigate, Outlet } from 'react-router-dom'
 
 const PrivateRoutes = () => {
-  let auth = {'token': localStorage.getItem('token')}
+  let auth = {'loggedIn': localStorage.getItem('isLoggedIn'), 'expiresIn': localStorage.getItem('expiresIn')}
     return (
-        auth.token ? <Outlet /> : <Navigate to='/login' /> 
+        auth.loggedIn === 'true' && auth.expiresIn > Date.now() ? <Outlet /> : <Navigate to='/login' /> 
     )
 }
 
