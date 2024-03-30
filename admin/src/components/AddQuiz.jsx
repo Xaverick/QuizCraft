@@ -266,7 +266,7 @@ const { user } = useSelector((state) => state.profile)
 
                 />
                             <div className=" flex flex-row justify-center items-center">
-                            <label className="text-black"> Start time :-</label>
+                            <label className="text-black"> Start time :- &nbsp; &nbsp;</label>
                             <Calendar
                     mode="single"
                     selected={startdate}
@@ -275,7 +275,7 @@ const { user } = useSelector((state) => state.profile)
                   />
                             </div>
                             <div className=" flex flex-row justify-center items-center">
-                            <label className="text-black"> End time :-</label>
+                            <label className="text-black"> End time :-&nbsp; &nbsp;</label>
                             <Calendar 
                     mode="single"
                     selected={enddate}
@@ -284,7 +284,7 @@ const { user } = useSelector((state) => state.profile)
                   />
                             </div>
                             <div className=" flex flex-row justify-center items-center">
-                            <label className="text-black"> Duration :-</label>
+                            <label className="text-black"> Duration :- &nbsp; &nbsp;</label>
                         <input
                             id="duration"
                             onChange={(e) => handleInputChange("duration", e.target.value)}
