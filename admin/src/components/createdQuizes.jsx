@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react'
+import AddQuiz from './AddQuiz';
+
 import { useSelector } from 'react-redux';
 import {
   Dialog,
@@ -237,41 +239,45 @@ const CreatedQuizes=()=> {
    
           
     return (
-        <div className=' flex items-center justify-between w-[100%] h-[100%]'>
+        <div className=' flex items-start justify-between w-[100%] h-[100%]'>
           
-<div className="flex bg-white mt-9 h-[91%] p-4 flex-col w-[30%]  gap-4 overflow-scroll text-white">
+          <div className="flex bg-white h-[90%] p-4 flex-col w-[30%] overflow-y-auto gap-4 text-white">
+              <AddQuiz refresh={refresh} setRefresh={setRefresh}/>
 
-          {userQuizes.map((quiz) => (
-            <div  key={quiz._id} className=" border-2 border-black  hover:border-yellow-400 rounded-xl p-4 flex gap-4 flex-row items-center justify-center">
-              <div
-             onClick={() => handleQuizClick(quiz._id)}
-              className=" p-4  cursor-pointer  flex-row rounded-lg   bg-white text-black w-[300px] h-[100px] flex items-center justify-between "
-            
-              
-            > 
-              <p className='text-xl font-extrabold' >{quiz.title}</p>
-             <div>
-             {quiz.startTime.substring(5,10)} - {quiz.endTime.substring(5,10)}
-              </div>
-             
-      
-            </div>
-            <div className='text-black' onClick={ ()=>{
-                handleDelete(quiz._id);
+              {userQuizes.map((quiz) => (
+                <div  key={quiz._id} className=" border-2 border-black  hover:border-yellow-400 rounded-xl p-4 flex gap-4 flex-row items-center justify-center">
+                  <div
+                      onClick={() => handleQuizClick(quiz._id)}
+                      className=" p-4  cursor-pointer  flex-row rounded-lg bg-white text-black w-[300px] h-[100px] flex items-center justify-between "
                 
-              }}> <MdDelete style={{fontSize:"2rem", color:"orange" }} /> </div>
+                  
+                > 
+                  <p className='text-xl font-extrabold' >{quiz.title}</p>
+                <div>
+                {quiz.startTime.substring(5,10)} - {quiz.endTime.substring(5,10)}
+                  </div>
+                
           
+                </div>
+                <div className='text-black cursor-pointer' onClick={ ()=>{
+                    handleDelete(quiz._id);
+                    
+                  }}> <MdDelete style={{fontSize:"2rem", color:"orange" }} /> </div>
+              
 
-            </div>
-            
-            
-          ))}
-        </div>
-        <div className= " w-[70%] h-[91%] overflow-scroll border-l-2 border-l-yellow-300 bg-white text-black "> 
-       
-        <QuizSlected  selectedQuiz={selectedQuiz} questions={questions} quizId={quizId} refresh={refresh}
-        setRefresh={setRefresh}/>
-        </div>
+                </div>
+                
+                
+            ))}
+          </div>
+
+
+          <div className= " w-[70%] h-[90%] border-l-2 border-l-yellow-300 bg-white text-black "> 
+        
+            <QuizSlected  selectedQuiz={selectedQuiz} questions={questions} quizId={quizId} refresh={refresh}
+            setRefresh={setRefresh}/>
+          </div>
+
         </div>
     )
 }

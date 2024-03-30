@@ -143,27 +143,27 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
     
   
     return (
-        <div className="h-[100%] w-[100%]">
+        <div className="h-[100%] w-[100%] ">
           {
             quizId ?(<>
-              <div className=" flex flex-col items-center justify-center bg-white text-black p-4 rounded-lg">
-<h2 className="text-5xl font-bold text-black">Quiz Details:</h2>
-<p className="text-3xl font-medium">Title: {selectedQuiz ? selectedQuiz.title : "N/A"}</p>
+              <div className=" flex flex-col items-center justify-center bg-white text-black p-4 rounded-lg max-h-[100%]">
+                <h2 className="text-5xl font-bold text-black">Quiz Details:</h2>
+                <p className="text-3xl font-medium">Title: {selectedQuiz ? selectedQuiz.title : "N/A"}</p>
 
-<div className="bg-white border-2  min-h-[500px] mt-[50px] min-w-[100%] flex flex-col flex-wrap overflow-scroll  text-black text-xl p-4">
+<div className="bg-white border-2  mt-[2rem] min-w-[100%] flex flex-col overflow-y-auto max-h-[60%] text-black text-xl p-4">
   {questions.length ? (
     <>
       {questions.map((question, formIndex) => (
         <div className='flex flex-row items-center  justify-between p-4 gap-4' key={formIndex} >
-          <form className="flex flex-col w-[50%]  gap-4 items-center justify-center mt-3">
-            <label className="" style={{ fontWeight: 'bold' }}>{question.text}</label>
+          <form className="flex flex-col w-[80%]  gap-4 items-start justify-center mt-3">
+            <label className="" style={{ fontWeight: 'bold' }}> {formIndex+1}.  {question.text}</label>
             {question.type === 'text' && (
-              <input className="text-black border border-gray-300 rounded-md px-2 py-1" type="text" />
+              <input className="text-black border border-gray-300 rounded-md px-2 py-1 w-[80%]" type="text" placeholder="Enter your answer" />
             )}
             {question.type === 'radio' && (
               <>
                 {question.options && question.options.length > 0 && (
-                  <div className=" flex-col flex items-center justify-center">
+                  <div className=" flex-col flex items-start justify-center">
                     {question.options.map((option) => (
                       <label key={option}>
                         <input className="text-black mr-2" type="radio" name={question.text} value={option} />
@@ -179,7 +179,7 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
             )}
             {/* Add more input types as needed */}
           </form>
-          <div className=" flex items-center justify-center gap-4 w-[50%] ">
+          <div className=" flex items-center justify-center gap-4 w-[20%] ">
           <Dialog >
             <DialogTrigger>
               <div onClick={ ()=>{
@@ -462,8 +462,8 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
 {/* Add more quiz details as needed */}
 </div>
             </>):(<>
-            <div className=" text-black flex items-center justify-center">
-              <h1>Quiz not selected</h1>
+            <div className=" text-black flex items-center justify-center mt-[3rem]">
+              <h1 className="text-3xl">Quiz not selected</h1>
             </div>
             </>)
           }
