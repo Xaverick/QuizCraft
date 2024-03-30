@@ -76,8 +76,28 @@ module.exports.updateQuiz = async (req, res) => {
 
 module.exports.deleteQuiz = async (req, res) => {
     const quizId = req.params.quizid;
-    await Quiz.findByIdAndDelete(quizId);
-    res.json('quiz deleted');
+
+    try {
+        // Fetch the quiz to get its questions
+        const quiz = await Quiz.findById(quizId);
+        if (!quiz) {
+            return res.status(404).json({ error: 'Quiz not found' });
+        }
+
+        // Get all question IDs from the quiz
+        const questionIds = quiz.questions;
+
+        // Delete the quiz
+        await Quiz.findByIdAndDelete(quizId);
+
+        // Delete all questions associated with the quiz
+        await Question.deleteMany({ _id: { $in: questionIds } });
+
+        res.json('Quiz and associated questions deleted');
+    } catch (error) {
+        console.error('Error deleting quiz and questions:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 };
 
 module.exports.getQuizzes = async (req, res) => {

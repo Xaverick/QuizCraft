@@ -61,10 +61,17 @@ const CreatedQuizes=()=> {
           console.error("Failed", error);
         }
       };
+      
+      const [refresh, setRefresh] = useState(false);
+     
     useEffect(() => {
         if (user) {
           console.log(user);
           fetchUserQuizes();
+        }
+        if(quizId){
+          fetchQuizDetails(quizId);
+   
         }
       }, []);
       const handleDelete = async (quizId) => {
@@ -260,11 +267,10 @@ const CreatedQuizes=()=> {
             
           ))}
         </div>
-        <div className= " w-[70%] h-[91%] border-l-2 border-l-yellow-300 bg-white text-black "> 
-        {
-          console.log("quiz id is -",quizId)
-        } 
-        <QuizSlected fetchQuizDetails={fetchQuizDetails} fetchQuiz={fetchUserQuizes} selectedQuiz={selectedQuiz} questions={questions} quizId={quizId}/>
+        <div className= " w-[70%] h-[91%] overflow-scroll border-l-2 border-l-yellow-300 bg-white text-black "> 
+       
+        <QuizSlected  selectedQuiz={selectedQuiz} questions={questions} quizId={quizId} refresh={refresh}
+        setRefresh={setRefresh}/>
         </div>
         </div>
     )

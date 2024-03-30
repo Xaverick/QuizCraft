@@ -9,9 +9,11 @@ import {
   } from "../components/ui/dialog"
   import { useToast } from "@/components/ui/use-toast"
   import { useState } from "react"; 
+
 const apiUrl = "http://localhost:4000";
-const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails}) => {
+const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,handleQuizClick,refresh,setRefresh}) => {
   const toast = useToast();  
+
     const [quesionData, setQuestionData] = useState({
         quizId: quizId,
         text: "",
@@ -20,10 +22,8 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails})
         correctOption:""
        
       });
-      useEffect(() => {
-        fetchQuiz();
-        fetchQuizDetails(quizId);
-      }, []);
+      const [closeAddQuestion, setCloseAddQuestion] = useState(false);  
+      
       const [noOfInputs, setNoOfInputs] = useState(0);
       const handleDeleteQuestion = async (questionid) => {
         try {
@@ -37,7 +37,8 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails})
           if(response.ok){
             console.log("Question deleted");
            alert("Question Deleted")
-           
+           window.location.reload();
+           setRefresh(true);
           }
           else{
             console.error("Failed to delete question. Status:", response.status);
@@ -62,7 +63,16 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails})
     
           if (response.ok) {
             const data = await response.json();
-            console.log("Input added Successfully", data);
+            console.log("Question Updated Successfully", data);
+            quesionData.text = "";
+            quesionData.type = "text";
+            quesionData.options = [];
+            quesionData.correctOption = "";
+            setNoOfInputs(0);
+            setCloseAddQuestion(false);
+            alert("Question Updated Successfully")
+            window.location.reload();
+            setRefresh(true);
            
           } else {
             console.error("failed. Status:", response.status);
@@ -89,9 +99,18 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails})
     
           if (response.ok) {
             const data = await response.json();
-            console.log("Input added Successfully", data);
-            setaddedQuestions((prevInputs) => [...prevInputs, { text: quesionData.text, type: quesionData.type }]);
-    
+            console.log("Question added Successfully", data);
+            quesionData.text = "";
+            quesionData.type = "text";
+            quesionData.options = [];
+            quesionData.correctOption = "";
+            setNoOfInputs(0);
+            setCloseAddQuestion(false);
+            alert("Question added Successfully");
+            window.location.reload();
+            setRefresh(true);
+
+
           } else {
             console.error("failed. Status:", response.status);
           }
@@ -121,9 +140,13 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails})
           };
         });
       };
+    
+  
     return (
         <div className="h-[100%] w-[100%]">
-            <div className=" flex flex-col items-center justify-center bg-white text-black p-4 rounded-lg">
+          {
+            quizId ?(<>
+              <div className=" flex flex-col items-center justify-center bg-white text-black p-4 rounded-lg">
 <h2 className="text-5xl font-bold text-black">Quiz Details:</h2>
 <p className="text-3xl font-medium">Title: {selectedQuiz ? selectedQuiz.title : "N/A"}</p>
 
@@ -157,9 +180,11 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails})
             {/* Add more input types as needed */}
           </form>
           <div className=" flex items-center justify-center gap-4 w-[50%] ">
-          <Dialog>
+          <Dialog >
             <DialogTrigger>
-              <div className="bg-black text-white p-2 rounded-md cursor-pointer">Edit</div>
+              <div onClick={ ()=>{
+                setCloseAddQuestion(true);
+              }}className="bg-black text-white p-2 rounded-md cursor-pointer">Edit</div>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -184,7 +209,7 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails})
                     >
                       <option value="text">Text</option>
                       <option value="radio">Radio</option>
-                      <option value="checkbox">Checkbox</option>
+                     
                     </select>
                     {quesionData.type === "radio" && (
                       <>
@@ -198,7 +223,7 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails})
                           type="number"
                         />
                         {Array.from({ length: Number(noOfInputs) }).map((_, index) => (
-                          <div key={index}>
+                          <div className=" flex flex-row items-center justify-center gap-[40px]" key={index}>
                             <label style={{ fontWeight: 'bold' }}>Enter the label</label>
                             <input
                               onChange={(e) => {
@@ -252,9 +277,11 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails})
         
       ))}
      <div className="mx-auto mt-4">
-     <Dialog>
+     <Dialog >
             <DialogTrigger>
-              <div className="bg-black text-white p-2  rounded-md cursor-pointer">Add Question</div>
+              <div onClick={ ()=>{
+                setCloseAddQuestion(true);
+              }}className="bg-black text-white p-2  rounded-md cursor-pointer">Add Question</div>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
@@ -279,7 +306,7 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails})
                     >
                       <option value="text">Text</option>
                       <option value="radio">Radio</option>
-                      <option value="checkbox">Checkbox</option>
+                      
                     </select>
                     {quesionData.type === "radio" && (
                       <>
@@ -293,7 +320,7 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails})
                           type="number"
                         />
                         {Array.from({ length: Number(noOfInputs) }).map((_, index) => (
-                          <div key={index}>
+                          <div className=" flex flex-row items-center justify-center gap-[40px]" key={index}>
                             <label style={{ fontWeight: 'bold' }}>Enter the label</label>
                             <input
                               onChange={(e) => {
@@ -334,6 +361,87 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails})
   ) : (
     <>
       <div className="text-2xl font-bold text-white">No questions available for this quiz</div>
+      <div className="mx-auto mt-4">
+     <Dialog >
+            <DialogTrigger>
+              <div onClick={ ()=>{
+                setCloseAddQuestion(true);
+              }} className="bg-black text-white p-2  rounded-md cursor-pointer">Add Question</div>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Add Question</DialogTitle>
+                <DialogDescription>
+                  <div className="flex flex-col items-center justify-center">
+                    <label style={{ fontWeight: 'bold' }}>Enter the Question</label>
+                    <input
+                      onChange={(e) => {
+                        handleInputChange2("text", e.target.value);
+                      }}
+                      name="text"
+                      className="border border-gray-300 rounded-md px-2 py-1 mb-2"
+                      type="text"
+                    />
+                    <label style={{ fontWeight: 'bold' }}>Enter the type of response you want</label>
+                    <select
+                      onChange={(e) => {
+                        handleInputChange2("type", e.target.value);
+                      }}
+                      className="border border-gray-300 rounded-md px-2 py-1 mb-2"
+                    >
+                      <option value="text">Text</option>
+                      <option value="radio">Radio</option>
+                      
+                    </select>
+                    {quesionData.type === "radio" && (
+                      <>
+                        <label style={{ fontWeight: 'bold' }}>Enter the number of radio buttons you want</label>
+                        <input
+                          onChange={(e) => {
+                            setNoOfInputs(e.target.value);
+                          }}
+                          name="options"
+                          className="border border-gray-300 rounded-md px-2 py-1 mb-2"
+                          type="number"
+                        />
+                        {Array.from({ length: Number(noOfInputs) }).map((_, index) => (
+                          <div className=" flex flex-row items-center justify-center gap-[40px]" key={index}>
+                            <label style={{ fontWeight: 'bold' }}>Enter the label</label>
+                            <input
+                              onChange={(e) => {
+                                handleInputChange2(`options${index}`, e.target.value);
+                              }}
+                              name={`options${index}`}
+                              className="border border-gray-300 rounded-md px-2 py-1 mb-2"
+                              type="text"
+                            />
+                          </div>
+                        ))}
+                      </>
+                    )}
+                    <label style={{ fontWeight: 'bold' }}>Enter the correct Option</label>
+                    <input
+                      onChange={(e) => {
+                        handleInputChange2("correctOption", e.target.value);
+                      }}
+                      name="correctOption"
+                      className="border border-gray-300 rounded-md px-2 py-1 mb-2"
+                      type="text"
+                    />
+                    <button
+                      className="bg-black text-white px-4 py-2 rounded-md"
+                      onClick={() => {
+                        handleSubmit3(selectedQuiz._id);
+                      }}
+                    >
+                      Add Question
+                    </button>
+                  </div>
+                </DialogDescription>
+              </DialogHeader>
+            </DialogContent>
+          </Dialog>
+     </div>
     </>
   )}
 </div>
@@ -353,6 +461,12 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails})
 
 {/* Add more quiz details as needed */}
 </div>
+            </>):(<>
+            <div className=" text-black flex items-center justify-center">
+              <h1>Quiz not selected</h1>
+            </div>
+            </>)
+          }
         </div>
     )
 }
