@@ -103,8 +103,9 @@ const { user } = useSelector((state) => state.profile)
         quesionData.type = "text";
         quesionData.options = [];
         quesionData.correctOption = "";
+        setNoOfInputs(0);
         alert("Question added Successfully")
-     
+       
 
       } else {
         console.error("failed. Status:", response.status);
@@ -145,6 +146,7 @@ const { user } = useSelector((state) => state.profile)
           setAdd(true);
           setDrawerClose(true);
          alert("Quiz Created Successfully")
+         window.location.reload();
           return updatedquesionData;
         });
       } else {
@@ -215,7 +217,7 @@ return(
   
   <option value="text">Text</option>
   <option value="radio">radio</option> 
-   <option value="checkbox">checkbox</option>
+  
 
   
 </select>
@@ -227,7 +229,7 @@ return(
 setNoOfInputs(e.target.value);
   }} name="options" className=" border-2" type="number"></input>
   {Array.from({ length: Number(noOfInputs) }).map((_, index) => (
-    <div key={index}>
+    <div className=" flex flex-row items-center justify-center gap-[40px]" key={index}>
       <label>Enter the label</label>
       <input
         onChange={(e) => {
@@ -275,10 +277,12 @@ setNoOfInputs(e.target.value);
             onChange={(e) => handleInputChange("title", e.target.value)}
         className="text-black border-4 " type="text"></input>
         <label className="text-black"> Enter the description of the Quiz</label>
-         <input
-            id="description"
-            onChange={(e) => handleInputChange("description", e.target.value)}
-        className="text-black border-4 " type="text"></input>
+        <textarea
+    id="description"
+    onChange={(e) => handleInputChange("description", e.target.value)}
+    className="text-black border-4 min-h-[150px] w-[400px]"
+
+/>
             <div className=" flex flex-row justify-center items-center">
             <label className="text-black"> Start time :-</label>
             <Calendar
