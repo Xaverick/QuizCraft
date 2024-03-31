@@ -274,7 +274,7 @@ const CreatedQuizes=()=> {
 
           <div className= " w-[70%] h-[90%] border-l-2 border-l-yellow-300 bg-white text-black "> 
         
-            <QuizSlected  selectedQuiz={selectedQuiz} questions={questions} quizId={quizId} refresh={refresh}
+            <QuizSlected  selectedQuiz={selectedQuiz} fetchQuiz={fetchQuizDetails} questions={questions} quizId={quizId} refresh={refresh}
             setRefresh={setRefresh}/>
           </div>
 

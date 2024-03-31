@@ -37,8 +37,8 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
           if(response.ok){
             console.log("Question deleted");
            alert("Question Deleted")
-           window.location.reload();
-           setRefresh(true);
+           fetchQuiz(quizId);
+           
           }
           else{
             console.error("Failed to delete question. Status:", response.status);
@@ -107,8 +107,7 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
             setNoOfInputs(0);
             setCloseAddQuestion(false);
             alert("Question added Successfully");
-            window.location.reload();
-            setRefresh(true);
+           fetchQuiz(quizId);
 
 
           } else {
