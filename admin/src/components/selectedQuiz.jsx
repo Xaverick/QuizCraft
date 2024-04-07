@@ -6,6 +6,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
+    DialogClose,
   } from "../components/ui/dialog"
   import { useToast } from "@/components/ui/use-toast"
   import { useState } from "react"; 
@@ -77,7 +78,15 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
             quesionData.correctOption = "";
             setNoOfInputs(0);
             setCloseAddQuestion(false);
-         
+         setQuestionData({
+            quizId: quizId,
+            text: "",
+            type: "text", 
+            options: [],
+            correctOption: ""
+          });
+
+            
            fetchQuiz(quizId);
 
 
@@ -207,7 +216,7 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
           <Dialog >
             <DialogTrigger>
               <div onClick={ ()=>{
-                setCloseAddQuestion(true);
+               
                 setUpdatedQuestion(question);
                 setNoOfInputs(question.options.length);
               }}className="bg-black text-white p-2 rounded-md cursor-pointer">Edit</div>
@@ -309,95 +318,11 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
         </div>
         
       ))}
-     <div className="mx-auto mt-4">
-     <Dialog >
+     <div className="mx-auto mt-4" >
+     <Dialog open={closeAddQuestion}  >
             <DialogTrigger>
               <div onClick={ ()=>{
-                setCloseAddQuestion(true);
-              }}className="bg-black text-white p-2  rounded-md cursor-pointer">Add Question</div>
-            </DialogTrigger>
-            <DialogContent>
-              <DialogHeader>
-                <DialogTitle>Add Question</DialogTitle>
-                <DialogDescription>
-                  <div className="flex flex-col items-center justify-center">
-                    <label style={{ fontWeight: 'bold' }}>Enter the Question</label>
-                    <input
-                      onChange={(e) => {
-                        handleInputChange2("text", e.target.value);
-                      }}
-                      name="text"
-                      className="border border-gray-300 rounded-md px-2 py-1 mb-2"
-                      type="text"
-                    />
-                    <label style={{ fontWeight: 'bold' }}>Enter the type of response you want</label>
-                    <select
-                      onChange={(e) => {
-                        handleInputChange2("type", e.target.value);
-                      }}
-                      className="border border-gray-300 rounded-md px-2 py-1 mb-2"
-                    >
-                      <option value="text">Text</option>
-                      <option value="radio">Radio</option>
-                      
-                    </select>
-                    {quesionData.type === "radio" && (
-                      <>
-                        <label style={{ fontWeight: 'bold' }}>Enter the number of radio buttons you want</label>
-                        <input
-                          onChange={(e) => {
-                            setNoOfInputs(e.target.value);
-                          }}
-                          name="options"
-                          className="border border-gray-300 rounded-md px-2 py-1 mb-2"
-                          type="number"
-                        />
-                        {Array.from({ length: Number(noOfInputs) }).map((_, index) => (
-                          <div className=" flex flex-row items-center justify-center gap-[40px]" key={index}>
-                            <label style={{ fontWeight: 'bold' }}>Enter the label</label>
-                            <input
-                              onChange={(e) => {
-                                handleInputChange2(`options${index}`, e.target.value);
-                              }}
-                              name={`options${index}`}
-                              className="border border-gray-300 rounded-md px-2 py-1 mb-2"
-                              type="text"
-                            />
-                          </div>
-                        ))}
-                      </>
-                    )}
-                    <label style={{ fontWeight: 'bold' }}>Enter the correct Option</label>
-                    <input
-                      onChange={(e) => {
-                        handleInputChange2("correctOption", e.target.value);
-                      }}
-                      name="correctOption"
-                      className="border border-gray-300 rounded-md px-2 py-1 mb-2"
-                      type="text"
-                    />
-                    <button
-                      className="bg-black text-white px-4 py-2 rounded-md"
-                      onClick={() => {
-                        handleSubmit3(selectedQuiz._id);
-                      }}
-                    >
-                      Add Question
-                    </button>
-                  </div>
-                </DialogDescription>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-     </div>
-    </>
-  ) : (
-    <>
-      <div className="text-2xl font-bold text-white">No questions available for this quiz</div>
-      <div className="mx-auto mt-4">
-     <Dialog >
-            <DialogTrigger>
-              <div onClick={ ()=>{
+
                 setCloseAddQuestion(true);
               }} className="bg-black text-white p-2  rounded-md cursor-pointer">Add Question</div>
             </DialogTrigger>
@@ -461,20 +386,36 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
                       className="border border-gray-300 rounded-md px-2 py-1 mb-2"
                       type="text"
                     />
-                    <button
-                      className="bg-black text-white px-4 py-2 rounded-md"
+                    <div className="  flex gap-4">
+                    <DialogClose className="bg-black text-white px-4 py-2 rounded-md"
+                     
+                     onClick={() => {
+                       handleSubmit3(selectedQuiz._id);
+                     }}
+                   >
+                     Add Question
+                   </DialogClose>
+                   <button
+                      className="bg-red-500 text-white px-4 py-2 rounded-md"
                       onClick={() => {
-                        handleSubmit3(selectedQuiz._id);
+                        setCloseAddQuestion(false);
                       }}
                     >
-                      Add Question
+                      Close
                     </button>
+                    </div>
+                    
                   </div>
                 </DialogDescription>
               </DialogHeader>
             </DialogContent>
           </Dialog>
      </div>
+    </>
+  ) : (
+    <>
+      <div className="text-2xl font-bold text-white">No questions available for this quiz</div>
+     
     </>
   )}
 </div>

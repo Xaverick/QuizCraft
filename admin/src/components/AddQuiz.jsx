@@ -21,14 +21,15 @@ import {
     DialogTrigger,
   } from "../components/ui/dialog"
 import { useSelector } from "react-redux";
+import { Input } from "@/components/ui/input"
 
 import { Link } from "lucide-react";
 
 
 const AddQuiz = () => {
 
-    const [startdate, setStartDate] = useState(new Date());
-    const [enddate, setEndDate] =useState(new Date() );
+    const [startdate, setStartDate] = useState(Date.now());
+    const [enddate, setEndDate] =useState( Date.now());
     
 
 // Your API URL
@@ -44,8 +45,8 @@ const { user } = useSelector((state) => state.profile)
   const [quizData, setQuizData] = useState({ 
     title: "",
     description: "",
-    startTime: startdate,
-    endTime: enddate,
+    startTime: "",
+    endTime: "",
     duration: "",
     adminId: user ? user._id : null
   });
@@ -267,21 +268,20 @@ const { user } = useSelector((state) => state.profile)
                 />
                             <div className=" flex flex-row justify-center items-center">
                             <label className="text-black"> Start time :- &nbsp; &nbsp;</label>
-                            <Calendar
-                    mode="single"
-                    selected={startdate}
-                    onSelect={setStartDate}
-                    className="rounded-md border"
-                  />
+                           <div  >
+                           <Input type="date" onChange={(e)=>{
+                              handleInputChange("startTime",e.target.value);
+                           }} />
+                           </div>
                             </div>
                             <div className=" flex flex-row justify-center items-center">
                             <label className="text-black"> End time :-&nbsp; &nbsp;</label>
-                            <Calendar 
-                    mode="single"
-                    selected={enddate}
-                    onSelect={setEndDate}
-                    className="rounded-md border"
-                  />
+                            <div>
+                            <Input type="date" onChange={(e)=>{
+                              handleInputChange("endTime",e.target.value);
+                            }
+                            } />
+                            </div>
                             </div>
                             <div className=" flex flex-row justify-center items-center">
                             <label className="text-black"> Duration :- &nbsp; &nbsp;</label>
