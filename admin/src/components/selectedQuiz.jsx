@@ -10,6 +10,7 @@ import {
   import { useToast } from "@/components/ui/use-toast"
   import { useState } from "react"; 
 
+
 const apiUrl = "http://localhost:4000";
 const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,handleQuizClick,refresh,setRefresh}) => {
   const toast = useToast();  
@@ -23,7 +24,12 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
        
       });
       const [closeAddQuestion, setCloseAddQuestion] = useState(false);  
-      
+      const [updatedQuestion, setUpdatedQuestion] = useState({
+        text: "",
+        type: "",
+        options: [],
+        correctOption: "",
+      });
       const [noOfInputs, setNoOfInputs] = useState(0);
       const handleDeleteQuestion = async (questionid) => {
         try {
@@ -47,42 +53,7 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
           console.error("Failed to delete question:", error);
         }
       };
-      const handleSubmit2 = async (questionId) => {
-   
-        console.log(quesionData);
-        try {
-    
-          const response = await fetch(`${apiUrl}/admin/updatequestion/${questionId}`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(quesionData),
-            credentials: "include",
-          });
-    
-          if (response.ok) {
-            const data = await response.json();
-            console.log("Question Updated Successfully", data);
-            quesionData.text = "";
-            quesionData.type = "text";
-            quesionData.options = [];
-            quesionData.correctOption = "";
-            setNoOfInputs(0);
-            setCloseAddQuestion(false);
-            alert("Question Updated Successfully")
-            window.location.reload();
-            setRefresh(true);
-           
-          } else {
-            console.error("failed. Status:", response.status);
-          }
-         
-    
-        } catch (error) {
-          console.error("Failed", error);
-        }
-      };
+
       const handleSubmit3 = async () => {
    
         console.log(quesionData);
@@ -106,10 +77,45 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
             quesionData.correctOption = "";
             setNoOfInputs(0);
             setCloseAddQuestion(false);
-            alert("Question added Successfully");
+         
            fetchQuiz(quizId);
 
 
+          } else {
+            console.error("failed. Status:", response.status);
+          }
+         
+    
+        } catch (error) {
+          console.error("Failed", error);
+        }
+      };
+      const handleSubmit = async (questionId) => {
+   
+        console.log(updatedQuestion);
+        try {
+    
+          const response = await fetch(`${apiUrl}/admin/updatequestion/${questionId}`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedQuestion),
+            credentials: "include",
+          });
+    
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Question Updated Successfully", data);
+            quesionData.text = "";
+            quesionData.type = "text";
+            quesionData.options = [];
+            quesionData.correctOption = "";
+            setNoOfInputs(0);
+            setCloseAddQuestion(false);
+            
+            fetchQuiz(quizId);
+           
           } else {
             console.error("failed. Status:", response.status);
           }
@@ -139,6 +145,24 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
           };
         });
       };
+      const handleInputChange3 = (name,value) => {  
+        setUpdatedQuestion((prevData) => {
+          if (name.startsWith("options")) {
+            const optionIndex = Number(name.replace("options", ""));
+            const updatedOptions = [...prevData.options];
+            updatedOptions[optionIndex] = String(value); // Ensure value is a string
+            return {
+              ...prevData,
+              options: updatedOptions,
+            };
+          }
+      
+          return {
+            ...prevData,
+            [name]: value,
+          };
+        });
+      }
     
   
     return (
@@ -153,6 +177,7 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
   {questions.length ? (
     <>
       {questions.map((question, formIndex) => (
+
         <div className='flex flex-row items-center  justify-between p-4 gap-4' key={formIndex} >
           <form className="flex flex-col w-[80%]  gap-4 items-start justify-center mt-3">
             <label className="" style={{ fontWeight: 'bold' }}> {formIndex+1}.  {question.text}</label>
@@ -183,6 +208,8 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
             <DialogTrigger>
               <div onClick={ ()=>{
                 setCloseAddQuestion(true);
+                setUpdatedQuestion(question);
+                setNoOfInputs(question.options.length);
               }}className="bg-black text-white p-2 rounded-md cursor-pointer">Edit</div>
             </DialogTrigger>
             <DialogContent>
@@ -193,31 +220,36 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
                     <label style={{ fontWeight: 'bold' }}>Enter the Question</label>
                     <input
                       onChange={(e) => {
-                        handleInputChange2("text", e.target.value);
+                        handleInputChange3("text", e.target.value);
                       }}
                       name="text"
                       className="border border-gray-300 rounded-md px-2 py-1 mb-2"
                       type="text"
+                      value={updatedQuestion.text}
                     />
                     <label style={{ fontWeight: 'bold' }}>Enter the type of response you want</label>
                     <select
                       onChange={(e) => {
-                        handleInputChange2("type", e.target.value);
+                        handleInputChange3("type", e.target.value);
                       }}
+                      value={updatedQuestion.type}
                       className="border border-gray-300 rounded-md px-2 py-1 mb-2"
                     >
                       <option value="text">Text</option>
                       <option value="radio">Radio</option>
                      
                     </select>
-                    {quesionData.type === "radio" && (
+                    {updatedQuestion.type === "radio" && (
+                      
                       <>
+                      
                         <label style={{ fontWeight: 'bold' }}>Enter the number of radio buttons you want</label>
                         <input
                           onChange={(e) => {
                             setNoOfInputs(e.target.value);
                           }}
                           name="options"
+                          value={noOfInputs}
                           className="border border-gray-300 rounded-md px-2 py-1 mb-2"
                           type="number"
                         />
@@ -226,11 +258,12 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
                             <label style={{ fontWeight: 'bold' }}>Enter the label</label>
                             <input
                               onChange={(e) => {
-                                handleInputChange2(`options${index}`, e.target.value);
+                                handleInputChange3(`options${index}`, e.target.value);
                               }}
                               name={`options${index}`}
                               className="border border-gray-300 rounded-md px-2 py-1 mb-2"
                               type="text"
+                              value={updatedQuestion.options[index]}
                             />
                           </div>
                         ))}
@@ -239,8 +272,9 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
                     <label style={{ fontWeight: 'bold' }}>Enter the correct Option</label>
                     <input
                       onChange={(e) => {
-                        handleInputChange2("correctOption", e.target.value);
+                        handleInputChange3("correctOption", e.target.value);
                       }}
+                      value={updatedQuestion.correctOption}
                       name="correctOption"
                       className="border border-gray-300 rounded-md px-2 py-1 mb-2"
                       type="text"
@@ -248,7 +282,7 @@ const QuizSlected = ({selectedQuiz,questions,quizId,fetchQuiz,fetchQuizDetails,h
                     <button
                       className="bg-black text-white px-4 py-2 rounded-md"
                       onClick={() => {
-                        handleSubmit2(question._id);
+                        handleSubmit(question._id);
                       }}
                     >
                       Update Question
