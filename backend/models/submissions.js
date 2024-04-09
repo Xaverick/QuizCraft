@@ -25,11 +25,26 @@ const submissionSchema = new schema({
         response: {
             type: String,
         },
+
+        correct: {
+            type: Boolean,
+            default: false,
+        }
     }],
+
+    correctAnswers: {
+        type: Number,
+        default: 0,
+    },
+
+    totalQuestions: {
+        type: Number,
+        default: 0,
+    },
 
     score: {
         type: Number,
-        default: -1,        // -1 to show thw score is not yet calculated
+        default: -1,        // -1 to show the score is not yet calculated
     },
 
     submittedAt: {

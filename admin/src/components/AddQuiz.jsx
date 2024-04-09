@@ -199,7 +199,7 @@ const { user } = useSelector((state) => state.profile)
                 }}>
                   
                   <option value="text">Text</option>
-                  <option value="radio">radio</option> 
+                  <option value="radio">Single Correct</option> 
                   
 
                   
@@ -207,7 +207,7 @@ const { user } = useSelector((state) => state.profile)
 
                 {
                   quesionData.type=="radio"?(<>
-                  <label>Enter the no of radio buttons you want</label>
+                  <label>Enter the no of Options you want</label>
                   <input onChange={(e)=>{
                 setNoOfInputs(e.target.value);
                   }} name="options" className=" border-2" type="number"></input>

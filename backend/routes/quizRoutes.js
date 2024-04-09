@@ -29,4 +29,12 @@ router.route('/getSubmissions')
 router.route('/getScore/:userid/:quizid')
     .get(isClient, catchAsync(quiz.getFinalScore));
 
+// router.route('/getLeaderboard/:quizid')
+//     .get(isClient, catchAsync(quiz.getLeaderboard));
+
+
+
+router.route('/getQuizAnalytics/:quizid')
+    .get(isClient, catchAsync(quiz.getQuizAnalytics));
+
 module.exports = router;

@@ -4,11 +4,9 @@ import{ useEffect, useState } from 'react';
 
 
 const YourQuiz = () => {
-  const [users, setUsers] = useState([]);
-
+  const [quizes, setquizes] = useState([]);
 
   useEffect(() => {
-
     const fetchQuizData = async () => {    
       const response = await fetch(`http://localhost:4000/quiz/yourQuizzes`, {
         method: 'GET',
@@ -28,7 +26,7 @@ const YourQuiz = () => {
         })
 
         console.log(finalData);
-        setUsers(finalData); 
+        setquizes(finalData); 
       }
 
       else {
@@ -44,22 +42,20 @@ const YourQuiz = () => {
     <>
       <div className="content">
         <h1>Your Quizzes</h1>
-        <div id="user-list">
-          {users.map(user => (
-          <div key={user.id} className="user-row">
-            <p><strong> {user.title} </strong></p>
+        <div id="quiz-list">
+          {quizes.map(quiz => (
+          <div key={quiz.id} className="user-row">
+            <p><strong> {quiz.title} </strong></p>
             <p><strong>Score: </strong> 
-              { user.score === -2 ? "Not Attempted" : (user.score === -1 ? "In Progress" : user.score) }              
-            
+              { quiz.score === -2 ? "Not Attempted" : (quiz.score === -1 ? "In Progress" : quiz.score) }              
             </p>
-            <p><strong>Status: </strong> {user.isLive ? "Live" : "Not Live"}</p>
+            <p><strong>Status: </strong> {quiz.isLive ? "Live" : "Not Live"}</p>
             <div className="actions">
-              {user.isLive && <Link to={`/take-quiz/${user.id}`} className="take-quiz-btn">Take Quiz </Link>}
-              {user.premium && <button className="analytics-quiz-btn">view Analytics</button>}
+              {quiz.isLive && <Link to={`/take-quiz/${quiz.id}`} className="take-quiz-btn">Take Quiz </Link>}
+              {quiz.premium && <Link to={`/analytics/${quiz.id}`} className="analytics-quiz-btn">view Analytics</Link>}
             </div>
           </div>))}
         </div>  
- 
       </div>    
 
     </>

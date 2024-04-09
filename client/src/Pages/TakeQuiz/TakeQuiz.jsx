@@ -49,21 +49,19 @@ const quizData = [
 
 
 import './TakeQuiz.scss';
-import { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const TakeQuiz = () => {
   const { id } = useParams();
-  const [questions, setQuestions] = useState(quizData);
+  const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [responses, setResponses] = useState(Array(questions.length).fill(null));
+  const [responses, setResponses] = useState([]);
   const [timer, setTimer] = useState(300);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const currentQuestion = questions[currentIndex];
   let timerInterval;
-
 
   useEffect(() => {
     const getQuestions = async () => {
@@ -78,47 +76,47 @@ const TakeQuiz = () => {
       if (response.ok) {
         const data = await response.json();
         setQuestions(data);
-
+        setResponses(Array(data.length).fill('')); // Initialize responses with empty strings for text inputs
+      } else {
+        console.log('Failed to fetch quiz data');
       }
+    };
 
-      else {
-        console.log('Failed to fetch quiz data 12');
-      }
-    }
- 
     getQuestions();
-    setResponses(Array(questions.length).fill(null));
-  }, []);
-
-  useEffect(() => {
-    initializeQuiz();
   }, [id]);
 
   useEffect(() => {
+    const storedFormSubmitted = localStorage.getItem(`quizFormSubmitted_${id}`);
+    const storedTimer = sessionStorage.getItem(`quizTimer_${id}`);
+    if (storedFormSubmitted === 'true') {
+      setFormSubmitted(true);
+      setTimer(0); // Set timer to 0 if form is already submitted
+    } else if (storedTimer) {
+      const elapsed = Math.floor((Date.now() - parseInt(storedTimer)) / 1000);
+      const remaining = Math.max(0, 300 - elapsed);
+      setTimer(remaining);
+      if (!formSubmitted) {
+        startTimer(parseInt(storedTimer));
+      }
+    } else {
+      initializeQuiz();
+    }
+
+    return () => clearInterval(timerInterval);
+  }, [id, formSubmitted]);
+
+  useEffect(() => {
     if (timer <= 0 && !formSubmitted) {
-      handleSubmit(); // Automatically submit the form if the timer runs out and the form hasn't been submitted
+      handleSubmit();
       clearInterval(timerInterval);
-      setTimer(0); // Set timer to 0
     }
   }, [timer]);
 
-  useEffect(() => {
-    // Check if the form has been submitted for this quiz in session storage
-    const isFormSubmitted = sessionStorage.getItem(`quizFormSubmitted_${id}`);
-    if (isFormSubmitted === 'true') {
-      setFormSubmitted(true);
-      clearInterval(timerInterval); // Stop the timer if form already submitted
-      setTimer(0); // Set timer to 0
-    }
-  }, []);
-
   const initializeQuiz = () => {
     setCurrentIndex(0);
-    setResponses(Array(quizData.length).fill(null));
-    setTimer(300);
-    const storedTimer = localStorage.getItem(`quizTimer_${id}`);
-    const startTime = storedTimer ? parseInt(storedTimer) : Date.now();
-    localStorage.setItem(`quizTimer_${id}`, startTime.toString());
+    setResponses(Array(questions.length).fill(''));
+    const startTime = Date.now();
+    sessionStorage.setItem(`quizTimer_${id}`, startTime.toString());
     startTimer(startTime);
   };
 
@@ -128,9 +126,9 @@ const TakeQuiz = () => {
     setTimer(remaining);
     timerInterval = setInterval(() => {
       setTimer((prevTimer) => {
-        if (prevTimer === 0) {
+        if (prevTimer <= 0) {
           clearInterval(timerInterval);
-          return prevTimer;
+          return 0;
         }
         return prevTimer - 1;
       });
@@ -139,9 +137,9 @@ const TakeQuiz = () => {
 
   const handleOptionChange = (e) => {
     const index = parseInt(e.target.name.split('-')[1]);
-    const optionId = parseInt(e.target.value);
+    const optionText = e.target.value;
     const updatedResponses = [...responses];
-    updatedResponses[index] = optionId;
+    updatedResponses[index] = optionText;
     setResponses(updatedResponses);
   };
 
@@ -153,12 +151,6 @@ const TakeQuiz = () => {
     setResponses(updatedResponses);
   };
 
-  const handleTrueFalseChange = (value) => {
-    const updatedResponses = [...responses];
-    updatedResponses[currentIndex] = value;
-    setResponses(updatedResponses);
-  };
-
   const handleClick = () => {
     setCurrentIndex((prevIndex) => Math.max(0, prevIndex - 1));
   };
@@ -167,21 +159,15 @@ const TakeQuiz = () => {
     setCurrentIndex((prevIndex) => Math.min(questions.length - 1, prevIndex + 1));
   };
 
-
   const handleSubmit = async () => {
     setFormSubmitted(true);
-    setTimer(0); // Set timer to 0
-    sessionStorage.setItem(`quizFormSubmitted_${id}`, 'true'); // Set form submitted flag in session storage
-    
-    // Transform responses into the desired format
+    localStorage.setItem(`quizFormSubmitted_${id}`, 'true');
+    sessionStorage.removeItem(`quizTimer_${id}`);
+    setTimer(0); // Set timer to 0 upon submission
     const formattedResponses = questions.map((question, index) => ({
-      questionId: question._id, // Assuming `_id` is the unique identifier for each question
-      response: responses[index], // Assuming responses are stored in the same order as questions
+      questionId: question._id,
+      response: responses[index],
     }));
-    
-
-    // Output the formatted responses
-    console.log('Formatted responses:', formattedResponses);
 
     const response = await fetch(`http://localhost:4000/quiz/submitQuiz/${id}`, {
       method: 'POST',
@@ -189,9 +175,8 @@ const TakeQuiz = () => {
         'Content-Type': 'application/json'
       },
       credentials: 'include',
-      body: JSON.stringify({answers: formattedResponses})
-      
-    })
+      body: JSON.stringify({ answers: formattedResponses })
+    });
 
     if (response.ok) {
       toast.success('Quiz submitted successfully', {
@@ -199,16 +184,13 @@ const TakeQuiz = () => {
         autoClose: 2000,
         hideProgressBar: true,
       });
-    }
-    else {
+    } else {
       toast.error('Failed to submit quiz', {
         position: "top-left",
         autoClose: 2000,
         hideProgressBar: true,
       });
     }
-
-
   };
 
   return (
@@ -221,57 +203,33 @@ const TakeQuiz = () => {
       </div>
       <div className='Questions'>
         <form>
-          {currentQuestion && (
+          {questions.length > 0 && (
             <div className='grid items-start gap-4'>
-              <div className='text-xl font-semibold' key={currentQuestion._id}>
-              {currentIndex + 1}. {currentQuestion.text}
+              <div className='text-xl font-semibold'>
+                {currentIndex + 1}. {questions[currentIndex].text}
               </div>
-              {currentQuestion.type === 'single' && (
+              {questions[currentIndex].type === 'radio' && (
                 <div className='grid items-start gap-2'>
-                  {currentQuestion.options.map((option) => (
-                    <div className='flex items-center gap-2' key={option.id}>
+                  {questions[currentIndex].options.map((option) => (
+                    <div className='flex items-center gap-2' key={option._id}>
                       <input
                         className='form-tick appearance-none h-4 w-4 border border-gray-300 rounded checked:bg-blue-600 checked:border-transparent dark:border-gray-700 dark:checked:bg-blue-500'
-                        id={option.text + currentQuestion.id}
+                        id={option._id}
                         name={`question-${currentIndex}`}
                         type='radio'
-                        value={option.id}
-                        checked={responses[currentIndex] === option.id}
+                        value={option.text} //
+                        checked={responses[currentIndex] === option.text}
                         onChange={handleOptionChange}
                         disabled={formSubmitted}
                       />
-                      <label className='text-sm cursor-pointer dark:text-gray-400' htmlFor={option.text}>
+                      <label className='text-sm cursor-pointer dark:text-gray-400' htmlFor={option._id}>
                         {option.text}
                       </label>
                     </div>
                   ))}
                 </div>
               )}
-              {currentQuestion.type === 'trueFalse' && (
-                <div className='flex items-center gap-2'>
-                  <input
-                    type='radio'
-                    id={`true-${currentQuestion.id}`}
-                    name={`question-${currentIndex}`}
-                    value='true'
-                    checked={responses[currentIndex] === true}
-                    onChange={() => handleTrueFalseChange(true)}
-                    disabled={formSubmitted}
-                  />
-                  <label className='text-sm cursor-pointer dark:text-gray-400' htmlFor={`true-${currentQuestion.id}`}>True</label>
-                  <input
-                    type='radio'
-                    id={`false-${currentQuestion.id}`}
-                    name={`question-${currentIndex}`}
-                    value='false'
-                    checked={responses[currentIndex] === false}
-                    onChange={() => handleTrueFalseChange(false)}
-                    disabled={formSubmitted}
-                  />
-                  <label className='text-sm cursor-pointer dark:text-gray-400' htmlFor={`false-${currentQuestion.id}`}>False</label>
-                </div>
-              )}
-              {currentQuestion.type === 'text' && (
+              {questions[currentIndex].type === 'text' && (
                 <input
                   type='text'
                   name={`question-${currentIndex}`}

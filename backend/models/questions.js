@@ -12,7 +12,7 @@ const questionSchema = new schema({
     type: {
         type: String,
         required: true,
-        enum: ["text", "radio", "checkbox"],
+        enum: ["text", "radio"],
     },
 
     text: {
@@ -22,9 +22,17 @@ const questionSchema = new schema({
         max: 1024,
     },
 
-    options: {   // for MCQ
-        type: [String], 
-    },
+    // options: {   // for MCQ
+    //     type: [String], 
+    // },
+
+    options: [
+        {
+            text: {
+                type: String
+            }
+        }
+    ],
 
     correctOption: {
         type: String,

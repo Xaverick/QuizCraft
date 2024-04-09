@@ -1,0 +1,68 @@
+.analytics{
+    width: 100%;
+    h1{
+        font-size: 1.8rem;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    
+}
+
+
+.generalAnalytics{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    width: 80%;
+    margin: 0 auto;
+    .correct-card{
+        background-color: #00FF00;
+        width: 300px;
+        height: 150px;
+        display: flex;
+        flex-direction: column; 
+        justify-content: center;
+        align-items: center;
+        font-size: 1.8rem;
+        color: #000000;
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .wrong-card{
+        background-color: #FF0000;
+        color: #000000;
+        width: 300px;
+        height: 150px;
+        display: flex;
+        flex-direction: column; 
+        justify-content: center;
+        align-items: center;
+        font-size: 1.8rem;
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .total-card{
+        background-color: #0000FF;
+        color: #FFFFFF;
+        padding: 1rem;
+        width: 300px;
+        height: 150px;
+        display: flex;
+        flex-direction: column; 
+        justify-content: center;
+        align-items: center;
+        font-size: 1.8rem;
+        border-radius: 10px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    }
+}
+
+
+
+
+

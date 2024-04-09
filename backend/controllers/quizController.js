@@ -89,7 +89,7 @@ module.exports.addResponseAndUpdateSubmission = async (req, res) => {
     }
 
 
-    //checkin if the submiision time is less than quiz end time
+    //checking if the submiision time is less than quiz end time
     const now = new Date();
     const quiz = await Quiz.findById(quizId);
     if (quiz.endTime < now) {
@@ -102,10 +102,11 @@ module.exports.addResponseAndUpdateSubmission = async (req, res) => {
     if (previousSubmission) {
       return res.status(400).json("Quiz has already been submitted");
     }
-
-    // // Fetch questions to validate questionIds and check correctness of answers
+    
+    // Fetch questions to validate questionIds and check correctness of answers
     // const questions = await Question.find({ _id: { $in: answers.map(ans => ans.questionId) } });
-  
+    
+
     // // Calculate score and update isCorrect for each answer
     // let score = 0;
     // const updatedAnswers = answers.map(answer => {
@@ -122,11 +123,12 @@ module.exports.addResponseAndUpdateSubmission = async (req, res) => {
     // Create or update submission
 
     const submission = await Submission.findOneAndUpdate(
-      { userId, quizId },
-      { $set: { answers } },
+      { userId, quizId, totalQuestions: answers.length},
+      { $set: { answers },
+       },
       { new: true, upsert: true }
     );
-  
+    
     res.status(200).json("quiz submitted");
   };
 
@@ -161,7 +163,23 @@ module.exports.addResponseAndUpdateSubmission = async (req, res) => {
   }
 
   
-  module.exports.getSubmissions = async (req, res) => {
-    const submissions = await Submission.find({ userId: req.userId });
-    res.status(200).json({ submissions });
-  }
+  // module.exports.getSubmissions = async (req, res) => {
+  //   const submissions = await Submission.find({ userId: req.userId });
+  //   res.status(200).json({ submissions });
+  // }
+
+
+
+  //analytics
+
+
+  module.exports.getQuizAnalytics = async (req, res) => {
+    const { quizid } = req.params;
+    const userId = req.userId;
+    const submission = await Submission.findOne({ quizId: quizid, userId: userId });
+    const data = {correctAnswers: submission.correctAnswers,
+                  totalQuestions: submission.totalQuestions, 
+                  score: submission.score,
+                }
+    res.status(200).json(data);
+  };
