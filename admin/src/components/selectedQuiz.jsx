@@ -21,6 +21,7 @@ const QuizSlected = ({
   handleQuizClick,
   refresh,
   setRefresh,
+  setEditQuiz,
 }) => {
   const toast = useToast();
 
@@ -216,6 +217,12 @@ const QuizSlected = ({
               <button className="text-white bg-black p-3 rounded-xl mt-2" onClick={calculateResult}>
                 Calculate Result
               </button>
+              <div className=' text-black w-[100px] flex items-center justify-center bg-yellow-300 p-4 rounded-xl' onClick={()=>{
+                  setEditQuiz(true);
+                }}>
+                  Edit
+
+                  </div>
             </div>
 
             <div className="bg-white border-2  mt-[2rem] min-w-[100%] flex flex-col overflow-y-auto max-h-[60%] text-black text-xl p-4">

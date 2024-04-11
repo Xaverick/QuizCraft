@@ -12,7 +12,10 @@ import {
 } from "../components/ui/dialog"
 import QuizSlected from './selectedQuiz';
 
+
 import { MdDelete } from "react-icons/md";
+import { Edit } from 'lucide-react';
+import EditQuiz from './EditQuiz';
 const CreatedQuizes=()=> {  
   const [quesionData, setQuestionData] = useState({
     quizId: "",
@@ -22,6 +25,8 @@ const CreatedQuizes=()=> {
     correctOption:""
    
   });
+  const [editQuiz,setEditQuiz]=useState(false);
+    const [addQuiz,setAddQuiz]=useState(false);
   const apiUrl = "http://localhost:4000";
     const { user } = useSelector((state) => state.profile)
     const [userQuizes, setUserQuizes] = useState([]);
@@ -242,12 +247,17 @@ const CreatedQuizes=()=> {
         <div className=' flex items-start justify-between w-[100%] h-[100%]'>
           
           <div className="flex bg-white h-[90%] p-4 flex-col w-[30%] overflow-y-auto gap-4 text-white">
-              <AddQuiz refresh={refresh} setRefresh={setRefresh}/>
+          <div className="text-center">
+          <h1 onClick={()=>{
+            setAddQuiz(true);
+            setSelectedQuizes(null);
+          }} className="text-2xl text-black bg-yellow-300 p-4 rounded-lg font-bold mb-4">Create New Quiz</h1>
+        </div>
 
               {userQuizes.map((quiz) => (
-                <div  key={quiz._id} className=" border-2 border-black  hover:border-yellow-400 rounded-xl p-4 flex gap-4 flex-row items-center justify-center">
+                <div  key={quiz._id}  className=" border-2 border-black  hover:border-yellow-400 rounded-xl p-4 flex gap-4 flex-row items-center justify-center">
                   <div
-                      onClick={() => handleQuizClick(quiz._id)}
+                      onClick={() => {setEditQuiz(false) ,handleQuizClick(quiz._id)}}
                       className=" p-4  cursor-pointer  flex-row rounded-lg bg-white text-black w-[300px] h-[100px] flex items-center justify-between "
                 
                   
@@ -259,10 +269,13 @@ const CreatedQuizes=()=> {
                 
           
                 </div>
+
+               
                 <div className='text-black cursor-pointer' onClick={ ()=>{
                     handleDelete(quiz._id);
                     
                   }}> <MdDelete style={{fontSize:"2rem", color:"orange" }} /> </div>
+
               
 
                 </div>
@@ -273,9 +286,27 @@ const CreatedQuizes=()=> {
 
 
           <div className= " w-[70%] h-[90%] border-l-2 border-l-yellow-300 bg-white text-black "> 
+    
         
-            <QuizSlected  selectedQuiz={selectedQuiz} fetchQuiz={fetchQuizDetails} questions={questions} quizId={quizId} refresh={refresh}
+            {
+              selectedQuiz ? (
+               editQuiz?(
+                <EditQuiz setEditQuiz={setEditQuiz} selectedQuiz={selectedQuiz}/>
+                ):(
+
+                <QuizSlected  setEditQuiz={setEditQuiz} selectedQuiz={selectedQuiz} fetchQuiz={fetchQuizDetails} questions={questions} quizId={quizId} refresh={refresh}
             setRefresh={setRefresh}/>
+                )
+              ):(
+                <AddQuiz setAddQuiz={setAddQuiz} fetchUserQuizes={fetchUserQuizes}/>
+               
+              
+              )
+            }
+           
+           
+         
+            
           </div>
 
         </div>

@@ -21,7 +21,7 @@ router.route('/createquiz')
 
 
 router.route('/updatequiz/:quizid')
-    .post(isAdmin, catchAsync(admin.updateQuiz));
+    .put(isAdmin, catchAsync(admin.updateQuiz));
 
 router.route('/deletequiz/:quizid')
     .delete(isAdmin, catchAsync(admin.deleteQuiz));
