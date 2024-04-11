@@ -167,7 +167,8 @@ const TakeQuiz = () => {
     const formattedResponses = questions.map((question, index) => ({
       questionId: question._id,
       response: responses[index],
-    }));
+      correct: question.correctOption.toLowerCase() === responses[index].toLowerCase()
+    }));   
 
     const response = await fetch(`http://localhost:4000/quiz/submitQuiz/${id}`, {
       method: 'POST',

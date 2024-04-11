@@ -174,15 +174,49 @@ const QuizSlected = ({
     });
   };
 
+
+  const calculateResult = async () => {
+    try {
+      const response = await fetch(`${apiUrl}/admin/compileResults/${quizId}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        console.log("Result calculated successfully");
+      }
+
+    } catch (error) {
+      console.error("Failed to calculate result:", error);
+    }
+  }
+
   return (
     <div className="h-[100%] w-[100%] ">
       {quizId ? (
         <>
-          <div className=" flex flex-col items-center justify-center bg-white text-black p-4 rounded-lg max-h-[100%]">
-            <h2 className="text-5xl font-bold text-black">Quiz Details:</h2>
-            <p className="text-3xl font-medium">
+          <div className=" flex flex-col items-left justify-center bg-white text-black p-4 rounded-lg max-h-[100%] w-[100%]">
+            <h2 className="text-5xl font-bold text-black text-center">Quiz Details:</h2>
+            <p className="text-3xl font-medium text-center mb-2">
               Title: {selectedQuiz ? selectedQuiz.title : "N/A"}
             </p>
+
+            <div>
+              <p className="text-2xl ">
+                {selectedQuiz ? selectedQuiz.description : "N/A"}
+              </p>
+
+              <p>
+                {selectedQuiz ? "Total Registered: " + selectedQuiz.totalRegistered : "N/A" }
+              </p>
+
+              <button className="text-white bg-black p-3 rounded-xl mt-2" onClick={calculateResult}>
+                Calculate Result
+              </button>
+            </div>
 
             <div className="bg-white border-2  mt-[2rem] min-w-[100%] flex flex-col overflow-y-auto max-h-[60%] text-black text-xl p-4">
               {questions.length ? (

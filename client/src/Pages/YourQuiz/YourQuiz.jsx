@@ -51,8 +51,8 @@ const YourQuiz = () => {
             </p>
             <p><strong>Status: </strong> {quiz.isLive ? "Live" : "Not Live"}</p>
             <div className="actions">
-              {quiz.isLive && <Link to={`/take-quiz/${quiz.id}`} className="take-quiz-btn">Take Quiz </Link>}
-              {quiz.premium && <Link to={`/analytics/${quiz.id}`} className="analytics-quiz-btn">view Analytics</Link>}
+              {quiz.isLive && quiz.score !== -1 && !(quiz.score >= 0) && <Link to={`/take-quiz/${quiz.id}`} className="take-quiz-btn">Take Quiz </Link>}
+              {quiz.premium && quiz.score !== -1 && quiz.score !== -2 && <Link to={`/analytics/${quiz.id}`} className="analytics-quiz-btn">view Analytics</Link>}
             </div>
           </div>))}
         </div>  
