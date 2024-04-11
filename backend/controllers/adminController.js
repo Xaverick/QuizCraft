@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const Quiz = require('../models/quizzes');
 const Question = require('../models/questions');
+const Submission = require('../models/submissions');
 
 module.exports.adminlogin = async (req, res) => {
     let { email, password } = req.body;
@@ -190,9 +191,29 @@ module.exports.deleteQuestion = async (req, res) => {
 }
 
 
+const calculateScore = (submission, quiz) => {
+    const { answers } = submission;
+    let score = 0;
+    answers.forEach(answer => {
+        if (answer.correct) {
+            score++;
+        }
+    });
+    return score;
+}
 
+module.exports.compileResults = async (req, res) => {
+    const quizId = req.params.quizid;
+    const submissions = await Submission.find({quizId: quizId});
+    const quiz = await Quiz.findById(quizId);
 
+    submissions.forEach(submission => {
+        submission.score = calculateScore(submission, quiz);
+        submission.save();
+    })
 
+    res.status(200).json('results compiled');
+}
 
 
 
