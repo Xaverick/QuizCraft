@@ -21,7 +21,7 @@ router.route('/getQuestions/:quizid')
     .get(isClient, catchAsync(quiz.getQuestions));
 
 router.route('/submitQuiz/:quizId')
-    .post(isClient,catchAsync(quiz.addResponseAndUpdateSubmission));
+    .post(isClient, catchAsync(quiz.addResponseAndUpdateSubmission));
 
 router.route('/getSubmissions')
     .get(isClient,catchAsync(quiz.getSubmissions));

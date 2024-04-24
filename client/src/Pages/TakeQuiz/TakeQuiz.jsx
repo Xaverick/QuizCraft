@@ -170,6 +170,8 @@ const TakeQuiz = () => {
       correct: question.correctOption.toLowerCase() === responses[index].toLowerCase()
     }));   
 
+    console.log(formattedResponses);
+
     const response = await fetch(`http://localhost:4000/quiz/submitQuiz/${id}`, {
       method: 'POST',
       headers: {

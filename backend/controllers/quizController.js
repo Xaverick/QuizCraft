@@ -96,39 +96,24 @@ module.exports.addResponseAndUpdateSubmission = async (req, res) => {
       return res.status(400).json("Quiz has ended");
     }
 
-    //check if quiz has been alreday submitted
+    // //check if quiz has been alreday submitted
 
     const previousSubmission = await Submission.findOne({ userId, quizId });
     if (previousSubmission) {
       return res.status(400).json("Quiz has already been submitted");
     }
-    
-    // Fetch questions to validate questionIds and check correctness of answers
-    // const questions = await Question.find({ _id: { $in: answers.map(ans => ans.questionId) } });
-    
 
-    // // Calculate score and update isCorrect for each answer
-    // let score = 0;
-    // const updatedAnswers = answers.map(answer => {
-    //   const question = questions.find(q => q._id.toString() === answer.questionId.toString());
-    //   if (!question) {
-    //     return { ...answer, isCorrect: false }; // Question not found, mark as incorrect
-    //   }
-    //   const isCorrect = question.correctOption === answer.response; // Assuming correctOption is the correct answer
-    //   if (isCorrect) {
-    //     score++;
-    //   }
-    //   return { ...answer, isCorrect };
-    // });
-    // Create or update submission
-
-    const submission = await Submission.findOneAndUpdate(
-      { userId, quizId, totalQuestions: answers.length},
-      { $set: { answers },
-       },
-      { new: true, upsert: true }
-    );
+    console.log(answers);
     
+    const submission = new Submission({
+      userId,
+      quizId,
+      answers,
+      totalQuestions: answers.length,
+    })
+
+    await submission.save();
+
     res.status(200).json("quiz submitted");
   };
 
