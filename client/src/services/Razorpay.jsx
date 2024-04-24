@@ -1,5 +1,5 @@
-export async function buyCourse(token, courses, userDetails, navigate, dispatch) {
-    const toastId = toast.loading("Loading...");
+export async function buyCourse(token, userDetails) {
+    // const toastId = toast.loading("Loading...");
     try{
         //load the script
         const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
@@ -11,7 +11,6 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
 
         //initiate the order
         const orderResponse = await apiConnector("POST", COURSE_PAYMENT_API, 
-                                {courses},
                                 {
                                     Authorization: `Bearer ${token}`,
                                 })
@@ -27,8 +26,8 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
             currency: `${orderResponse.data.data.currency}`,
             amount: `${orderResponse.data.data.amount}`,
             order_id:orderResponse.data.id,
-            name:"StudyNotion",
-            description: "Thank You for Purchasing the Course",
+            name:"QuizCraft",
+            description: "Thank You for Purchasing ",
             image:rzpLogo,
             prefill: {
                 name:`${userDetails.firstName}`,
