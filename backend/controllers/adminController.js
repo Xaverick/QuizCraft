@@ -5,6 +5,8 @@ const bcrypt = require('bcryptjs');
 const Quiz = require('../models/quizzes');
 const Question = require('../models/questions');
 const Submission = require('../models/submissions');
+const Leaderboard = require('../models/leaderboard');
+const leaderboard = require('../models/leaderboard');
 
 module.exports.adminlogin = async (req, res) => {
     let { email, password } = req.body;
@@ -70,7 +72,8 @@ module.exports.updateQuiz = async (req, res) => {
         res.status(400).json('missing fields');
     } 
     else{
-        await Quiz.findByIdAndUpdate(quizId, { title, description, startTime, endTime, duration});
+        await Quiz.findByIdAndUpdate(quizId,
+            {title, description, startTime, endTime, duration});
         res.json('quiz updated');
     }
 };
@@ -204,14 +207,20 @@ const calculateScore = (submission, quiz) => {
 
 module.exports.compileResults = async (req, res) => {
     const quizId = req.params.quizid;
-    const submissions = await Submission.find({quizId: quizId});
+    const submissions = await Submission.find({quizId: quizId}).populate('userId');
+    console.log(submissions);
     const quiz = await Quiz.findById(quizId);
-
+    let leaderboard = await Leaderboard.findOne({quizId: quizId});
+    if(!leaderboard){
+        leaderboard = new Leaderboard({quizId});
+    }    
     submissions.forEach(submission => {
         submission.score = calculateScore(submission, quiz);
+        submission.correctAnswers = submission.answers.filter(answer => answer.correct).length;
+        leaderboard.addUser(submission.userId._id, submission.score, submission.userId.username);
         submission.save();
     })
-
+    await leaderboard.save();
     res.status(200).json('results compiled');
 }
 

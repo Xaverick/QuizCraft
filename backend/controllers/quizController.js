@@ -2,7 +2,8 @@ const User = require('../models/userModel');
 const Quiz = require('../models/quizzes');
 const Question = require('../models/questions');
 const Submission  = require('../models/submissions');
-
+const { populate } = require('../models/adminModel');
+const Leaderboard = require('../models/leaderboard');
 
 
 module.exports.getAllQuizes= async (req, res) => {
@@ -158,13 +159,41 @@ module.exports.addResponseAndUpdateSubmission = async (req, res) => {
   //analytics
 
 
-  module.exports.getQuizAnalytics = async (req, res) => {
-    const { quizid } = req.params;
-    const userId = req.userId;
-    const submission = await Submission.findOne({ quizId: quizid, userId: userId });
-    const data = {correctAnswers: submission.correctAnswers,
-                  totalQuestions: submission.totalQuestions, 
-                  score: submission.score,
-                }
-    res.status(200).json(data);
-  };
+module.exports.getQuizAnalytics = async (req, res) => {
+  const { quizid } = req.params;
+  const userId = req.userId;
+  const submission = await Submission.findOne({ quizId: quizid, userId: userId });
+
+  const data = {correctAnswers: submission.correctAnswers,
+                totalQuestions: submission.totalQuestions, 
+                score: submission.score,
+              }
+  res.status(200).json(data);
+};
+
+module.exports.getWrongAnswers = async (req, res) => {
+  const { quizid } = req.params;
+  const userId = req.userId;
+  const submission = await Submission.findOne({ quizId: quizid, userId: userId }).populate('answers.questionId');
+  let wrongAnswer = []
+  submission.answers.forEach(answer => {
+    if(!answer.correct){
+      // wrongAnswer.push(answer.questionId)
+      const { text, correctOption } = answer.questionId
+      wrongAnswer = [...wrongAnswer, {text, correctOption}]
+    }
+  })
+  res.status(200).json(wrongAnswer);
+
+}
+
+module.exports.getLeaderboard = async (req, res) => {
+  const { quizid } = req.params;
+  console.log(quizid);
+  const leaderboard = await Leaderboard.findOne({ quizId: quizid });
+  console.log(leaderboard);
+  if (!leaderboard) {
+    return res.status(404).json('Leaderboard not found');
+  }
+  res.status(200).json(leaderboard);
+}

@@ -37,4 +37,10 @@ router.route('/getScore/:userid/:quizid')
 router.route('/getQuizAnalytics/:quizid')
     .get(isClient, catchAsync(quiz.getQuizAnalytics));
 
+router.route('/getWrongAnswers/:quizid')
+    .get(isClient, quiz.getWrongAnswers);
+
+router.route('/getLeaderboard/:quizid')
+    .get(isClient, quiz.getLeaderboard);
+
 module.exports = router;

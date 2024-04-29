@@ -20,6 +20,7 @@ router.route('/createquiz')
     .post(isAdmin, catchAsync(admin.createQuiz));
 
 
+
 router.route('/updatequiz/:quizid')
     .put(isAdmin, catchAsync(admin.updateQuiz));
 
@@ -50,6 +51,6 @@ router.route('/getquestion/:questionId')
 
 
 router.route('/compileResults/:quizid')
-    .get(isAdmin, catchAsync(admin.compileResults));
+    .get(isAdmin, admin.compileResults);
 
 module.exports = router;

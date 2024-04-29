@@ -60,8 +60,57 @@
         border-radius: 10px;
         box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
     }
+    .not-attemptted{
+        background-color: #000000;
+        color: #FFFFFF;
+        padding: 1rem;
+        width: 300px;
+        height: 150px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.8rem;
+        border-radius: 10px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    }
 }
 
+
+.mid-section{
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 3rem;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    .charts{
+        width: 30%;
+        height: 400px;
+    }
+    .questions{
+        width: 70%;
+        background-color: #f4f4f4;
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+
+        .box{
+            background-color: #FFFFFF;
+            border-radius: 10px;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            .question{
+                width: 100%;
+                font-size: 1.2rem;
+            }
+            .answer{
+                width: 100%;
+                font-size: 1.2rem;
+            }
+        }
+    }
+}
 
 
 
