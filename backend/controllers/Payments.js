@@ -15,25 +15,17 @@ exports.capturePayment = async (req, res) => {
 
 //   const userId = req.user.id
   let total_amount = 10
-  const options = {
-    amount: total_amount * 100,
-    currency: "INR",
-    receipt: Math.random(Date.now()).toString(),
-  }
+try {
+    const cost=req.body.cost 
+    const amount = cost; // Amount in paise
+    const currency = 'INR';
+    const receipt = 'receipt_' + crypto.randomBytes(5).toString('hex'); 
 
-  try {
-    // Initiate the payment using Razorpay
-    const paymentResponse = await instance.orders.create(options)
-    console.log(paymentResponse)
-    res.json({
-      success: true,
-      data: paymentResponse,
-    })
+    const order = await instance.orders.create({amount, currency, receipt});
+    res.json(order);
   } catch (error) {
-    console.log(error)
-    res
-      .status(500)
-      .json({ success: false, message: "Could not initiate order." })
+    console.error(error);
+    res.status(500).json({ error: 'Failed to create order' });
   }
 }
 
@@ -42,7 +34,7 @@ exports.verifyPayment = async (req, res) => {
   const razorpay_order_id = req.body?.razorpay_order_id
   const razorpay_payment_id = req.body?.razorpay_payment_id
   const razorpay_signature = req.body?.razorpay_signature
-  const courses = req.body?.courses
+
 
   const userId = req.user.id
 

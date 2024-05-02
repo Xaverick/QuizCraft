@@ -1,3 +1,16 @@
+// import Razorpay from "razorpay";
+import { toast } from "react-toastify";
+
+function loadScript(url) {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = url;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.body.appendChild(script);
+    });
+}
+
 export async function buyCourse(token, userDetails) {
     // const toastId = toast.loading("Loading...");
     try{
@@ -10,50 +23,55 @@ export async function buyCourse(token, userDetails) {
         }
 
         //initiate the order
-        const orderResponse = await apiConnector("POST", COURSE_PAYMENT_API, 
-                                {
-                                    Authorization: `Bearer ${token}`,
-                                })
+        const orderResponse = fetch(`http://localhost:4000/payments/capturePayment`, {
+            method:"POST",
+            headers: {
+                "Content-Type":"application/json",
+                Authorization: `Bearer ${token}`
+            },
+            credentials: 'include',
+            
+        });
 
-        if(!orderResponse.data.success) {
-            throw new Error(orderResponse.data.message);
+        if(orderResponse.ok) {
+            throw new Error(orderResponse.message);
         }
         console.log("PRINTING orderResponse", orderResponse);
         //options
         
-        const options = {
-            key: 'rzp_test_L2xGUPd25MH4Rj',
-            currency: `${orderResponse.data.data.currency}`,
-            amount: `${orderResponse.data.data.amount}`,
-            order_id:orderResponse.data.id,
-            name:"QuizCraft",
-            description: "Thank You for Purchasing ",
-            image:rzpLogo,
-            prefill: {
-                name:`${userDetails.firstName}`,
-                email:userDetails.email
-            },
-            handler: function(response) {
-                //send successful wala mail
-                // sendPaymentSuccessEmail(response, orderResponse.data.message.amount,token );
-                //verifyPayment
-                // verifyPayment({...response, courses}, token, navigate, dispatch);
-            }
-        }
-        //miss hogya tha 
-        const paymentObject = new window.Razorpay(options);
-        paymentObject.open();
-        paymentObject.on("payment.failed", function(response) {
-            toast.error("oops, payment failed");
-            console.log(response.error);
-        })
+        // const options = {
+        //     key: 'rzp_test_L2xGUPd25MH4Rj',
+        //     currency: `${orderResponse.data.data.currency}`,
+        //     amount: `${orderResponse.data.data.amount}`,
+        //     order_id:orderResponse.data.id,
+        //     name:"QuizCraft",
+        //     description: "Thank You for Purchasing ",
+        //     image:rzpLogo,
+        //     prefill: {
+        //         name:`${userDetails.firstName}`,
+        //         email:userDetails.email
+        //     },
+        //     handler: function(response) {
+        //         //send successful wala mail
+        //         // sendPaymentSuccessEmail(response, orderResponse.data.message.amount,token );
+        //         //verifyPayment
+        //         // verifyPayment({...response, courses}, token, navigate, dispatch);
+        //     }
+        // }
+       
+        // const paymentObject = new window.Razorpay(options);
+        // paymentObject.open();
+        // paymentObject.on("payment.failed", function(response) {
+        //     toast.error("oops, payment failed");
+        //     console.log(response.error);
+        // })
 
     }
     catch(error) {
         console.log("PAYMENT API ERROR.....", error);
         toast.error("Could not make Payment");
     }
-    toast.dismiss(toastId);
+  
 }
 
 async function verifyPayment(bodyData, token, navigate, dispatch) {
