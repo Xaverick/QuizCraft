@@ -24,11 +24,9 @@ const verifyPayment = async (response) => {
   console.log(res);
 }
 
+
 const App = () => {
   const [amount, setAmount] = useState(0);
-
-  
-
   const handlePayment = async () => {
     try {
       const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
