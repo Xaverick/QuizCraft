@@ -9,6 +9,7 @@ import TakeQuiz from './Pages/TakeQuiz/TakeQuiz'
 import PrivateRoutes from './utils/PrivateRoutes'
 import YourQuiz from './Pages/YourQuiz/YourQuiz'
 import Analytics from './Pages/Analytics/Analytics'
+import BuyCourse from './Pages/BuyCourse'
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
       <Route path="/quiz/:id" element={<QuizPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/payment" element={<BuyCourse/> } />
     </Routes> 
     </>
   )
