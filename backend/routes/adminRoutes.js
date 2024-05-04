@@ -2,21 +2,19 @@ const router = require('express').Router();
 const catchAsync = require('../utils/CatchAsync');
 const admin = require('../controllers/adminController.js');
 const {isAdmin} = require('../middleware.js');
-const quizzes = require('../models/quizzes');
 
 
 router.route('/login')
     .post(catchAsync(admin.adminlogin));
 
 router.route('/logout')
-    .get(catchAsync(admin.adminlogout));
+    .get(admin.adminlogout);
 
 router.route('/register')
     .post(catchAsync(admin.adminregister));
 
 
 router.route('/createquiz')
-
     .post(isAdmin, catchAsync(admin.createQuiz));
 
 
@@ -39,6 +37,7 @@ router.route('/deletequestion/:questionid')
 
 router.route('/getquizzes/:adminid')
     .get(isAdmin, catchAsync(admin.getQuizzes));
+
 
 router.route('/getquiz/:quizid')
     .get(isAdmin, catchAsync(admin.getQuiz));

@@ -3,63 +3,59 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const Mailgen = require('mailgen');
-
+const ExpressError = require('../utils/ExpressError');
 
 module.exports.login = async (req, res) => {
     let { email, password } = req.body;
-    if(!email || !password) res.status(400).json('missing fields');
+    if(!email || !password) throw new ExpressError('missing fields', 400);
     else{
         email = email.toLowerCase();
         const user = await User.findOne({ email: email});
-        if(user && bcrypt.compareSync(password, user.password)) {
-            const payload = { userId: user._id, email: user.email, username: user.username };
-            const token = jwt.sign( payload, `${process.env.USER_SECRET}`, { expiresIn: '1h' });
-            res.cookie('jwt', token, { signed: true,httpOnly: true, sameSite: 'none', maxAge: 1000 * 60 * 60, secure: true })
-            // const expiration = Math.floor(Date.now() / 1000) + 3600;
-            res.status(200).json({payload, expiresIn: 1000 * 60 * 60});
-        } 
-        else {
-            res.status(400).json('login failed');
+        
+        if(!user){
+            throw new ExpressError('invalid credentials', 400);
         }
+
+        if(!bcrypt.compareSync(password, user.password)){
+            throw new ExpressError('invalid credentials', 400);
+        }
+        const payload = { userId: user._id, email: user.email, username: user.username };
+        const token = jwt.sign( payload, `${process.env.USER_SECRET}`, { expiresIn: '3h' });
+        res.cookie('userjwt', token, { signed: true,httpOnly: true, sameSite: 'none', maxAge: 3 * 1000 * 60 * 60, secure: true })
+        res.status(200).json({payload, expiresIn: 3 * 1000 * 60 * 60});
     }
 }
 
 
 module.exports.register = async (req, res) => {
     let { name, username, email, password } = req.body;
-    if(!name || !username || !email || !password) res.status(400).json('missing fields'
-    );
+    if(!name || !username || !email || !password) throw new ExpressError('missing fields', 400);
     email = email.toLowerCase();
     const registeredEmail = await User.findOne({email: email, username: username});
 
     if(registeredEmail){
-        res.status(400).json('email already exists');
+        throw new ExpressError('email or username already registered', 400);
     }
-
-    else{
-        const salt = bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(password, salt);
-        const user = await User.create({name, username, email, password: hash});
-        // await sendVerificationEmail(email,user);
-        res.status(200).json('register');
-    }
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
+    const user = await User.create({name, username, email, password: hash});
+    // await sendVerificationEmail(email,user);
+    res.status(200).json('register');
+    
 }
 
 module.exports.logout = (req, res) => {
-    res.clearCookie('jwt').json('logout');
+    res.clearCookie('userjwt').json('logout');
 };
 
 
 module.exports.profile = async (req, res) => {
-    const token = req.signedCookies.jwt;
-    if(token){
-        const decoded = jwt.verify(token, `${process.env.USER_SECRET}`);
-        const user = await User.findById(decoded.id);
-        res.json(user);
+    const user = await User.findById(req.userId);
+    if(!user){
+        throw new ExpressError('user not found', 400);      
     }
-    else{
-        res.status(400).json('no token');
-    }
+
+    res.status(200).json(user);
 }
 
 

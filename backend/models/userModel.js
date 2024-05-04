@@ -46,6 +46,10 @@ const userSchema = new schema({
         ref: 'Quiz',
     }],
 
+    country: {
+        type: String,
+    }
+
 });
 
 

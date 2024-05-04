@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react"
 import CreatedQuizes from "../components/createdQuizes";
-
 import { useSelector } from "react-redux";
-
 import Navbar from "../components/ui/Navbar";
 import { Link } from "lucide-react";
 

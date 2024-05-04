@@ -19,7 +19,7 @@ router.route('/register')
 
 
 router.route('/logout')
-    .get(isClient, catchAsync(user.logout));
+    .get(user.logout);
 
 
 router.route('/forgotpassword')

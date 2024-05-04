@@ -6,47 +6,52 @@ const Quiz = require('../models/quizzes');
 const Question = require('../models/questions');
 const Submission = require('../models/submissions');
 const Leaderboard = require('../models/leaderboard');
-const leaderboard = require('../models/leaderboard');
+const ExpressError = require('../utils/ExpressError');
 
 module.exports.adminlogin = async (req, res) => {
     let { email, password } = req.body;
-    if(!email || !password) res.status(400).json('missing fields');
-    else{
-        email = email.toLowerCase();
-        const user = await User.findOne({ email: email});
-        if(user && bcrypt.compareSync(password, user.password)) {
-            const payload = { adminId: user._id, email: user.email, username: user.username };
-            const token = jwt.sign( payload, `${process.env.ADMIN_SECRET}`, { expiresIn: '1h' });
-            res.cookie('jwt', token, { signed: true,httpOnly: false, sameSite: 'none', maxAge: 1000 * 60 * 60,secure: true })
-            res.status(200).json({token, user: user._id});
-          
 
-        } 
-        else {
-            res.status(600).json('login failed');
-        }
+    if(!email || !password) {
+        throw new ExpressError('missing fields', 400);
     }
+
+    email = email.toLowerCase();
+    const user = await User.findOne({ email: email});
+    
+    if(!user){
+        throw new ExpressError('invalid credentials', 400);
+    }
+
+    if(!bcrypt.compareSync(password, user.password)){
+        throw new ExpressError('invalid credentials', 400);
+    }
+    const payload = { adminId: user._id, email: user.email, username: user.username };
+    const token = jwt.sign( payload, `${process.env.ADMIN_SECRET}`, { expiresIn: '3h' });
+    res.cookie('adminjwt', token, { signed: true,httpOnly: false, sameSite: 'none', maxAge: 3 * 1000 * 60 * 60,secure: true })
+    res.status(200).json({token, user: user._id});
+    
 }
 
+
 module.exports.adminlogout = (req, res) => {
-    res.clearCookie('jwt').json('logout');
+    
+    res.clearCookie('adminjwt').json('logout');
 };
 
 module.exports.adminregister = async (req, res) => {
     let { username, email, password } = req.body;
+    if(!username || !email || !password) throw new ExpressError('missing fields', 400);
     email = email.toLowerCase();
-    const registeredEmail = await User.findOne({email: email});
+    const registeredEmail = await User.findOne({email: email, username: username});
 
     if(registeredEmail){
-        res.status(400).json('email already exists');
+        throw new ExpressError('email or username already registered', 400);
     }
-
-    else{
-        const salt = bcrypt.genSaltSync(10);
-        const hash = bcrypt.hashSync(password, salt);
-        const user = await User.create({username, email, password: hash});
-        res.json('register');
-    }
+    const salt = bcrypt.genSaltSync(10);
+    const hash = bcrypt.hashSync(password, salt);
+    const user = await User.create({username, email, password: hash});
+    // await sendVerificationEmail(email,user);
+    res.status(200).json('register successful');
 }
 
 
@@ -55,71 +60,81 @@ module.exports.createQuiz = async (req, res) => {
     const { title, description, startTime, endTime, duration } = req.body;
 
     if (!title || !description || !startTime || !endTime || !duration) {
-        res.status(500).json('missing fields');
-    } else {
-        const newQuiz = new Quiz({ title, description, startTime, endTime, duration, adminId: req.adminId });
-        const savedQuiz = await newQuiz.save();
-        res.json({ message: 'quiz created', quizId: savedQuiz._id });
-    }
-}
+        throw new ExpressError('missing fields', 400);
+    } 
 
+    const newQuiz = new Quiz({ title, description, startTime, endTime, duration, adminId: req.adminId });
+    if (!newQuiz) {
+        throw new ExpressError('Error creating quiz', 500);
+    }
+    const savedQuiz = await newQuiz.save();
+    if (!savedQuiz) {
+        throw new ExpressError('Error saving quiz', 500);
+    }
+    res.json({ message: 'quiz created', quizId: savedQuiz._id });
+    
+}
 
 module.exports.updateQuiz = async (req, res) => {
     const { title, description, startTime, endTime, duration } = req.body;
     const quizId = req.params.quizid;
 
     if(!title || !description || !startTime || !endTime || !duration){
-        res.status(400).json('missing fields');
-    } 
-    else{
-        await Quiz.findByIdAndUpdate(quizId,
-            {title, description, startTime, endTime, duration});
-        res.json('quiz updated');
+        throw new ExpressError('missing fields', 400);
     }
+
+    const quiz = await Quiz.findByIdAndUpdate(quizId,{title, description, startTime, endTime, duration});
+    if(!quiz){
+        throw new ExpressError('quiz not found', 400);
+    }
+    res.json('quiz updated');
+    
 };
 
 module.exports.deleteQuiz = async (req, res) => {
     const quizId = req.params.quizid;
-
-    try {
-        // Fetch the quiz to get its questions
-        const quiz = await Quiz.findById(quizId);
-        if (!quiz) {
-            return res.status(404).json({ error: 'Quiz not found' });
-        }
-
-        // Get all question IDs from the quiz
-        const questionIds = quiz.questions;
-
-        // Delete the quiz
-        await Quiz.findByIdAndDelete(quizId);
-
-        // Delete all questions associated with the quiz
-        await Question.deleteMany({ _id: { $in: questionIds } });
-
-        res.json('Quiz and associated questions deleted');
-    } catch (error) {
-        console.error('Error deleting quiz and questions:', error);
-        res.status(500).json({ error: 'Internal server error' });
+    const quiz = await Quiz.findById(quizId);
+    if (!quiz) {
+        throw new ExpressError('quiz not found', 400);
     }
+    const questionIds = quiz.questions;
+    const deletedQuiz = await Quiz.findByIdAndDelete(quizId);
+    if (!deletedQuiz) {
+        throw new ExpressError('quiz not found', 400);
+    }
+    if (questionIds.length === 0) {
+        return res.json('Quiz deleted');
+    }
+    await Question.deleteMany({ _id: { $in: questionIds } });
+    res.json('Quiz and associated questions deleted');
+
 };
 
 module.exports.getQuizzes = async (req, res) => {
+    console.log(req.params);
     const adminId = req.params.adminid;
     const quizzes = await Quiz.find({adminId: adminId});
+    if(!quizzes){
+        throw new ExpressError('no quizzes found', 400);
+    }
     res.json(quizzes);
 };
-
 
 module.exports.getQuiz = async (req, res) => {
     const quizId = req.params.quizid;
     const quiz = await Quiz.findById(quizId);   
+    if(!quiz){
+        throw new ExpressError('quiz not found', 400);
+    }
     res.json(quiz);
 }
 
 module.exports.getQuestions = async (req, res) => {
     const quizId = req.params.quizid;
     const questions = await Question.find({quizId: quizId});
+    if(!questions){
+        throw new ExpressError('no questions found', 400);
+    }
     res.json(questions);
 
 }
@@ -128,6 +143,9 @@ module.exports.getQuestionByQuestionId = async (req, res) => {
     const questionId = req.params.questionId;
     console.log(questionId);
     const question=await Question.findById(questionId);
+    if(!question){
+        throw new ExpressError('question not found', 400);
+    }
     res.json(question);
 }
 
@@ -138,58 +156,72 @@ module.exports.createQuestion = async (req, res) => {
     const quizId = req.params.quizid;
 
     if (!text || !type || !correctOption) {
-        res.status(400).json('missing fields');
+        throw new ExpressError('missing fields', 400);
 
-    } else {
-        try {
-            const newQuestion = new Question({ type, text, options, correctOption, quizId });
-            const savedQuestion = await newQuestion.save();
+    } 
 
-            // Find the quiz by ID and update its questions array
-            const quiz = await Quiz.findByIdAndUpdate(
-                quizId,
-                { $push: { questions: savedQuestion._id } },
-                { new: true }
-            );
+    const newQuestion = new Question({ type, text, options, correctOption, quizId });
+    const savedQuestion = await newQuestion.save();
 
-            if (!quiz) {
-                res.status(404).json('Quiz not found');
-            } else {
-                res.json({ message: 'question created', questionId: savedQuestion._id });
-            }
-        } catch (err) {
-            res.status(500).json({ error: err.message });
-        }
+    if (!savedQuestion) {
+        throw new ExpressError('Error saving question', 500);
     }
+
+    // Find the quiz by ID and update its questions array
+    const quiz = await Quiz.findByIdAndUpdate(
+        quizId,
+        { $push: { questions: savedQuestion._id } },
+        { new: true }
+    );
+
+    if (!quiz) {
+        throw new ExpressError('Error finding quiz', 500);
+    } 
+
+    res.json({ message: 'question created', questionId: savedQuestion._id });   
+    
 };
 
 module.exports.updateQuestion = async (req, res) => {
-    const {type, text, options, correctOption } = req.body;
+    const {text, options, correctOption } = req.body;
     const questionId = req.params.questionid;
 
-    if(!text || !type || !correctOption){
-        res.status(400).json('missing fields');
+    if(!text || !options || !correctOption){
+        throw new ExpressError('missing fields', 400);
     } 
-    else{
-        await Question.findByIdAndUpdate(questionId, { type, text, options, correctOption});
-        res.json('question updated');
+
+    const question = await Question.findByIdAndUpdate(questionId, { type, options, correctOption});
+    if(!question){
+        throw new ExpressError('question not found', 400);
     }
+    res.json('question updated');
+    
 };
 
 
 module.exports.deleteQuestion = async (req, res) => {
     const questionId = req.params.questionid;
 
+    const question = await Question.findById(questionId);
+    if (!question) {
+        throw new ExpressError('question not found', 400);
+    }
+
+    const quizId = question.quizId;
+
     // Delete the question
-    await Question.findByIdAndDelete(questionId);
+    const deletedQuestion = await Question.findByIdAndDelete(questionId);
+    if (!deletedQuestion) {
+        throw new ExpressError('question not found', 400);
+    }
 
     // Remove the question ID from the Quiz array of questions
-    await Quiz.updateMany(
-        { },
+    await Quiz.findByIdAndUpdate(
+        quizId,
         { $pull: { questions: questionId } },
-        { multi: true }
-    );
-
+        { new: true }
+    )
+    
     res.json('Question deleted and removed from Quiz');
 }
 
@@ -208,8 +240,13 @@ const calculateScore = (submission, quiz) => {
 module.exports.compileResults = async (req, res) => {
     const quizId = req.params.quizid;
     const submissions = await Submission.find({quizId: quizId}).populate('userId');
-    console.log(submissions);
+    if(!submissions){
+        throw new ExpressError('no submissions found', 400);
+    }
     const quiz = await Quiz.findById(quizId);
+    if(!quiz){
+        throw new ExpressError('quiz not found', 400);
+    }
     let leaderboard = await Leaderboard.findOne({quizId: quizId});
     if(!leaderboard){
         leaderboard = new Leaderboard({quizId});
@@ -217,7 +254,7 @@ module.exports.compileResults = async (req, res) => {
     submissions.forEach(submission => {
         submission.score = calculateScore(submission, quiz);
         submission.correctAnswers = submission.answers.filter(answer => answer.correct).length;
-        leaderboard.addUser(submission.userId._id, submission.score, submission.userId.username);
+        leaderboard.addUser(submission.userId._id, submission.score, submission.userId.username, submission.userId.country);
         submission.save();
     })
     await leaderboard.save();

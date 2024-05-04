@@ -23,7 +23,12 @@ const leaderboardSchema = new schema({
             name: {
                 type: String,
                 required: true,
-            }
+            },
+
+            country: {
+                type: String,
+                required: true,
+            },
 
         },
         
@@ -48,9 +53,20 @@ const leaderboardSchema = new schema({
 
 })
 
-leaderboardSchema.methods.addUser = function(userId, score, name){
-    if(this.ranks.find(r => r.name == name)) return;
-    this.ranks.push({userId, score, name});
+leaderboardSchema.methods.addUser = function(userId, score, name, country) {
+    // Check if the userId already exists in the ranks array
+    const existingUserIndex = this.ranks.findIndex(rank => String(rank.userId) === String(userId));
+    if (existingUserIndex !== -1) {
+        // If the userId already exists, update the corresponding entry
+        this.ranks[existingUserIndex].score = score;
+        this.ranks[existingUserIndex].name = name;
+        this.ranks[existingUserIndex].country = country;
+    } else {
+        // If the userId doesn't exist, add a new entry
+        this.ranks.push({ userId, score, name, country });
+    }
+
+    // Update totalUsers and highestScore
     this.totalUsers = this.ranks.length;
     this.highestScore = Math.max(this.highestScore, score);
 }

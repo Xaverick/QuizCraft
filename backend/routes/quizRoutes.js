@@ -29,8 +29,6 @@ router.route('/getSubmissions')
 router.route('/getScore/:userid/:quizid')
     .get(isClient, catchAsync(quiz.getFinalScore));
 
-// router.route('/getLeaderboard/:quizid')
-//     .get(isClient, catchAsync(quiz.getLeaderboard));
 
 
 

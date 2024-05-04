@@ -170,6 +170,9 @@ const Analytics = () => {
               <th className="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                 Score
               </th>
+              <th className="px-6 py-3 bg-gray-100 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                Country
+              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
@@ -180,6 +183,7 @@ const Analytics = () => {
                   {player.name}
                 </td>
                 <td className="px-6 py-4 whitespace-no-wrap">{player.score}</td>
+                <td className="px-6 py-4 whitespace-no-wrap">{player.country}</td>
               </tr>
             ))}
           </tbody>
