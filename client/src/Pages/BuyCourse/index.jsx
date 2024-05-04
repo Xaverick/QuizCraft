@@ -52,8 +52,12 @@ const App = () => {
         name: 'Your Company Name',
         order_id: order.id,
         handler: (response) => {
+          //add user Id in response and then send it to backend
+
+
           console.log('Payment Successful:', response);
-          // Handle successful payment (e.g., update order status)
+         
+          verifyPayment(response);
         },
         prefill: {
           name: 'Customer Name',
@@ -67,14 +71,6 @@ const App = () => {
           toast.error("oops, payment failed");
           console.log(response.error);
       });
-
-     
-      
-      
-
-     
-          
-
       }
      catch (error) {
       console.error('Payment Error:', error);
@@ -106,11 +102,11 @@ const App = () => {
       </div>
     </div>
   
-    <input 
+    {/* <input 
       className="w-full p-3 border border-gray-300 rounded-md mb-3"
       value={amount} 
       onChange={(e) => setAmount(e.target.value)} 
-    />
+    /> */}
     <button 
       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-md"
       onClick={handlePayment}

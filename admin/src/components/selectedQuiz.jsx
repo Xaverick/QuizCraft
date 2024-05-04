@@ -301,10 +301,10 @@ const QuizSlected = ({
                                     type="text"
                                     value={updatedQuestion.text}
                                   />
-                                  <label style={{ fontWeight: "bold" }}>
+                                  {/* <label style={{ fontWeight: "bold" }}>
                                     Enter the type of response you want
-                                  </label>
-                                  <select
+                                  </label> */}
+                                  {/* <select
                                     onChange={(e) => {
                                       handleInputChange3(
                                         "type",
@@ -316,7 +316,7 @@ const QuizSlected = ({
                                   >
                                     <option value="text">Text</option>
                                     <option value="radio">Single Correct</option>
-                                  </select>
+                                  </select> */}
                                   {updatedQuestion.type === "radio" && (
                                     <>
                                       <label style={{ fontWeight: "bold" }}>
