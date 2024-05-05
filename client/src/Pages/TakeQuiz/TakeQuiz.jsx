@@ -34,11 +34,13 @@ const quizData = [
       { id: 4, text: "Rome", isCorrect: false }
     ]
   },
+
   {
     id: 4,
     type: 'trueFalse', // Question type: true/false
     question: "Water boils at 100 degrees Celsius.",
   },
+  
   {
     id: 5,
     type: 'text', // Question type: fill in the blank
@@ -55,6 +57,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const TakeQuiz = () => {
+
   const { id } = useParams();
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -62,6 +65,7 @@ const TakeQuiz = () => {
   const [timer, setTimer] = useState(300);
   const [formSubmitted, setFormSubmitted] = useState(false);
   let timerInterval;
+
 
   useEffect(() => {
     const getQuestions = async () => {
@@ -75,7 +79,19 @@ const TakeQuiz = () => {
 
       if (response.ok) {
         const data = await response.json();
-        setQuestions(data);
+        console.log(data);
+        const storedTimer = sessionStorage.getItem(`quizTimer_${id}`);
+        if (storedTimer) {
+          const startTime = parseInt(storedTimer);
+          const elapsed = Math.floor((Date.now() - startTime) / 1000);
+          const remaining = Math.max(0, data.duration - elapsed);
+          setTimer(remaining);
+        } else {
+          setTimer(data.duration);
+        }
+
+        // setTimer(data.duration);
+        setQuestions(data.questions);
         setResponses(Array(data.length).fill('')); // Initialize responses with empty strings for text inputs
       } else {
         console.log('Failed to fetch quiz data');
@@ -85,6 +101,7 @@ const TakeQuiz = () => {
     getQuestions();
   }, [id]);
 
+
   useEffect(() => {
     const storedFormSubmitted = localStorage.getItem(`quizFormSubmitted_${id}`);
     const storedTimer = sessionStorage.getItem(`quizTimer_${id}`);
@@ -93,7 +110,7 @@ const TakeQuiz = () => {
       setTimer(0); // Set timer to 0 if form is already submitted
     } else if (storedTimer) {
       const elapsed = Math.floor((Date.now() - parseInt(storedTimer)) / 1000);
-      const remaining = Math.max(0, 300 - elapsed);
+      const remaining = Math.max(0, timer - elapsed);
       setTimer(remaining);
       if (!formSubmitted) {
         startTimer(parseInt(storedTimer));
@@ -105,12 +122,14 @@ const TakeQuiz = () => {
     return () => clearInterval(timerInterval);
   }, [id, formSubmitted]);
 
+
   useEffect(() => {
     if (timer <= 0 && !formSubmitted) {
       handleSubmit();
       clearInterval(timerInterval);
     }
   }, [timer]);
+
 
   const initializeQuiz = () => {
     setCurrentIndex(0);
@@ -122,7 +141,7 @@ const TakeQuiz = () => {
 
   const startTimer = (startTime) => {
     const elapsed = Math.floor((Date.now() - startTime) / 1000);
-    const remaining = Math.max(0, 300 - elapsed);
+    const remaining = Math.max(0, timer - elapsed);
     setTimer(remaining);
     timerInterval = setInterval(() => {
       setTimer((prevTimer) => {
@@ -196,6 +215,7 @@ const TakeQuiz = () => {
     }
   };
 
+
   return (
     <div className='quiz_container min-h-screen'>
       <div>
@@ -263,5 +283,5 @@ const TakeQuiz = () => {
   );
 };
 
-export default TakeQuiz;
 
+export default TakeQuiz;

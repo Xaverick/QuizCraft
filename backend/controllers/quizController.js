@@ -80,6 +80,7 @@ module.exports.getYourQuizzes = async (req, res) => {
           const score = await getscore(quiz._id, userId);
           return {
               title: quiz.title,
+              startTime: quiz.startTime,
               endTime: quiz.endTime,
               score: score,
               id: quiz._id,
@@ -158,8 +159,11 @@ module.exports.getQuestions = async (req, res) => {
   }
 
   const quizId = req.params.quizid;
+  
   const questions = await Question.find({ quizId: quizId });
-  res.status(200).json(questions);
+  const quiz = await Quiz.findById(quizId);
+  const duration = quiz.duration*60;
+  res.status(200).json({ questions, duration });
 
 }
 

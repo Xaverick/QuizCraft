@@ -21,7 +21,8 @@ const YourQuiz = () => {
         const finalData = data.map((user) => {
           return {
             ...user,
-            isLive: new Date(user.endTime) > new Date() ? true : false
+            isLive: new Date(user.endTime) > new Date() ? true : false,
+            willStart: new Date(user.startTime) > new Date() ? true : false
           };
         })
 
@@ -49,11 +50,15 @@ const YourQuiz = () => {
             <p><strong>Score: </strong> 
               { quiz.score === -2 ? "Not Attempted" : (quiz.score === -1 ? "In Progress" : quiz.score) }              
             </p>
-            <p><strong>Status: </strong> {quiz.isLive ? "Live" : "Not Live"}</p>
+            <p><strong>Status: </strong> {(quiz.willStart  ? "Will Start" : (quiz.isLive ? "Live" : "Not Live"))}</p>
             <div className="actions">
-              {quiz.isLive && quiz.score !== -1 && !(quiz.score >= 0) && <Link to={`/take-quiz/${quiz.id}`} className="take-quiz-btn">Take Quiz </Link>}
-              {quiz.premium && quiz.score !== -1 && quiz.score !== -2 && <Link to={`/analytics/${quiz.id}`} className="analytics-quiz-btn">view Analytics</Link>}
-            </div>
+              {quiz.willStart ? <></> : (
+                <>
+                {quiz.isLive && quiz.score !== -1 && !(quiz.score >= 0) && <Link to={`/take-quiz/${quiz.id}`} className="take-quiz-btn">Take Quiz </Link>}
+                {quiz.premium && quiz.score !== -1 && quiz.score !== -2 && <Link to={`/analytics/${quiz.id}`} className="analytics-quiz-btn">view Analytics</Link>}
+                </>
+              )}
+              </div>
           </div>))}
         </div>  
       </div>    
