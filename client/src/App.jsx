@@ -10,26 +10,29 @@ import PrivateRoutes from './utils/PrivateRoutes'
 import YourQuiz from './Pages/YourQuiz/YourQuiz'
 import Analytics from './Pages/Analytics/Analytics'
 import BuyCourse from './Pages/BuyCourse'
+import Home from './Pages/HomePage/Home'
+// import Footer from './components/footer/Footer'
 
 
 function App() {
   return (
     <>
-    <Navbar />
-    <Routes>
-      <Route path="/" element={<AllQuiz />} />
-      
-      <Route element={<PrivateRoutes />} >
-        <Route path="/take-quiz/:id" element={<TakeQuiz />} />
-        <Route path="/your-quizzes" element={<YourQuiz />} />
-        <Route path="/analytics/:id" element={<Analytics />} />
-      </Route>
-      
-      <Route path="/quiz/:id" element={<QuizPage />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
-      <Route path="/payment" element={<BuyCourse/> } />
-    </Routes> 
+      <Navbar />
+      <Routes>
+        <Route path='/' element={<Home />} />
+        {/* <Route path="/" element={<AllQuiz />} /> */}
+        <Route element={<PrivateRoutes />} >
+          <Route path="/take-quiz/:id" element={<TakeQuiz />} />
+          <Route path="/your-quizzes" element={<YourQuiz />} />
+          <Route path="/analytics/:id" element={<Analytics />} />
+        </Route>
+
+        <Route path="/quiz/:id" element={<QuizPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/payment" element={<BuyCourse />} />
+      </Routes>
+      {/* <Footer /> */}
     </>
   )
 }
