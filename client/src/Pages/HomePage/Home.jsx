@@ -8,6 +8,13 @@ import questions from '../../assets/data/questions.js'
 import ContestData from '../../components/contestdata/ContestData.jsx'
 import Contest from '../../assets/data/Contestdata.js'
 import './Home.scss'
+import sample from '../../assets/homepageimages/sample.png';
+import Comment from '../../components/comment/Comment.jsx';
+import commentdata from '../../assets/data/commentdata.js';
+import Faqcompo from '../../components/faq/faq.jsx'
+import faqdata from "../../assets/data/faqs.js";
+
+
 const Question = ({ questionData }) => {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -30,31 +37,11 @@ const Question = ({ questionData }) => {
         </div>
     );
 };
-// const ContestData = ({ contest }) => {
-//     return (
-//         <>
-//             <div className='contest'>
-//                 <div className='contestdatabox'>
-//                     <div className='contestdataimage'>
-//                         <img src={contest.image} />
-//                     </div>
-//                     <div className='contestdatacontent'>
-//                         <h3>{contest.content1}</h3>
-//                         <p>{contest.content2}</p>
-//                     </div>
-//                     <div className='contestdatatime'>
-//                         <h3>{contest.content3}</h3>
-//                         <p>{contest.Date}</p>
-//                     </div>
-//                     <div className='contestdatabutton'>
-//                         <button>{contest.button}</button>
-//                     </div>
-//                 </div>
-//             </div>
-//         </>
-//     )
-// };
+
 const Home = () => {
+    const midIndex = Math.ceil(commentdata.length / 2);
+    const leftComments = commentdata.slice(0, midIndex);
+    const rightComments = commentdata.slice(midIndex);
     return (
         <>
             <div className='home'>
@@ -122,38 +109,86 @@ const Home = () => {
                                     </div>
                                 </div>
                             </div>
-                            <div className='homephase4'>
-                                <div className='homephase4heading'>
-                                    <p>Why Choose Us</p>
+                        </div>
+                    </div>
+                    <div className='homephase4'>
+                        <div className='homephase4heading'>
+                            <p>Why Choose Us</p>
+                        </div>
+                        <div className='homephase4content'>
+                            <div className='homephase4contentquestions'>
+                                {questions.map((question) => (
+                                    <Question key={question.id} questionData={question} />
+                                ))}
+                            </div>
+                            <div className='homephase4contentimg'>
+                                <img src={photolive} alt=''></img>
+                            </div>
+                        </div>
+                        <div className='homephase5'>
+                            <div className='homephase5heading'>
+                                <p>Upcoming Contest</p>
+                            </div>
+                            <div className='homephase5heading2'>
+                                <button>View All</button>
+                            </div>
+                            <div className='contestdatadetails' >
+                                {Contest.map((C) => (
+                                    <ContestData key={C.id} contest={C} />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                    <div className='homephase6'>
+                        <div className='homephase6content'>
+                            <div className='homephase6content1'>
+                                <p>Instant Results & Global Ranking</p>
+                            </div>
+                            <div className='homephase6content2' >
+                                <p>See your results instantly and compare your knowledge with learners worldwide. You can also filter leaderboards to see how you rank within your region.</p>
+                            </div>
+                            <div className='homephase6content3'>
+                                <div className='homephasecont3image'>
+                                    <img src={sample} alt='' />
                                 </div>
-                                <div className='homephase4content'>
-                                    <div className='homephase4contentquestions'>
-                                        {questions.map((question) => (
-                                            <Question key={question.id} questionData={question} />
-                                        ))}
-                                    </div>
-                                    <div className='homephase4contentimg'>
-                                        <img src={photolive} alt=''></img>
-                                    </div>
-                                </div>
-                                <div className='homephase5'>
-                                    <div className='homephase5heading'>
-                                        <p>Upcoming Contest</p>
-                                    </div>
-                                    <div className='homephase5heading2'>
-                                        <button>View All</button>
-                                    </div>
-                                    <div className='contestdatadetails' >
-                                        {Contest.map((C) => (
-                                            <ContestData key={C.id} contest={C} />
-                                        ))}
-                                    </div>
-                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className='homephase7'>
+                        <div className='homephase7content'>
+                            <div className='homephase7heading'>
+                                <p>What our Students say About us</p>
+                            </div>
+                        </div>
+                        <div className='homephase7comments'>
+
+                            <div className="comment-slider first-row">
+                                {commentdata.concat(commentdata).map((c, index) => (
+                                    <Comment key={index} ca={c} />
+                                ))}
+                            </div>
+                            <div className="comment-slider second-row">
+                                {commentdata.concat(commentdata).map((c, index) => (
+                                    <Comment key={index} ca={c} />
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                    <div className='homephase8faq'>
+                        <div className='homephase8faqcontent'>
+                            <div className='homephase8faqheading'>
+                                <p>Frequently Asked Questions</p>
+                            </div>
+                            <div className='faqs'>
+                                {faqdata.map((f) => (
+                                    <Faqcompo key={f.id} f={f} />
+                                ))}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
         </>
     )
 }

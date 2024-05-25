@@ -11,7 +11,7 @@ import YourQuiz from './Pages/YourQuiz/YourQuiz'
 import Analytics from './Pages/Analytics/Analytics'
 import BuyCourse from './Pages/BuyCourse'
 import Home from './Pages/HomePage/Home'
-// import Footer from './components/footer/Footer'
+import Footer from './components/footer/Footer'
 
 
 function App() {
@@ -32,7 +32,7 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/payment" element={<BuyCourse />} />
       </Routes>
-      {/* <Footer /> */}
+      <Footer />
     </>
   )
 }
