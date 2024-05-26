@@ -1,0 +1,78 @@
+.Allcontestcontent {
+    display: flex;
+    flex-direction: column;
+
+}
+
+
+
+.Allcontestcontentheading {
+    font-size: 40px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.Allcontestcontentpharagraph {
+    p {
+        font-size: 24px;
+        color: #4C4C4C;
+        text-align: center;
+        margin: 0px 40px;
+    }
+}
+
+.Allcontestbuttons {
+    display: flex;
+    flex-direction: row;
+    // margin: 30px 30px;
+    justify-content: flex-start;
+    align-items: center;
+    margin: 12px 0px;
+
+    button {
+
+        padding: 5px 30px;
+        background-color: white;
+        border-radius: 10px;
+        margin: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+
+    }
+}
+
+.AllContests {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 40px;
+
+
+}
+
+
+@media screen and (max-width: 780px) {
+    .Allcontestbuttons {
+        display: flex;
+        flex-direction: row;
+        // margin: 30px 30px;
+        justify-content: center;
+        align-items: center;
+        margin: 12px 0px;
+    }
+}

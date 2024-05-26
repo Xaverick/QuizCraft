@@ -12,6 +12,7 @@ import Analytics from './Pages/Analytics/Analytics'
 import BuyCourse from './Pages/BuyCourse'
 import Home from './Pages/HomePage/Home'
 import Footer from './components/footer/Footer'
+import Allcontest from './Pages/AllContest/Allcontest.jsx'
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
+        <Route path='/contest' element={<Allcontest />} />
         {/* <Route path="/" element={<AllQuiz />} /> */}
         <Route element={<PrivateRoutes />} >
           <Route path="/take-quiz/:id" element={<TakeQuiz />} />

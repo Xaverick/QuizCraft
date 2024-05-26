@@ -57,7 +57,7 @@ const Navbar = () => {
               Home
             </Link>
             <Link
-              to="/contests"
+              to="/Allcontest"
               className={`navbar-link ${activeLink === '/contests' ? 'active' : ''}`}
               onClick={() => handleLinkClick('/contests')}
             >
@@ -86,7 +86,7 @@ const Navbar = () => {
             </Link>
           </div>
           <div className='navbar-buttons'>
-            <button className='navbar-button'>Login</button>
+            <Link to="/login" className="navbar-button">Login</Link>
           </div>
         </div>
       </div>

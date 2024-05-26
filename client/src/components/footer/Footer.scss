@@ -55,7 +55,7 @@
     }
 
     p {
-        font-size: 18px;
+        font-size: 14px;
         color: #CFD3D5;
     }
 }
@@ -66,4 +66,45 @@
     justify-content: space-around;
     margin-top: 80px;
     // align-items: center;
+}
+
+@media screen and (max-width:840px) {
+    .footercontent {
+        .content2 {
+            display: none
+        }
+
+        .content3 {
+            display: none
+        }
+    }
+}
+
+@media screen and (max-width:832px) {
+    .footercontent {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        margin-top: 80px;
+
+        .content1 {
+            .content1content {
+                p {
+                    font-size: 20px;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width:570px) {
+
+
+    .content1 {
+        .content1content {
+            p {
+                font-size: 15px;
+            }
+        }
+    }
 }

@@ -19,9 +19,9 @@ const Footer = () => {
                     </div>
                     <div className='contnet1links'>
                         <a href='https://www.instagram.com/phicsit.in'><img src={insta} alt='' /></a>
-                        <a href=''><img src={facebook} alt='' /></a>
+                        <a href='https://www.facebook.com/PHICSIT'><img src={facebook} alt='' /></a>
                         <a href='https://x.com/phicsit'><img src={twiter} alt='' /></a>
-                        {/* <a href='https://x.com/phicsit'><img src={linkedlin} alt='' /></a> */}
+                        <a href='https://www.linkedin.com/company/phicsit'><img src={linkedlin} alt='' /></a>
 
                     </div>
                 </div>

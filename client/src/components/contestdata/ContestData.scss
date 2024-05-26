@@ -4,6 +4,7 @@
     border: 1px solid black;
     border-radius: 34px;
     width: 387px;
+    // margin: 20px;
     box-shadow: 4px 4px 4px 4px rgba(194, 218, 217, 0.20);
 
     .contestdataimage {
@@ -73,4 +74,50 @@
         border: none;
         margin: 20px 20px;
     }
+}
+
+@media screen and (max-width: 1280px) {
+    .contestdatabox {
+        width: 378px;
+    }
+}
+
+@media screen and (max-width:1183px) {
+    .contestdatabox {
+        width: 377px;
+        gap: 0px;
+    }
+}
+
+@media screen and (max-width:1140px) {
+    .contestdatabox {
+        // width: 100%;
+        gap: 0px;
+    }
+
+    .contestdatadetails {
+        gap: 0px;
+        margin: 0px 0px;
+        margin: 0px 0px;
+        flex-wrap: wrap;
+
+    }
+
+
+}
+
+@media screen and (max-width:1067px) {
+    .contestdatabox {
+        // width: 100%;
+        gap: 0px;
+    }
+
+    .contestdatadetails {
+        gap: 0px;
+        margin: 0px 0px;
+        flex-wrap: wrap;
+
+    }
+
+
 }
