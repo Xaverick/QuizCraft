@@ -13,6 +13,8 @@ import BuyCourse from './Pages/BuyCourse'
 import Home from './Pages/HomePage/Home'
 import Footer from './components/footer/Footer'
 import Allcontest from './Pages/AllContest/Allcontest.jsx'
+import Pricing from './Pages/Pricing/Pricing.jsx'
+import { plansdata } from './assets/data/plansdata.js'
 
 
 function App() {
@@ -22,6 +24,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/contest' element={<Allcontest />} />
+        <Route path='/pricing' element={<Pricing plansdata={plansdata} />} />
         {/* <Route path="/" element={<AllQuiz />} /> */}
         <Route element={<PrivateRoutes />} >
           <Route path="/take-quiz/:id" element={<TakeQuiz />} />

@@ -74,9 +74,9 @@ const Allcont = () => {
                             },
                             '& .Mui-selected': {
                                 backgroundColor: '#08AAA2', // Selected background color
-                                color: 'white', // Selected text color
+                                color: 'black', // Selected text color
                                 '&:hover': {
-                                    backgroundColor: '#56AFB2', // Selected background color on hover
+                                    backgroundColor: '#08AAA2', // Selected background color on hover
                                 },
                             },
                         }}

@@ -4,6 +4,7 @@ import lightning from '../../assets/homepageimages/Lightning.png'
 import Softstar from '../../assets/homepageimages/Softstar.png'
 import photolive from '../../assets/homepageimages/photolive.png'
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import questions from '../../assets/data/questions.js'
 import ContestData from '../../components/contestdata/ContestData.jsx'
 import Contest from '../../assets/data/Contestdata.js'
@@ -39,6 +40,15 @@ const Question = ({ questionData }) => {
 };
 
 const Home = () => {
+    const navigate = useNavigate();
+
+    // Only show the first 3 contests initially
+    const initialContests = Contest.slice(0, 3);
+
+    const handleViewAllClick = () => {
+        navigate('/contest');
+    };
+
     const midIndex = Math.ceil(commentdata.length / 2);
     const leftComments = commentdata.slice(0, midIndex);
     const rightComments = commentdata.slice(midIndex);
@@ -130,11 +140,11 @@ const Home = () => {
                                 <p>Upcoming Contest</p>
                             </div>
                             <div className='homephase5heading2'>
-                                <button>View All</button>
+                                <button onClick={handleViewAllClick}>View All</button>
                             </div>
                             <div className='contestdatadetails' >
-                                {Contest.map((C) => (
-                                    <ContestData key={C.id} contest={C} />
+                                {initialContests.map((contest) => (
+                                    <ContestData key={contest.id} contest={contest} />
                                 ))}
                             </div>
                         </div>

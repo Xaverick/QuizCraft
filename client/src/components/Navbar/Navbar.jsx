@@ -57,9 +57,9 @@ const Navbar = () => {
               Home
             </Link>
             <Link
-              to="/Allcontest"
-              className={`navbar-link ${activeLink === '/contests' ? 'active' : ''}`}
-              onClick={() => handleLinkClick('/contests')}
+              to="/contest"
+              className={`navbar-link ${activeLink === '/contest' ? 'active' : ''}`}
+              onClick={() => handleLinkClick('/contest')}
             >
               Contests
             </Link>
