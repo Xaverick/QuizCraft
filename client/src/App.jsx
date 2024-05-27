@@ -15,6 +15,7 @@ import Footer from './components/footer/Footer'
 import Allcontest from './Pages/AllContest/Allcontest.jsx'
 import Pricing from './Pages/Pricing/Pricing.jsx'
 import { plansdata } from './assets/data/plansdata.js'
+import Contact from './Pages/Contact/Contact.jsx'
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/contest' element={<Allcontest />} />
         <Route path='/pricing' element={<Pricing plansdata={plansdata} />} />
+        <Route path='/contact' element={<Contact />} />
         {/* <Route path="/" element={<AllQuiz />} /> */}
         <Route element={<PrivateRoutes />} >
           <Route path="/take-quiz/:id" element={<TakeQuiz />} />
