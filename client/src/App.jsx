@@ -27,6 +27,8 @@ function App() {
         <Route path='/contest' element={<Allcontest />} />
         <Route path='/pricing' element={<Pricing plansdata={plansdata} />} />
         <Route path='/contact' element={<Contact />} />
+        <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<Signup />} />
         {/* <Route path="/" element={<AllQuiz />} /> */}
         <Route element={<PrivateRoutes />} >
           <Route path="/take-quiz/:id" element={<TakeQuiz />} />
@@ -35,8 +37,8 @@ function App() {
         </Route>
 
         <Route path="/quiz/:id" element={<QuizPage />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
+        {/* <Route path="/login" element={<Login />} /> */}
+        {/* <Route path="/signup" element={<Signup />} /> */}
         <Route path="/payment" element={<BuyCourse />} />
       </Routes>
       <Footer />

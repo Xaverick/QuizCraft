@@ -116,12 +116,79 @@
 
 // export default Login;
 import React from 'react'
-
+import { useState } from 'react'
+import './Login.scss'
+import google from '../../../assets/Authpages/google.png'
+import diagonal from '../../../assets/Authpages/diagonal.png'
+import image from '../../../assets/Authpages/Image.png'
+import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 const Login = () => {
+  const [passwordVisible, setPasswordVisible] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
   return (
     <div className='lginformcontainer'>
-      <div className='loginfrom'></div>
-      <div className=''></div>
+      <div className='loginfrom'>
+        <div className="card">
+          <form>
+            <p className="title">Login</p>
+            <p className='titlesubheading'>Welcome back! Please log in to access your account.</p>
+            <div className="email-login">
+              <label htmlFor="email"><b></b></label>
+              <input type="email" placeholder="Enter Your Email" name="uname" required />
+              <label htmlFor="psw"><b></b></label>
+              <div className="password-input-container">
+                <input
+                  type={passwordVisible ? "text" : "password"}
+                  placeholder="Enter Your Password"
+                  name="psw"
+                  required
+                />
+                {passwordVisible ? (
+                  <AiOutlineEye
+                    className="toggle-password-visibility"
+                    onClick={togglePasswordVisibility}
+                  />
+                ) : (
+                  <AiOutlineEyeInvisible
+                    className="toggle-password-visibility"
+                    onClick={togglePasswordVisibility}
+                  />
+                )}
+              </div>
+              <div className="remember-me">
+                <input type="checkbox" id="rememberMe" name="rememberMe" required />
+                <label htmlFor="rememberMe">Remember Me</label>
+              </div>
+            </div>
+            <button className="cta-btn" type="submit">Login</button>
+            <p className="or"><span></span></p>
+            <div className="social-login">
+              <button className="google-btn">
+                <img alt="Google" src={google} />
+                <p className="btn-text">Login with Google</p>
+              </button>
+            </div>
+            <a className="forget-pass" href="#">Forgot password?</a>
+            <p className="subtitle">Don't have an account? <a href="#">Sign Up <img src={diagonal} /></a></p>
+
+          </form>
+        </div>
+        <div className='loginformphoto'>
+          <div className='loginformphotopht'>
+            <img src={image} />
+          </div>
+          <div className='loginformphotoquote'>
+            <p>Lorem ipsum dolor sit amet consectetur. Tincidunt libero sed a penatibus eu mi risus habitant mattis. Volutpat lectus gravida scelerisque et felis dolor odio adipiscing. Volutpat lacus nascetur arcu enim congue pretium purus sed. Enim ullamcorper natoque nisi ut pellentesque.</p>
+            <div className='sys'>
+              <p className='sys1'>Nathen Hopkins</p>
+              <p>Lead Product Designer, Netflix</p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
