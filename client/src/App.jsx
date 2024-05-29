@@ -16,6 +16,7 @@ import Allcontest from './Pages/AllContest/Allcontest.jsx'
 import Pricing from './Pages/Pricing/Pricing.jsx'
 import { plansdata } from './assets/data/plansdata.js'
 import Contact from './Pages/Contact/Contact.jsx'
+import ContestDetails from './Pages/ContestDetails/ContestDetails.jsx'
 
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path='/contact' element={<Contact />} />
         <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<Signup />} />
+        <Route path='/contest/:contestId' element={<ContestDetails />} />
         {/* <Route path="/" element={<AllQuiz />} /> */}
         <Route element={<PrivateRoutes />} >
           <Route path="/take-quiz/:id" element={<TakeQuiz />} />

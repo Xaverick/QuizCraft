@@ -1,7 +1,12 @@
 import React from 'react'
 import './ContestData.scss'
-
+import { useNavigate } from 'react-router-dom';
 const ContestData = ({ contest }) => {
+    const navigate = useNavigate();
+
+    const handleButtonClick = () => {
+        navigate(`/contest/${contest.id}`);
+    };
     return (
         <>
             <div className='contest'>
@@ -18,7 +23,7 @@ const ContestData = ({ contest }) => {
                         <p>{contest.Date}</p>
                     </div>
                     <div className='contestdatabutton'>
-                        <button>{contest.button}</button>
+                        <button onClick={handleButtonClick}>{contest.button}</button>
                     </div>
                 </div>
             </div>
