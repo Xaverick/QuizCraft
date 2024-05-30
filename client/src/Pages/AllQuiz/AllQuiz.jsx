@@ -19,17 +19,18 @@ const AllQuiz = () => {
 
       if (response.ok) {
         const data = await response.json();
+        console.log(data);
         setQuizzes(data);
       }
       else {
         console.log('Failed to fetch quizzes');
-      }    
-    
-  
+      }
+
+
     }
 
     getQuizzes();
-    
+
   }, []);
 
   return (

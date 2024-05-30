@@ -1,20 +1,17 @@
-import React from 'react'
-import photo from '../../assets/homepageimages/homepagephoto.png'
-import lightning from '../../assets/homepageimages/Lightning.png'
-import Softstar from '../../assets/homepageimages/Softstar.png'
-import photolive from '../../assets/homepageimages/photolive.png'
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import photo from '../../assets/homepageimages/homepagephoto.png';
+import lightning from '../../assets/homepageimages/Lightning.png';
+import Softstar from '../../assets/homepageimages/Softstar.png';
+import photolive from '../../assets/homepageimages/photolive.png';
 import { useNavigate } from 'react-router-dom';
-import questions from '../../assets/data/questions.js'
-import ContestData from '../../components/contestdata/ContestData.jsx'
-import Contest from '../../assets/data/Contestdata.js'
-import './Home.scss'
+import questions from '../../assets/data/questions.js';
+import ContestData from '../../components/contestdata/ContestData.jsx';
+import './Home.scss';
 import sample from '../../assets/homepageimages/sample.png';
 import Comment from '../../components/comment/Comment.jsx';
 import commentdata from '../../assets/data/commentdata.js';
-import Faqcompo from '../../components/faq/faq.jsx'
+import Faqcompo from '../../components/faq/faq.jsx';
 import faqdata from "../../assets/data/faqs.js";
-
 
 const Question = ({ questionData }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -41,17 +38,41 @@ const Question = ({ questionData }) => {
 
 const Home = () => {
     const navigate = useNavigate();
+    const [contests, setContests] = useState([]);
 
-    // Only show the first 3 contests initially
-    const initialContests = Contest.slice(0, 3);
+    useEffect(() => {
+        const getContests = async () => {
+            const response = await fetch('http://localhost:4000/quiz/getAllQuizzes', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log(data);
+                setContests(data);
+            } else {
+                console.log('Failed to fetch contests');
+            }
+        };
+
+        getContests();
+    }, []);
 
     const handleViewAllClick = () => {
         navigate('/contest');
     };
 
+    // Only show the first 3 contests initially
+    const initialContests = contests.slice(0, 3);
+
     const midIndex = Math.ceil(commentdata.length / 2);
     const leftComments = commentdata.slice(0, midIndex);
     const rightComments = commentdata.slice(midIndex);
+
     return (
         <>
             <div className='home'>
@@ -60,21 +81,20 @@ const Home = () => {
                         <div className='homephase1left'>
                             <div className='homephase1left1'>
                                 <p>Compete with Quizzers from All over the World</p>
-                                <span><img src={lightning}></img></span>
+                                <span><img src={lightning} alt="Lightning Icon" /></span>
                             </div>
                             <h2>Dive into a world of quizzes! From brain-teasing trivia to in-depth skill tests, we have something for everyone. Boost your knowledge with a bit of educational fun.</h2>
                             <div className='homebutton'>
                                 <button>Explore Now</button>
                             </div>
                             <div className='homephase1left2'>
-                                <img src={Softstar}></img>
+                                <img src={Softstar} alt="Softstar Icon" />
                             </div>
                         </div>
                         <div className='homephase2left'>
-                            <img src={photo} alt=''></img>
+                            <img src={photo} alt='Homepage Photo' />
                         </div>
-                        <div className='photobackground'>
-                        </div>
+                        <div className='photobackground'></div>
                     </div>
                     <div className='homephase3'>
                         <div className='homephase3content'>
@@ -132,7 +152,7 @@ const Home = () => {
                                 ))}
                             </div>
                             <div className='homephase4contentimg'>
-                                <img src={photolive} alt=''></img>
+                                <img src={photolive} alt='Photo Live' />
                             </div>
                         </div>
                         <div className='homephase5'>
@@ -142,9 +162,9 @@ const Home = () => {
                             <div className='homephase5heading2'>
                                 <button onClick={handleViewAllClick}>View All</button>
                             </div>
-                            <div className='contestdatadetails' >
+                            <div className='contestdatadetails'>
                                 {initialContests.map((contest) => (
-                                    <ContestData key={contest.id} contest={contest} />
+                                    <ContestData key={contest._id} contest={contest} />
                                 ))}
                             </div>
                         </div>
@@ -154,7 +174,7 @@ const Home = () => {
                             <div className='homephase6content1'>
                                 <p>Instant Results & Global Ranking</p>
                             </div>
-                            <div className='homephase6content2' >
+                            <div className='homephase6content2'>
                                 <p>See your results instantly and compare your knowledge with learners worldwide. You can also filter leaderboards to see how you rank within your region.</p>
                             </div>
                             <div className='homephase6content3'>
@@ -171,7 +191,6 @@ const Home = () => {
                             </div>
                         </div>
                         <div className='homephase7comments'>
-
                             <div className="comment-slider first-row">
                                 {commentdata.concat(commentdata).map((c, index) => (
                                     <Comment key={index} ca={c} />
@@ -198,9 +217,8 @@ const Home = () => {
                     </div>
                 </div>
             </div>
-
         </>
-    )
-}
+    );
+};
 
-export default Home
+export default Home;

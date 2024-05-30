@@ -5,85 +5,87 @@ import CT from '../../assets/Contestimages/CT.png';
 import Duration from '../../assets/Contestimages/Duration.png';
 import NOQ from '../../assets/Contestimages/NOQ.png';
 import TM from '../../assets/Contestimages/TM.png';
-
+import defaultimage from '../../assets/Contestimages/dumy1.png'
 const Commoncd = ({ data }) => {
     const [timeRemaining, setTimeRemaining] = useState('');
     const [contestStarted, setContestStarted] = useState(false);
 
     useEffect(() => {
         const calculateEndTime = (startTime, duration) => {
-            const [hours, minutes] = duration.split(' ').reduce((acc, val, idx, arr) => {
-                if (val.toLowerCase().includes('hour')) acc[0] = parseInt(arr[idx - 1], 10);
-                if (val.toLowerCase().includes('minute')) acc[1] = parseInt(arr[idx - 1], 10);
-                return acc;
-            }, [0, 0]);
-            return new Date(startTime.getTime() + hours * 60 * 60 * 1000 + minutes * 60 * 1000);
+            const durationInMs = duration * 60 * 60 * 1000;
+            return new Date(startTime.getTime() + durationInMs);
         };
 
-        const startDateTime = new Date(`${data.Date} ${data.time}`);
-        const endDateTime = calculateEndTime(startDateTime, data.duration);
+        if (data && data.startTime && data.duration) {
+            const startDateTime = new Date(data.startTime);
+            const endDateTime = calculateEndTime(startDateTime, data.duration);
 
-        const updateCountdown = () => {
-            const now = new Date();
-            let timeDiff;
+            const updateCountdown = () => {
+                const now = new Date();
+                let timeDiff;
 
-            if (!contestStarted) {
-                timeDiff = startDateTime - now;
-                if (timeDiff <= 0) {
-                    setContestStarted(true);
+                if (!contestStarted) {
+                    timeDiff = startDateTime - now;
+                    if (timeDiff <= 0) {
+                        setContestStarted(true);
+                        timeDiff = endDateTime - now;
+                    }
+                } else {
                     timeDiff = endDateTime - now;
+                    if (timeDiff <= 0) {
+                        setTimeRemaining('Contest has ended!');
+                        return;
+                    }
                 }
-            } else {
-                timeDiff = endDateTime - now;
-                if (timeDiff <= 0) {
-                    setTimeRemaining('Contest has ended!');
-                    return;
-                }
-            }
 
-            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+                const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
-            setTimeRemaining(`${days}d ${hours}h ${minutes}m ${seconds}s`);
-        };
+                setTimeRemaining(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+            };
 
-        const intervalId = setInterval(updateCountdown, 1000);
+            const intervalId = setInterval(updateCountdown, 1000);
 
-        return () => clearInterval(intervalId);
-    }, [data.Date, data.time, data.duration, contestStarted]);
+            return () => clearInterval(intervalId);
+        }
+    }, [data, contestStarted]);
+
+    if (!data || !data.startTime || !data.duration) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className='commoncd-container'>
             <div className='commoncd-left'>
                 <div className='commoncd-left-heading'>
-                    <p>{data.content1}</p>
+                    <p>{data.title || 'No Title'}</p>
                 </div>
                 <div className='commoncd-left-details'>
                     <span>
                         <img src={CD} alt='' />
-                        Event date: {data.Date}
+                        Event date: {new Date(data.startTime).toLocaleDateString()}
                     </span>
                     <span>
                         <img src={CT} alt='' />
-                        Event Time: {data.time}
+                        Event Time: {new Date(data.startTime).toLocaleTimeString()}
                     </span>
                     <span>
                         <img src={NOQ} alt='' />
-                        No of Questions: {data.totalquestion}
+                        No of Questions: {data.questions ? data.questions.length : 'N/A'}
                     </span>
                     <span>
                         <img src={TM} alt='' />
-                        Total Marks: {data.totalmarks}
+                        Total Marks: {data.totalMarks || 'N/A'}
                     </span>
                     <span>
                         <img src={Duration} alt='' />
-                        Duration: {data.duration}
+                        Duration: {data.duration} Hour{data.duration > 1 ? 's' : ''}
                     </span>
                 </div>
                 <div className='commoncd-left-button'>
-                    <button>{data.button}</button>
+                    <button>Register</button>
                 </div>
             </div>
             <div className='commoncd-right'>
@@ -93,7 +95,7 @@ const Commoncd = ({ data }) => {
                     </span>
                 </div>
                 <div className='commoncd-right-image'>
-                    <img src={data.image} alt='' />
+                    {data.image ? <img src={data.image} alt='' /> : <img src={defaultimage} alt='' />}
                 </div>
             </div>
         </div>

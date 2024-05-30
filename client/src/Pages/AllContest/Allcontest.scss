@@ -1,78 +1,111 @@
-.Allcontestcontent {
-    display: flex;
-    flex-direction: column;
-
-}
-
-
-
-.Allcontestcontentheading {
-    font-size: 40px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.Allcontestcontentpharagraph {
-    p {
-        font-size: 24px;
-        color: #4C4C4C;
-        text-align: center;
-        margin: 0px 40px;
-    }
-}
-
-.Allcontestbuttons {
-    display: flex;
-    flex-direction: row;
-    // margin: 30px 30px;
-    justify-content: flex-start;
-    align-items: center;
-    margin: 12px 0px;
-
-    button {
-
-        padding: 5px 30px;
-        background-color: white;
-        border-radius: 10px;
-        margin: 10px;
-        font-size: 20px;
-        font-weight: bold;
-        cursor: pointer;
+.Allcontest {
+    .Allcontestcontent {
         display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
+        flex-direction: column;
 
+        .Allcontestcontentheading {
+            font-size: 40px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .Allcontestcontentpharagraph {
+            p {
+                font-size: 24px;
+                color: #4C4C4C;
+                text-align: center;
+                margin: 0px 40px;
+            }
+        }
     }
-}
 
-.AllContests {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    justify-content: center;
-    flex-wrap: wrap;
-
-}
-
-.pagination {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 40px;
-
-
-}
-
-
-@media screen and (max-width: 780px) {
     .Allcontestbuttons {
         display: flex;
         flex-direction: row;
-        // margin: 30px 30px;
+        justify-content: flex-start;
+        align-items: center;
+        max-width: 1200px;
+        margin: 20px auto;
+        position: relative;
+
+        button {
+            padding: 5px 30px;
+            background-color: white;
+            border-radius: 10px;
+            margin: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        .category-dropdown,
+        .status-dropdown {
+            position: absolute;
+            top: 60px;
+            background-color: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            width: 200px;
+        }
+
+        .category-dropdown {
+            left: 0; // Adjust as necessary
+        }
+
+        .status-dropdown {
+            left: 210px; // Adjust as necessary to position next to category button
+        }
+
+        .category-dropdown div,
+        .status-dropdown div {
+            padding: 10px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #f0f0f0;
+            }
+        }
+    }
+
+    .AllContests {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .pagination {
+        display: flex;
         justify-content: center;
         align-items: center;
-        margin: 12px 0px;
+        margin-top: 40px;
+    }
+
+    @media screen and (max-width: 780px) {
+        .Allcontestbuttons {
+            flex-direction: row;
+            align-items: center;
+            margin: 12px 0px;
+        }
+
+        .category-dropdown,
+        .status-dropdown {
+            left: 0; // Adjust as necessary for mobile view
+        }
+    }
+
+    @media screen and (max-width: 1180px) {
+        .Allcontestbuttons {
+            max-width: 800px;
+            margin: 21px;
+        }
     }
 }

@@ -2,20 +2,74 @@ import React, { useState, useEffect } from 'react';
 import './Allcontest.scss';
 import down from '../../assets/Questionsimages/down.png';
 import ContestData from '../../components/contestdata/ContestData.jsx';
-import Contest from '../../assets/data/Contestdata.js';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-// import Pagination from '@mui/material/Pagination';
 import PaginationItem from '@mui/material/PaginationItem';
 
 const Allcont = () => {
+    const getItemsPerPage = () => {
+        return window.innerWidth > 768 ? 12 : 5;
+    };
+
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(getItemsPerPage());
+    const [quizzes, setQuizzes] = useState([]);
+    const [filteredQuizzes, setFilteredQuizzes] = useState([]);
+    const [category, setCategory] = useState('All');
+    const [status, setStatus] = useState('All');
+    const [showCategoryDropdown, setShowCategoryDropdown] = useState(false);
+    const [showStatusDropdown, setShowStatusDropdown] = useState(false);
 
-    // Determine the number of items per page based on screen width
-    function getItemsPerPage() {
-        return window.innerWidth > 768 ? 12 : 5;
-    }
+    useEffect(() => {
+        const getQuizzes = async () => {
+            const response = await fetch('http://localhost:4000/quiz/getAllQuizzes', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include'
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setQuizzes(data);
+                setFilteredQuizzes(data);
+            } else {
+                console.log('Failed to fetch quizzes');
+            }
+        };
+
+        getQuizzes();
+    }, []);
+
+    useEffect(() => {
+        filterQuizzes();
+    }, [category, status]);
+
+    const filterQuizzes = () => {
+        let newFilteredQuizzes = quizzes;
+
+        if (category !== 'All') {
+            newFilteredQuizzes = newFilteredQuizzes.filter(quiz => quiz.category === category);
+        }
+
+        if (status !== 'All') {
+            newFilteredQuizzes = newFilteredQuizzes.filter(quiz => quiz.status === status);
+        }
+
+        setFilteredQuizzes(newFilteredQuizzes);
+        setCurrentPage(1); // Reset to first page on filter change
+    };
+
+    const handleCategoryChange = (newCategory) => {
+        setCategory(newCategory);
+        setShowCategoryDropdown(false);
+    };
+
+    const handleStatusChange = (newStatus) => {
+        setStatus(newStatus);
+        setShowStatusDropdown(false);
+    };
 
     useEffect(() => {
         const handleResize = () => {
@@ -26,13 +80,11 @@ const Allcont = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Calculate the total number of pages
-    const totalPages = Math.ceil(Contest.length / itemsPerPage);
+    const totalPages = Math.ceil(filteredQuizzes.length / itemsPerPage);
 
-    // Get the current items to display
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = Contest.slice(indexOfFirstItem, indexOfLastItem);
+    const currentItems = filteredQuizzes.slice(indexOfFirstItem, indexOfLastItem);
 
     const handlePageChange = (event, value) => {
         setCurrentPage(value);
@@ -50,12 +102,33 @@ const Allcont = () => {
                     </div>
                 </div>
                 <div className='Allcontestbuttons'>
-                    <button>Category<span><img src={down} alt='' /></span></button>
-                    <button>Status<span><img src={down} alt='' /></span></button>
+                    <button onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}>
+                        Category<span><img src={down} alt='' /></span>
+                    </button>
+                    {showCategoryDropdown && (
+                        <div className='dropdown category-dropdown'>
+                            <div onClick={() => handleCategoryChange('All')}>All</div>
+                            <div onClick={() => handleCategoryChange('Java')}>Java</div>
+                            <div onClick={() => handleCategoryChange('HTML')}>HTML</div>
+                            <div onClick={() => handleCategoryChange('CSS')}>CSS</div>
+                            <div onClick={() => handleCategoryChange('UI/UX Design')}>UI/UX Design</div>
+                        </div>
+                    )}
+                    <button onClick={() => setShowStatusDropdown(!showStatusDropdown)}>
+                        Status<span><img src={down} alt='' /></span>
+                    </button>
+                    {showStatusDropdown && (
+                        <div className='dropdown status-dropdown'>
+                            <div onClick={() => handleStatusChange('All')}>All</div>
+                            <div onClick={() => handleStatusChange('Live')}>Live</div>
+                            <div onClick={() => handleStatusChange('Expired')}>Expired</div>
+                            <div onClick={() => handleStatusChange('Closed')}>Closed</div>
+                        </div>
+                    )}
                 </div>
                 <div className='AllContests'>
-                    {currentItems.map((C) => (
-                        <ContestData key={C.id} contest={C} />
+                    {currentItems.map((quiz) => (
+                        <ContestData key={quiz._id} contest={quiz} />
                     ))}
                 </div>
                 <Stack spacing={5} className='pagination'>
@@ -65,18 +138,17 @@ const Allcont = () => {
                         onChange={handlePageChange}
                         shape="rounded"
                         variant="outlined"
-                        // color='#08AAA2'
                         sx={{
-                            color: 'black', // Text color
+                            color: 'black',
                             '& .MuiPaginationItem-root': {
-                                border: '1px solid #A7D7D5', // Border color
-                                backgroundColor: 'inherit', // Background color
+                                border: '1px solid #A7D7D5',
+                                backgroundColor: 'inherit',
                             },
                             '& .Mui-selected': {
-                                backgroundColor: '#08AAA2', // Selected background color
-                                color: 'black', // Selected text color
+                                backgroundColor: '#08AAA2',
+                                color: 'black',
                                 '&:hover': {
-                                    backgroundColor: '#08AAA2', // Selected background color on hover
+                                    backgroundColor: '#08AAA2',
                                 },
                             },
                         }}
@@ -84,15 +156,13 @@ const Allcont = () => {
                             <PaginationItem
                                 {...item}
                                 sx={{
-                                    color: 'black', // Text color
+                                    color: 'black',
                                     '&:hover': {
-                                        backgroundColor: '#56AFB2', // Background color on hover
-                                        // Text color on hover
+                                        backgroundColor: '#56AFB2',
                                     },
                                 }}
                             />
                         )}
-
                     />
                 </Stack>
             </div>

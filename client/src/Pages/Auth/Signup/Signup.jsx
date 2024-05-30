@@ -132,131 +132,80 @@
 // };
 
 // export default Signup;
-// import { useState } from 'react';
-// import './Login.scss';
-// import { Link, useNavigate } from 'react-router-dom';
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
-// import { useDispatch } from 'react-redux';
-// import { login } from '../../../store/slices/authSlice';
 
-
-
-// const Login = () => {
-//   const dispatch = useDispatch();
-//   const [email, setEmail] = useState('');
-//   const [password, setPassword] = useState('');
-//   const Navigate = useNavigate();
-
-//   const handleChange = (event) => {
-//     const { name, value } = event.target;
-//     if (name === 'email') {
-//       setEmail(value);
-//     } else if (name === 'password') {
-//       setPassword(value);
-//     }
-//   };
-
-//   const handleSubmit = async (event) => {
-//     event.preventDefault();
-
-//     const response = await fetch('http://localhost:4000/user/login', {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify({ email, password }),
-//       credentials: 'include'
-//     })
-
-//     if(response.ok){
-//       const data = await response.json(); 
-//       const { payload, expiresIn } = data; // Assuming the response contains token and expiration
-//       localStorage.setItem('user', JSON.stringify(payload));
-//       localStorage.setItem('expiresIn', Date.now() + expiresIn); 
-//       dispatch(login());
-//       toast.success('Login successfull', {
-//         position: "top-left",
-//         autoClose: 2000,
-//         hideProgressBar: true,
-//         })
-//       setEmail('');
-//       setPassword('');    
-//       setTimeout(() => {
-//         Navigate('/');
-//       }, 1000);  
-
-//     }
-
-//     else{
-//       toast.error('Login failed', {
-//         position: "top-left",
-//         autoClose: 2000,
-//         hideProgressBar: true,
-//       })
-//     }
-
-//   };
-
-//   return (
-//     <div className="login-container">
-//       <form onSubmit={handleSubmit} className="login-form">
-//         <h2>Login</h2>
-//         <p>Enter your email below to login to your account</p>
-//         <div className="form-group">
-//           <label htmlFor="email">Email:</label>
-//           <input
-//             type="email"
-//             name="email"
-//             id="email"
-//             placeholder='Enter your email'
-//             value={email}
-//             onChange={handleChange}
-//             required
-//           />
-//         </div>
-//         <div className="form-group">
-//           <label htmlFor="password">Password:</label>
-//           <input
-//             type="password"
-//             name="password"
-//             id="password"
-//             placeholder='Enter your password'
-//             value={password}
-//             onChange={handleChange}
-//             required
-//           />
-//         </div>
-//         <button type="submit">Login</button>
-//         <div className='auth-link'>
-//           <Link to="/signup" className="signup">
-//             Already have an account? Signup
-//           </Link>
-//           <a href="#" className="forgot-password">
-//             Forgot your password?
-//           </a>
-
-//         </div>
-
-
-//       </form>
-
-//       <ToastContainer />
-
-//     </div>
-
-//   );
-// };
-
-// export default Login;
 import React from 'react'
-import { useState } from 'react'
+// import { useState } from 'react'
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import './Signup.scss'
 import google from '../../../assets/Authpages/google.png'
 import diagonal from '../../../assets/Authpages/diagonal.png'
 import image from '../../../assets/Authpages/Image.png'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 const Signup = () => {
+
+  const Navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+    // username: '',
+    name: ''
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const response = await fetch('http://localhost:4000/user/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(formData)
+    })
+
+    if (response.ok) {
+
+      toast.success('Signup successfull', {
+        position: "top-left",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+
+      setFormData({
+        email: '',
+        password: '',
+        username: '',
+        name: ''
+      });
+
+      setTimeout(() => {
+        Navigate('/login');
+      }, 1000);
+
+    }
+
+    else {
+      toast.error('Signup failed', {
+        position: "top-left",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
+    }
+
+
+  };
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
@@ -266,20 +215,22 @@ const Signup = () => {
     <div className='lginformcontainer'>
       <div className='loginfrom'>
         <div className="card">
-          <form>
+          <form onSubmit={handleSubmit}>
             <p className="title">Sign Up</p>
             <p className='titlesubheading'>Create an account to unlock exclusive features.</p>
             <div className="email-login">
               <label htmlFor="text"><b></b></label>
-              <input type="text" placeholder="Enter Your Name" name="uname" required />
+              <input type="text" placeholder="Enter Your Name" name="name" value={formData.name} onChange={handleChange} required />
               <label htmlFor="email"><b></b></label>
-              <input type="email" placeholder="Enter Your Email" name="uname" required />
+              <input type="email" placeholder="Enter Your Email" name="email" value={formData.email} onChange={handleChange} required />
               <label htmlFor="psw"><b></b></label>
               <div className="password-input-container">
                 <input
                   type={passwordVisible ? "text" : "password"}
                   placeholder="Enter Your Password"
-                  name="psw"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
                   required
                 />
                 {passwordVisible ? (
@@ -308,7 +259,7 @@ const Signup = () => {
               </button>
             </div>
             <a className="forget-pass" href="#">Forgot password?</a>
-            <p className="subtitle">Don't have an account? <a href="#">Sign Up <img src={diagonal} /></a></p>
+            <p className="subtitle">Don't have an account? <Link to='/login'></Link>Login <img src={diagonal} /></p>
           </form>
         </div>
         <div className='loginformphoto'>
@@ -324,7 +275,8 @@ const Signup = () => {
           </div>
         </div>
       </div>
-    </div>
+      <ToastContainer />
+    </div >
   )
 }
 

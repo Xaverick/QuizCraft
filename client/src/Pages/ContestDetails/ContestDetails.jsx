@@ -1,28 +1,75 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ContestDetails.scss';
-import Contestdata from '../../assets/data/Contestdata';
-import Commoncd from '../../components/commonContestDetail/Commoncd';
 import { useParams } from 'react-router-dom';
+import Commoncd from '../../components/commonContestDetail/Commoncd';
+
 const ContestDetails = () => {
     const [activeSection, setActiveSection] = useState('details');
+    const [quizData, setQuizData] = useState({});
+    const { id } = useParams();
 
     const handleNavClick = (section) => {
         setActiveSection(section);
     };
-    const { contestId } = useParams();
-    const contest = Contestdata.find(c => c.id === parseInt(contestId));
 
-    if (!contest) {
-        return <div>Contest not found</div>;
-    }
+    useEffect(() => {
+        const fetchQuizData = async () => {
+            try {
+                const response = await fetch(`http://localhost:4000/quiz/getQuiz/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include'
+                });
+
+                if (!response.ok) {
+                    console.log('Failed to fetch quiz data');
+                    return;
+                }
+
+                const data = await response.json();
+                setQuizData(data);
+            } catch (error) {
+                console.error('Error fetching quiz data:', error);
+            }
+        };
+
+        fetchQuizData();
+    }, [id]);
+
+    const handleRegister = async () => {
+        const response = await fetch(`http://localhost:4000/quiz/registerQuiz/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        });
+
+        const message = await response.json();
+        console.log(message);
+
+        if (response.ok) {
+            toast.success(message, {
+                position: "top-left",
+                autoClose: 2000,
+                hideProgressBar: true,
+            });
+        } else {
+            toast.error(message, {
+                position: "top-left",
+                autoClose: 2000,
+                hideProgressBar: true,
+            });
+        }
+    };
+
     return (
         <div className="contestdetailspage">
             <div className='contestdetailspart-1'>
                 <div>
-                    {/* {Contestdata.map((data) => (
-                        <Commoncd key={data.id} data={data} />
-                    ))} */}
-                    <Commoncd data={contest} />
+                    <Commoncd data={quizData} />
                 </div>
             </div>
             <div className='mini-nav'>
@@ -53,13 +100,13 @@ const ContestDetails = () => {
                         <span>Contest Details:</span>
                         <div>
                             <ul><li>Description:</li></ul>
-                            <p>{contest.desciption}</p>
+                            <p>{quizData.description}</p>
                         </div>
                         <div>
                             <ul><li>Rules & Regulations:</li></ul>
                             {
                                 <ol type='Number'>
-                                    {Object.values(contest.rules).map((rule, idx) => (
+                                    {quizData.rules && Object.values(quizData.rules).map((rule, idx) => (
                                         <li key={idx}>{rule}</li>
                                     ))}
                                 </ol>
@@ -72,15 +119,12 @@ const ContestDetails = () => {
                     </div>
                 )}
                 {activeSection === 'rewards' && (
-
                     <div className='rewards'>
-                        {Object.values(contest.rewards).map((reward, idx) => (
+                        {quizData.rewards && Object.values(quizData.rewards).map((reward, idx) => (
                             <img key={idx} src={reward} alt={`Reward ${idx + 1}`} />
                         ))}
                     </div>
-
                 )}
-
             </div>
         </div>
     );

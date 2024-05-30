@@ -29,23 +29,24 @@ function App() {
         <SideNavbar />
       </div>
       <Routes>
-        <Route path='/' element={<Home />} />
+
         <Route path='/contest' element={<Allcontest />} />
         <Route path='/pricing' element={<Pricing plansdata={plansdata} />} />
         <Route path='/contact' element={<Contact />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
-        <Route path='/contest/:contestId' element={<ContestDetails />} />
-        {/* <Route path="/" element={<AllQuiz />} /> */}
+        {/* <Route path='/login' element={<Login />} />
+        <Route path='/signup' element={<Signup />} /> */}
+        
+        <Route path='/' element={<Home />} />
+        <Route path="/all" element={<AllQuiz />} />
         <Route element={<PrivateRoutes />} >
+        <Route path='/contest/:id' element={<ContestDetails />} />
           <Route path="/take-quiz/:id" element={<TakeQuiz />} />
           <Route path="/your-quizzes" element={<YourQuiz />} />
           <Route path="/analytics/:id" element={<Analytics />} />
         </Route>
-
         <Route path="/quiz/:id" element={<QuizPage />} />
-        {/* <Route path="/login" element={<Login />} /> */}
-        {/* <Route path="/signup" element={<Signup />} /> */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/payment" element={<BuyCourse />} />
       </Routes>
       <Footer />

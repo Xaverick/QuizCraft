@@ -7,41 +7,41 @@ const ExpressError = require('../utils/ExpressError');
 
 module.exports.login = async (req, res) => {
     let { email, password } = req.body;
-    if(!email || !password) throw new ExpressError('missing fields', 400);
-    else{
+    if (!email || !password) throw new ExpressError('missing fields', 400);
+    else {
         email = email.toLowerCase();
-        const user = await User.findOne({ email: email});
-        
-        if(!user){
+        const user = await User.findOne({ email: email });
+
+        if (!user) {
             throw new ExpressError('invalid credentials', 400);
         }
 
-        if(!bcrypt.compareSync(password, user.password)){
+        if (!bcrypt.compareSync(password, user.password)) {
             throw new ExpressError('invalid credentials', 400);
         }
         const payload = { userId: user._id, email: user.email, username: user.username };
-        const token = jwt.sign( payload, `${process.env.USER_SECRET}`, { expiresIn: '3h' });
-        res.cookie('userjwt', token, { signed: true,httpOnly: true, sameSite: 'none', maxAge: 3 * 1000 * 60 * 60, secure: true })
-        res.status(200).json({payload, expiresIn: 3 * 1000 * 60 * 60});
+        const token = jwt.sign(payload, `${process.env.USER_SECRET}`, { expiresIn: '3h' });
+        res.cookie('userjwt', token, { signed: true, httpOnly: true, sameSite: 'none', maxAge: 3 * 1000 * 60 * 60, secure: true })
+        res.status(200).json({ payload, expiresIn: 3 * 1000 * 60 * 60 });
     }
 }
 
 
 module.exports.register = async (req, res) => {
     let { name, username, email, password } = req.body;
-    if(!name || !username || !email || !password) throw new ExpressError('missing fields', 400);
+    if (!name || !email || !password) throw new ExpressError('missing fields', 400);
     email = email.toLowerCase();
-    const registeredEmail = await User.findOne({email: email, username: username});
+    const registeredEmail = await User.findOne({ email: email, username: username });
 
-    if(registeredEmail){
+    if (registeredEmail) {
         throw new ExpressError('email or username already registered', 400);
     }
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
-    const user = await User.create({name, username, email, password: hash});
+    const user = await User.create({ name, username, email, password: hash });
     // await sendVerificationEmail(email,user);
     res.status(200).json('register');
-    
+
 }
 
 module.exports.logout = (req, res) => {
@@ -51,8 +51,8 @@ module.exports.logout = (req, res) => {
 
 module.exports.profile = async (req, res) => {
     const user = await User.findById(req.userId);
-    if(!user){
-        throw new ExpressError('user not found', 400);      
+    if (!user) {
+        throw new ExpressError('user not found', 400);
     }
 
     res.status(200).json(user);
@@ -60,11 +60,11 @@ module.exports.profile = async (req, res) => {
 
 
 module.exports.forgotPassword = async (req, res) => {
-    const { email} = req.body;
-    const user = await User.findOne({email: email});
-    if(user){
+    const { email } = req.body;
+    const user = await User.findOne({ email: email });
+    if (user) {
         const secret = `${process.env.USER_SECRET}${user.password}`;
-        const token = jwt.sign({ id: user._id } , secret , { expiresIn: '5m' });
+        const token = jwt.sign({ id: user._id }, secret, { expiresIn: '5m' });
 
         let config = {
             service: 'gmail',
@@ -109,11 +109,11 @@ module.exports.forgotPassword = async (req, res) => {
         };
 
         transporter.sendMail(message)
-        .then(() => res.status(201).json('email sent'))
-        .catch((err) => res.status(400).json(err));
-        
-    } 
-    else{
+            .then(() => res.status(201).json('email sent'))
+            .catch((err) => res.status(400).json(err));
+
+    }
+    else {
         res.status(400).json('email not registered');
     }
 }
@@ -123,17 +123,17 @@ module.exports.resetPassword = async (req, res) => {
     const { id, token } = req.params;
     const { password } = req.body;
     const oldUser = await User.findById(id);
-    if(!oldUser){
+    if (!oldUser) {
         res.status(400).json('user not found');
     }
-    else{
+    else {
         const secret = `${process.env.USER_SECRET}${oldUser.password}`;
-        if(jwt.verify(token,secret)){
+        if (jwt.verify(token, secret)) {
             oldUser.password = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
             await oldUser.save();
             res.json('password changed');
         }
-        else{
+        else {
             res.status(400).json('invalid token');
         }
     }

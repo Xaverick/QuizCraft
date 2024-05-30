@@ -13,13 +13,13 @@ const userSchema = new schema({
 
     username: {
         type: String,
-        required: true,
+        // required: true,
         unique: true,
         min: 6,
-        
+
     },
 
-    email: { 
+    email: {
         type: String,
         required: true,
         unique: true,
@@ -27,7 +27,7 @@ const userSchema = new schema({
         max: 255,
 
     },
-    
+
     password: {
         type: String,
         required: true,
