@@ -1,14 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './Navbar.scss';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/slices/authSlice';
 import navbarlogo from '../../assets/homepageimages/navbarlogo.png';
+
 const Navbar = () => {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   const dispatch = useDispatch();
+  const location = useLocation(); // Get the current location
   const [showMenu, setShowMenu] = useState(false);
-  const [activeLink, setActiveLink] = useState('/');
+  const [activeLink, setActiveLink] = useState(location.pathname); // Set initial state to the current path
+
+  useEffect(() => {
+    setActiveLink(location.pathname); // Update active link state on location change
+  }, [location]);
 
   const handleLinkClick = (link) => {
     setActiveLink(link);
@@ -31,11 +37,7 @@ const Navbar = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('expiresIn');
     dispatch(logout());
-
-
   };
-
-
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
@@ -46,7 +48,7 @@ const Navbar = () => {
       <div className='navbar'>
         <div className='navbar-content'>
           <div className='navbar-LOGO'>
-            <img src={navbarlogo} alt=''></img>
+            <img src={navbarlogo} alt='logo'></img>
           </div>
           <div className='navbar-links'>
             <Link
@@ -91,37 +93,6 @@ const Navbar = () => {
         </div>
       </div>
     </div>
-
-
-
-
-    // <nav className={`navbar ${showMenu ? 'show-menu' : ''}`}>
-    //   <div className="navbar-left">
-    //     <h1>LOGO</h1>
-    //     <Link to="/" className="navbar-link">Home</Link>
-    //     <Link to="/your-quizzes" className="navbar-link">Your Quizzes</Link>
-    //     {/* <Link to="/take-quiz/:id" className="navbar-link">Take Quiz</Link> */}
-    //     {/* <Link to="#" className="navbar-link">Services</Link> */}
-    //   </div>
-    //   <div className="navbar-right">
-    //     <div className="menu-icon" onClick={toggleMenu}>
-    //       <span></span>
-    //       <span></span>
-    //       <span></span>r
-    //     </div>
-    //     <div className={`menu-items ${showMenu ? 'show' : ''}`}>
-    //       {!isLoggedIn ? (
-    //         <>
-    //           <Link to="login" className="navbar-link">Login</Link>
-    //           <Link to="signup" className="navbar-link">Signup</Link>
-    //         </>
-    //       ) : (
-    //         <a href="#" className="navbar-link" onClick={handleLogout}>Logout</a>
-    //       )}
-    //     </div>
-    //   </div>
-    // </nav>
-
   );
 }
 

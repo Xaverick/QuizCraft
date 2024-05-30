@@ -1,8 +1,11 @@
-import { duration } from '@mui/material';
+// import { duration } from '@mui/material';
 import dumy1 from '../Contestimages/dumy1.png';
 import dumy2 from '../Contestimages/dumy2.png';
 import dumy3 from '../Contestimages/dumy3.png';
-
+import price1 from '../../assets/Contestimages/price1.png';
+import price2 from '../../assets/Contestimages/price2.png'
+import price3 from '../../assets/Contestimages/price3.png'
+import price4 from '../../assets/Contestimages/price4.png'
 
 const Contestdata = [
     {
@@ -25,6 +28,9 @@ const Contestdata = [
             rule4: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             rule5: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
             rule6: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+        },
+        rewards: {
+            price1, price2, price3, price4
         }
     },
     {

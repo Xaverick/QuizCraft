@@ -1,0 +1,17 @@
+.desktop-navbar {
+    display: block;
+}
+
+.mobile-navbar {
+    display: none;
+}
+
+@media (max-width: 868px) {
+    .desktop-navbar {
+        display: none;
+    }
+
+    .mobile-navbar {
+        display: block;
+    }
+}

@@ -72,9 +72,13 @@ const ContestDetails = () => {
                     </div>
                 )}
                 {activeSection === 'rewards' && (
-                    <div>
 
+                    <div className='rewards'>
+                        {Object.values(contest.rewards).map((reward, idx) => (
+                            <img key={idx} src={reward} alt={`Reward ${idx + 1}`} />
+                        ))}
                     </div>
+
                 )}
 
             </div>

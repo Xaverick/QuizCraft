@@ -17,12 +17,17 @@ import Pricing from './Pages/Pricing/Pricing.jsx'
 import { plansdata } from './assets/data/plansdata.js'
 import Contact from './Pages/Contact/Contact.jsx'
 import ContestDetails from './Pages/ContestDetails/ContestDetails.jsx'
-
+import SideNavbar from './components/Navbar/Sidenavbar.jsx'
 
 function App() {
   return (
     <>
-      <Navbar />
+      <div className="desktop-navbar">
+        <Navbar />
+      </div>
+      <div className="mobile-navbar">
+        <SideNavbar />
+      </div>
       <Routes>
         <Route path='/' element={<Home />} />
         <Route path='/contest' element={<Allcontest />} />
