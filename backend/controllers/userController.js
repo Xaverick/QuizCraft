@@ -19,7 +19,7 @@ module.exports.login = async (req, res) => {
         if (!bcrypt.compareSync(password, user.password)) {
             throw new ExpressError('invalid credentials', 400);
         }
-        const payload = { userId: user._id, email: user.email, username: user.username };
+        const payload = { userId: user._id, email: user.email, name: user.name };
         const token = jwt.sign(payload, `${process.env.USER_SECRET}`, { expiresIn: '3h' });
         res.cookie('userjwt', token, { signed: true, httpOnly: true, sameSite: 'none', maxAge: 3 * 1000 * 60 * 60, secure: true })
         res.status(200).json({ payload, expiresIn: 3 * 1000 * 60 * 60 });
@@ -28,19 +28,20 @@ module.exports.login = async (req, res) => {
 
 
 module.exports.register = async (req, res) => {
-    let { name, username, email, password } = req.body;
+    let { name, email, password } = req.body;
     if (!name || !email || !password) throw new ExpressError('missing fields', 400);
     email = email.toLowerCase();
-    const registeredEmail = await User.findOne({ email: email, username: username });
+    const registeredEmail = await User.findOne({ email: email, name: name });
 
     if (registeredEmail) {
         throw new ExpressError('email or username already registered', 400);
     }
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
-    const user = await User.create({ name, username, email, password: hash });
+    const user = await User.create({ name, email, password: hash });
     // await sendVerificationEmail(email,user);
     res.status(200).json('register');
+
 
 }
 

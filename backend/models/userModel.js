@@ -11,13 +11,13 @@ const userSchema = new schema({
         max: 255,
     },
 
-    username: {
-        type: String,
-        // required: true,
-        unique: true,
-        min: 6,
+    // username: {
+    //     type: String,
+    //     // required: true,
+    //     unique: true,
+    //     min: 6,
 
-    },
+    // },
 
     email: {
         type: String,

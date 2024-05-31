@@ -5,7 +5,80 @@ import React, { useState } from 'react';
 import Faqcompo from '../../components/faq/faq.jsx'
 import faqdata from "../../assets/data/faqs.js";
 // import Faqcompo from '../../components/faq/faq.jsx'
+
+function loadScript(url) {
+    return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = url;
+        script.onload = resolve;
+        script.onerror = reject;
+        document.body.appendChild(script);
+    });
+}
+const verifyPayment = async (response) => {
+    const res = await fetch('http://localhost:4000/payments/verifyPayment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+            razorpay_order_id: response.razorpay_order_id,
+            razorpay_payment_id: response.razorpay_payment_id,
+            razorpay_signature: response.razorpay_signature,
+        }),
+    }).then(res => res.json());
+    console.log(res);
+}
 const Pricing = ({ plansdata }) => {
+    const [amount, setAmount] = useState(0);
+    const handlePayment = async () => {
+        try {
+            const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+
+            if (!res) {
+                toast.error("RazorPay SDK failed to load");
+                return;
+            }
+            // Fetch order details from your backend
+            const order = await fetch('http://localhost:4000/payments/capturePayment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+
+                body: JSON.stringify({ cost: amount })
+            }).then(res => res.json());
+            console.log(order);
+
+            const options = {
+                key: "rzp_test_L2xGUPd25MH4Rj",
+                amount: order.amount,
+                currency: order.currency,
+                name: 'Your Company Name',
+                order_id: order.id,
+                handler: (response) => {
+                    //add user Id in response and then send it to backend
+
+
+                    console.log('Payment Successful:', response);
+
+                    verifyPayment(response);
+                },
+                prefill: {
+                    name: 'Customer Name',
+                    email: 'customer@example.com',
+                },
+            };
+
+            const paymentObject = new window.Razorpay(options);
+            paymentObject.open();
+            paymentObject.on("payment.failed", function (response) {
+                toast.error("oops, payment failed");
+                console.log(response.error);
+            });
+        }
+        catch (error) {
+            console.error('Payment Error:', error);
+        }
+    };
     const [checked, setChecked] = useState(true);
     const filteredPlans = plansdata.filter(plan =>
         checked ? plan.type === 'Monthly' : plan.type === 'Yearly'
@@ -66,7 +139,7 @@ const Pricing = ({ plansdata }) => {
                                 </div>
                                 <span className='pricingline'></span>
                                 <div className='pricingboxbutton'>
-                                    <button>{plan.buttontext}</button>
+                                    <button onClick={handlePayment}>{plan.buttontext}</button>
                                 </div>
                             </div>
                         ))}

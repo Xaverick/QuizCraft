@@ -186,7 +186,7 @@ const Signup = () => {
       setFormData({
         email: '',
         password: '',
-        username: '',
+        // username: '',
         name: ''
       });
 
@@ -250,7 +250,7 @@ const Signup = () => {
                 <label htmlFor="rememberMe">I agree with Terms of Use and Privacy Policy</label>
               </div>
             </div>
-            <button className="cta-btn" type="submit">Login</button>
+            <button className="cta-btn" type="submit">Sign Up</button>
             <p className="or"><span></span></p>
             <div className="social-login">
               <button className="google-btn">

@@ -16,7 +16,7 @@ const Faqcompo = ({ f }) => {
                 </div> */}
                 <div className='faqquestionanswer'>
                     <div className='faqquestion'>
-                        <p>{f.id + 1}</p>
+                        {/* <p>{f.id + 1}</p> */}
                         <p>{f.question}</p>
                     </div>
                     <div className='faqanswer'>
