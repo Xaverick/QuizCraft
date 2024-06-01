@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './ContestDetails.scss';
 import { useParams } from 'react-router-dom';
 import Commoncd from '../../components/commonContestDetail/Commoncd';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ContestDetails = () => {
     const [activeSection, setActiveSection] = useState('details');
@@ -69,7 +71,7 @@ const ContestDetails = () => {
         <div className="contestdetailspage">
             <div className='contestdetailspart-1'>
                 <div>
-                    <Commoncd data={quizData} />
+                    <Commoncd data={quizData} handleRegister={handleRegister} />
                 </div>
             </div>
             <div className='mini-nav'>

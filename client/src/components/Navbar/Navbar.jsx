@@ -1,23 +1,27 @@
 import { useState, useEffect } from 'react';
-import './Navbar.scss';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/slices/authSlice';
+import { FaUserCircle } from 'react-icons/fa'; // Importing the profile icon from react-icons
+import './Navbar.scss';
 import navbarlogo from '../../assets/homepageimages/navbarlogo.png';
 
 const Navbar = () => {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
   const dispatch = useDispatch();
-  const location = useLocation(); // Get the current location
+  const location = useLocation();
+  const navigate = useNavigate(); // Using useNavigate instead of useHistory
   const [showMenu, setShowMenu] = useState(false);
-  const [activeLink, setActiveLink] = useState(location.pathname); // Set initial state to the current path
+  const [activeLink, setActiveLink] = useState(location.pathname);
+  const [showProfileMenu, setShowProfileMenu] = useState(false); // State for profile menu
 
   useEffect(() => {
-    setActiveLink(location.pathname); // Update active link state on location change
+    setActiveLink(location.pathname);
   }, [location]);
 
   const handleLinkClick = (link) => {
     setActiveLink(link);
+    setShowProfileMenu(false); // Close profile menu on link click
   };
 
   const handleLogout = async () => {
@@ -37,18 +41,23 @@ const Navbar = () => {
     localStorage.removeItem('user');
     localStorage.removeItem('expiresIn');
     dispatch(logout());
+    navigate('/'); // Navigate to home page after logout
   };
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
 
+  const toggleProfileMenu = () => {
+    setShowProfileMenu(!showProfileMenu);
+  };
+
   return (
     <div className='nav'>
       <div className='navbar'>
         <div className='navbar-content'>
-          <div className='navbar-LOGO'>
-            <img src={navbarlogo} alt='logo'></img>
+          <div className='navbar-logo'>
+            <img src={navbarlogo} alt='logo' />
           </div>
           <div className='navbar-links'>
             <Link
@@ -87,8 +96,23 @@ const Navbar = () => {
               Contact
             </Link>
           </div>
-          <div className='navbar-buttons'>
-            <Link to="/login" className="navbar-button">Login</Link>
+          <div className='navbar-profile-buttons'>
+            {isLoggedIn ? (
+              <div className="profile-container">
+                <FaUserCircle
+                  size={30}
+                  className="profile-icon"
+                  onClick={toggleProfileMenu}
+                />
+                <button className="navbar-button" onClick={handleLogout}>
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <Link to="/login" className="navbar-button">
+                Login
+              </Link>
+            )}
           </div>
         </div>
       </div>

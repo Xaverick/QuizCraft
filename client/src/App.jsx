@@ -18,6 +18,7 @@ import { plansdata } from './assets/data/plansdata.js'
 import Contact from './Pages/Contact/Contact.jsx'
 import ContestDetails from './Pages/ContestDetails/ContestDetails.jsx'
 import SideNavbar from './components/Navbar/Sidenavbar.jsx'
+import ContestQuestion from './Pages/ContestQuestion/Contestquestion.jsx'
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
         <SideNavbar />
       </div>
       <Routes>
-
+       
         <Route path='/contest' element={<Allcontest />} />
         <Route path='/pricing' element={<Pricing plansdata={plansdata} />} />
         <Route path='/contact' element={<Contact />} />
@@ -40,7 +41,8 @@ function App() {
         {/* <Route path="/all" element={<AllQuiz />} /> */}
         <Route element={<PrivateRoutes />} >
           <Route path='/contest/:id' element={<ContestDetails />} />
-          <Route path="/take-quiz/:id" element={<TakeQuiz />} />
+          <Route path='/contestquestion/:id' element={<ContestQuestion />} />
+          {/* <Route path="/take-quiz/:id" element={<TakeQuiz />} /> */}
           <Route path="/your-quizzes" element={<YourQuiz />} />
           <Route path="/analytics/:id" element={<Analytics />} />
         </Route>

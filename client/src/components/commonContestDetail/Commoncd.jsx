@@ -5,8 +5,10 @@ import CT from '../../assets/Contestimages/CT.png';
 import Duration from '../../assets/Contestimages/Duration.png';
 import NOQ from '../../assets/Contestimages/NOQ.png';
 import TM from '../../assets/Contestimages/TM.png';
-import defaultimage from '../../assets/Contestimages/dumy1.png'
-const Commoncd = ({ data }) => {
+import defaultimage from '../../assets/Contestimages/dumy1.png';
+import { Link } from 'react-router-dom';
+
+const Commoncd = ({ data, handleRegister }) => {
     const [timeRemaining, setTimeRemaining] = useState('');
     const [contestStarted, setContestStarted] = useState(false);
 
@@ -56,6 +58,9 @@ const Commoncd = ({ data }) => {
         return <div>Loading...</div>;
     }
 
+    const eventDate = new Date(data.startTime).toLocaleDateString('en-GB');
+    const eventTime = new Date(data.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
     return (
         <div className='commoncd-container'>
             <div className='commoncd-left'>
@@ -65,11 +70,11 @@ const Commoncd = ({ data }) => {
                 <div className='commoncd-left-details'>
                     <span>
                         <img src={CD} alt='' />
-                        Event date: {new Date(data.startTime).toLocaleDateString()}
+                        Event date: {eventDate}
                     </span>
                     <span>
                         <img src={CT} alt='' />
-                        Event Time: {new Date(data.startTime).toLocaleTimeString()}
+                        Event Time: {eventTime}
                     </span>
                     <span>
                         <img src={NOQ} alt='' />
@@ -85,7 +90,7 @@ const Commoncd = ({ data }) => {
                     </span>
                 </div>
                 <div className='commoncd-left-button'>
-                    <button>Register</button>
+                    <Link to={`/contestquestion/${data.id}`}> <button onClick={handleRegister}>Register</button></Link>
                 </div>
             </div>
             <div className='commoncd-right'>

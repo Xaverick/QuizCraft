@@ -21,13 +21,12 @@ const SideNavbar = () => {
         } else {
             document.body.classList.remove('menu-open');
         }
-    }, [showMenu], [location]);
+    }, [showMenu, location.pathname]);
 
     const handleLinkClick = (link) => {
         setActiveLink(link);
         setShowMenu(false);
     };
-
 
     const handleLogout = async () => {
         const response = await fetch('http://localhost:4000/user/logout', {
@@ -98,13 +97,19 @@ const SideNavbar = () => {
                         >
                             Contact
                         </Link>
-                        <Link
-                            to="/login"
-                            className={`side-navbar-link ${activeLink === '/login' ? 'active' : ''}`}
-                            onClick={() => handleLinkClick('/login')}
-                        >
-                            Login
-                        </Link>
+                        {isLoggedIn ? (
+                            <button className="side-navbar-link " onClick={handleLogout}>
+                                Logout
+                            </button>
+                        ) : (
+                            <Link
+                                to="/login"
+                                className={`side-navbar-link ${activeLink === '/login' ? 'active' : ''}`}
+                                onClick={() => handleLinkClick('/login')}
+                            >
+                                Login
+                            </Link>
+                        )}
                     </div>
                 </div>
             </div>
