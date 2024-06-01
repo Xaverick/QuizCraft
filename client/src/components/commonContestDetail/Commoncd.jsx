@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 const Commoncd = ({ data, handleRegister }) => {
     const [timeRemaining, setTimeRemaining] = useState('');
     const [contestStarted, setContestStarted] = useState(false);
+    console.log(data._id);
 
     useEffect(() => {
         const calculateEndTime = (startTime, duration) => {
@@ -90,7 +91,7 @@ const Commoncd = ({ data, handleRegister }) => {
                     </span>
                 </div>
                 <div className='commoncd-left-button'>
-                    <Link to={`/contestquestion/${data.id}`}> <button onClick={handleRegister}>Register</button></Link>
+                    <Link to={`/contestquestion/${data._id}`}> <button onClick={handleRegister}>Register</button></Link>
                 </div>
             </div>
             <div className='commoncd-right'>
