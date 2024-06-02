@@ -1,16 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import './Contestquestion.scss';
-import { useParams } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Link, useParams } from 'react-router-dom';
+
+const NavBar = ({ timeRemaining, contestStartTime, handleEndTest }) => {
+    const calculateTimeRemaining = (endTime) => {
+        if (isNaN(endTime)) return ''; // Handle invalid or NaN contest start time
+        const now = new Date().getTime();
+        console.log(now);
+        console.log(endTime);
+        const difference = endTime - now;
+        if (difference < 0) return ''; // Contest already started
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+        return `${hours}h ${minutes}m ${seconds}s`;
+    };
+
+    return (
+        <nav className="navbar">
+            <div className="navbar-brand">
+                <Link to="/">
+                    <img src="logo.png" alt="Logo" />
+                </Link>
+            </div>
+            <div className="time-remaining">
+                Time Remaining: {timeRemaining} seconds
+            </div>
+            <div className="contest-start-time">
+                Contest Start Time Remaining: {calculateTimeRemaining(contestStartTime)}
+            </div>
+            <button className="btn end-test-btn" onClick={handleEndTest}>
+                End Test
+            </button>
+        </nav>
+    );
+};
+
 
 const ContestQuestion = () => {
     const { id } = useParams();
     const [questions, setQuestions] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [selectedOption, setSelectedOption] = useState(null);
-    const [responses, setResponses] = useState([]);
-    const [timer, setTimer] = useState(300);
+    const [timer, setTimer] = useState(0);
+    const [contestStartTime, setContestStartTime] = useState(0);
     const [formSubmitted, setFormSubmitted] = useState(false);
     let timerInterval;
 
@@ -27,7 +60,6 @@ const ContestQuestion = () => {
             if (response.ok) {
                 const data = await response.json();
                 setQuestions(data.questions);
-                setResponses(Array(data.questions.length).fill(''));
                 const storedTimer = sessionStorage.getItem(`quizTimer_${id}`);
                 if (storedTimer) {
                     const startTime = parseInt(storedTimer);
@@ -37,6 +69,9 @@ const ContestQuestion = () => {
                 } else {
                     setTimer(data.duration);
                 }
+
+                setContestStartTime(data.contestStartTime);
+                setQuestions(data.questions);
             } else {
                 console.log('Failed to fetch quiz data');
             }
@@ -50,7 +85,7 @@ const ContestQuestion = () => {
         const storedTimer = sessionStorage.getItem(`quizTimer_${id}`);
         if (storedFormSubmitted === 'true') {
             setFormSubmitted(true);
-            setTimer(0);
+            setTimer(0); // Set timer to 0 if form is already submitted
         } else if (storedTimer) {
             const elapsed = Math.floor((Date.now() - parseInt(storedTimer)) / 1000);
             const remaining = Math.max(0, timer - elapsed);
@@ -67,14 +102,13 @@ const ContestQuestion = () => {
 
     useEffect(() => {
         if (timer <= 0 && !formSubmitted) {
-            handleSubmit();
+            // handleSubmit();
             clearInterval(timerInterval);
         }
     }, [timer]);
 
     const initializeQuiz = () => {
         setCurrentQuestionIndex(0);
-        setResponses(Array(questions.length).fill(''));
         const startTime = Date.now();
         sessionStorage.setItem(`quizTimer_${id}`, startTime.toString());
         startTimer(startTime);
@@ -83,6 +117,8 @@ const ContestQuestion = () => {
     const startTimer = (startTime) => {
         const elapsed = Math.floor((Date.now() - startTime) / 1000);
         const remaining = Math.max(0, timer - elapsed);
+        console.log(remaining);
+        console.log(timer);
         setTimer(remaining);
         timerInterval = setInterval(() => {
             setTimer((prevTimer) => {
@@ -95,61 +131,27 @@ const ContestQuestion = () => {
         }, 1000);
     };
 
+
     const handleOptionChange = (e) => {
-        const optionText = e.target.value;
-        const updatedResponses = [...responses];
-        updatedResponses[currentQuestionIndex] = optionText;
-        setResponses(updatedResponses);
-        setSelectedOption(optionText);
+        setSelectedOption(e.target.value);
     };
 
     const handleNextQuestion = () => {
         if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
-            setSelectedOption(null);
+            setSelectedOption(null); // Reset selected option
         }
     };
 
     const handlePrevQuestion = () => {
         if (currentQuestionIndex > 0) {
             setCurrentQuestionIndex(currentQuestionIndex - 1);
-            setSelectedOption(null);
+            setSelectedOption(null); // Reset selected option
         }
     };
 
-    const handleSubmit = async () => {
-        setFormSubmitted(true);
-        localStorage.setItem(`quizFormSubmitted_${id}`, 'true');
-        sessionStorage.removeItem(`quizTimer_${id}`);
-        setTimer(0);
-        const formattedResponses = questions.map((question, index) => ({
-            questionId: question._id,
-            response: responses[index],
-            correct: question.correctOption.toLowerCase() === responses[index].toLowerCase()
-        }));
-
-        const response = await fetch(`http://localhost:4000/quiz/submitQuiz/${id}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include',
-            body: JSON.stringify({ answers: formattedResponses })
-        });
-
-        if (response.ok) {
-            toast.success('Quiz submitted successfully', {
-                position: "top-left",
-                autoClose: 2000,
-                hideProgressBar: true,
-            });
-        } else {
-            toast.error('Failed to submit quiz', {
-                position: "top-left",
-                autoClose: 2000,
-                hideProgressBar: true,
-            });
-        }
+    const handleEndTest = () => {
+        // Implement logic for ending the test
     };
 
     const currentQuestion = questions[currentQuestionIndex];
@@ -157,7 +159,9 @@ const ContestQuestion = () => {
 
     return (
         <main>
+            <NavBar timeRemaining={timer} contestStartTime={contestStartTime} handleEndTest={handleEndTest} />
             <div className="container">
+                <h1 className="quiz-title">Quiz Title</h1>
                 <div className="progress-bar-container">
                     <div className="progress-text">
                         {currentQuestionIndex + 1}/{questions.length} Questions Attempted
@@ -174,58 +178,50 @@ const ContestQuestion = () => {
                                         href="#"
                                         onClick={() => {
                                             setCurrentQuestionIndex(index);
-                                            setSelectedOption(responses[index] || null);
+                                            setSelectedOption(null); // Reset selected option
                                         }}
                                     >
-                                        {question.text}
+                                        {index + 1}
                                     </a>
                                 </li>
                             ))}
                         </ul>
                     </div>
                 </section>
-                {currentQuestion && (
-                    <section className="question-section">
-                        <div className="question">
-                            <h2 className="question-num">
-                                Question {currentQuestionIndex + 1}: {currentQuestion.text}
-                            </h2>
-                        </div>
-                        <div className="answer">
-                            {currentQuestion.options.map((option, index) => (
-                                <label
-                                    key={index}
-                                    className={`answer-item ${selectedOption === option ? 'selected' : ''}`}
-                                >
-                                    <input
-                                        type="radio"
-                                        name="quizOption"
-                                        value={option}
-                                        onChange={handleOptionChange}
-                                        checked={selectedOption === option}
-                                    />
-                                    <span>{option}</span>
-                                </label>
-                            ))}
-                        </div>
-                        <div className="action">
-                            <button className="btn" onClick={handlePrevQuestion} disabled={currentQuestionIndex === 0}>
-                                Previous
-                            </button>
-                            <button className="btn" onClick={handleNextQuestion} disabled={currentQuestionIndex === questions.length - 1}>
+                <section className="question-section">
+                    <div className="question">
+                        <h2 className="question-num">
+                            Question {currentQuestionIndex + 1}: {currentQuestion?.text}
+                        </h2>
+                    </div>
+                    <div className="answer">
+                        {currentQuestion?.options?.map((option) => (
+                            <label
+                                key={option._id}
+                                className={`answer-item ${selectedOption === option.text ? 'selected' : ''}`}
+                            >
+                                <input
+                                    type="radio"
+                                    name="quizOption"
+                                    value={option.text}
+                                    onChange={handleOptionChange}
+                                    checked={selectedOption === option.text}
+                                />
+                                <span>{option.text}</span>
 
-                                Next
-                            </button>
-                        </div>
-                    </section>
-                )}
-                {currentQuestionIndex === questions.length - 1 && (
-                    <button className="submit" onClick={handleSubmit} disabled={formSubmitted}>
-                        Submit
-                    </button>
-                )}
+                            </label>
+                        ))}
+                    </div>
+                    <div className="action">
+                        <button className="btn" onClick={handlePrevQuestion} disabled={currentQuestionIndex === 0}>
+                            Previous
+                        </button>
+                        <button className="btn" onClick={handleNextQuestion} disabled={currentQuestionIndex === questions.length - 1}>
+                            Next
+                        </button>
+                    </div>
+                </section>
             </div>
-            <ToastContainer />
         </main>
     );
 };

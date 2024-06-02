@@ -30,7 +30,7 @@ function App() {
         <SideNavbar />
       </div>
       <Routes>
-       
+
         <Route path='/contest' element={<Allcontest />} />
         <Route path='/pricing' element={<Pricing plansdata={plansdata} />} />
         <Route path='/contact' element={<Contact />} />
