@@ -6,7 +6,7 @@ import Duration from '../../assets/Contestimages/Duration.png';
 import NOQ from '../../assets/Contestimages/NOQ.png';
 import TM from '../../assets/Contestimages/TM.png';
 import defaultimage from '../../assets/Contestimages/dumy1.png';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -123,8 +123,10 @@ const Commoncd = ({ data, handleRegister }) => {
 
                     {new Date() >= new Date(data.startTime) && new Date() <= new Date(data.endTime) && (
                         <button onClick={() => {
-                            handleRegistration();
-                            setIsStartModalOpen(true);
+                            handleRegister();
+                            if (!isRegistered) {
+                                setIsStartModalOpen(true);
+                            }
                         }}>
                             Register Quiz and Start
                         </button>

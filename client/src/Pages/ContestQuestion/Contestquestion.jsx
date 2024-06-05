@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Contestquestion.scss';
 import { Link, useParams } from 'react-router-dom';
-
+import logo from '../../assets/homepageimages/navbarlogo.png'
 const NavBar = ({ timeRemaining, contestStartTime, handleEndTest }) => {
     const calculateTimeRemaining = (endTime) => {
         if (isNaN(endTime)) return ''; // Handle invalid or NaN contest start time
@@ -17,21 +17,19 @@ const NavBar = ({ timeRemaining, contestStartTime, handleEndTest }) => {
     };
 
     return (
-        <nav className="navbar">
+        <nav className="navbarcontestquestion">
             <div className="navbar-brand">
                 <Link to="/">
-                    <img src="logo.png" alt="Logo" />
+                    <img src={logo} alt="Logo" />
                 </Link>
             </div>
             <div className="time-remaining">
-                Time Remaining: {timeRemaining} seconds
+                <p>{timeRemaining} seconds</p>
+                <Link to="/" className="navbar-button">
+                    End Test
+                </Link>
             </div>
-            <div className="contest-start-time">
-                Contest Start Time Remaining: {calculateTimeRemaining(contestStartTime)}
-            </div>
-            <button className="btn end-test-btn" onClick={handleEndTest}>
-                End Test
-            </button>
+
         </nav>
     );
 };
@@ -45,6 +43,7 @@ const ContestQuestion = () => {
     const [timer, setTimer] = useState(0);
     const [contestStartTime, setContestStartTime] = useState(0);
     const [formSubmitted, setFormSubmitted] = useState(false);
+    const [answers, setAnswers] = useState({});
     let timerInterval;
 
     useEffect(() => {
@@ -61,15 +60,20 @@ const ContestQuestion = () => {
                 const data = await response.json();
                 setQuestions(data.questions);
                 const storedTimer = sessionStorage.getItem(`quizTimer_${id}`);
+                console.log('stored timer:', storedTimer);
                 if (storedTimer) {
                     const startTime = parseInt(storedTimer);
+                    console.log('start time:', startTime)
                     const elapsed = Math.floor((Date.now() - startTime) / 1000);
+                    console.log('elapsed:', elapsed);
                     const remaining = Math.max(0, data.duration - elapsed);
+                    console.log('remaining:', remaining);
                     setTimer(remaining);
                 } else {
-                    setTimer(data.duration);
-                }
 
+                    setTimer(data.duration);
+                    console.log('timer:', data.duration);
+                }
                 setContestStartTime(data.contestStartTime);
                 setQuestions(data.questions);
             } else {
@@ -134,23 +138,31 @@ const ContestQuestion = () => {
 
     const handleOptionChange = (e) => {
         setSelectedOption(e.target.value);
+        setAnswers((prevAnswers) => ({
+            ...prevAnswers,
+            [currentQuestionIndex]: e.target.value,
+        }));
     };
 
     const handleNextQuestion = () => {
         if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(currentQuestionIndex + 1);
-            setSelectedOption(null); // Reset selected option
+            setSelectedOption(answers[currentQuestionIndex + 1] || null);
+            // setSelectedOption(null); // Reset selected option
         }
     };
 
     const handlePrevQuestion = () => {
         if (currentQuestionIndex > 0) {
             setCurrentQuestionIndex(currentQuestionIndex - 1);
-            setSelectedOption(null); // Reset selected option
+            setSelectedOption(answers[currentQuestionIndex - 1] || null);
+            // setSelectedOption(null); // Reset selected option
         }
     };
 
     const handleEndTest = () => {
+        setFormSubmitted(true);
+        localStorage.setItem(`quizFormSubmitted_${id}`, 'true');
         // Implement logic for ending the test
     };
 
@@ -160,8 +172,9 @@ const ContestQuestion = () => {
     return (
         <main>
             <NavBar timeRemaining={timer} contestStartTime={contestStartTime} handleEndTest={handleEndTest} />
+            <span><hr /></span>
             <div className="container">
-                <h1 className="quiz-title">Quiz Title</h1>
+                {/* <h1 className="quiz-title">Quiz Title</h1> */}
                 <div className="progress-bar-container">
                     <div className="progress-text">
                         {currentQuestionIndex + 1}/{questions.length} Questions Attempted
@@ -178,7 +191,8 @@ const ContestQuestion = () => {
                                         href="#"
                                         onClick={() => {
                                             setCurrentQuestionIndex(index);
-                                            setSelectedOption(null); // Reset selected option
+                                            setSelectedOption(answers[index] || null);
+                                            // setSelectedOption(null); // Reset selected option
                                         }}
                                     >
                                         {index + 1}
@@ -208,7 +222,6 @@ const ContestQuestion = () => {
                                     checked={selectedOption === option.text}
                                 />
                                 <span>{option.text}</span>
-
                             </label>
                         ))}
                     </div>
