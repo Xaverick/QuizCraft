@@ -5,7 +5,67 @@ import tick from '../../assets/Contactpage/tick.png'
 import Comment from '../../components/comment/Comment.jsx';
 import commentdata from '../../assets/data/commentdata.js';
 import rightside from '../../assets/Contactpage/rightside.png'
+import { useState } from 'react'
+import axios from 'axios';
+import { toast } from 'react-toastify';
+
 const Contact = () => {
+    const [formdata, setFormdata] = useState({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+        subject: '',
+        message: '',
+
+    })
+
+    const handleChange = (e) => {
+        const { name, value } = e.target
+        setFormdata({
+            ...formdata,
+            [name]: value
+        })
+    }
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+
+        const response = await axios.post('/user/contact', formdata)
+
+
+        if (response.status === 200) {
+            toast.success(response.data.message, {
+                position: "top-left",
+                autoClose: 2000,
+                hideProgressBar: true,
+            });
+            setFormdata({
+                firstName: '',
+                lastName: '',
+                email: '',
+                phoneNumber: '',
+                subject: '',
+                message: '',    
+
+            })
+
+        }
+
+        else {
+            toast.error(response.data.message, {
+                position: "top-left",
+                autoClose: 2000,
+                hideProgressBar: true,
+            });
+        }   
+
+
+    }
+
+
     return (
         <>
             <div className='contact'>
@@ -39,37 +99,38 @@ const Contact = () => {
                         <div className="box">
                             <form>
                                 <div className="name">
-                                    <label htmlFor="name">First Name</label>
+                                    <label htmlFor="firstName">First Name</label>
                                     <br />
-                                    <input type="text" id="name" placeholder='Enter first Name' required />
+                                    <input type="text" name='firstName' value={formdata.firstName} onChange={handleChange} id="firstName" placeholder='Enter first Name' required />
                                 </div>
                                 <div className="company">
-                                    <label htmlFor="company">Last Name </label>
+                                    <label htmlFor="lastName">Last Name </label>
                                     <br />
-                                    <input type="text" id="company" placeholder='Enter Last Name' required />
+                                    <input type="text" id="lastName" name='lastName' value={formdata.lastName} onChange={handleChange} placeholder='Enter Last Name' required />
                                 </div>
                                 <div className="email">
                                     <label htmlFor="email">Email</label>
                                     <br />
-                                    <input type="email" id="email" placeholder='Enter your Email' required />
+                                    <input type="email" id="email" name='email' value={formdata.email} onChange={handleChange} placeholder='Enter your Email' required />
                                 </div>
                                 <div className="tele">
-                                    <label htmlFor="telephone">Phone </label>
+                                    <label htmlFor="phoneNumber">Phone </label>
                                     <br />
-                                    <input type="tel" id="telephone" placeholder='Enter Phone Number' required />
+                                    <input type="tel" id="phoneNumber" name='phoneNumber' value={formdata.phoneNumber} onChange={handleChange} pattern="[0-9]{10}" placeholder='Enter Phone Number' required />
                                 </div>
                                 <div className="message">
                                     <label htmlFor="subject">Subject</label>
                                     <br />
-                                    <textarea id="message" placeholder='Enter your Subject'></textarea>
+                                    <textarea id="message" name='subject' value={formdata.subject} onChange={handleChange} placeholder='Enter your Subject'></textarea>
                                 </div>
                                 <div className="message">
                                     <label htmlFor="message">Message</label>
                                     <br />
-                                    <textarea id="message" placeholder='Enter your Message'></textarea>
+                                    <textarea id="message" name='message' value={formdata.message} onChange={handleChange} placeholder='Enter your Message'></textarea>
                                 </div>
                                 <div className="submit">
-                                    <input type="submit" value="Send Your Message" />
+                                    {/* <input type="submit" value="Send Your Message" onC/>  */}
+                                    <button onClick={handleSubmit} type='submit'>Send Your Message</button>
                                 </div>
                             </form>
                         </div>

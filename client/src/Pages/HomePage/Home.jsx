@@ -12,6 +12,7 @@ import Comment from '../../components/comment/Comment.jsx';
 import commentdata from '../../assets/data/commentdata.js';
 import Faqcompo from '../../components/faq/faq.jsx';
 import faqdata from "../../assets/data/faqs.js";
+import axios from 'axios';
 
 const Question = ({ questionData }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -42,20 +43,17 @@ const Home = () => {
 
     useEffect(() => {
         const getContests = async () => {
-            const response = await fetch('http://localhost:4000/quiz/getAllQuizzes', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
-            });
 
-            if (response.ok) {
-                const data = await response.json();
+            const response = await axios.get('/quiz/getAllQuizzes')
+
+
+            if (response.status === 200) {
+                const data = response.data;
                 console.log(data);
                 setContests(data);
-            } else {
-                console.log('Failed to fetch contests');
+                
+            } else {    
+                console.log('Failed to fetch quizzes');
             }
         };
 

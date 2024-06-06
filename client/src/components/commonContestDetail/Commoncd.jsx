@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import './Commoncd.scss';
 import CD from '../../assets/Contestimages/CD.png';
@@ -48,9 +49,9 @@ const Commoncd = ({ data, handleRegister }) => {
             const intervalId = setInterval(updateCountdown, 1000);
 
             // Show start modal when quiz starts
-            setTimeout(() => {
-                setIsStartModalOpen(true);
-            }, endDateTime - Date.now());
+            // setTimeout(() => {
+            //     setIsStartModalOpen(true);
+            // }, endDateTime - Date.now());
 
             return () => clearInterval(intervalId);
         }
@@ -137,12 +138,13 @@ const Commoncd = ({ data, handleRegister }) => {
             </div>
             <div className='commoncd-right'>
                 <div className='commoncd-right-time'>
+
                     <span>
                         {new Date() >= new Date(data.startTime) && new Date() <= new Date(data.endTime) && `You can give Quiz in: ${timeRemaining}`}
                         {new Date() < new Date(data.startTime) && `Quiz will start in: ${Math.max(0, Math.floor((new Date(data.startTime) - new Date()) / (1000 * 60 * 60)))}hr ${Math.max(0, Math.floor((new Date(data.startTime) - new Date()) / (1000 * 60)) % 60)}min  ${Math.max(0, Math.floor((new Date(data.startTime) - new Date()) / 1000) % 60)}s`}
                         {new Date() > new Date(data.endTime) && 'Quiz has ended'}
-
                     </span>
+
                 </div>
                 <div className='commoncd-right-image'>
                     {data.image ? <img src={data.image} alt='' /> : <img src={defaultimage} alt='' />}

@@ -5,6 +5,7 @@ import ContestData from '../../components/contestdata/ContestData.jsx';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import PaginationItem from '@mui/material/PaginationItem';
+import axios from 'axios';
 
 const Allcont = () => {
     const getItemsPerPage = () => {
@@ -22,21 +23,18 @@ const Allcont = () => {
 
     useEffect(() => {
         const getQuizzes = async () => {
-            const response = await fetch('http://localhost:4000/quiz/getAllQuizzes', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                credentials: 'include'
-            });
 
-            if (response.ok) {
-                const data = await response.json();
-                setQuizzes(data);
-                setFilteredQuizzes(data);
-            } else {
+
+            const response = await axios.get('/quiz/getAllQuizzes')
+
+
+            if (response.status === 200) {
+                setQuizzes(response.data);
+                setFilteredQuizzes(response.data);
+            } else {    
                 console.log('Failed to fetch quizzes');
             }
+
         };
 
         getQuizzes();

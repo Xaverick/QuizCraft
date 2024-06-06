@@ -133,13 +133,11 @@
 
 // export default Signup;
 
-import React from 'react'
-// import { useState } from 'react'
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import axios from 'axios';
 import './Signup.scss'
 import google from '../../../assets/Authpages/google.png'
 import diagonal from '../../../assets/Authpages/diagonal.png'
@@ -167,44 +165,44 @@ const Signup = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const response = await fetch('http://localhost:4000/user/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(formData)
-    })
 
-    if (response.ok) {
+    try{
+      const response = await axios.post('/user/register', formData);
 
-      toast.success('Signup successfull', {
-        position: "top-left",
-        autoClose: 2000,
-        hideProgressBar: true,
-      });
+      if(response.status === 200){
+        toast.success('Signup successfull', {
+          position: "top-left",
+          autoClose: 2000,
+          hideProgressBar: true,
+        });
+  
+        setFormData({
+          email: '',
+          password: '',
+          // username: '',
+          name: ''
+        });
+  
+        setTimeout(() => {
+          Navigate('/login');
+        }, 1000);
+      }
 
-      setFormData({
-        email: '',
-        password: '',
-        // username: '',
-        name: ''
-      });
+      else{
+        throw new Error('Signup failed');
+      }
 
-      setTimeout(() => {
-        Navigate('/login');
-      }, 1000);
-
+      
     }
 
-    else {
+    catch(error){
       toast.error('Signup failed', {
         position: "top-left",
         autoClose: 2000,
         hideProgressBar: true,
       });
     }
-
-
+ 
   };
   const [passwordVisible, setPasswordVisible] = useState(false);
 
@@ -275,7 +273,7 @@ const Signup = () => {
           </div>
         </div>
       </div>
-      <ToastContainer />
+
     </div >
   )
 }

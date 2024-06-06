@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './ContestDetails.scss';
 import { useParams } from 'react-router-dom';
 import Commoncd from '../../components/commonContestDetail/Commoncd';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+
 
 const ContestDetails = () => {
     const [activeSection, setActiveSection] = useState('details');
@@ -16,24 +18,23 @@ const ContestDetails = () => {
 
     useEffect(() => {
         const fetchQuizData = async () => {
-            try {
-                const response = await fetch(`http://localhost:4000/quiz/getQuiz/${id}`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    credentials: 'include'
-                });
 
-                if (!response.ok) {
-                    console.log('Failed to fetch quiz data');
-                    return;
+            try {
+                const response = await axios.get(`/quiz/getQuiz/${id}`);
+                if (response.status === 200) {
+                    setQuizData(response.data);
+
+                } else {
+                    throw new Error('Failed to fetch quiz data');
                 }
 
-                const data = await response.json();
-                setQuizData(data);
             } catch (error) {
                 console.error('Error fetching quiz data:', error);
+                toast.error('Failed to fetch quiz data', {
+                    position: "top-left",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                });
             }
         };
 
@@ -41,30 +42,47 @@ const ContestDetails = () => {
     }, [id]);
 
     const handleRegister = async () => {
-        const response = await fetch(`http://localhost:4000/quiz/registerQuiz/${id}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            credentials: 'include'
-        });
 
-        const message = await response.json();
-        console.log(message);
+        const response = await axios.post(`/quiz/registerQuiz/${id}`)
 
-        if (response.ok) {
-            toast.success(message, {
+        if (response.status === 200) {
+            toast.success(response.data.message, {
                 position: "top-left",
                 autoClose: 2000,
                 hideProgressBar: true,
             });
         } else {
-            toast.error(message, {
+            toast.error(response.data.message, {
                 position: "top-left",
                 autoClose: 2000,
                 hideProgressBar: true,
             });
         }
+
+        // const response = await fetch(`http://localhost:4000/quiz/registerQuiz/${id}`, {
+        //     method: 'POST',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     credentials: 'include'
+        // });
+
+        // const message = await response.json();
+        // console.log(message);
+
+        // if (response.ok) {
+        //     toast.success(message, {
+        //         position: "top-left",
+        //         autoClose: 2000,
+        //         hideProgressBar: true,
+        //     });
+        // } else {
+        //     toast.error(message, {
+        //         position: "top-left",
+        //         autoClose: 2000,
+        //         hideProgressBar: true,
+        //     });
+        // }
     };
 
     return (

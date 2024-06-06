@@ -16,6 +16,7 @@ if (import.meta.env.DEV) {
   axios.defaults.baseURL = import.meta.env.VITE_SERVER_URL;
 }
 axios.defaults.withCredentials = true;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 
 ReactDOM.createRoot(document.getElementById('root')).render(

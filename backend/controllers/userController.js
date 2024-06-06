@@ -4,8 +4,10 @@ const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const Mailgen = require('mailgen');
 const ExpressError = require('../utils/ExpressError');
+const mailSender = require('../utils/mailSender');
 
 module.exports.login = async (req, res) => {
+    console.log("Inside login");
     let { email, password } = req.body;
     if (!email || !password) throw new ExpressError('missing fields', 400);
     else {
@@ -120,24 +122,34 @@ module.exports.forgotPassword = async (req, res) => {
 }
 
 
+
 module.exports.resetPassword = async (req, res) => {
     const { id, token } = req.params;
     const { password } = req.body;
     const oldUser = await User.findById(id);
-    if (!oldUser) {
+    const redirectUrl = process.env.NODE_ENV === 'production' ? `${process.env.SITE_URL}/login` : 'http://localhost:5173/login';
+    if(!oldUser){
         res.status(400).json('user not found');
     }
-    else {
+    else{
         const secret = `${process.env.USER_SECRET}${oldUser.password}`;
-        if (jwt.verify(token, secret)) {
+        if(jwt.verify(token,secret)){
             oldUser.password = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
             await oldUser.save();
-            res.json('password changed');
+            res.render('successfulReset.ejs', {redirectUrl});
         }
-        else {
+        else{
             res.status(400).json('invalid token');
         }
     }
-
 }
 
+module.exports.contactUs = async (req, res) => {
+    const { firstName, lastName, email,phoneNumber, subject, message } = req.body;
+    if (!firstName || !lastName || !email || !phoneNumber || !subject || !message) {
+        throw new ExpressError('missing fields', 400);
+    }
+    const emailBody = `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone Number: ${phoneNumber}\nMessage: ${message}`;
+    mailSender(email, subject, emailBody);
+    res.status(200).json('contact us');
+}

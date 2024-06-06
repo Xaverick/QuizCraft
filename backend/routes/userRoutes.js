@@ -25,16 +25,21 @@ router.route('/logout')
 router.route('/forgotpassword')
     .post(catchAsync(user.forgotPassword));
 
-
 router.route('/resetpassword/:id/:token')
+    .get((req, res) => {
+        const { id, token } = req.params;
+        res.render('resetpassword', { id, token });
+    })
     .post(catchAsync(user.resetPassword));
 
+router.route('/contact')
+    .post(catchAsync(user.contactUs));
 
 router.route('/profile')
     .get(isClient,catchAsync(user.profile));
 
-router.route('/updateprofile')
-    .post(isClient,catchAsync(user.updateProfile));
+// router.route('/updateprofile')
+//     .post(isClient,catchAsync(user.updateProfile));
 
 
 

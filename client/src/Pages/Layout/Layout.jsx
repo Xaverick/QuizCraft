@@ -21,6 +21,8 @@ import SideNavbar from '../../components/Navbar/Sidenavbar.jsx'
 import ContestQuestion from '../ContestQuestion/Contestquestion.jsx'
 import Loader from '../../components/Loader/Loader.jsx'
 import { useEffect, useState } from 'react'
+import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.jsx'
+
 
 function Layout() {
     const location = useLocation();
@@ -29,7 +31,7 @@ function Layout() {
         setLoading(true);
         setTimeout(() => {
             setLoading(false);
-        }, 2000);
+        }, 500);
     }, []);
     if (loading) {
         return <Loader />;
@@ -47,11 +49,12 @@ function Layout() {
 
                 <Route path='/contest' element={<Allcontest />} />
                 <Route path='/pricing' element={<Pricing plansdata={plansdata} />} />
-                <Route path='/contact' element={<Contact />} />
                 <Route path='/' element={<Home />} />
+                <Route path='/forgotpassword' element={<ForgotPassword />} />
+                <Route path='/contact' element={<Contact />} />
                 <Route element={<PrivateRoutes />} >
                     <Route path='/contest/:id' element={<ContestDetails />} />
-                    <Route path='/contestquestion/:id' element={<ContestQuestion />} />
+                    {/* <Route path='/contestquestion/:id' element={<ContestQuestion />} /> */}
                     {/* <Route path="/your-quizzes" element={<YourQuiz />} /> */}
                     {/* <Route path="/analytics/:id" element={<Analytics />} /> */}
                 </Route>
@@ -59,6 +62,10 @@ function Layout() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 {/* <Route path="/payment" element={<BuyCourse />} /> */}
+
+
+
+                <Route path="/*" element={"page not found"} />
             </Routes>
             <Footer />
         </>
