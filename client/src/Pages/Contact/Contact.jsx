@@ -31,38 +31,37 @@ const Contact = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        try{
+            const response = await axios.post('/user/contact', formdata);
 
+            if(response.status === 200){
+                toast.success("Thank you for contacting us", {
+                    position: "top-left",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                });
+                setFormdata({
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    phoneNumber: '',
+                    subject: '',
+                    message: '',
 
-        const response = await axios.post('/user/contact', formdata)
+                })
 
-
-        if (response.status === 200) {
-            toast.success(response.data.message, {
-                position: "top-left",
-                autoClose: 2000,
-                hideProgressBar: true,
-            });
-            setFormdata({
-                firstName: '',
-                lastName: '',
-                email: '',
-                phoneNumber: '',
-                subject: '',
-                message: '',    
-
-            })
+            }
 
         }
 
-        else {
-            toast.error(response.data.message, {
+        catch(error){
+            toast.error(error.response.data, {
                 position: "top-left",
                 autoClose: 2000,
                 hideProgressBar: true,
-            });
-        }   
+            })
 
-
+        }
     }
 
 

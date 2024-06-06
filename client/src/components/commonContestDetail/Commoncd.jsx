@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import './Commoncd.scss';
 import CD from '../../assets/Contestimages/CD.png';
 import CT from '../../assets/Contestimages/CT.png';
@@ -9,17 +9,42 @@ import TM from '../../assets/Contestimages/TM.png';
 import defaultimage from '../../assets/Contestimages/dumy1.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
+import {toast}  from 'react-toastify';
 
 Modal.setAppElement('#root');
 
-const Commoncd = ({ data, handleRegister }) => {
+const Commoncd = ({ data}) => {
     const [timeRemaining, setTimeRemaining] = useState('');
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const [isStartModalOpen, setIsStartModalOpen] = useState(false);
     const [isRegistered, setIsRegistered] = useState(false);
     const navigate = useNavigate();
+
+    const handleRegister = async () => {
+
+        try{
+            const response = await axios.post(`/quiz/registerQuiz/${data._id}`);
+            
+            if(response.status == 200){
+                toast.success(response.data, {
+                    position: "top-left",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                });
+            }
+        }
+
+        catch(error){
+            console.log(error);
+            toast.error(error.response.data, {
+                position: "top-left",
+                autoClose: 2000,
+                hideProgressBar: true,
+            });
+        }
+
+    };
 
     useEffect(() => {
         const calculateEndTime = (endTime) => {
@@ -83,14 +108,6 @@ const Commoncd = ({ data, handleRegister }) => {
         navigate(`/contestquestion/${data._id}`);
     };
 
-    const handleRegistration = () => {
-        if (!isRegistered) {
-            setIsRegisterModalOpen(true);
-        } else {
-            toast.error('You have already registered for the quiz!', { autoClose: 3000 });
-        }
-    };
-
     return (
         <div className='commoncd-container'>
             <div className='commoncd-left'>
@@ -149,7 +166,7 @@ const Commoncd = ({ data, handleRegister }) => {
                 <div className='commoncd-right-image'>
                     {data.image ? <img src={data.image} alt='' /> : <img src={defaultimage} alt='' />}
                 </div>
-                <ToastContainer />
+
             </div>
 
             {/* Register Modal */}

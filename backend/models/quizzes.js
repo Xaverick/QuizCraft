@@ -20,6 +20,15 @@ const quizSchema = new schema({
         max: 1024,
     },
 
+    rules: [
+        {
+            type: String,
+            required: true,
+            min: 6,
+            max: 1024,
+        }
+    ],
+
     startTime: {
         type: Date,
         required: true,

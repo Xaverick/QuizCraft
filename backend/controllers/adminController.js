@@ -57,13 +57,13 @@ module.exports.adminregister = async (req, res) => {
 
 module.exports.createQuiz = async (req, res) => {
     // console.log(req.body);
-    const { title, description, startTime, endTime, duration } = req.body;
+    const { title, description, startTime, endTime, duration, rules} = req.body;
 
-    if (!title || !description || !startTime || !endTime || !duration) {
+    if (!title || !description || !startTime || !endTime || !duration || !rules) {
         throw new ExpressError('missing fields', 400);
     } 
 
-    const newQuiz = new Quiz({ title, description, startTime, endTime, duration, adminId: req.adminId });
+    const newQuiz = new Quiz({ title, description, startTime, endTime, duration, adminId: req.adminId, rules: rules });
     if (!newQuiz) {
         throw new ExpressError('Error creating quiz', 500);
     }
@@ -76,14 +76,14 @@ module.exports.createQuiz = async (req, res) => {
 }
 
 module.exports.updateQuiz = async (req, res) => {
-    const { title, description, startTime, endTime, duration } = req.body;
+    const { title, description, startTime, endTime, duration, rules } = req.body;
     const quizId = req.params.quizid;
 
-    if(!title || !description || !startTime || !endTime || !duration){
+    if(!title || !description || !startTime || !endTime || !duration || !rules) {
         throw new ExpressError('missing fields', 400);
     }
 
-    const quiz = await Quiz.findByIdAndUpdate(quizId,{title, description, startTime, endTime, duration});
+    const quiz = await Quiz.findByIdAndUpdate(quizId,{title, description, startTime, endTime, duration, rules});
     if(!quiz){
         throw new ExpressError('quiz not found', 400);
     }

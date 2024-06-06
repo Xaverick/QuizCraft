@@ -22,6 +22,8 @@ import ContestQuestion from '../ContestQuestion/Contestquestion.jsx'
 import Loader from '../../components/Loader/Loader.jsx'
 import { useEffect, useState } from 'react'
 import ForgotPassword from '../Auth/ForgotPassword/ForgotPassword.jsx'
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function Layout() {
@@ -39,6 +41,7 @@ function Layout() {
     return (
 
         <>
+            <ToastContainer />
             <div className="desktop-navbar">
                 <Navbar />
             </div>

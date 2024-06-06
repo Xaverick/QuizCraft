@@ -121,7 +121,6 @@ import { useDispatch } from 'react-redux'
 import { login } from '../../../store/slices/authSlice'
 import axios from 'axios'
 import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import './Login.scss'
 import google from '../../../assets/Authpages/google.png'
 import diagonal from '../../../assets/Authpages/diagonal.png'
@@ -169,7 +168,6 @@ const Login = () => {
       else{
         throw new Error('Login failed');
       }
-
 
       } catch (error) {
         toast.error('Login failed', {

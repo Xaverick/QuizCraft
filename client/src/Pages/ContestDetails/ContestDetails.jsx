@@ -3,7 +3,6 @@ import './ContestDetails.scss';
 import { useParams } from 'react-router-dom';
 import Commoncd from '../../components/commonContestDetail/Commoncd';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 
 
@@ -41,55 +40,13 @@ const ContestDetails = () => {
         fetchQuizData();
     }, [id]);
 
-    const handleRegister = async () => {
 
-        const response = await axios.post(`/quiz/registerQuiz/${id}`)
-
-        if (response.status === 200) {
-            toast.success(response.data.message, {
-                position: "top-left",
-                autoClose: 2000,
-                hideProgressBar: true,
-            });
-        } else {
-            toast.error(response.data.message, {
-                position: "top-left",
-                autoClose: 2000,
-                hideProgressBar: true,
-            });
-        }
-
-        // const response = await fetch(`http://localhost:4000/quiz/registerQuiz/${id}`, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     credentials: 'include'
-        // });
-
-        // const message = await response.json();
-        // console.log(message);
-
-        // if (response.ok) {
-        //     toast.success(message, {
-        //         position: "top-left",
-        //         autoClose: 2000,
-        //         hideProgressBar: true,
-        //     });
-        // } else {
-        //     toast.error(message, {
-        //         position: "top-left",
-        //         autoClose: 2000,
-        //         hideProgressBar: true,
-        //     });
-        // }
-    };
 
     return (
         <div className="contestdetailspage">
             <div className='contestdetailspart-1'>
                 <div>
-                    <Commoncd data={quizData} handleRegister={handleRegister} />
+                    <Commoncd data={quizData} />
                 </div>
             </div>
             <div className='mini-nav'>
