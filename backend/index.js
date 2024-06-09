@@ -15,16 +15,16 @@ const db = mongoose.connection;
 db.on('error', (error) => console.error(error));
 db.once('open', () => console.log('Connected to database'));
 
-app.engine('ejs',ejsMate)
+app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname,'views'))
+app.set('views', path.join(__dirname, 'views'))
 
-app.use (cookieParser(process.env.SECRET));
-app.use(express.static(path.join(__dirname,'public')))
+app.use(cookieParser(process.env.SECRET));
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.use(cors({origin: ['http://localhost:5173', 'http://localhost:5174'], credentials: true}));
+app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:5174', 'https://quizcraft-gfey.onrender.com'], credentials: true }));
 // Allow requests from the specified origin(s)
 app.use(express.json());
 
@@ -50,7 +50,7 @@ app.use((err, req, res, next) => {
     const { statusCode = 500 } = err;
     if (!err.message) err.message = 'Something went wrong!';
     console.log(err);
-    res.status(statusCode).json( err.message );
+    res.status(statusCode).json(err.message);
 });
 
 app.listen(4000, () => {
