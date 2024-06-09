@@ -42,9 +42,7 @@ app.use('/quiz', quiz);
 const payments = require('./routes/payments');
 app.use('/payments', payments);
 
-// app.all('*', (req, res, next) => {
-//     next(new ExpressError('Page Not Found', 404));
-// });
+
 
 app.use((err, req, res, next) => {
     const { statusCode = 500 } = err;
