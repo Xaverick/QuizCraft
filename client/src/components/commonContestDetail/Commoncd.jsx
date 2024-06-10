@@ -28,7 +28,7 @@ const Commoncd = ({ data }) => {
             const response = await axios.post(`/quiz/registerQuiz/${data._id}`);
 
             if (response.status == 200) {
-                setIsRegistered(true);
+
                 toast.success(response.data, {
                     position: "top-left",
                     autoClose: 2000,
@@ -39,7 +39,7 @@ const Commoncd = ({ data }) => {
         }
 
         catch (error) {
-            setIsRegistered(false);
+
             console.log(error);
             toast.error(error.response.data, {
                 position: "top-left",
@@ -49,6 +49,31 @@ const Commoncd = ({ data }) => {
         }
 
     };
+    const isregis = async () => {
+
+        try {
+            const response = await axios.post(`/quiz/isRegistered/${data._id}`);
+
+            if (response.status == 200) {
+                setIsRegistered(response.data);
+
+            }
+
+        }
+
+        catch (error) {
+            setIsRegistered(error.response.data);
+            console.log(error);
+
+        }
+    }
+
+
+
+
+
+
+
 
     useEffect(() => {
         const calculateEndTime = (endTime) => {
@@ -155,10 +180,10 @@ const Commoncd = ({ data }) => {
                     {Date.now() > new Date(data.endTime) && <button disabled>Quiz Ended</button>}
 
                     {Date.now() >= new Date(data.startTime) && Date.now() <= new Date(data.endTime) && (
-                        <button onClick={() => {
-                            // handleRegister();
+                        <button onClick={async () => {
+                            await isregis();
                             if (!isRegistered) {
-                                toast.error('jndjkncjnsj');
+                                toast.error('you cannot register bcz qyuiz has start ');
                             }
                             else {
                                 setIsStartModalOpen(true);
