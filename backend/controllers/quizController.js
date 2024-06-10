@@ -44,6 +44,11 @@ module.exports.registerQuiz = async (req, res) => {
     if(!quiz) {
         throw new ExpressError('quiz not found', 400);
     }
+
+    if(quiz.startTime > Date.now()) {
+        throw new ExpressError('Quiz has started No registration allowed', 400);
+    }
+
     user.registeredQuizzes.push(quizId);
     await user.save();
     quiz.totalRegistered++;
