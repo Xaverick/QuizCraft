@@ -19,6 +19,7 @@ const Commoncd = ({ data }) => {
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const [isStartModalOpen, setIsStartModalOpen] = useState(false);
     const [isRegistered, setIsRegistered] = useState(false);
+
     const navigate = useNavigate();
 
     const handleRegister = async () => {
@@ -27,15 +28,18 @@ const Commoncd = ({ data }) => {
             const response = await axios.post(`/quiz/registerQuiz/${data._id}`);
 
             if (response.status == 200) {
+                setIsRegistered(true);
                 toast.success(response.data, {
                     position: "top-left",
                     autoClose: 2000,
                     hideProgressBar: true,
                 });
             }
+
         }
 
         catch (error) {
+            setIsRegistered(false);
             console.log(error);
             toast.error(error.response.data, {
                 position: "top-left",
@@ -88,6 +92,17 @@ const Commoncd = ({ data }) => {
 
     const eventDate = new Date(data.startTime).toLocaleDateString('en-GB');
     const eventTime = new Date(data.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const eventendtime = new Date(data.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    console.log(eventendtime)
+    // console.log(new Date(eventendtime))
+    console.log(new Date())
+    console.log(eventDate);
+    console.log(eventTime);
+    console.log(data.startTime);
+    console.log(data.endTime);
+    console.log(data);
+
+
 
     const closeRegisterModal = () => {
         setIsRegisterModalOpen(false);
@@ -137,22 +152,22 @@ const Commoncd = ({ data }) => {
                     </span>
                 </div>
                 <div className='commoncd-left-button'>
-                    {new Date() > new Date(data.endTime) && <button disabled>Quiz Ended</button>}
+                    {Date.now() > new Date(data.endTime) && <button disabled>Quiz Ended</button>}
 
-                    {new Date() >= new Date(data.startTime) && new Date() <= new Date(data.endTime) && (
+                    {Date.now() >= new Date(data.startTime) && Date.now() <= new Date(data.endTime) && (
                         <button onClick={() => {
                             // handleRegister();
                             if (!isRegistered) {
-                                toast.error('You cannot register the quiz bcz quiz has already started', { autoClose: 3000 });
+                                toast.error('jndjkncjnsj');
                             }
                             else {
-                                isStartModalOpen(true);
+                                setIsStartModalOpen(true);
                             }
                         }}>
                             Start Qiiz
                         </button>
                     )}
-                    {new Date() <= new Date(data.startTime) && <button onClick={handleRegister} >Register Now</button>}
+                    {Date.now() < new Date(data.startTime) && <button onClick={handleRegister} >Register Now</button>}
 
                 </div>
             </div>
