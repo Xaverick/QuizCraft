@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './Sidenavbar.scss';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/slices/authSlice';
 import { RxHamburgerMenu, RxCross1 } from 'react-icons/rx';
 import navbarlogo from '../../assets/homepageimages/navbarlogo.png';
+import axios from 'axios';
+
 
 const SideNavbar = () => {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
@@ -12,6 +14,7 @@ const SideNavbar = () => {
     const location = useLocation();
     const [showMenu, setShowMenu] = useState(false);
     const [activeLink, setActiveLink] = useState('/');
+    const navigate = useNavigate();
 
     useEffect(() => {
         setActiveLink(location.pathname);
@@ -29,22 +32,20 @@ const SideNavbar = () => {
     };
 
     const handleLogout = async () => {
-        const response = await fetch('http://localhost:4000/user/logout', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-        });
-
-        if (!response.ok) {
+        try{
+            const response = await axios.get('http://localhost:4000/user/logout')
             localStorage.removeItem('user');
             localStorage.removeItem('expiresIn');
-        }
-
-        localStorage.removeItem('user');
-        localStorage.removeItem('expiresIn');
-        dispatch(logout());
+            dispatch(logout());
+            navigate('/');
+      
+          }
+          catch(error){
+            localStorage.removeItem('user');
+            localStorage.removeItem('expiresIn');      
+            dispatch(logout());
+            navigate('/'); 
+          }
     };
 
     const toggleMenu = () => {
