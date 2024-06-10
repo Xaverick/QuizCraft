@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import  { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './Commoncd.scss';
 import CD from '../../assets/Contestimages/CD.png';
 import CT from '../../assets/Contestimages/CT.png';
@@ -10,11 +10,11 @@ import defaultimage from '../../assets/Contestimages/dumy1.png';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import axios from 'axios';
-import {toast}  from 'react-toastify';
+import { toast } from 'react-toastify';
 
 Modal.setAppElement('#root');
 
-const Commoncd = ({ data}) => {
+const Commoncd = ({ data }) => {
     const [timeRemaining, setTimeRemaining] = useState('');
     const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const [isStartModalOpen, setIsStartModalOpen] = useState(false);
@@ -23,10 +23,10 @@ const Commoncd = ({ data}) => {
 
     const handleRegister = async () => {
 
-        try{
+        try {
             const response = await axios.post(`/quiz/registerQuiz/${data._id}`);
-            
-            if(response.status == 200){
+
+            if (response.status == 200) {
                 toast.success(response.data, {
                     position: "top-left",
                     autoClose: 2000,
@@ -35,7 +35,7 @@ const Commoncd = ({ data}) => {
             }
         }
 
-        catch(error){
+        catch (error) {
             console.log(error);
             toast.error(error.response.data, {
                 position: "top-left",
@@ -141,12 +141,12 @@ const Commoncd = ({ data}) => {
 
                     {new Date() >= new Date(data.startTime) && new Date() <= new Date(data.endTime) && (
                         <button onClick={() => {
-                            handleRegister();
+                            // handleRegister();
                             if (!isRegistered) {
-                                setIsStartModalOpen(true);
+                                console.log("you canot register the quiz")
                             }
                         }}>
-                            Register Quiz and Start
+                            Start Qiiz
                         </button>
                     )}
                     {new Date() <= new Date(data.startTime) && <button onClick={handleRegister} >Register Now</button>}
