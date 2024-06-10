@@ -45,7 +45,8 @@ module.exports.registerQuiz = async (req, res) => {
         throw new ExpressError('quiz not found', 400);
     }
 
-    if(quiz.startTime > Date.now()) {
+    console.log(Date.now(), quiz.startTime);
+    if(Date.now() > quiz.startTime) {
         throw new ExpressError('Quiz has started No registration allowed', 400);
     }
 

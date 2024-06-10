@@ -7,6 +7,7 @@ const Question = require('../models/questions');
 const Submission = require('../models/submissions');
 const Leaderboard = require('../models/leaderboard');
 const ExpressError = require('../utils/ExpressError');
+const moment = require('moment-timezone');
 
 module.exports.adminlogin = async (req, res) => {
     let { email, password } = req.body;
@@ -58,32 +59,48 @@ module.exports.adminregister = async (req, res) => {
 module.exports.createQuiz = async (req, res) => {
     // console.log(req.body);
     const { title, description, startTime, endTime, duration, rules} = req.body;
-
     if (!title || !description || !startTime || !endTime || !duration || !rules) {
         throw new ExpressError('missing fields', 400);
     } 
 
-    const newQuiz = new Quiz({ title, description, startTime, endTime, duration, adminId: req.adminId, rules: rules });
+    const startTimeUTC = moment(startTime).utc().toDate();
+    const endTimeUTC = moment(endTime).utc().toDate();
+
+    const newQuiz = new Quiz({ 
+        title,
+        description,
+        startTime: startTimeUTC,
+        endTime: endTimeUTC, 
+        duration, 
+        adminId: req.adminId,
+        rules: rules 
+    });
+
     if (!newQuiz) {
         throw new ExpressError('Error creating quiz', 500);
     }
+
     const savedQuiz = await newQuiz.save();
+
     if (!savedQuiz) {
         throw new ExpressError('Error saving quiz', 500);
     }
     res.json({ message: 'quiz created', quizId: savedQuiz._id });
-    
 }
 
 module.exports.updateQuiz = async (req, res) => {
     const { title, description, startTime, endTime, duration, rules } = req.body;
     const quizId = req.params.quizid;
 
+    const startTimeUTC = moment(startTime).utc().toDate();
+    const endTimeUTC = moment(endTime).utc().toDate();
+
+
     if(!title || !description || !startTime || !endTime || !duration || !rules) {
         throw new ExpressError('missing fields', 400);
     }
 
-    const quiz = await Quiz.findByIdAndUpdate(quizId,{title, description, startTime, endTime, duration, rules});
+    const quiz = await Quiz.findByIdAndUpdate(quizId,{title, description, startTime: startTimeUTC, endTime: endTimeUTC, duration, rules});
     if(!quiz){
         throw new ExpressError('quiz not found', 400);
     }
