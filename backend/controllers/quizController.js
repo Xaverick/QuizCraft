@@ -58,6 +58,19 @@ module.exports.registerQuiz = async (req, res) => {
     
 }
 
+module.exports.isRegistered = async (req,res) => {
+    const userId = req.userId;
+    const { quizId } = req.params;
+    const user = await User.findById(userId);
+    if(!user) {
+        throw new ExpressError('user not found', 400);
+    }
+    if(!user.registeredQuizzes.includes(quizId)) {
+        return res.status(200).json(false);
+    }
+    return res.status(200).json(true);
+}
+
 
 
 const getscore = async (quizId, userId) => {

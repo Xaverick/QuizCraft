@@ -14,6 +14,10 @@ router.route('/getQuiz/:quizid')
 router.route('/registerQuiz/:quizId')
     .post(isClient,catchAsync(quiz.registerQuiz));
 
+router.route('/isRegistered/:quizId')
+    .post(isClient,catchAsync(quiz.registerQuiz));
+
+
 router.route('/yourQuizzes')
     .get(isClient, catchAsync(quiz.getYourQuizzes));
 
@@ -28,8 +32,6 @@ router.route('/getSubmissions')
 
 router.route('/getScore/:userid/:quizid')
     .get(isClient, catchAsync(quiz.getFinalScore));
-
-
 
 
 router.route('/getQuizAnalytics/:quizid')
