@@ -143,7 +143,10 @@ const Commoncd = ({ data }) => {
                         <button onClick={() => {
                             // handleRegister();
                             if (!isRegistered) {
-                                console.log("you canot register the quiz")
+                                toast.error('You cannot register the quiz bcz quiz has already started', { autoClose: 3000 });
+                            }
+                            else {
+                                isStartModalOpen(true);
                             }
                         }}>
                             Start Qiiz
