@@ -5,6 +5,7 @@ import { logout } from '../../store/slices/authSlice';
 import { FaUserCircle } from 'react-icons/fa'; // Importing the profile icon from react-icons
 import './Navbar.scss';
 import navbarlogo from '../../assets/homepageimages/navbarlogo.png';
+import axios from 'axios';
 
 const Navbar = () => {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
@@ -25,23 +26,22 @@ const Navbar = () => {
   };
 
   const handleLogout = async () => {
-    const response = await fetch('http://localhost:4000/user/logout', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include',
-    });
 
-    if (!response.ok) {
+    try{
+      const response = await axios.get('http://localhost:4000/user/logout')
       localStorage.removeItem('user');
       localStorage.removeItem('expiresIn');
+      dispatch(logout());
+      navigate('/');
+
+    }
+    catch(error){
+      localStorage.removeItem('user');
+      localStorage.removeItem('expiresIn');      
+      dispatch(logout());
+      navigate('/'); 
     }
 
-    localStorage.removeItem('user');
-    localStorage.removeItem('expiresIn');
-    dispatch(logout());
-    navigate('/'); // Navigate to home page after logout
   };
 
   const toggleMenu = () => {
