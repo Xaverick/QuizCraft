@@ -49,6 +49,8 @@ const Commoncd = ({ data }) => {
         }
 
     };
+
+    
     const isregis = async () => {
 
         try {

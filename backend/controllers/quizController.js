@@ -54,6 +54,7 @@ module.exports.registerQuiz = async (req, res) => {
     await user.save();
     quiz.totalRegistered++;
     await quiz.save();
+    
     res.status(200).json('Quiz registered');
     
 }

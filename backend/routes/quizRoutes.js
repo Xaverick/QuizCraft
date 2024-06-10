@@ -15,7 +15,7 @@ router.route('/registerQuiz/:quizId')
     .post(isClient,catchAsync(quiz.registerQuiz));
 
 router.route('/isRegistered/:quizId')
-    .post(isClient,catchAsync(quiz.registerQuiz));
+    .post(isClient,catchAsync(quiz.isRegistered));
 
 
 router.route('/yourQuizzes')
