@@ -50,24 +50,11 @@ const Commoncd = ({ data }) => {
 
     };
 
-    
+
     const isregis = async () => {
-
-        try {
-            const response = await axios.post(`/quiz/isRegistered/${data._id}`);
-
-            if (response.status == 200) {
-                setIsRegistered(response.data);
-
-            }
-
-        }
-
-        catch (error) {
-            setIsRegistered(error.response.data);
-            console.log(error);
-
-        }
+        const response = await axios.post(`/quiz/isRegistered/${data._id}`);
+        console.log(response.data);
+        return response.data;
     }
 
 
@@ -183,8 +170,7 @@ const Commoncd = ({ data }) => {
 
                     {Date.now() >= new Date(data.startTime) && Date.now() <= new Date(data.endTime) && (
                         <button onClick={async () => {
-                            await isregis();
-                            if (!isRegistered) {
+                            if (!(await isregis())) {
                                 toast.error('you cannot register bcz qyuiz has start ');
                             }
                             else {
