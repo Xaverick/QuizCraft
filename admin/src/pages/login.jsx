@@ -57,17 +57,19 @@ export default function SignInForm() {
       
       } else {
         console.error("Login failed. Status:", response.status);
+        alert("Invalid credentials. Please try again.")
        
       }
     } catch (error) {
       console.error("Error during login:", error);
+      alert("Login failed")
   
     }
   };
 
   return (
     <div className="relative flex flex-col bg-black text-white justify-center items-center min-h-screen overflow-hidden">
-        <h1 className=" text-4xl mt-5 font-bold"> Welcome To Survey Form</h1>
+        <h1 className=" text-4xl mt-5 font-bold">QuizCraft Admin Panel</h1>
       <div className="w-full  m-auto h-full text-black bg-white lg:max-w-lg">
        
         <Card>
@@ -102,10 +104,6 @@ export default function SignInForm() {
             <Button  className="w-full" onClick={handleSubmit}>
              login
             </Button>
-            <p className="mt-2 text-xs text-center text-gray-700">
-              need to have an account?{" "}
-            
-            </p>
           </CardFooter>
         </Card>
       </div>

@@ -20,12 +20,10 @@ const { user } = useSelector((state) => state.profile)
             {user ? (      
                 <>
                   <div className="z-10 mx-auto flex flex-col h-[100%] items-center justify-around w-[100%]">   
-                    <CreatedQuizes/>
-                    
+                    <CreatedQuizes/>                                          
 
-                        
-
-                </div></>)
+                  </div>
+                </>)
                         :
               (<>
                 <div className=" flex flex-col items-center justify-center gap-4">
@@ -34,8 +32,8 @@ const { user } = useSelector((state) => state.profile)
                   window.location.href="/login"
                 }}>LogIn</button> 
                   </div>
-            </>)
-    }
+              </>)
+            }
      
     
 

@@ -220,8 +220,8 @@ const AddQuiz = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-[100%] w-[100%] bg-gray-200 bg-opacity-80 backdrop-blur-lg">
-      <div className="bg-white p-8 rounded-lg shadow-md w-[100%] ">
+    <div className="flex items-center justify-center w-[100%] bg-gray-200 bg-opacity-80 backdrop-blur-lg">
+      <div className="bg-white p-8 rounded-lg shadow-md w-[100%] h-[100%]">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">Create  Quiz</h1>
         </div>
@@ -234,27 +234,42 @@ const AddQuiz = () => {
             onChange={(e) => handleInputChange("description", e.target.value)}
             className="resize-none h-32 border border-gray-300 rounded-md p-2"
           />
-          <label className="text-sm font-semibold">Duration</label>
-          <Input type="number" onChange={(e) => handleInputChange("duration", e.target.value)} />
+          <div className="flex flex-row gap-5">
+            <div className="flex flex-col flex-1">
+              <label className="text-sm font-semibold">Start Time</label>
+              <Input className="w-[100%]" type="datetime-local" value={quizData.startTime} onChange={(e) => handleInputChange("startTime", e.target.value)} />
+            </div>
+            <div className="flex flex-col flex-1">
+              <label className="text-sm font-semibold">End Time</label>
+              <Input className="w-[100%]" type="datetime-local" value={quizData.endTime} onChange={(e) => handleInputChange("endTime", e.target.value)} />
+            </div>
+            <div className="flex flex-col flex-1">
+              <label className="text-sm font-semibold">Duration</label>
+              <Input type="number" className="w-[100%]" value={quizData.duration} onChange={(e) => handleInputChange("duration", e.target.value)} />
+            </div>
+          </div>
+
           <label className="text-sm font-semibold">Rules and Regulations</label>
-          <Input
-            value={newRule}
-            onChange={(e) => setNewRule(e.target.value)}
-            placeholder="Enter a new rule"
-          />
-          <Button onClick={handleAddRule}>Add Rule</Button>
-          <ul>
+          <div className="flex flex-row">
+            <Input
+              value={newRule}
+              onChange={(e) => setNewRule(e.target.value)}
+              placeholder="Enter a new rule"
+              className="w-[100%]"
+            />
+            <Button onClick={handleAddRule} className="ml-2">Add Rule</Button>
+          </div>
+          <div className="flex flex-col gap-2">
             {quizData.rules.map((rule, index) => (
-              <li key={index}>
-                {rule}
-                <Button onClick={() => handleDeleteRule(index)}>Delete</Button>
-              </li>
+              <div key={index} className="flex flex-row">
+                <li key={index} className="w-[100%] ">
+                  {rule}
+                </li>
+                <Button onClick={() => handleDeleteRule(index)} className="ml-2">Delete</Button>
+              </div>
             ))}
-          </ul>
-          <label className="text-sm font-semibold">Start Time</label>
-          <Input className=" w-[400px]" type="datetime-local" onChange={(e) => handleInputChange("startTime", e.target.value)} />
-          <label className="text-sm font-semibold">End Time</label>
-          <Input className=" w-[400px]" type="datetime-local" onChange={(e) => handleInputChange("endTime", e.target.value)} />
+          </div>
+
           <Button onClick={handleSubmit}>Submit</Button>
         </div>
       </div>

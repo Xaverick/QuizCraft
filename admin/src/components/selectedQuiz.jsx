@@ -29,9 +29,11 @@ const QuizSlected = ({
     quizId: quizId,
     text: "",
     type: "text",
-    options: [{
-      text: ""
-    }],
+    options: [
+      {
+        text: "",
+      },
+    ],
     correctOption: "",
   });
   const [closeAddQuestion, setCloseAddQuestion] = useState(false);
@@ -142,7 +144,7 @@ const QuizSlected = ({
       if (name.startsWith("options")) {
         const optionIndex = Number(name.replace("options", ""));
         const updatedOptions = [...prevData.options];
-        updatedOptions[optionIndex] = {"text": value}; // Ensure value is a string
+        updatedOptions[optionIndex] = { text: value }; // Ensure value is a string
 
         return {
           ...prevData,
@@ -161,7 +163,7 @@ const QuizSlected = ({
       if (name.startsWith("options")) {
         const optionIndex = Number(name.replace("options", ""));
         const updatedOptions = [...prevData.options];
-        updatedOptions[optionIndex] = {"text": value}; // Ensure value is a string
+        updatedOptions[optionIndex] = { text: value }; // Ensure value is a string
         return {
           ...prevData,
           options: updatedOptions,
@@ -174,7 +176,6 @@ const QuizSlected = ({
       };
     });
   };
-
 
   const calculateResult = async () => {
     try {
@@ -189,40 +190,181 @@ const QuizSlected = ({
       if (response.ok) {
         console.log("Result calculated successfully");
       }
-
     } catch (error) {
       console.error("Failed to calculate result:", error);
     }
-  }
+  };
 
   return (
     <div className="h-[100%] w-[100%] ">
       {quizId ? (
         <>
           <div className=" flex flex-col items-left justify-center bg-white text-black p-4 rounded-lg max-h-[100%] w-[100%]">
-            <h2 className="text-5xl font-bold text-black text-center">Quiz Details:</h2>
-            <p className="text-3xl font-medium text-center mb-2">
+            <p className="text-3xl font-bold text-black text-center">
               Title: {selectedQuiz ? selectedQuiz.title : "N/A"}
             </p>
 
             <div>
-              <p className="text-2xl ">
+              <p className="text-xl mb-3">
+                <span className="font-bold">Discription: </span>{" "}
                 {selectedQuiz ? selectedQuiz.description : "N/A"}
               </p>
 
-              <p>
-                {selectedQuiz ? "Total Registered: " + selectedQuiz.totalRegistered : "N/A" }
-              </p>
+              <div className="flex justify-between items-center">
+                <div>
+                  <p className="text-l font-bold mt-2">
+                    {selectedQuiz
+                      ? "Total Registered: " + selectedQuiz.totalRegistered
+                      : "N/A"}
+                  </p>
 
-              <button className="text-white bg-black p-3 rounded-xl mt-2" onClick={calculateResult}>
-                Calculate Result
-              </button>
-              <div className=' text-black w-[100px] flex items-center justify-center bg-yellow-300 p-4 rounded-xl' onClick={()=>{
-                  setEditQuiz(true);
-                }}>
-                  Edit
+                  <p className="text-l font-bold mt-2">
+                    {selectedQuiz
+                      ? "Start Date: " +
+                        new Date(selectedQuiz.startTime).toLocaleString()
+                      : "N/A"}{" "}
+                    <br />
+                    {selectedQuiz
+                      ? "End Date: " +
+                        new Date(selectedQuiz.endTime).toLocaleString()
+                      : "N/A"}
+                  </p>
+                </div>
+                <div className="flex gap-3 ">
+                  <div className="">
+                    <Dialog open={closeAddQuestion}>
+                      <DialogTrigger>
+                        <div
+                          onClick={() => {
+                            setCloseAddQuestion(true);
+                          }}
+                          className="text-white bg-black p-3 h-fit rounded-xl hover:bg-slate-500"
+                        >
+                          Add Question
+                        </div>
+                      </DialogTrigger>
+                      <DialogContent>
+                        <DialogHeader>
+                          <DialogTitle>Add Question</DialogTitle>
+                          <DialogDescription>
+                            <div className="flex flex-col items-center justify-center">
+                              <label style={{ fontWeight: "bold" }}>
+                                Enter the Question
+                              </label>
+                              <input
+                                onChange={(e) => {
+                                  handleInputChange2("text", e.target.value);
+                                }}
+                                name="text"
+                                className="border border-gray-300 rounded-md px-2 py-1 mb-2"
+                                type="text"
+                              />
+                              <label style={{ fontWeight: "bold" }}>
+                                Enter the type of response you want
+                              </label>
+                              <select
+                                onChange={(e) => {
+                                  handleInputChange2("type", e.target.value);
+                                }}
+                                className="border border-gray-300 rounded-md px-2 py-1 mb-2"
+                              >
+                                <option value="text">Text</option>
+                                <option value="radio">Single Correct</option>
+                              </select>
+                              {quesionData.type === "radio" && (
+                                <>
+                                  <label style={{ fontWeight: "bold" }}>
+                                    Enter the number of options you want
+                                  </label>
+                                  <input
+                                    onChange={(e) => {
+                                      setNoOfInputs(e.target.value);
+                                    }}
+                                    name="options"
+                                    className="border border-gray-300 rounded-md px-2 py-1 mb-2"
+                                    type="number"
+                                  />
+                                  {Array.from({
+                                    length: Number(noOfInputs),
+                                  }).map((_, index) => (
+                                    <div
+                                      className=" flex flex-row items-center justify-center gap-[40px]"
+                                      key={index}
+                                    >
+                                      <label style={{ fontWeight: "bold" }}>
+                                        Enter the label
+                                      </label>
+                                      <input
+                                        onChange={(e) => {
+                                          handleInputChange2(
+                                            `options${index}`,
+                                            e.target.value
+                                          );
+                                        }}
+                                        name={`options${index}`}
+                                        className="border border-gray-300 rounded-md px-2 py-1 mb-2"
+                                        type="text"
+                                      />
+                                    </div>
+                                  ))}
+                                </>
+                              )}
 
+                              <label style={{ fontWeight: "bold" }}>
+                                Enter the correct Option
+                              </label>
+                              <input
+                                onChange={(e) => {
+                                  handleInputChange2(
+                                    "correctOption",
+                                    e.target.value
+                                  );
+                                }}
+                                name="correctOption"
+                                className="border border-gray-300 rounded-md px-2 py-1 mb-2"
+                                type="text"
+                              />
+                              <div className="  flex gap-4">
+                                <DialogClose
+                                  className="bg-black text-white px-4 py-2 rounded-md"
+                                  onClick={() => {
+                                    handleSubmit3(selectedQuiz._id);
+                                  }}
+                                >
+                                  Add Question
+                                </DialogClose>
+                                <button
+                                  className="bg-red-500 text-white px-4 py-2 rounded-md"
+                                  onClick={() => {
+                                    setCloseAddQuestion(false);
+                                  }}
+                                >
+                                  Close
+                                </button>
+                              </div>
+                            </div>
+                          </DialogDescription>
+                        </DialogHeader>
+                      </DialogContent>
+                    </Dialog>
                   </div>
+                  
+                  <div
+                    className=" text-black w-fit h-fit flex bg-yellow-300 p-3 rounded-xl cursor-pointer hover:bg-yellow-400 font-bold"
+                    onClick={() => {
+                      setEditQuiz(true);
+                    }}
+                  >
+                    Edit Quiz Details
+                  </div>
+                  <button
+                    className="text-white bg-black p-3 h-fit rounded-xl hover:bg-slate-500"
+                    onClick={calculateResult}
+                  >
+                    Calculate Result
+                  </button>
+                </div>
+              </div>
             </div>
 
             <div className="bg-white border-2  mt-[2rem] min-w-[100%] flex flex-col overflow-y-auto max-h-[60%] text-black text-xl p-4">
@@ -265,8 +407,6 @@ const QuizSlected = ({
                               )}
                           </>
                         )}
-    
-
                       </form>
                       <div className=" flex items-center justify-center gap-4 w-[20%] ">
                         <Dialog>
@@ -351,8 +491,10 @@ const QuizSlected = ({
                                             name={`options${index}`}
                                             className="border border-gray-300 rounded-md px-2 py-1 mb-2"
                                             type="text"
-                                            value={ updatedQuestion.options[index] && updatedQuestion.options[index].text
-                                              
+                                            value={
+                                              updatedQuestion.options[index] &&
+                                              updatedQuestion.options[index]
+                                                .text
                                             }
                                           />
                                         </div>
@@ -400,6 +542,13 @@ const QuizSlected = ({
                       <div></div>
                     </div>
                   ))}
+                </>
+              ) : (
+                <>
+                  <div className="text-2xl font-bold text-black">
+                    No questions available for this quiz
+                  </div>
+
                   <div className="mx-auto mt-4">
                     <Dialog open={closeAddQuestion}>
                       <DialogTrigger>
@@ -439,7 +588,6 @@ const QuizSlected = ({
                               >
                                 <option value="text">Text</option>
                                 <option value="radio">Single Correct</option>
-      
                               </select>
                               {quesionData.type === "radio" && (
                                 <>
@@ -479,132 +627,7 @@ const QuizSlected = ({
                                   ))}
                                 </>
                               )}
-      
-                              <label style={{ fontWeight: "bold" }}>
-                                Enter the correct Option
-                              </label>
-                              <input
-                                onChange={(e) => {
-                                  handleInputChange2(
-                                    "correctOption",
-                                    e.target.value
-                                  );
-                                }}
-                                name="correctOption"
-                                className="border border-gray-300 rounded-md px-2 py-1 mb-2"
-                                type="text"
-                              />
-                              <div className="  flex gap-4">
-                                <DialogClose
-                                  className="bg-black text-white px-4 py-2 rounded-md"
-                                  onClick={() => {
-                                    handleSubmit3(selectedQuiz._id);
-                                  }}
-                                >
-                                  Add Question
-                                </DialogClose>
-                                <button
-                                  className="bg-red-500 text-white px-4 py-2 rounded-md"
-                                  onClick={() => {
-                                    setCloseAddQuestion(false);
-                                  }}
-                                >
-                                  Close
-                                </button>
-                              </div>
-                            </div>
-                          </DialogDescription>
-                        </DialogHeader>
-                      </DialogContent>
-                    </Dialog>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="text-2xl font-bold text-black">
-                    No questions available for this quiz
-                  </div>
 
-                  <div className="mx-auto mt-4">
-                  <Dialog open={closeAddQuestion}>
-                      <DialogTrigger>
-                        <div
-                          onClick={() => {
-                            setCloseAddQuestion(true);
-                          }}
-                          className="bg-black text-white p-2  rounded-md cursor-pointer"
-                        >
-                          Add Question
-                        </div>
-                      </DialogTrigger>
-                      <DialogContent>
-                        <DialogHeader>
-                          <DialogTitle>Add Question</DialogTitle>
-                          <DialogDescription>
-                            <div className="flex flex-col items-center justify-center">
-                              <label style={{ fontWeight: "bold" }}>
-                                Enter the Question
-                              </label>
-                              <input
-                                onChange={(e) => {
-                                  handleInputChange2("text", e.target.value);
-                                }}
-                                name="text"
-                                className="border border-gray-300 rounded-md px-2 py-1 mb-2"
-                                type="text"
-                              />
-                              <label style={{ fontWeight: "bold" }}>
-                                Enter the type of response you want
-                              </label>
-                              <select
-                                onChange={(e) => {
-                                  handleInputChange2("type", e.target.value);
-                                }}
-                                className="border border-gray-300 rounded-md px-2 py-1 mb-2"
-                              >
-                                <option value="text">Text</option>
-                                <option value="radio">Single Correct</option>
-      
-                              </select>
-                              {quesionData.type === "radio" && (
-                                <>
-                                  <label style={{ fontWeight: "bold" }}>
-                                    Enter the number of options you want
-                                  </label>
-                                  <input
-                                    onChange={(e) => {
-                                      setNoOfInputs(e.target.value);
-                                    }}
-                                    name="options"
-                                    className="border border-gray-300 rounded-md px-2 py-1 mb-2"
-                                    type="number"
-                                  />
-                                  {Array.from({
-                                    length: Number(noOfInputs),
-                                  }).map((_, index) => (
-                                    <div
-                                      className=" flex flex-row items-center justify-center gap-[40px]"
-                                      key={index}
-                                    >
-                                      <label style={{ fontWeight: "bold" }}>
-                                        Enter the label
-                                      </label>
-                                      <input
-                                        onChange={(e) => {
-                                          handleInputChange2(
-                                            `options${index}`,
-                                            e.target.value
-                                          );
-                                        }}
-                                        name={`options${index}`}
-                                        className="border border-gray-300 rounded-md px-2 py-1 mb-2"
-                                        type="text"
-                                      />
-                                    </div>
-                                  ))}
-                                </>
-                              )}
-      
                               <label style={{ fontWeight: "bold" }}>
                                 Enter the correct Option
                               </label>
@@ -646,7 +669,6 @@ const QuizSlected = ({
                 </>
               )}
             </div>
-
 
             {/* Add more quiz details as needed */}
           </div>
