@@ -7,7 +7,7 @@ import Duration from '../../assets/Contestimages/Duration.png';
 import NOQ from '../../assets/Contestimages/NOQ.png';
 import TM from '../../assets/Contestimages/TM.png';
 import defaultimage from '../../assets/Contestimages/dumy1.png';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -16,9 +16,9 @@ Modal.setAppElement('#root');
 
 const Commoncd = ({ data }) => {
     const [timeRemaining, setTimeRemaining] = useState('');
-    const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+    // const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const [isStartModalOpen, setIsStartModalOpen] = useState(false);
-    const [isRegistered, setIsRegistered] = useState(false);
+    // const [isRegistered, setIsRegistered] = useState(false);
 
     const navigate = useNavigate();
 
@@ -118,19 +118,19 @@ const Commoncd = ({ data }) => {
 
 
 
-    const closeRegisterModal = () => {
-        setIsRegisterModalOpen(false);
-    };
+    // const closeRegisterModal = () => {
+    //     setIsRegisterModalOpen(false);
+    // };
 
     const closeStartModal = () => {
         setIsStartModalOpen(false);
     };
 
-    const handleExploreNow = () => {
-        closeRegisterModal();
-        setIsRegistered(true);
-        toast.success('You have successfully registered for the quiz!', { autoClose: 3000 });
-    };
+    // const handleExploreNow = () => {
+    //     closeRegisterModal();
+    //     setIsRegistered(true);
+    //     toast.success('You have successfully registered for the quiz!', { autoClose: 3000 });
+    // };
 
     const handleStartQuiz = () => {
         closeStartModal();
@@ -201,12 +201,12 @@ const Commoncd = ({ data }) => {
             </div>
 
             {/* Register Modal */}
-            <Modal isOpen={isRegisterModalOpen} onRequestClose={closeRegisterModal} className='modal' overlayClassName='overlay'>
+            {/* <Modal isOpen={isRegisterModalOpen} onRequestClose={closeRegisterModal} className='modal' overlayClassName='overlay'>
                 <h2>Register for Quiz</h2>
                 <p>Join the quiz now to compete with others!</p>
                 <img src={defaultimage} alt='Register' />
                 <button onClick={handleExploreNow}>Explore Now</button>
-            </Modal>
+            </Modal> */}
 
             {/* Start Modal */}
             <Modal isOpen={isStartModalOpen} onRequestClose={closeStartModal} className='modal' overlayClassName='overlay'>

@@ -123,7 +123,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import './Login.scss'
 import google from '../../../assets/Authpages/google.png'
-import diagonal from '../../../assets/Authpages/diagonal.png'
+// import diagonal from '../../../assets/Authpages/diagonal.png'
 import image from '../../../assets/Authpages/Image.png'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
@@ -149,7 +149,7 @@ const Login = () => {
 
     try {
       const response = await axios.post('/user/login', { email, password });
-      if(response.status === 200){
+      if (response.status === 200) {
         const { payload, expiresIn } = response.data;
         localStorage.setItem('user', JSON.stringify(payload));
         localStorage.setItem('expiresIn', new Date(Date.now() + expiresIn));
@@ -165,19 +165,19 @@ const Login = () => {
           Navigate('/');
         }, 1000);
       }
-      else{
+      else {
         throw new Error('Login failed');
       }
 
-      } catch (error) {
-        toast.error('Login failed', {
-          position: "top-left",
-          autoClose: 2000,
-          hideProgressBar: true,
-        })
-      }
-    
-    
+    } catch (error) {
+      toast.error('Login failed', {
+        position: "top-left",
+        autoClose: 2000,
+        hideProgressBar: true,
+      })
+    }
+
+
 
     // const response = await fetch('http://localhost:4000/user/login', {
     //   method: 'POST',
@@ -267,7 +267,7 @@ const Login = () => {
               </button>
             </div>
             <Link to='/forgotpassword' className="forget-pass">Forgot password?</Link>
-            <p className="subtitle">Don't have an account? <Link to='/signup'>Sign Up </Link><img src={diagonal} /></p>
+            <p className="subtitle">Don't have an account? <Link to='/signup'>Sign Up </Link></p>
           </form>
         </div>
         <div className='loginformphoto'>

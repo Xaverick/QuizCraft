@@ -339,7 +339,7 @@ input[type="text"] {
   flex-direction: row;
   margin-top: 24px;
   max-width: 1200px;
-  margin: 0 auto;
+  margin: 40px auto;
 }
 
 
@@ -391,6 +391,14 @@ input[type="text"] {
       width: 200px;
       margin: 20px 20px;
     }
+  }
+
+  .loginfrom {
+    display: flex;
+    flex-direction: row;
+    margin-top: 24px;
+    max-width: 600px;
+    margin: 40px auto;
   }
 }
 

@@ -140,7 +140,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
 import './Signup.scss'
 import google from '../../../assets/Authpages/google.png'
-import diagonal from '../../../assets/Authpages/diagonal.png'
+// import diagonal from '../../../assets/Authpages/diagonal.png'
 import image from '../../../assets/Authpages/Image.png'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 const Signup = () => {
@@ -166,43 +166,43 @@ const Signup = () => {
     event.preventDefault();
 
 
-    try{
+    try {
       const response = await axios.post('/user/register', formData);
 
-      if(response.status === 200){
+      if (response.status === 200) {
         toast.success('Signup successfull', {
           position: "top-left",
           autoClose: 2000,
           hideProgressBar: true,
         });
-  
+
         setFormData({
           email: '',
           password: '',
           // username: '',
           name: ''
         });
-  
+
         setTimeout(() => {
           Navigate('/login');
         }, 1000);
       }
 
-      else{
+      else {
         throw new Error('Signup failed');
       }
 
-      
+
     }
 
-    catch(error){
+    catch (error) {
       toast.error('Signup failed', {
         position: "top-left",
         autoClose: 2000,
         hideProgressBar: true,
       });
     }
- 
+
   };
   const [passwordVisible, setPasswordVisible] = useState(false);
 
@@ -257,7 +257,7 @@ const Signup = () => {
               </button>
             </div>
             <a className="forget-pass" href="#">Forgot password?</a>
-            <p className="subtitle">Don't have an account? <Link to='/login'></Link>Login <img src={diagonal} /></p>
+            <p className="subtitle">Have an account? <Link to='/login'>Login </Link></p>
           </form>
         </div>
         <div className='loginformphoto'>
