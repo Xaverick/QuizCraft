@@ -68,6 +68,12 @@ const quizSchema = new schema({
         type: Date,
         default: Date.now,
     },
+
+    category: {
+        type: String,
+        required: true,
+    },
+
 });
 
 module.exports = mongoose.model('Quiz', quizSchema);

@@ -30,6 +30,7 @@ const EditQuiz = ({ selectedQuiz, setEditQuiz }) => {
     duration: selectedQuiz.duration || "",
     adminId: selectedQuiz.adminId || "",
     rules: selectedQuiz.rules || [],
+    category: selectedQuiz.category || "",
   });
 
   const [newRule, setNewRule] = useState("");
@@ -98,8 +99,21 @@ const EditQuiz = ({ selectedQuiz, setEditQuiz }) => {
           <h1 className="text-2xl font-bold mb-4">Edit Quiz</h1>
         </div>
         <div className="flex flex-col gap-4">
-          <label className="text-sm font-semibold">Title</label>
-          <Input id="title" value={quizData.title} onChange={(e) => handleInputChange("title", e.target.value)} />
+        <div className="flex flex-row gap-5">
+            <div className="w-[50%]">
+              <label className="text-sm font-semibold">Title</label>
+              <Input id="title" value={quizData.title} onChange={(e) => handleInputChange("title", e.target.value)} />
+            </div>
+            <div className="w-[50%]">
+              <label htmlFor="Category" className="text-sm font-semibold">Category</label>
+              <Input
+                type="text"
+                id="category"
+                onChange={(e) => handleInputChange("category", e.target.value)}
+                value={quizData.category}
+              />
+            </div>
+          </div>
           <label className="text-sm font-semibold">Description</label>
           <textarea
             id="description"

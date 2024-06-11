@@ -116,21 +116,9 @@ const Commoncd = ({ data }) => {
     console.log(data.endTime);
     console.log(data);
 
-
-
-    // const closeRegisterModal = () => {
-    //     setIsRegisterModalOpen(false);
-    // };
-
     const closeStartModal = () => {
         setIsStartModalOpen(false);
     };
-
-    // const handleExploreNow = () => {
-    //     closeRegisterModal();
-    //     setIsRegistered(true);
-    //     toast.success('You have successfully registered for the quiz!', { autoClose: 3000 });
-    // };
 
     const handleStartQuiz = () => {
         closeStartModal();
@@ -199,16 +187,6 @@ const Commoncd = ({ data }) => {
                 </div>
 
             </div>
-
-            {/* Register Modal */}
-            {/* <Modal isOpen={isRegisterModalOpen} onRequestClose={closeRegisterModal} className='modal' overlayClassName='overlay'>
-                <h2>Register for Quiz</h2>
-                <p>Join the quiz now to compete with others!</p>
-                <img src={defaultimage} alt='Register' />
-                <button onClick={handleExploreNow}>Explore Now</button>
-            </Modal> */}
-
-            {/* Start Modal */}
             <Modal isOpen={isStartModalOpen} onRequestClose={closeStartModal} className='modal' overlayClassName='overlay'>
                 <h2>Quiz Starting</h2>
                 <p>The quiz is about to begin. Get ready!</p>

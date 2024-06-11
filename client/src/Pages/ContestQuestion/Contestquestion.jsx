@@ -1,49 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import './Contestquestion.scss';
 import { Link, useParams } from 'react-router-dom';
 import logo from '../../assets/homepageimages/navbarlogo.png'
-const NavBar = ({ timeRemaining, contestStartTime, handleEndTest }) => {
-    const calculateTimeRemaining = (endTime) => {
-        if (isNaN(endTime)) return ''; // Handle invalid or NaN contest start time
-        const now = new Date().getTime();
-        console.log(now);
-        console.log(endTime);
-        const difference = endTime - now;
-        if (difference < 0) return ''; // Contest already started
-        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-        return `${hours}h ${minutes}m ${seconds}s`;
-    };
-
-    return (
-        <nav className="navbarcontestquestion">
-            <div className="navbar-brand">
-                <Link to="/">
-                    <img src={logo} alt="Logo" />
-                </Link>
-            </div>
-            <div className="time-remaining">
-                <p>{timeRemaining} seconds</p>
-                <Link to="/" className="navbar-button">
-                    End Test
-                </Link>
-            </div>
-
-        </nav>
-    );
-};
-
+import { toast } from 'react-toastify';
 
 const ContestQuestion = () => {
     const { id } = useParams();
     const [questions, setQuestions] = useState([]);
-    const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedOption, setSelectedOption] = useState(null);
-    const [timer, setTimer] = useState(0);
-    const [contestStartTime, setContestStartTime] = useState(0);
+    const [timer, setTimer] = useState(1);
     const [formSubmitted, setFormSubmitted] = useState(false);
-    const [answers, setAnswers] = useState({});
+    const [responses, setResponses] = useState([]);
     let timerInterval;
 
     useEffect(() => {
@@ -74,7 +42,7 @@ const ContestQuestion = () => {
                     setTimer(data.duration);
                     console.log('timer:', data.duration);
                 }
-                setContestStartTime(data.contestStartTime);
+                
                 setQuestions(data.questions);
             } else {
                 console.log('Failed to fetch quiz data');
@@ -112,7 +80,7 @@ const ContestQuestion = () => {
     }, [timer]);
 
     const initializeQuiz = () => {
-        setCurrentQuestionIndex(0);
+        setCurrentIndex(0);
         const startTime = Date.now();
         sessionStorage.setItem(`quizTimer_${id}`, startTime.toString());
         startTimer(startTime);
@@ -137,47 +105,92 @@ const ContestQuestion = () => {
 
 
     const handleOptionChange = (e) => {
-        setSelectedOption(e.target.value);
-        setAnswers((prevAnswers) => ({
-            ...prevAnswers,
-            [currentQuestionIndex]: e.target.value,
-        }));
-    };
+        const index = parseInt(e.target.name.split('-')[1]);
+        const optionText = e.target.value;
+        const updatedResponses = [...responses];
+        updatedResponses[index] = optionText;
+        setResponses(updatedResponses);
+      };
 
-    const handleNextQuestion = () => {
-        if (currentQuestionIndex < questions.length - 1) {
-            setCurrentQuestionIndex(currentQuestionIndex + 1);
-            setSelectedOption(answers[currentQuestionIndex + 1] || null);
-            // setSelectedOption(null); // Reset selected option
-        }
-    };
+    const handleTextChange = (e) => {
+        const index = parseInt(e.target.name.split('-')[1]);
+        const text = e.target.value;
+        const updatedResponses = [...responses];
+        updatedResponses[index] = text;
+        setResponses(updatedResponses);
+      };
 
-    const handlePrevQuestion = () => {
-        if (currentQuestionIndex > 0) {
-            setCurrentQuestionIndex(currentQuestionIndex - 1);
-            setSelectedOption(answers[currentQuestionIndex - 1] || null);
-            // setSelectedOption(null); // Reset selected option
-        }
-    };
+      const handleClick = () => {
+        setCurrentIndex((prevIndex) => Math.max(0, prevIndex - 1));
+      };
+    
+      const handleClickAfter = () => {
+        setCurrentIndex((prevIndex) => Math.min(questions.length - 1, prevIndex + 1));
+      };
 
-    const handleEndTest = () => {
+      const handleSubmit = async () => {
         setFormSubmitted(true);
         localStorage.setItem(`quizFormSubmitted_${id}`, 'true');
-        // Implement logic for ending the test
-    };
-
-    const currentQuestion = questions[currentQuestionIndex];
-    const progressPercentage = ((currentQuestionIndex + 1) / questions.length) * 100;
+        sessionStorage.removeItem(`quizTimer_${id}`);
+        setTimer(0); // Set timer to 0 upon submission
+        const formattedResponses = questions.map((question, index) => ({
+          questionId: question._id,
+          response: responses[index],
+          correct: question.correctOption.toLowerCase() === responses[index].toLowerCase()
+        }));   
+    
+        console.log(formattedResponses);
+    
+        const response = await fetch(`http://localhost:4000/quiz/submitQuiz/${id}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
+          body: JSON.stringify({ answers: formattedResponses })
+        });
+    
+        if (response.ok) {
+          toast.success('Quiz submitted successfully', {
+            position: "top-left",
+            autoClose: 2000,
+            hideProgressBar: true,
+          });
+        } else {
+          toast.error('Failed to submit quiz', {
+            position: "top-left",
+            autoClose: 2000,
+            hideProgressBar: true,
+          });
+        }
+      };
+    
+    const currentQuestion = questions[currentIndex];
+    const progressPercentage = ((currentIndex + 1) / questions.length) * 100;
 
     return (
         <main>
-            <NavBar timeRemaining={timer} contestStartTime={contestStartTime} handleEndTest={handleEndTest} />
+            
+            <nav className="navbarcontestquestion">
+                <div className="navbar-brand">
+                    <Link to="/">
+                        <img src={logo} alt="Logo" />
+                    </Link>
+                </div>
+                <div className="time-remaining">
+                    <p>{Math.floor(timer / 60)}:{timer % 60 < 10 ? '0' : ''}{timer % 60} Min</p>
+                    <button onClick={handleSubmit} className="navbar-button">
+                        End Test
+                    </button>
+                </div>
+
+            </nav>
             <span><hr /></span>
             <div className="container">
                 {/* <h1 className="quiz-title">Quiz Title</h1> */}
                 <div className="progress-bar-container">
                     <div className="progress-text">
-                        {currentQuestionIndex + 1}/{questions.length} Questions Attempted
+                        {currentIndex + 1}/{questions.length} Questions Attempted
                     </div>
                     <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
                 </div>
@@ -187,11 +200,11 @@ const ContestQuestion = () => {
                             {questions.map((question, index) => (
                                 <li key={question._id}>
                                     <a
-                                        className={index < currentQuestionIndex ? 'done' : index === currentQuestionIndex ? 'active' : ''}
+                                        className={index < currentIndex ? 'done' : index === currentIndex ? 'active' : ''}
                                         href="#"
                                         onClick={() => {
-                                            setCurrentQuestionIndex(index);
-                                            setSelectedOption(answers[index] || null);
+                                            setCurrentIndex(index);
+                                            setSelectedOption(responses[index] || null);
                                             // setSelectedOption(null); // Reset selected option
                                         }}
                                     >
@@ -205,31 +218,54 @@ const ContestQuestion = () => {
                 <section className="question-section">
                     <div className="question">
                         <h2 className="question-num">
-                            Question {currentQuestionIndex + 1}: {currentQuestion?.text}
+                            Question {currentIndex + 1}: {currentQuestion?.text}
                         </h2>
                     </div>
                     <div className="answer">
-                        {currentQuestion?.options?.map((option) => (
-                            <label
-                                key={option._id}
-                                className={`answer-item ${selectedOption === option.text ? 'selected' : ''}`}
-                            >
-                                <input
-                                    type="radio"
-                                    name="quizOption"
-                                    value={option.text}
-                                    onChange={handleOptionChange}
-                                    checked={selectedOption === option.text}
-                                />
-                                <span>{option.text}</span>
-                            </label>
-                        ))}
+                        {currentQuestion?.type === 'radio' && (
+                            currentQuestion?.options?.map((option) => (
+                                <label
+                                    key={option._id}
+                                    className={`answer-item ${selectedOption === option.text ? 'selected' : ''}`}
+                                >
+                                    <input
+                                        className='form-tick appearance-none h-4 w-4 border border-gray-300 rounded checked:bg-blue-600 checked:border-transparent dark:border-gray-700 dark:checked:bg-blue-500'
+                                        id={option._id}
+                                        name={`question-${currentIndex}`}
+                                        type='radio'
+                                        value={option.text} //
+                                        checked={responses[currentIndex] === option.text}
+                                        onChange={handleOptionChange}
+                                        disabled={formSubmitted}
+                                    />
+                                    <span>{option.text}</span>
+                                </label>
+                            ))
+                        )}
+
+                            {currentQuestion?.type === 'text' && (
+                                currentQuestion?.options?.map((option) => (
+                                    <label
+                                        key={option._id}
+                                        className={`answer-item ${selectedOption === option.text ? 'selected' : ''}`}
+                                    >
+                                        <input
+                                           type='text'
+                                           name={`question-${currentIndex}`}
+                                           value={responses[currentIndex] || ''}
+                                           onChange={handleTextChange}
+                                           disabled={formSubmitted}
+                                        />
+                                      
+                                    </label>
+                                ))
+                            )}
                     </div>
                     <div className="action">
-                        <button className="btn" onClick={handlePrevQuestion} disabled={currentQuestionIndex === 0}>
+                        <button className="btn" onClick={handleClick} disabled={currentIndex === 0}>
                             Previous
                         </button>
-                        <button className="btn" onClick={handleNextQuestion} disabled={currentQuestionIndex === questions.length - 1}>
+                        <button className="btn" onClick={handleClickAfter} disabled={currentIndex === questions.length - 1}>
                             Next
                         </button>
                     </div>

@@ -163,7 +163,7 @@
 
         .question-nums-list {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(5, 1fr);
             grid-auto-rows: minmax(0, 1fr);
             gap: 10px;
             list-style: none;

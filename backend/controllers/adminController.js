@@ -58,8 +58,8 @@ module.exports.adminregister = async (req, res) => {
 
 module.exports.createQuiz = async (req, res) => {
     // console.log(req.body);
-    const { title, description, startTime, endTime, duration, rules} = req.body;
-    if (!title || !description || !startTime || !endTime || !duration || !rules) {
+    const { title, description, startTime, endTime, duration, rules, category } = req.body;
+    if (!title || !description || !startTime || !endTime || !duration || !rules, !category) {
         throw new ExpressError('missing fields', 400);
     } 
 
@@ -73,7 +73,8 @@ module.exports.createQuiz = async (req, res) => {
         endTime: endTimeUTC, 
         duration, 
         adminId: req.adminId,
-        rules: rules 
+        rules: rules,
+        category: category
     });
 
     if (!newQuiz) {
@@ -207,7 +208,7 @@ module.exports.updateQuestion = async (req, res) => {
         throw new ExpressError('missing fields', 400);
     } 
 
-    const question = await Question.findByIdAndUpdate(questionId, { type, options, correctOption});
+    const question = await Question.findByIdAndUpdate(questionId, { text, options, correctOption});
     if(!question){
         throw new ExpressError('question not found', 400);
     }
