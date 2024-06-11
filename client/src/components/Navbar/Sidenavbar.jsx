@@ -32,20 +32,20 @@ const SideNavbar = () => {
     };
 
     const handleLogout = async () => {
-        try{
+        try {
             const response = await axios.get('/user/logout')
             localStorage.removeItem('user');
             localStorage.removeItem('expiresIn');
             dispatch(logout());
             navigate('/');
-      
-          }
-          catch(error){
+
+        }
+        catch (error) {
             localStorage.removeItem('user');
-            localStorage.removeItem('expiresIn');      
+            localStorage.removeItem('expiresIn');
             dispatch(logout());
-            navigate('/'); 
-          }
+            navigate('/');
+        }
     };
 
     const toggleMenu = () => {
@@ -99,7 +99,7 @@ const SideNavbar = () => {
                             Contact
                         </Link>
                         {isLoggedIn ? (
-                            <button className="side-navbar-link " onClick={handleLogout}>
+                            <button className="side-navbar-link " style={{ background: 'white', fontSize: '20px', border: 'none', fontWeight: "600" }} onClick={handleLogout}>
                                 Logout
                             </button>
                         ) : (
