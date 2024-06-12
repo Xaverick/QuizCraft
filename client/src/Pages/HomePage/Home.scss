@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 6% auto;
 
 }
 
@@ -432,6 +432,7 @@ $animationSpeed: 20s;
         margin: 18px 0px;
         padding: 15px;
         box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
     }
 }
 

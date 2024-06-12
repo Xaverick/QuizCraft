@@ -4,7 +4,10 @@ import { useParams } from 'react-router-dom';
 import Commoncd from '../../components/commonContestDetail/Commoncd';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-
+import price1 from '../../assets/Contestimages/price1.png';
+import price2 from '../../assets/Contestimages/price2.png'
+import price3 from '../../assets/Contestimages/price3.png';
+import price4 from '../../assets/Contestimages/price4.png'
 
 const ContestDetails = () => {
     const [activeSection, setActiveSection] = useState('details');
@@ -97,9 +100,14 @@ const ContestDetails = () => {
                 )}
                 {activeSection === 'rewards' && (
                     <div className='rewards'>
-                        {quizData.rewards && Object.values(quizData.rewards).map((reward, idx) => (
+                        {/* {quizData.rewards && Object.values(quizData.rewards).map((reward, idx) => (
                             <img key={idx} src={reward} alt={`Reward ${idx + 1}`} />
-                        ))}
+                        ))} */}
+                        <img src={price1}></img>
+                        <img src={price2}></img>
+                        <img src={price3}></img>
+                        <img src={price4}></img>
+
                     </div>
                 )}
             </div>

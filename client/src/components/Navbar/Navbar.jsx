@@ -27,7 +27,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
 
-    try{
+    try {
       const response = await axios.get('/user/logout')
       localStorage.removeItem('user');
       localStorage.removeItem('expiresIn');
@@ -35,11 +35,11 @@ const Navbar = () => {
       navigate('/');
 
     }
-    catch(error){
+    catch (error) {
       localStorage.removeItem('user');
-      localStorage.removeItem('expiresIn');      
+      localStorage.removeItem('expiresIn');
       dispatch(logout());
-      navigate('/'); 
+      navigate('/');
     }
 
   };
@@ -75,9 +75,9 @@ const Navbar = () => {
               Contests
             </Link>
             <Link
-              to="/leaderboard"
-              className={`navbar-link ${activeLink === '/leaderboard' ? 'active' : ''}`}
-              onClick={() => handleLinkClick('/leaderboard')}
+              to="/comingsoon"
+              className={`navbar-link ${activeLink === '/comingssoon' ? 'active' : ''}`}
+              onClick={() => handleLinkClick('/comingsson')}
             >
               Leaderboard
             </Link>
