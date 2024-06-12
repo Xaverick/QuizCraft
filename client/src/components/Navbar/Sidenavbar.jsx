@@ -78,9 +78,9 @@ const SideNavbar = () => {
                             Contests
                         </Link>
                         <Link
-                            to="/leaderboard"
-                            className={`side-navbar-link ${activeLink === '/leaderboard' ? 'active' : ''}`}
-                            onClick={() => handleLinkClick('/leaderboard')}
+                            to="/comingsoon"
+                            className={`side-navbar-link ${activeLink === '/comingsoon' ? 'active' : ''}`}
+                            onClick={() => handleLinkClick('/comingsoon')}
                         >
                             Leaderboard
                         </Link>
