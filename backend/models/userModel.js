@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 const Quiz = require('./quizzes');
+const profile = require('./profileModel')
 
 const userSchema = new schema({
 
@@ -13,7 +14,7 @@ const userSchema = new schema({
 
     // username: {
     //     type: String,
-    //     // required: true,
+    //     required: true,
     //     unique: true,
     //     min: 6,
 
@@ -48,7 +49,13 @@ const userSchema = new schema({
 
     country: {
         type: String,
-    }
+    },
+
+    profile : [{
+        type : schema.Types.ObjectId,
+        ref:'Profile',
+    }]
+
 
 });
 
