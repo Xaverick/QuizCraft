@@ -9,6 +9,7 @@ import price2 from '../../assets/Contestimages/price2.png'
 import price3 from '../../assets/Contestimages/price3.png';
 import price4 from '../../assets/Contestimages/price4.png'
 
+import { IoIosArrowDown } from "react-icons/io";
 const ContestDetails = () => {
     const [activeSection, setActiveSection] = useState('details');
     const [quizData, setQuizData] = useState({});
@@ -96,6 +97,129 @@ const ContestDetails = () => {
                 )}
                 {activeSection === 'leaderboard' && (
                     <div>
+                        <div className="container-wrap">
+                            <section id="leaderboard">
+                                <nav className="ladder-nav">
+
+                                    <div className="filters">
+                                        <input type="text" id="search-name" className="live-search-box" placeholder=" Enter Your name to search " />
+                                    </div>
+                                    <div>
+                                        <div className="custom-select">
+                                            <select className="filter-country">
+                                                <option value="">All Countries</option>
+                                                <option value="india">India</option>
+                                                <option value="usa">USA</option>
+                                                <option value="canada">Canada</option>
+                                                <option value="uk">UK</option>
+                                            </select>
+                                            <IoIosArrowDown className="dropdown-icon" />
+                                        </div>
+                                    </div>
+                                </nav>
+                                <table id="rankings" className="leaderboard-results" width="100%">
+                                    <tbody>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>Name</th>
+                                            <th>Country</th>
+                                            <th>Score</th>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Yash</td>
+                                            <td>India</td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Yash</td>
+                                            <td>India</td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Yash</td>
+                                            <td>India</td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Yash</td>
+                                            <td>India</td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Yash</td>
+                                            <td>India</td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Yash</td>
+                                            <td>India</td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Yash</td>
+                                            <td>India</td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Yash</td>
+                                            <td>India</td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Yash</td>
+                                            <td>India</td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Yash</td>
+                                            <td>India</td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Yash</td>
+                                            <td>India</td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Yash</td>
+                                            <td>India</td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Yash</td>
+                                            <td>India</td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Yash</td>
+                                            <td>India</td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Yash</td>
+                                            <td>India</td>
+                                            <td>20</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </section>
+                        </div>
+
                     </div>
                 )}
                 {activeSection === 'rewards' && (
