@@ -4,6 +4,10 @@ import question3 from '../Questionsimages/question4.png';
 import question4 from '../Questionsimages/question3.png';
 import up from '../Questionsimages/up.png'
 import down from '../Questionsimages/down.png'
+import que1 from '../Questionsimages/questions1.png'
+import que2 from '../Questionsimages/questions2.png';
+import que3 from '../Questionsimages/questions3.png'
+import que4 from '../Questionsimages/questions4.png'
 const questions = [
     {
         id: 0,
@@ -12,6 +16,7 @@ const questions = [
         image: question1,
         uimag1: up,
         dimag2: down,
+        sideimage: que1
     },
     {
         id: 1,
@@ -20,6 +25,7 @@ const questions = [
         image: question2,
         uimag1: up,
         dimag2: down,
+        sideimage: que2
     },
     {
         id: 2,
@@ -28,6 +34,7 @@ const questions = [
         image: question3,
         uimag1: up,
         dimag2: down,
+        sideimage: que3
     },
     {
         id: 3,
@@ -36,6 +43,7 @@ const questions = [
         image: question4,
         uimag1: up,
         dimag2: down,
+        sideimage: que4
 
     }
 ]

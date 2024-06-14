@@ -253,7 +253,7 @@ const Signup = () => {
             <div className="social-login">
               <button className="google-btn">
                 <img alt="Google" src={google} />
-                <p className="btn-text">Login with Google</p>
+                <p className="btn-text">Sign Up with Google</p>
               </button>
             </div>
             <a className="forget-pass" href="#">Forgot password?</a>
