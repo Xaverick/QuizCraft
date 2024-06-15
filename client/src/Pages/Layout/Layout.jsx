@@ -51,9 +51,9 @@ function Layout() {
             </div>
             <Routes>
 
+                <Route path='/' element={<Home />} />
                 <Route path='/contest' element={<Allcontest />} />
                 <Route path='/pricing' element={<Pricing plansdata={plansdata} />} />
-                <Route path='/' element={<Home />} />
                 <Route path='/forgotpassword' element={<ForgotPassword />} />
                 <Route path='/contact' element={<Contact />} />
                 <Route element={<PrivateRoutes />} >

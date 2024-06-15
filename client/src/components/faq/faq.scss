@@ -1,7 +1,7 @@
 .faq {
     display: flex;
     align-items: center;
-    margin: 10px 0;
+    margin: 10 px 0;
 
     padding: 18px;
 
@@ -20,6 +20,19 @@
             display: flex;
             gap: 25px;
             flex-direction: row;
+            justify-content: space-between;
+            button {
+                // padding: 5px 10px;
+                margin-left: 10px;
+                border: none;
+                color: white;
+                background-color: white;
+                // border-radius: 5px;
+                cursor: pointer !important;
+
+            }   
+
+         
         }
 
         .faqanswer {
@@ -39,17 +52,7 @@
         }
     }
 
-    .faqopenclose {
-        button {
-            // padding: 5px 10px;
-            margin-left: 10px;
-            border: none;
-            color: white;
-            background-color: white;
-            // border-radius: 5px;
-            cursor: pointer !important;
-        }
-    }
+
 
     &.open .faqanswer {
         max-height: 400px;
