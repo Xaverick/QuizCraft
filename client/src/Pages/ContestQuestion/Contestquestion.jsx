@@ -156,6 +156,7 @@ const ContestQuestion = () => {
             autoClose: 2000,
             hideProgressBar: true,
           });
+
         } else {
           toast.error('Failed to submit quiz', {
             position: "top-left",
@@ -165,8 +166,8 @@ const ContestQuestion = () => {
         }
       };
     
-    const currentQuestion = questions[currentIndex];
-    const progressPercentage = ((currentIndex + 1) / questions.length) * 100;
+        const currentQuestion = questions[currentIndex];
+        const progressPercentage = ((currentIndex + 1) / questions.length) * 100;
 
     return (
         <main>
