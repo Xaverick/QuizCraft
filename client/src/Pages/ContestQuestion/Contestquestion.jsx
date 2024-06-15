@@ -42,7 +42,7 @@ const ContestQuestion = () => {
                     setTimer(data.duration);
                     console.log('timer:', data.duration);
                 }
-                
+
                 setQuestions(data.questions);
             } else {
                 console.log('Failed to fetch quiz data');
@@ -110,7 +110,7 @@ const ContestQuestion = () => {
         const updatedResponses = [...responses];
         updatedResponses[index] = optionText;
         setResponses(updatedResponses);
-      };
+    };
 
     const handleTextChange = (e) => {
         const index = parseInt(e.target.name.split('-')[1]);
@@ -118,64 +118,63 @@ const ContestQuestion = () => {
         const updatedResponses = [...responses];
         updatedResponses[index] = text;
         setResponses(updatedResponses);
-      };
+    };
 
-      const handleClick = () => {
+    const handleClick = () => {
         setCurrentIndex((prevIndex) => Math.max(0, prevIndex - 1));
-      };
-    
-      const handleClickAfter = () => {
-        setCurrentIndex((prevIndex) => Math.min(questions.length - 1, prevIndex + 1));
-      };
+    };
 
-      const handleSubmit = async () => {
+    const handleClickAfter = () => {
+        setCurrentIndex((prevIndex) => Math.min(questions.length - 1, prevIndex + 1));
+    };
+
+    const handleSubmit = async () => {
         setFormSubmitted(true);
         localStorage.setItem(`quizFormSubmitted_${id}`, 'true');
         sessionStorage.removeItem(`quizTimer_${id}`);
         setTimer(0); // Set timer to 0 upon submission
         const formattedResponses = questions.map((question, index) => ({
-          questionId: question._id,
-          response: responses[index],
-          correct: question.correctOption.toLowerCase() === responses[index].toLowerCase()
-        }));   
-    
-        console.log(formattedResponses);
-    
-        const response = await fetch(`http://localhost:4000/quiz/submitQuiz/${id}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          credentials: 'include',
-          body: JSON.stringify({ answers: formattedResponses })
-        });
-    
-        if (response.ok) {
-          toast.success('Quiz submitted successfully', {
-            position: "top-left",
-            autoClose: 2000,
-            hideProgressBar: true,
-          });
+            questionId: question._id,
+            response: responses[index],
+            correct: question.correctOption.toLowerCase() === responses[index].toLowerCase()
+        }));
 
+        console.log(formattedResponses);
+
+        const response = await fetch(`http://localhost:4000/quiz/submitQuiz/${id}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+            body: JSON.stringify({ answers: formattedResponses })
+        });
+
+        if (response.ok) {
+            toast.success('Quiz submitted successfully', {
+                position: "top-left",
+                autoClose: 2000,
+                hideProgressBar: true,
+            });
         } else {
-          toast.error('Failed to submit quiz', {
-            position: "top-left",
-            autoClose: 2000,
-            hideProgressBar: true,
-          });
+            toast.error('Failed to submit quiz', {
+                position: "top-left",
+                autoClose: 2000,
+                hideProgressBar: true,
+            });
         }
-      };
-    
-        const currentQuestion = questions[currentIndex];
-        const progressPercentage = ((currentIndex + 1) / questions.length) * 100;
+    };
+
+    const currentQuestion = questions[currentIndex];
+    const progressPercentage = ((currentIndex + 1) / questions.length) * 100;
 
     return (
         <main>
-            
+
             <nav className="navbarcontestquestion">
                 <div className="navbar-brand">
                     <Link to="/">
-                        <img src={logo} alt="Logo" />
+                        <img className='ig' src={logo} alt="Logo" />
                     </Link>
                 </div>
                 <div className="time-remaining">
@@ -244,23 +243,23 @@ const ContestQuestion = () => {
                             ))
                         )}
 
-                            {currentQuestion?.type === 'text' && (
-                                currentQuestion?.options?.map((option) => (
-                                    <label
-                                        key={option._id}
-                                        className={`answer-item ${selectedOption === option.text ? 'selected' : ''}`}
-                                    >
-                                        <input
-                                           type='text'
-                                           name={`question-${currentIndex}`}
-                                           value={responses[currentIndex] || ''}
-                                           onChange={handleTextChange}
-                                           disabled={formSubmitted}
-                                        />
-                                      
-                                    </label>
-                                ))
-                            )}
+                        {currentQuestion?.type === 'text' && (
+                            currentQuestion?.options?.map((option) => (
+                                <label
+                                    key={option._id}
+                                    className={`answer-item ${selectedOption === option.text ? 'selected' : ''}`}
+                                >
+                                    <input
+                                        type='text'
+                                        name={`question-${currentIndex}`}
+                                        value={responses[currentIndex] || ''}
+                                        onChange={handleTextChange}
+                                        disabled={formSubmitted}
+                                    />
+
+                                </label>
+                            ))
+                        )}
                     </div>
                     <div className="action">
                         <button className="btn" onClick={handleClick} disabled={currentIndex === 0}>

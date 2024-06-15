@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 6% auto;
 
 }
 
@@ -160,7 +160,7 @@ $animationSpeed: 20s;
     max-height: 545px;
 
     .homephase4contentimg {
-        background-color: #01E6CF;
+        // background-color: #01E6CF;
         border-radius: 6px;
     }
 
@@ -172,6 +172,7 @@ $animationSpeed: 20s;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        gap: 18px;
 
         .question {
             .question-header {
@@ -277,7 +278,7 @@ $animationSpeed: 20s;
 
 .homephase6content1 {
     p {
-        font-size: 40px;
+        font-size: 32px;
         font-weight: 600;
         text-align: center;
         margin-top: 90px;
@@ -330,7 +331,7 @@ $animationSpeed: 20s;
 
 .homephase7heading {
     p {
-        font-size: 40px;
+        font-size: 32px;
         font-weight: 600;
         text-align: center;
     }
@@ -400,7 +401,7 @@ $animationSpeed: 20s;
 
 .homephase8faqheading {
     p {
-        font-size: 40px;
+        font-size: 32px;
         font-weight: 530;
         text-align: center;
         color: #333333;
@@ -432,6 +433,7 @@ $animationSpeed: 20s;
         margin: 18px 0px;
         padding: 15px;
         box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
     }
 }
 
@@ -575,6 +577,7 @@ $animationSpeed: 20s;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        gap: 18px;
     }
 }
 
@@ -590,6 +593,7 @@ $animationSpeed: 20s;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        gap: 20px;
     }
 }
 
@@ -691,10 +695,29 @@ $animationSpeed: 20s;
         }
     }
 
+    .homephase3contentheading p,
+    .homephase4heading p,
+    .homephase5 .homephase5heading p,
+    .homephase6content1 p,
+    .homephase7heading p,
+    .homephase8faqheading p {
+        font-size: 28px;
+    }
+
     .homephase1left {
         h2 {
             font-size: 15px;
         }
+    }
+
+    .homephase6content2 p {
+        font-size: 17px;
+        text-align: justify;
+    }
+
+    .faqs .faqs-heading {
+        font-size: 20px;
+
     }
 
 }

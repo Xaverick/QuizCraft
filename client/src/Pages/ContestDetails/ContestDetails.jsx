@@ -4,12 +4,17 @@ import { useParams } from 'react-router-dom';
 import Commoncd from '../../components/commonContestDetail/Commoncd';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import price1 from '../../assets/Contestimages/price1.png';
+import price2 from '../../assets/Contestimages/price2.png'
+import price3 from '../../assets/Contestimages/price3.png';
+import price4 from '../../assets/Contestimages/price4.png'
 
-
+import { IoIosArrowDown } from "react-icons/io";
 const ContestDetails = () => {
     const [activeSection, setActiveSection] = useState('details');
     const [quizData, setQuizData] = useState({});
     const { id } = useParams();
+
 
     const handleNavClick = (section) => {
         setActiveSection(section);
@@ -39,8 +44,26 @@ const ContestDetails = () => {
 
         fetchQuizData();
     }, [id]);
+    const [leaderboardData, setLeaderboardData] = useState([]);
+    useEffect(() => {
+        // Fetch leaderboard data from backend
+        const fetchLeaderboardData = async () => {
+            try {
+                const response = await axios.get(`/quiz/getLeaderboard/${id}`)
+                console.log(response);
+                console.log("hi");
 
+                if (response.status == 200) {
 
+                    setLeaderboardData(response.data.ranks);
+                }
+            } catch (error) {
+                console.log('error');
+            }
+
+        }
+        fetchLeaderboardData();
+    }, [id]);
 
     return (
         <div className="contestdetailspage">
@@ -93,13 +116,59 @@ const ContestDetails = () => {
                 )}
                 {activeSection === 'leaderboard' && (
                     <div>
+                        <div className="container-wrap">
+                            <section id="leaderboard">
+                                <nav className="ladder-nav">
+
+                                    <div className="filters">
+                                        <input type="text" id="search-name" className="live-search-box" placeholder=" Enter Your name to search " />
+                                    </div>
+                                    <div>
+                                        <div className="custom-select">
+                                            <select className="filter-country">
+                                                <option value="">All Countries</option>
+                                                <option value="india">India</option>
+                                                <option value="usa">USA</option>
+                                                <option value="canada">Canada</option>
+                                                <option value="uk">UK</option>
+                                            </select>
+                                            <IoIosArrowDown className="dropdown-icon" />
+                                        </div>
+                                    </div>
+                                </nav>
+                                <table id="rankings" className="leaderboard-results" width="100%">
+                                    <tbody>
+                                        <tr>
+                                            <th>Rank</th>
+                                            <th>Name</th>
+                                            <th>Country</th>
+                                            <th>Score</th>
+                                        </tr>
+                                        {leaderboardData && leaderboardData.map((rank, idx) => (
+                                            <tr key={idx}>
+                                                <td>{idx + 1}</td>
+                                                <td>{rank.name}</td>
+                                                <td>{rank.country}</td>
+                                                <td>{rank.score}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </section>
+                        </div>
+
                     </div>
                 )}
                 {activeSection === 'rewards' && (
                     <div className='rewards'>
-                        {quizData.rewards && Object.values(quizData.rewards).map((reward, idx) => (
+                        {/* {quizData.rewards && Object.values(quizData.rewards).map((reward, idx) => (
                             <img key={idx} src={reward} alt={`Reward ${idx + 1}`} />
-                        ))}
+                        ))} */}
+                        <img src={price1}></img>
+                        <img src={price2}></img>
+                        <img src={price3}></img>
+                        <img src={price4}></img>
+
                     </div>
                 )}
             </div>

@@ -88,3 +88,130 @@
     margin: 40px 0px;
     gap: 20px;
 }
+
+
+
+
+
+/* /end Codepen Specific */
+/* Ladder Navigation */
+#leaderboard {
+    padding: 50px;
+}
+
+.ladder-nav {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px 25px;
+    border-radius: 10px;
+    justify-content: space-between;
+
+    .live-search-box {
+        width: 40vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid #B3B3B3 !important;
+    }
+
+}
+
+.ladder-title {
+    flex: 2;
+}
+
+.custom-select {
+    position: relative;
+    display: inline-block;
+
+    select {
+        display: inline-block;
+        appearance: none;
+        padding: 17px 50px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        outline: none;
+        cursor: pointer;
+        font-size: 16px;
+        background: white;
+        position: relative;
+
+        &:focus {
+            border-color: #888;
+        }
+    }
+
+    .dropdown-icon {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        pointer-events: none;
+        transform: translateY(-50%);
+        font-size: 20px;
+        color: #888;
+    }
+}
+
+
+
+/* /end Ladder Navigation */
+/* Leaderboard Results */
+.leaderboard-results {
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #08AAA2;
+    border-radius: 17px !important;
+    box-shadow: 0 2px 40px 0 #B5B5B5;
+    overflow: hidden;
+
+    tbody tr th {
+        padding: 20px;
+        // color: #747474;
+        font-size: 14px;
+        font-weight: bold;
+        border-right: 1px solid #6E6E73;
+        border-bottom: 1px solid #6E6E73;
+
+        &:last-child {
+            border-right: none;
+        }
+    }
+
+    tbody tr {
+        background-color: #E9FFFF;
+    }
+
+    tbody td {
+        padding: 15px;
+        font-size: 16px;
+        color: #000;
+        border-right: 1px solid #6E6E73;
+
+        &:last-child {
+            border-right: none;
+        }
+    }
+
+    tbody tr {
+
+
+        &:nth-child(4n+2) {
+            background: #FFFFFF
+        }
+
+        &:nth-child(4n+3) {
+            background: #F4F4F4;
+        }
+
+        &:nth-child(4n+4) {
+            background: #FFFFFF;
+        }
+
+        &:nth-child(4n+5) {
+            background: #F4F4F4;
+        }
+    }
+}
