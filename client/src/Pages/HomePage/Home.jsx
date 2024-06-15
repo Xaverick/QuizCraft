@@ -16,26 +16,21 @@ import axios from 'axios';
 
 const Question = ({ questionData, onSelect }) => {
     const [isOpen, setIsOpen] = useState(false);
-
-
-
     const handleClick = () => {
         setIsOpen(!isOpen);
         onSelect(questionData);
     };
 
     return (
-        <div className="question">
+        <div className={`question ${isOpen ? 'open' : ''}`}>
             <div className="question-header" onClick={handleClick}>
                 <img src={questionData.image} alt="Question Icon" className="question-icon" />
                 <p>{questionData.question}</p>
-                <img src={isOpen ? questionData.uimag1 : questionData.dimag2} alt="Toggle Icon" className="toggle-icon" />
+                <img src={isOpen ? questionData.uimag1 : questionData.dimag2} alt="Toggle Icon" className="toggle-icon" style={{ cursor: "pointer" }} />
             </div>
-            {isOpen && (
-                <div className="question-answer">
-                    <p>{questionData.answer}</p>
-                </div>
-            )}
+            <div className="question-answer">
+                <p>{questionData.answer}</p>
+            </div>
         </div>
     );
 };

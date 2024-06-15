@@ -1,7 +1,7 @@
 .faq {
     display: flex;
     align-items: center;
-    margin: 10 px 0;
+    margin: 10px 0;
 
     padding: 18px;
 
@@ -18,41 +18,43 @@
             font-weight: bold;
             font-size: 20px;
             display: flex;
-            gap: 25px;
+            gap: 10px;
             flex-direction: row;
             justify-content: space-between;
+
             button {
-                // padding: 5px 10px;
-                margin-left: 10px;
+                background: none;
                 border: none;
-                color: white;
-                background-color: white;
-                // border-radius: 5px;
-                cursor: pointer !important;
-
-            }   
-
-         
+                cursor: pointer;
+            }
         }
 
         .faqanswer {
 
             font-size: 18px;
-
             max-height: 0;
-
             overflow: hidden;
             display: flex;
             gap: 25px;
             flex-direction: row;
-
-            transition: max-height 0.5s ease-in;
+            transition: max-height 0.5s ease-in-out;
 
 
         }
     }
 
-
+    .faqopenclose {
+        button {
+            // padding: 5px 10px;
+            margin-left: 10px;
+            border: none;
+            color: white;
+            // background-color: white;
+            // border-radius: 5px;
+            cursor: pointer !important;
+            background-color: none;
+        }
+    }
 
     &.open .faqanswer {
         max-height: 400px;
@@ -67,11 +69,10 @@
         }
 
     }
+}
 
-    @media screen and (max-width: 780px) {
-        .faqs.faqs-heading {
-            font-size: 30px;
-        }
+@media screen and (max-width: 640px) {
+    .faq .faqquestionanswer .faqquestion p {
+        font-size: 16px;
     }
-
 }

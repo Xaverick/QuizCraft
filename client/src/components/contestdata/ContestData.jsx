@@ -2,7 +2,7 @@ import React from 'react';
 import './ContestData.scss';
 import { useNavigate } from 'react-router-dom';
 import defaultImage from '../../assets/Contestimages/dumy2.png';
-
+import tr from '../../assets/Contestimages/tr.png'
 const ContestData = ({ contest }) => {
     const navigate = useNavigate();
 
@@ -27,15 +27,20 @@ const ContestData = ({ contest }) => {
                     <p>{contest.description}</p>
                 </div>
                 <div className='contestdatatime'>
-                    <p>Event Date</p>
-                    <h3>{formatDate(contest.startTime)}</h3>
+                    <div>
+                        <p>Event Date</p>
+                        <h3>{formatDate(contest.startTime)}</h3>
+                    </div>
                     {/* <p>Duration: {contest.duration} mins</p> */}
+                    <div className='contesttotalregistered'>
+                        <p><img src={tr}></img><span>{contest.totalRegistered}</span>joined</p>
+                    </div>
                 </div>
                 <div className='contestdatabutton'>
                     <button onClick={handleButtonClick}>Register Now</button>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-
+import tr from '../../assets/Contestimages/tr.png'
 Modal.setAppElement('#root');
 
 const Commoncd = ({ data }) => {
@@ -151,6 +151,10 @@ const Commoncd = ({ data }) => {
                     <span>
                         <img src={Duration} alt='' />
                         Duration: {data.duration} {data.duration > 1 ? 'minutes' : 'minute'}
+                    </span>
+                    <span>
+                        <img src={tr}></img>
+                        <span>{data.totalRegistered}</span>joined
                     </span>
                 </div>
                 <div className='commoncd-left-button'>
