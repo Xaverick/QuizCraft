@@ -33,7 +33,11 @@ const ContestData = ({ contest }) => {
                     </div>
                     {/* <p>Duration: {contest.duration} mins</p> */}
                     <div className='contesttotalregistered'>
-                        <p><img src={tr}></img><span>{contest.totalRegistered}</span>joined</p>
+                        {/* <p><img src={tr}></img><span>{contest.totalRegistered}</span>joined</p> */}
+                        <div>
+                            <img src={tr}></img>
+                            <span>+{contest.totalRegistered}</span>joined
+                        </div>
                     </div>
                 </div>
                 <div className='contestdatabutton'>

@@ -14,16 +14,15 @@ import Faqcompo from '../../components/faq/faq.jsx';
 import faqdata from "../../assets/data/faqs.js";
 import axios from 'axios';
 
-const Question = ({ questionData, onSelect }) => {
-    const [isOpen, setIsOpen] = useState(false);
+const Question = ({ questionData, onSelect, isOpen }) => {
     const handleClick = () => {
-        setIsOpen(!isOpen);
-        onSelect(questionData);
+        onSelect(questionData.id);
+
     };
 
     return (
-        <div className={`question ${isOpen ? 'open' : ''}`}>
-            <div className="question-header" onClick={handleClick}>
+        <div className={`question ${isOpen ? 'open' : ''}`} onClick={handleClick}>
+            <div className="question-header" >
                 <img src={questionData.image} alt="Question Icon" className="question-icon" />
                 <p>{questionData.question}</p>
                 <img src={isOpen ? questionData.uimag1 : questionData.dimag2} alt="Toggle Icon" className="toggle-icon" style={{ cursor: "pointer" }} />
@@ -36,6 +35,11 @@ const Question = ({ questionData, onSelect }) => {
 };
 
 const Home = () => {
+    const [openIndex, setOpenIndex] = useState(null);
+    const [openQuestionId, setOpenQuestionId] = useState(null);
+    const handleToggle = (index) => {
+        setOpenIndex(openIndex === index ? null : index);
+    };
     const navigate = useNavigate();
     const [contests, setContests] = useState([]);
     const [selectedQuestion, setSelectedQuestion] = useState(questionsData[0]);
@@ -61,10 +65,12 @@ const Home = () => {
     const handleViewAllClick = () => {
         navigate('/contest');
     };
-
-    const handleQuestionSelect = (question) => {
-        setSelectedQuestion(question);
+    const handleQuestionSelect = (questionId) => {
+        setOpenQuestionId(openQuestionId === questionId ? null : questionId);
+        const selectedQuestion = questionsData.find(q => q.id === questionId);
+        setSelectedQuestion(selectedQuestion);
     };
+
     // Only show the first 3 contests initially
     const initialContests = contests.slice(0, 3);
 
@@ -146,7 +152,12 @@ const Home = () => {
                         <div className='homephase4content'>
                             <div className='homephase4contentquestions'>
                                 {questionsData.map((question) => (
-                                    <Question key={question.id} questionData={question} onSelect={handleQuestionSelect} />
+                                    <Question
+                                        key={question.id}
+                                        questionData={question}
+                                        isOpen={openQuestionId === question.id}
+                                        onSelect={handleQuestionSelect}
+                                    />
                                 ))}
                             </div>
                             <div className='homephase4contentimg'>
@@ -209,8 +220,8 @@ const Home = () => {
                                 <p>Frequently Asked Questions</p>
                             </div>
                             <div className='faqs'>
-                                {faqdata.map((f) => (
-                                    <Faqcompo key={f.id} f={f} />
+                                {faqdata.map((f, index) => (
+                                    <Faqcompo key={f.id} f={f} isOpen={openIndex == index} onClick={() => handleToggle(index)} />
                                 ))}
                             </div>
                         </div>

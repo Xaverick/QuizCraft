@@ -150,14 +150,15 @@ $animationSpeed: 20s;
 }
 
 .homephase4content {
-    max-width: 1200px;
+    max-width: 90%;
     margin: 0 auto;
     // border: 1px solid black;
     display: flex;
     flex-direction: row;
     border-radius: 6px;
     justify-content: space-between;
-    max-height: 545px;
+    // max-height: 545px;
+    gap: 20px;
 
     .homephase4contentimg {
         // background-color: #01E6CF;
@@ -171,8 +172,8 @@ $animationSpeed: 20s;
         max-width: 600px;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        gap: 18px;
+        justify-content: space-evenly;
+
 
 
 

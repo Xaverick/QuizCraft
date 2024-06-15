@@ -29,6 +29,11 @@ const verifyPayment = async (response) => {
     console.log(res);
 }
 const Pricing = ({ plansdata }) => {
+    const [openIndex, setOpenIndex] = useState(null);
+
+    const handleToggle = (index) => {
+        setOpenIndex(openIndex === index ? null : index);
+    };
     const [amount, setAmount] = useState(0);
     const handlePayment = async () => {
         try {
@@ -147,8 +152,8 @@ const Pricing = ({ plansdata }) => {
                 </div>
                 <div className='faqs'>
                     <div className='faqs-heading'>Frequently Asked Questions</div>
-                    {faqdata.map((f) => (
-                        <Faqcompo key={f.id} f={f} />
+                    {faqdata.map((f, index) => (
+                        <Faqcompo key={f.id} f={f} isOpen={openIndex == index} onClick={() => handleToggle(index)} />
                     ))}
                 </div>
             </div>
