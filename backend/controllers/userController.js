@@ -5,6 +5,8 @@ const nodemailer = require('nodemailer');
 const Mailgen = require('mailgen');
 const ExpressError = require('../utils/ExpressError');
 const mailSender = require('../utils/mailSender');
+const Profile = require('../models/profileModel');
+
 
 module.exports.login = async (req, res) => {
     console.log("Inside login");
@@ -17,12 +19,13 @@ module.exports.login = async (req, res) => {
         if (!user) {
             throw new ExpressError('invalid credentials', 400);
         }
-
+ 
         if (!bcrypt.compareSync(password, user.password)) {
-            throw new ExpressError('invalid credentials', 400);
+            throw new ExpressError('invalid credentials password', 400);
         }
         const payload = { userId: user._id, email: user.email, name: user.name };
         const token = jwt.sign(payload, `${process.env.USER_SECRET}`, { expiresIn: '3h' });
+    
         res.cookie('userjwt', token, { signed: true, httpOnly: true, sameSite: 'none', maxAge: 3 * 1000 * 60 * 60, secure: true })
         res.status(200).json({ payload, expiresIn: 3 * 1000 * 60 * 60 });
     }
@@ -41,7 +44,27 @@ module.exports.register = async (req, res) => {
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
     const user = await User.create({ name, email, password: hash });
+
+      // creation of referal code and saving in db
+    const referralCodeString = user._id;
+    const referralCodeUrl = `https://geekclash.in/referral/${referralCodeString}`;
+    const sameUser = await User.updateOne(
+      { email: user.email },
+      {
+        referralCode: referralCodeUrl,
+      }
+    );
+    if (sameUser) {
+      console.log(`this is the newly created referral code : ${referralCodeUrl}`);
+    }
+
+    // profile data is created and the profile is saved in the User.
+    const profile = await Profile.create({name});
+    await profile.save();
+    user.profile = profile._id;
+    await user.save();
     // await sendVerificationEmail(email,user);
+    console.log(user);
     res.status(200).json('register');
 
 
