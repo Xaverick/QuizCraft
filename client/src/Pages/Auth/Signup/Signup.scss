@@ -253,7 +253,9 @@ a {
 
 input[type="email"],
 input[type="password"],
-input[type="text"] {
+input[type="text"],
+input[type='tel'],
+input[type='textarea'] {
   padding: 20px 20px !important;
   margin: 8px 0 15px 0;
   border: 1px solid #E5EFFF !important;

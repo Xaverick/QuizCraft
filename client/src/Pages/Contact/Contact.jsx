@@ -31,10 +31,10 @@ const Contact = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try{
+        try {
             const response = await axios.post('/user/contact', formdata);
 
-            if(response.status === 200){
+            if (response.status === 200) {
                 toast.success("Thank you for contacting us", {
                     position: "top-left",
                     autoClose: 2000,
@@ -54,7 +54,7 @@ const Contact = () => {
 
         }
 
-        catch(error){
+        catch (error) {
             toast.error(error.response.data, {
                 position: "top-left",
                 autoClose: 2000,
@@ -120,6 +120,7 @@ const Contact = () => {
                                 <div className="message">
                                     <label htmlFor="subject">Subject</label>
                                     <br />
+
                                     <textarea id="message" name='subject' value={formdata.subject} onChange={handleChange} placeholder='Enter your Subject'></textarea>
                                 </div>
                                 <div className="message">
