@@ -1,7 +1,13 @@
+.homecontent{
+    width: 95%;
+    margin: 0 auto;
+    
+}
+
 .homephase1 {
     display: flex;
     justify-content: space-between;
-    max-width: 1200px;
+    width: 100%;
     margin: 6% auto;
 
 }
@@ -10,11 +16,10 @@
     position: absolute;
     width: 450px;
     height: 464px;
-    left: 800px;
+    right: 10%;
     top: 290px;
     background: rgba(102, 214, 209, 0.8);
     filter: blur(150px);
-
 }
 
 .homephase1left {
@@ -40,7 +45,7 @@
 
     img {
         position: absolute;
-        left: 760px;
+        right: 38%;
     }
 }
 
@@ -60,7 +65,7 @@
 .homephase1left2 {
     position: absolute;
     // top: 50px;
-    left: 500px;
+    right: 50%;
 }
 
 .homephase3contentheading {
@@ -160,7 +165,7 @@ $animationSpeed: 20s;
     max-height: 545px;
 
     .homephase4contentimg {
-        background-color: #01E6CF;
+        // background-color: #01E6CF;
         border-radius: 6px;
     }
 
@@ -172,6 +177,7 @@ $animationSpeed: 20s;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        gap: 18px;
 
         .question {
             .question-header {
@@ -277,7 +283,7 @@ $animationSpeed: 20s;
 
 .homephase6content1 {
     p {
-        font-size: 40px;
+        font-size: 32px;
         font-weight: 600;
         text-align: center;
         margin-top: 90px;
@@ -330,7 +336,7 @@ $animationSpeed: 20s;
 
 .homephase7heading {
     p {
-        font-size: 40px;
+        font-size: 32px;
         font-weight: 600;
         text-align: center;
     }
@@ -400,7 +406,7 @@ $animationSpeed: 20s;
 
 .homephase8faqheading {
     p {
-        font-size: 40px;
+        font-size: 32px;
         font-weight: 530;
         text-align: center;
         color: #333333;
@@ -576,6 +582,7 @@ $animationSpeed: 20s;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        gap: 18px;
     }
 }
 
@@ -591,6 +598,7 @@ $animationSpeed: 20s;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        gap: 20px;
     }
 }
 
@@ -692,10 +700,29 @@ $animationSpeed: 20s;
         }
     }
 
+    .homephase3contentheading p,
+    .homephase4heading p,
+    .homephase5 .homephase5heading p,
+    .homephase6content1 p,
+    .homephase7heading p,
+    .homephase8faqheading p {
+        font-size: 28px;
+    }
+
     .homephase1left {
         h2 {
             font-size: 15px;
         }
+    }
+
+    .homephase6content2 p {
+        font-size: 17px;
+        text-align: justify;
+    }
+
+    .faqs .faqs-heading {
+        font-size: 20px;
+
     }
 
 }

@@ -94,6 +94,7 @@
             flex-direction: row;
             align-items: center;
             margin: 12px 0px;
+            justify-content: center;
         }
 
         .category-dropdown,
@@ -107,5 +108,19 @@
             max-width: 800px;
             margin: 21px;
         }
+    }
+
+    @media screen and (max-width: 600px) {
+        .Allcontestcontentheading p {
+            font-size: 30px;
+        }
+
+        .Allcontestcontent .Allcontestcontentpharagraph {
+            p {
+                font-size: 18px;
+            }
+        }
+
+
     }
 }

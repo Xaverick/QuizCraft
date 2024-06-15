@@ -15,6 +15,7 @@ const ContestDetails = () => {
     const [quizData, setQuizData] = useState({});
     const { id } = useParams();
 
+
     const handleNavClick = (section) => {
         setActiveSection(section);
     };
@@ -43,8 +44,26 @@ const ContestDetails = () => {
 
         fetchQuizData();
     }, [id]);
+    const [leaderboardData, setLeaderboardData] = useState([]);
+    useEffect(() => {
+        // Fetch leaderboard data from backend
+        const fetchLeaderboardData = async () => {
+            try {
+                const response = await axios.get(`/quiz/getLeaderboard/${id}`)
+                console.log(response);
+                console.log("hi");
 
+                if (response.status == 200) {
 
+                    setLeaderboardData(response.data.ranks);
+                }
+            } catch (error) {
+                console.log('error');
+            }
+
+        }
+        fetchLeaderboardData();
+    }, [id]);
 
     return (
         <div className="contestdetailspage">
@@ -125,96 +144,14 @@ const ContestDetails = () => {
                                             <th>Country</th>
                                             <th>Score</th>
                                         </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Yash</td>
-                                            <td>India</td>
-                                            <td>20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Yash</td>
-                                            <td>India</td>
-                                            <td>20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Yash</td>
-                                            <td>India</td>
-                                            <td>20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Yash</td>
-                                            <td>India</td>
-                                            <td>20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Yash</td>
-                                            <td>India</td>
-                                            <td>20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Yash</td>
-                                            <td>India</td>
-                                            <td>20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Yash</td>
-                                            <td>India</td>
-                                            <td>20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Yash</td>
-                                            <td>India</td>
-                                            <td>20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Yash</td>
-                                            <td>India</td>
-                                            <td>20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Yash</td>
-                                            <td>India</td>
-                                            <td>20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Yash</td>
-                                            <td>India</td>
-                                            <td>20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Yash</td>
-                                            <td>India</td>
-                                            <td>20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Yash</td>
-                                            <td>India</td>
-                                            <td>20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Yash</td>
-                                            <td>India</td>
-                                            <td>20</td>
-                                        </tr>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Yash</td>
-                                            <td>India</td>
-                                            <td>20</td>
-                                        </tr>
+                                        {leaderboardData && leaderboardData.map((rank, idx) => (
+                                            <tr key={idx}>
+                                                <td>{idx + 1}</td>
+                                                <td>{rank.name}</td>
+                                                <td>{rank.country}</td>
+                                                <td>{rank.score}</td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
                             </section>

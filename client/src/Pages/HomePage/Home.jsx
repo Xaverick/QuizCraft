@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import photo from '../../assets/homepageimages/homepagephoto.png';
 import lightning from '../../assets/homepageimages/Lightning.png';
 import Softstar from '../../assets/homepageimages/Softstar.png';
-import photolive from '../../assets/homepageimages/photolive.png';
+// import photolive from '../../assets/homepageimages/photolive.png';
 import { useNavigate } from 'react-router-dom';
-import questions from '../../assets/data/questions.js';
+import questionsData from '../../assets/data/questions.js';
 import ContestData from '../../components/contestdata/ContestData.jsx';
 import './Home.scss';
 import sample from '../../assets/homepageimages/sample.png';
@@ -14,16 +14,19 @@ import Faqcompo from '../../components/faq/faq.jsx';
 import faqdata from "../../assets/data/faqs.js";
 import axios from 'axios';
 
-const Question = ({ questionData }) => {
+const Question = ({ questionData, onSelect }) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const handleToggle = () => {
+
+
+    const handleClick = () => {
         setIsOpen(!isOpen);
+        onSelect(questionData);
     };
 
     return (
         <div className="question">
-            <div className="question-header" onClick={handleToggle}>
+            <div className="question-header" onClick={handleClick}>
                 <img src={questionData.image} alt="Question Icon" className="question-icon" />
                 <p>{questionData.question}</p>
                 <img src={isOpen ? questionData.uimag1 : questionData.dimag2} alt="Toggle Icon" className="toggle-icon" />
@@ -40,7 +43,7 @@ const Question = ({ questionData }) => {
 const Home = () => {
     const navigate = useNavigate();
     const [contests, setContests] = useState([]);
-
+    const [selectedQuestion, setSelectedQuestion] = useState(questionsData[0]);
     useEffect(() => {
         const getContests = async () => {
 
@@ -51,8 +54,8 @@ const Home = () => {
                 const data = response.data;
                 console.log(data);
                 setContests(data);
-                
-            } else {    
+
+            } else {
                 console.log('Failed to fetch quizzes');
             }
         };
@@ -64,12 +67,14 @@ const Home = () => {
         navigate('/contest');
     };
 
+    const handleQuestionSelect = (question) => {
+        setSelectedQuestion(question);
+    };
     // Only show the first 3 contests initially
     const initialContests = contests.slice(0, 3);
 
-    const midIndex = Math.ceil(commentdata.length / 2);
-    const leftComments = commentdata.slice(0, midIndex);
-    const rightComments = commentdata.slice(midIndex);
+
+
 
     return (
         <>
@@ -78,10 +83,10 @@ const Home = () => {
                     <div className='homephase1'>
                         <div className='homephase1left'>
                             <div className='homephase1left1'>
-                                <p>Compete with Quizzers from All over the World</p>
+                                <p>Compete with Geeks From All Over The World</p>
                                 <span><img src={lightning} alt="Lightning Icon" /></span>
                             </div>
-                            <h2>Dive into a world of quizzes! From brain-teasing trivia to in-depth skill tests, we have something for everyone. Boost your knowledge with a bit of educational fun.</h2>
+                            <h2>Geek Clash is your launchpad to a world of friendly competition. Challenge yourself in diverse topics, battle it out with fellow geeks worldwide, and watch your name climb the leaderboards after each contest.</h2>
                             <div className='homebutton'>
                                 <button>Explore Now</button>
                             </div>
@@ -145,12 +150,14 @@ const Home = () => {
                         </div>
                         <div className='homephase4content'>
                             <div className='homephase4contentquestions'>
-                                {questions.map((question) => (
-                                    <Question key={question.id} questionData={question} />
+                                {questionsData.map((question) => (
+                                    <Question key={question.id} questionData={question} onSelect={handleQuestionSelect} />
                                 ))}
                             </div>
                             <div className='homephase4contentimg'>
-                                <img src={photolive} alt='Photo Live' />
+                                {selectedQuestion && (
+                                    <img style={{ width: "100%" }} src={selectedQuestion.sideimage} alt='Side Image' />
+                                )}
                             </div>
                         </div>
                         <div className='homephase5'>
