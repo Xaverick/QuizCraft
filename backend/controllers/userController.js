@@ -20,7 +20,7 @@ module.exports.login = async (req, res) => {
             throw new ExpressError('invalid credentials', 400);
         }
  
-        if (!bcrypt.compare(password, user.password)) {
+        if (!bcrypt.compareSync(password, user.password)) {
             throw new ExpressError('invalid credentials password', 400);
         }
         const payload = { userId: user._id, email: user.email, name: user.name };

@@ -51,11 +51,10 @@ const userSchema = new schema({
         type: String,
     },
 
-    profile : [{
+    profile : {
         type : schema.Types.ObjectId,
         ref:'Profile',
-    }]
-
+    }
 
 });
 
