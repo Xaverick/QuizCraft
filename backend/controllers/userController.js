@@ -45,13 +45,24 @@ module.exports.register = async (req, res) => {
     const hash = bcrypt.hashSync(password, salt);
     const user = await User.create({ name, email, password: hash });
 
+      // creation of referal code and saving in db
+    const referralCodeString = user._id;
+    const referralCodeUrl = `https://geekclash.in/referral/${referralCodeString}`;
+    const sameUser = await User.updateOne(
+      { email: user.email },
+      {
+        referralCode: referralCodeUrl,
+      }
+    );
+    if (sameUser) {
+      console.log(`this is the newly created referral code : ${referralCodeUrl}`);
+    }
+
     // profile data is created and the profile is saved in the User.
     const profile = await Profile.create({name});
     await profile.save();
     user.profile = profile._id;
     await user.save();
-
-
     // await sendVerificationEmail(email,user);
     console.log(user);
     res.status(200).json('register');

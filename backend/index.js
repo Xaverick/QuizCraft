@@ -42,7 +42,8 @@ app.use('/quiz', quiz);
 const payments = require('./routes/payments');
 app.use('/payments', payments);
 
-
+const referral = require("./routes/referalRoutes");
+app.use("/referral", referral);
 
 app.use((err, req, res, next) => {
     const { statusCode = 500 } = err;

@@ -51,6 +51,15 @@ const userSchema = new schema({
         type: String,
     },
 
+
+    referralCode: {
+      type: String,
+    },
+
+    coin: {
+      type: String,
+    },
+  
     profile : {
         type : schema.Types.ObjectId,
         ref:'Profile',
