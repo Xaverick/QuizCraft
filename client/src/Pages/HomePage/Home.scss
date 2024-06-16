@@ -1,23 +1,26 @@
+.homecontent{
+    width: 93%;
+    margin: 0 auto;
+    @media screen and (max-width: 700px) {
+        width: 95%;
+    }
+}
+
 .homephase1 {
     display: flex;
     justify-content: space-between;
-    max-width: 1200px;
+    width: 100%;
     margin: 6% auto;
 
 }
 
-.photobackground {
-    position: absolute;
-    width: 450px;
-    height: 464px;
-    left: 800px;
-    top: 290px;
-    background: rgba(102, 214, 209, 0.8);
-    filter: blur(150px);
 
-}
 
 .homephase1left {
+    width: 50%;
+    @media screen and (max-width: 7170px) {
+        width: 100%;
+    }
     p {
         font-size: 40px;
         font-weight: 600;
@@ -30,18 +33,37 @@
 }
 
 .homephase2left {
-    z-index: 300;
     text-align: center;
+    position: relative;
+
+    .photobackground {
+        position: absolute;
+        width: 450px;
+        height: 464px;
+        bottom: 0;
+        left: 15%;
+        background: rgba(102, 214, 209, 0.8);
+        filter: blur(150px);
+        z-index: -1;
+    }
+
+    img{
+        z-index: 1000;
+    }
 }
 
 .homephase1left1 {
     display: flex;
-    // align-items: center;
     justify-content: space-around;
-
-    img {
-        position: absolute;
-        left: 760px;
+    position: relative;
+    p{
+        width: 100%;
+    }
+    span{
+        img {
+            position: absolute;
+            left: 100%;
+        }
     }
 }
 
@@ -60,8 +82,7 @@
 
 .homephase1left2 {
     position: absolute;
-    // top: 50px;
-    left: 500px;
+    left:40%
 }
 
 .homephase3contentheading {
@@ -466,9 +487,9 @@ $animationSpeed: 20s;
 
 
 @media screen and (max-width:1700px) {
-    .photobackground {
-        left: 1100px;
-    }
+    // .photobackground {
+    //     left: 1100px;
+    // }
 
     .homephase1left1 img {
         left: 900px;
@@ -478,9 +499,9 @@ $animationSpeed: 20s;
 
 
 @media screen and (max-width:1630px) {
-    .photobackground {
-        left: 1000px;
-    }
+    // .photobackground {
+    //     left: 1000px;
+    // }
 
     .homephase1left1 img {
         left: 887px;
@@ -489,9 +510,9 @@ $animationSpeed: 20s;
 }
 
 @media screen and (max-width:1400px) {
-    .photobackground {
-        left: 820px;
-    }
+    // .photobackground {
+    //     left: 820px;
+    // }
 
     .homephase1left1 img {
         left: 700px;
@@ -500,9 +521,9 @@ $animationSpeed: 20s;
 }
 
 @media screen and (max-width:1458px) {
-    .photobackground {
-        left: 929px;
-    }
+    // .photobackground {
+    //     left: 929px;
+    // }
 
     .homephase1left1 img {
         left: 812px;
@@ -511,9 +532,9 @@ $animationSpeed: 20s;
 }
 
 @media screen and (max-width:1381px) {
-    .photobackground {
-        left: 817px;
-    }
+    // .photobackground {
+    //     left: 817px;
+    // }
 
     .homephase1left1 img {
         left: 740px;
@@ -522,9 +543,9 @@ $animationSpeed: 20s;
 }
 
 @media screen and (max-width:1276px) {
-    .photobackground {
-        left: 732px;
-    }
+    // .photobackground {
+    //     left: 732px;
+    // }
 
     .homephase1left1 img {
         left: 680px;
@@ -535,43 +556,52 @@ $animationSpeed: 20s;
 
 
 @media screen and (max-width:1183px) {
-    .photobackground {
-        left: 706px;
-    }
+    // .photobackground {
+    //     left: 706px;
+    // }
 
     .homephase5 .homephase5heading2 {
         padding-right: 2rem;
     }
 }
 
-@media screen and (max-width:1276px) {
-    .photobackground {
-        left: 682px;
-    }
-}
+// @media screen and (max-width:1276px) {
+//     .photobackground {
+//         left: 682px;
+//     }
+// }
 
-@media screen and (max-width:1206px) {
-    .photobackground {
-        left: 645px;
-    }
-}
+// @media screen and (max-width:1206px) {
+//     .photobackground {
+//         left: 645px;
+//     }
+// }
 
 
-@media screen and (max-width:1100px) {
-    .photobackground {
-        left: 579px;
-    }
-}
+// @media screen and (max-width:1100px) {
+//     .photobackground {
+//         left: 579px;
+//     }
+// }
 
-@media screen and (max-width:1016px) {
-    .photobackground {
-        left: 569px;
-    }
-}
+// @media screen and (max-width:1016px) {
+//     .photobackground {
+//         left: 569px;
+//     }
+// }
 
 @media screen and (max-width:1006px) {
-    .photobackground {
-        display: none;
+    // .photobackground {
+    //     display: non
+    // }
+
+    .homephase2left {
+        .photobackground {
+            width: 350px;
+            height: 364px;
+            top: 10%;
+            right: 10%;
+        }
     }
 
     .homephase1left2 {
