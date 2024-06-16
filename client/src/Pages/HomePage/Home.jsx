@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import photo from '../../assets/homepageimages/homepagephoto.png';
 import lightning from '../../assets/homepageimages/Lightning.png';
 import Softstar from '../../assets/homepageimages/Softstar.png';
@@ -37,6 +37,7 @@ const Question = ({ questionData, onSelect, isOpen }) => {
 const Home = () => {
     const [openIndex, setOpenIndex] = useState(null);
     const [openQuestionId, setOpenQuestionId] = useState(null);
+    const whyChooseUsRef = useRef(null);
     const handleToggle = (index) => {
         setOpenIndex(openIndex === index ? null : index);
     };
@@ -73,7 +74,14 @@ const Home = () => {
 
     // Only show the first 3 contests initially
     const initialContests = contests.slice(0, 3);
-
+    const handleExploreNowClick = () => {
+        if (whyChooseUsRef.current) {
+            window.scrollTo({
+                top: whyChooseUsRef.current.offsetTop,
+                behavior: 'smooth',
+            });
+        }
+    }
 
 
 
@@ -89,7 +97,7 @@ const Home = () => {
                             </div>
                             <h2>Geek Clash is your launchpad to a world of friendly competition. Challenge yourself in diverse topics, battle it out with fellow geeks worldwide, and watch your name climb the leaderboards after each contest.</h2>
                             <div className='homebutton'>
-                                <button>Explore Now</button>
+                                <button onClick={handleExploreNowClick}>Explore Now</button>
                             </div>
                             <div className='homephase1left2'>
                                 <img src={Softstar} alt="Softstar Icon" />
@@ -147,7 +155,7 @@ const Home = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='homephase4'>
+                    <div className='homephase4' ref={whyChooseUsRef}>
                         <div className='homephase4heading'>
                             <p>Why Choose Us</p>
                         </div>

@@ -41,7 +41,7 @@ const ContestData = ({ contest }) => {
                     </div>
                 </div>
                 <div className='contestdatabutton'>
-                    <button onClick={handleButtonClick}>Register Now</button>
+                    <button onClick={handleButtonClick}>View Details</button>
                 </div>
             </div>
         </div >

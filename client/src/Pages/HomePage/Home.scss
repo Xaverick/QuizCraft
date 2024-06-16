@@ -1,6 +1,7 @@
-.homecontent{
+.homecontent {
     width: 93%;
     margin: 0 auto;
+
     @media screen and (max-width: 700px) {
         width: 95%;
     }
@@ -18,9 +19,11 @@
 
 .homephase1left {
     width: 50%;
+
     @media screen and (max-width: 7170px) {
         width: 100%;
     }
+
     p {
         font-size: 40px;
         font-weight: 600;
@@ -47,7 +50,7 @@
         z-index: -1;
     }
 
-    img{
+    img {
         z-index: 1000;
     }
 }
@@ -56,10 +59,12 @@
     display: flex;
     justify-content: space-around;
     position: relative;
-    p{
+
+    p {
         width: 100%;
     }
-    span{
+
+    span {
         img {
             position: absolute;
             left: 100%;
@@ -82,7 +87,7 @@
 
 .homephase1left2 {
     position: absolute;
-    left:40%
+    left: 40%
 }
 
 .homephase3contentheading {
@@ -254,6 +259,10 @@ $animationSpeed: 20s;
             .question .question-header p {
                 font-size: 16px;
             }
+
+            .question .question-answer p {
+                font-size: 13px;
+            }
         }
 
     }
@@ -284,7 +293,7 @@ $animationSpeed: 20s;
 
         button {
 
-            font-size: 24px;
+            font-size: 20px;
             color: #08AAA2;
             cursor: pointer;
             text-decoration: underline;
@@ -358,8 +367,8 @@ $animationSpeed: 20s;
         margin-top: 50px;
 
         img {
-            max-width: 70%;
-            margin: 30px auto;
+            max-width: 90%;
+            margin: 10px auto;
         }
 
     }
@@ -403,19 +412,31 @@ $animationSpeed: 20s;
 .comment-slider {
     display: flex;
     width: calc(300px * 10);
+    transition: all 0.2s;
 
     .comment {
         width: 400px;
         margin: 0 10px;
     }
+
+
+
 }
 
 .comment-slider.first-row {
     animation: scrollCommentsLeft 30s linear infinite;
+
+    &:hover {
+        animation-play-state: paused;
+    }
 }
 
 .comment-slider.second-row {
     animation: scrollCommentsRight 30s linear infinite;
+
+    &:hover {
+        animation-play-state: paused;
+    }
 }
 
 @keyframes scrollCommentsLeft {
@@ -663,16 +684,10 @@ $animationSpeed: 20s;
 }
 
 
-@media screen and (max-width:700px) {
-    .homephasecont3image img {
-        width: 400px;
-    }
-}
+
 
 @media screen and (max-width:500px) {
-    .homephasecont3image img {
-        width: 350px;
-    }
+
 
     .homephase2left img {
         width: 80%;
@@ -770,7 +785,7 @@ $animationSpeed: 20s;
     .homephase6content1 p,
     .homephase7heading p,
     .homephase8faqheading p {
-        font-size: 28px;
+        font-size: 23px;
     }
 
     .homephase1left {
@@ -780,7 +795,7 @@ $animationSpeed: 20s;
     }
 
     .homephase6content2 p {
-        font-size: 17px;
+        font-size: 12px;
         text-align: justify;
     }
 
