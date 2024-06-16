@@ -96,9 +96,11 @@ const Home = () => {
                             </div>
                         </div>
                         <div className='homephase2left'>
-                            <img src={photo} alt='Homepage Photo' />
+                            <div className='photobackground'></div>
+                            <img style={{ zIndex: "1000" }} src={photo} alt='Homepage Photo' />
+
                         </div>
-                        <div className='photobackground'></div>
+
                     </div>
                     <div className='homephase3'>
                         <div className='homephase3content'>

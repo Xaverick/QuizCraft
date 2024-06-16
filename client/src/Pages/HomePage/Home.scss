@@ -31,6 +31,7 @@
 
 .homephase2left {
     z-index: 300;
+    text-align: center;
 }
 
 .homephase1left1 {
@@ -591,9 +592,20 @@ $animationSpeed: 20s;
 }
 
 @media screen and (max-width:1006px) {
-    .homephase2left {
-        display: none;
+    // .homephase2left {
+    //     display: flex;
+    //     flex-direction: column-reverse;
+    //     justify-content: center;
+    //     align-items: center;
+
+    // }
+    .homephase1 {
+        flex-direction: column-reverse;
+        align-items: center;
+
     }
+
+
 
     .homephase4content .homephase4contentquestions {
         border-radius: 6px;
@@ -607,9 +619,7 @@ $animationSpeed: 20s;
 }
 
 @media screen and (max-width:850px) {
-    .homephase2left {
-        display: none;
-    }
+
 
     .homephase4content .homephase4contentquestions {
         border-radius: 6px;
@@ -632,6 +642,10 @@ $animationSpeed: 20s;
 @media screen and (max-width:500px) {
     .homephasecont3image img {
         width: 350px;
+    }
+
+    .homephase2left img {
+        width: 80%;
     }
 }
 
