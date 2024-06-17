@@ -3,13 +3,12 @@
   // max-width: 1200px;
   margin: 20px 20px;
   font-family: 'Poppins';
-  padding: 30px;
+  padding: 2rem 4.5rem;
 }
 
 .navbar-content {
   display: flex;
-  justify-content: space-evenly;
-  /* Changed from space-around to space-between */
+  justify-content: space-between;
   align-items: center;
 }
 
