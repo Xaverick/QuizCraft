@@ -74,6 +74,11 @@ const quizSchema = new schema({
         required: true,
     },
 
+    User_profile_Image: [{
+        type: String,
+        required: true
+    }]
+
 });
 
 module.exports = mongoose.model('Quiz', quizSchema);
