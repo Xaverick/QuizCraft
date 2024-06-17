@@ -18,15 +18,17 @@
 
 
 .homephase1left {
-    width: 50%;
+    width: 60%;
+    padding: 10px 3rem;
 
     @media screen and (max-width: 7170px) {
         width: 100%;
     }
 
     p {
-        font-size: 40px;
+        font-size: 50px;
         font-weight: 600;
+        color: #333333;
     }
 
     h2 {
@@ -62,6 +64,9 @@
 
     p {
         width: 100%;
+        font-weight: 600;
+        size: 3rem;
+
     }
 
     span {
@@ -78,6 +83,7 @@
         padding: 10px 24px;
         border-radius: 6px;
         color: white;
+        font-weight: 600;
         border: none;
         cursor: pointer;
         font-size: 17px;
@@ -92,10 +98,12 @@
 
 .homephase3contentheading {
     p {
-        font-size: 38px;
+        font-size: 40px;
         text-align: center;
         padding: 30px 0px;
         font-weight: 600;
+        color: #333333;
+
     }
 }
 
@@ -167,12 +175,14 @@ $animationSpeed: 20s;
 
 .homephase4heading {
     p {
-        font-size: 37px;
+        font-size: 40px;
         text-align: center;
         // margin: 0px 40px;
         margin-top: 100px;
         margin-bottom: 30px;
         font-weight: 600;
+        color: #333333;
+
     }
 }
 
@@ -234,7 +244,7 @@ $animationSpeed: 20s;
 
 
         .question .question-header {
-            font-weight: bold;
+            font-weight: 500;
             font-size: 20px;
             display: flex;
             gap: 10px;
@@ -276,12 +286,14 @@ $animationSpeed: 20s;
 
     .homephase5heading {
         p {
-            font-size: 30px;
+            font-size: 40px;
             font-weight: 600;
             text-align: center;
             margin-top: 100px;
             padding: 0;
             margin-bottom: 0px;
+            color: #333333;
+
         }
     }
 
@@ -334,12 +346,14 @@ $animationSpeed: 20s;
 
 .homephase6content1 {
     p {
-        font-size: 32px;
+        font-size: 40px;
         font-weight: 600;
         text-align: center;
         margin-top: 90px;
         padding: 0;
         margin-bottom: 0px;
+        color: #333333;
+
     }
 }
 
@@ -365,10 +379,14 @@ $animationSpeed: 20s;
         justify-content: center;
         align-items: center;
         margin-top: 50px;
+        padding: 20px;
 
         img {
             max-width: 90%;
+            width: 50%;
+            height: 50%;
             margin: 10px auto;
+            border-radius: 10px;
         }
 
     }
@@ -377,6 +395,7 @@ $animationSpeed: 20s;
 .homephase7 {
     display: flex;
     flex-direction: column;
+    margin: 4rem 0;
 }
 
 .homephase7content {
@@ -387,9 +406,11 @@ $animationSpeed: 20s;
 
 .homephase7heading {
     p {
-        font-size: 32px;
+        font-size: 40px;
         font-weight: 600;
         text-align: center;
+        color: #333333;
+
     }
 }
 
@@ -469,7 +490,7 @@ $animationSpeed: 20s;
 
 .homephase8faqheading {
     p {
-        font-size: 32px;
+        font-size: 40px;
         font-weight: 530;
         text-align: center;
         color: #333333;
@@ -493,7 +514,7 @@ $animationSpeed: 20s;
 
     margin: 0px 100px;
     gap: 20px;
-    box-shadow: 0px 6px 6px 0px rgba(194, 218, 217, 0.26);
+    // box-shadow: 0px 6px 6px 0px rgba(194, 218, 217, 0.26);
 
     .faq {
         display: flex;
