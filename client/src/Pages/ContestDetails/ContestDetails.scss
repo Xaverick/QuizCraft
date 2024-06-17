@@ -96,15 +96,20 @@
 /* /end Codepen Specific */
 /* Ladder Navigation */
 #leaderboard {
-    padding: 50px;
+    // padding: 50px
+
+}
+
+.container-wrap {
+    max-width: 80%;
+    margin: 0 auto;
 }
 
 .ladder-nav {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    padding: 10px 25px;
-    border-radius: 10px;
+    padding: 20px 4px;
     justify-content: space-between;
 
     .live-search-box {
@@ -113,6 +118,7 @@
         justify-content: center;
         align-items: center;
         border: 1px solid #B3B3B3 !important;
+        border-radius: 10px;
     }
 
 }
@@ -128,18 +134,16 @@
     select {
         display: inline-block;
         appearance: none;
-        padding: 17px 50px;
+        padding: 20px 50px;
         border: 1px solid #ccc;
-        border-radius: 6px;
+        border-radius: 10px;
         outline: none;
         cursor: pointer;
         font-size: 16px;
         background: white;
         position: relative;
 
-        &:focus {
-            border-color: #888;
-        }
+
     }
 
     .dropdown-icon {
