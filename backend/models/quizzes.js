@@ -76,7 +76,6 @@ const quizSchema = new schema({
 
     User_profile_Image: [{
         type: String,
-        required: true
     }]
 
 });
