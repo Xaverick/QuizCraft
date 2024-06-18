@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import questionsData from "../../assets/data/questions.js";
 import ContestData from "../../components/contestdata/ContestData.jsx";
 import "./Home.scss";
-import sample from "../../assets/homepageimages/sample.png";
+import sample from "../../assets/homepageimages/instant.svg";
 import Comment from "../../components/comment/Comment.jsx";
 import commentdata from "../../assets/data/commentdata.js";
 import Faqcompo from "../../components/faq/faq.jsx";
