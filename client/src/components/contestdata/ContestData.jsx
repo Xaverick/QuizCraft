@@ -44,7 +44,7 @@ const ContestData = ({ contest }) => {
                     <button onClick={handleButtonClick}>View Details</button>
                 </div>
             </div>
-        </div >
+        </div>
     );
 };
 

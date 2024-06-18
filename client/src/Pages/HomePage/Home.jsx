@@ -22,12 +22,14 @@ const Question = ({ questionData, onSelect, isOpen }) => {
   return (
     <div className={`question ${isOpen ? "open" : ""}`} onClick={handleClick}>
       <div className="question-header">
-        <img
-          src={questionData.image}
-          alt="Question Icon"
-          className="question-icon"
-        />
-        <p>{questionData.question}</p>
+        <div className="question-text">
+          <img
+            src={questionData.image}
+            alt="Question Icon"
+            className="question-icon"
+          />
+          <p>{questionData.question}</p>
+        </div>
         <img
           src={isOpen ? questionData.uimag1 : questionData.dimag2}
           alt="Toggle Icon"
@@ -58,7 +60,7 @@ const Home = () => {
 
       if (response.status === 200) {
         const data = response.data;
-        console.log(data);
+        // console.log(data);
         setContests(data);
       } else {
         console.log("Failed to fetch quizzes");
@@ -181,7 +183,7 @@ const Home = () => {
               <div className="homephase4contentimg">
                 {selectedQuestion && (
                   <img
-                    style={{ width: "100%", height:"100%" }}
+                    style={{ width: "100%", height: "100%" }}
                     src={selectedQuestion.sideimage}
                     alt="Side Image"
                   />
