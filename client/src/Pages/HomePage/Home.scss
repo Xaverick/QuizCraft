@@ -178,7 +178,7 @@ $animationSpeed: 20s;
 
 
 .homephase4 {
-  padding: 4rem;
+  padding: 2rem 4rem 4rem 4rem;
 
   @media screen and (max-width: 700px) {
     padding: 0;
@@ -190,10 +190,20 @@ $animationSpeed: 20s;
     font-size: 40px;
     text-align: center;
     // margin: 0px 40px;
-    margin-top: 100px;
+    margin-top: 1rem;
     margin-bottom: 30px;
     font-weight: 600;
     color: #333333;
+  }
+
+
+}
+
+@media screen and (max-width: 700px) {
+  .homephase4heading {
+    p {
+      margin-top: 3rem;
+    }
   }
 }
 
@@ -227,7 +237,7 @@ $animationSpeed: 20s;
       flex-direction: column;
       // justify-content: center;
       margin: 5px 0;
-      padding: 0.9rem 1rem;
+      padding: 0.6rem 1rem;
       border: 1px solid #676767;
       border-radius: 10px;
       // box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.25);
@@ -325,7 +335,7 @@ $animationSpeed: 20s;
 .contestdatadetails {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
   max-width: 1200px;
   gap: 20px;
   // margin: 0 auto;
@@ -516,7 +526,7 @@ $animationSpeed: 20s;
     display: flex;
     align-items: center;
     margin: 18px 0px;
-    padding: 15px;
+    padding: 10px 15px 10px 15px;
     box-shadow: 0 2px 20px 0 rgba(0, 0, 0, 0.25);
     border-radius: 10px;
   }
