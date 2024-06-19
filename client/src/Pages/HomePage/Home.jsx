@@ -13,7 +13,8 @@ import commentdata from "../../assets/data/commentdata.js";
 import Faqcompo from "../../components/faq/faq.jsx";
 import faqdata from "../../assets/data/faqs.js";
 import axios from "axios";
-
+import img1 from '../../assets/CommunityParters/img1.svg';
+import img2 from '../../assets/CommunityParters/img2.svg'
 const Question = ({ questionData, onSelect, isOpen }) => {
   const handleClick = () => {
     onSelect(questionData.id);
@@ -123,43 +124,43 @@ const Home = () => {
           <div className="homephase3">
             <div className="homephase3content">
               <div className="homephase3contentheading">
-                <p>Our Community Partners</p>
+                <p> Community Partners</p>
               </div>
               <div className="home-phase3">
                 <div className="slider">
                   <div className="slide-track">
                     {/* Place your images here */}
                     <div className="slide">
-                      <img src={lightning} height="100" width="250" alt="" />
+                      <img src={img1} height="100" width="250" alt="" />
                     </div>
                     <div className="slide">
-                      <img src={Softstar} height="100" width="250" alt="" />
+                      <img src={img2} height="100" width="250" alt="" />
                     </div>
                     <div className="slide">
-                      <img src={lightning} height="100" width="250" alt="" />
+                      <img src={img1} height="100" width="250" alt="" />
                     </div>
                     <div className="slide">
-                      <img src={Softstar} height="100" width="250" alt="" />
+                      <img src={img2} height="100" width="250" alt="" />
                     </div>
                     <div className="slide">
-                      <img src={lightning} height="100" width="250" alt="" />
+                      <img src={img1} height="100" width="250" alt="" />
+                    </div>
+                    <div className="slide">
+                      <img src={img2} height="100" width="250" alt="" />
+                    </div>
+                    <div className="slide">
+                      <img src={img1} height="100" width="250" alt="" />
+                    </div>
+                    <div className="slide">
+                      <img src={img2} height="100" width="250" alt="" />
+                    </div>
+                    <div className="slide">
+                      <img src={img1} height="100" width="250" alt="" />
+                    </div>
+                    <div className="slide">
+                      <img src={img2} height="100" width="250" alt="" />
                     </div>
                     {/* Repeat the images to create infinite loop */}
-                    <div className="slide">
-                      <img src={lightning} height="100" width="250" alt="" />
-                    </div>
-                    <div className="slide">
-                      <img src={Softstar} height="100" width="250" alt="" />
-                    </div>
-                    <div className="slide">
-                      <img src={lightning} height="100" width="250" alt="" />
-                    </div>
-                    <div className="slide">
-                      <img src={Softstar} height="100" width="250" alt="" />
-                    </div>
-                    <div className="slide">
-                      <img src={lightning} height="100" width="250" alt="" />
-                    </div>
                   </div>
                 </div>
               </div>
@@ -167,7 +168,7 @@ const Home = () => {
           </div>
           <div className="homephase4" ref={whyChooseUsRef}>
             <div className="homephase4heading">
-              <p>Why Choose Us</p>
+              <p>Platform Offerings</p>
             </div>
             <div className="homephase4content">
               <div className="homephase4contentquestions">
@@ -192,7 +193,7 @@ const Home = () => {
             </div>
             <div className="homephase5">
               <div className="homephase5heading">
-                <p>Upcoming Contest</p>
+                <p>Upcoming Contests</p>
               </div>
               <div className="homephase5heading2">
                 <button onClick={handleViewAllClick}>View All</button>
