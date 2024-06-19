@@ -9,7 +9,7 @@ const commentdata = [
     {
         id: 2,
         name: 'John Doe',
-        comment: "The contests are well-organized and cover a broad range of topics, making it a great platform for continuous learning. The global leaderboard keeps me motivated, and the mentorship opportunities have been invaluable for my professional growth.",
+        comment: "The contests are well-organized and cover a broad range of topics, making it a great platform for continuous learning. The global leaderboard keeps me motivated.",
         image: dumy3,
     },
     {
@@ -45,13 +45,13 @@ const commentdata = [
     {
         id: 8,
         name: 'John Doe',
-        comment: "Competing in these contests has been a fantastic experience. The diverse topics challenge me in new ways. The opportunity to win exciting rewards is the icing on the cake!.",
+        comment: "Competing in these contests has been a fantastic experience. The diverse topics challenge me in new ways. The opportunity to win exciting rewards is the icing on the cake!",
         image: dumy3,
     },
     {
         id: 9,
         name: 'John Doe',
-        comment: "This contest platform offers a perfect blend of learning and fun. The wide range of topics keeps me engaged, and the chance to win exciting rewards makes it all the more worthwhile!.",
+        comment: "This contest platform offers a perfect blend of learning and fun. The wide range of topics keeps me engaged, and the chance to win exciting rewards makes it all the more worthwhile!",
         image: dumy3,
     },
     {

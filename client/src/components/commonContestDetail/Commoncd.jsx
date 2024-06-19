@@ -40,7 +40,7 @@ const Commoncd = ({ data }) => {
 
         catch (error) {
 
-            console.log(error);
+            // console.log(error);
             toast.error(error.response.data, {
                 position: "top-left",
                 autoClose: 2000,
@@ -53,7 +53,7 @@ const Commoncd = ({ data }) => {
 
     const isregis = async () => {
         const response = await axios.post(`/quiz/isRegistered/${data._id}`);
-        console.log(response.data);
+        // console.log(response.data);
         return response.data;
     }
 
@@ -107,14 +107,14 @@ const Commoncd = ({ data }) => {
     const eventDate = new Date(data.startTime).toLocaleDateString('en-GB');
     const eventTime = new Date(data.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const eventendtime = new Date(data.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    console.log(eventendtime)
+    // console.log(eventendtime)
     // console.log(new Date(eventendtime))
-    console.log(new Date())
-    console.log(eventDate);
-    console.log(eventTime);
-    console.log(data.startTime);
-    console.log(data.endTime);
-    console.log(data);
+    // console.log(new Date())
+    // console.log(eventDate);
+    // console.log(eventTime);
+    // console.log(data.startTime);
+    // console.log(data.endTime);
+    // console.log(data);
 
     const closeStartModal = () => {
         setIsStartModalOpen(false);
