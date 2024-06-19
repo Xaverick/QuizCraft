@@ -152,10 +152,15 @@ const Commoncd = ({ data }) => {
                         <img src={Duration} alt='' />
                         Duration: {data.duration} {data.duration > 1 ? 'minutes' : 'minute'}
                     </span>
-                    <span>
-                        <img src={tr}></img>
-                        <span>{data.totalRegistered}</span>joined
-                    </span>
+
+                    <div className='contesttotalregistered'>
+                        {/* <p><img src={tr}></img><span>{contest.totalRegistered}</span>joined</p> */}
+                        <div>
+                            <img src={tr}></img>
+                            <span>+{data.totalRegistered}</span>joined
+                        </div>
+                    </div>
+
                 </div>
                 <div className='commoncd-left-button'>
                     {Date.now() > new Date(data.endTime) && <button disabled>Quiz Ended</button>}

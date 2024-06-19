@@ -2,11 +2,12 @@
     display: flex;
     flex-direction: column;
     border: 1px solid black;
-    border-radius: 34px;
-    width: 387px;
+    border-radius: 2rem;
+    width: 24.14rem;
     // margin: 20px;
     box-shadow: 4px 4px 4px 4px rgba(194, 218, 217, 0.20);
     height: 515px;
+
 
     .contestdataimage {
         margin: auto;
@@ -14,6 +15,17 @@
 
     .contestdataimage img {
         margin: 20px 19px;
+    }
+
+    @media screen and (max-width: 380px) {
+        .contestdataimage img {
+            margin: 0;
+        }
+
+        .contestdatabox {
+            height: 20rem;
+            width: 20rem;
+        }
     }
 
     .contestdatacontent {

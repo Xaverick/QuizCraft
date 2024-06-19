@@ -7,13 +7,14 @@ import { useNavigate } from "react-router-dom";
 import questionsData from "../../assets/data/questions.js";
 import ContestData from "../../components/contestdata/ContestData.jsx";
 import "./Home.scss";
-import sample from "../../assets/homepageimages/sample.png";
+import sample from "../../assets/homepageimages/instant.svg";
 import Comment from "../../components/comment/Comment.jsx";
 import commentdata from "../../assets/data/commentdata.js";
 import Faqcompo from "../../components/faq/faq.jsx";
 import faqdata from "../../assets/data/faqs.js";
 import axios from "axios";
-
+import img1 from '../../assets/CommunityParters/img1.svg';
+import img2 from '../../assets/CommunityParters/img2.svg'
 const Question = ({ questionData, onSelect, isOpen }) => {
   const handleClick = () => {
     onSelect(questionData.id);
@@ -22,12 +23,14 @@ const Question = ({ questionData, onSelect, isOpen }) => {
   return (
     <div className={`question ${isOpen ? "open" : ""}`} onClick={handleClick}>
       <div className="question-header">
-        <img
-          src={questionData.image}
-          alt="Question Icon"
-          className="question-icon"
-        />
-        <p>{questionData.question}</p>
+        <div className="question-text">
+          <img
+            src={questionData.image}
+            alt="Question Icon"
+            className="question-icon"
+          />
+          <p>{questionData.question}</p>
+        </div>
         <img
           src={isOpen ? questionData.uimag1 : questionData.dimag2}
           alt="Toggle Icon"
@@ -58,7 +61,7 @@ const Home = () => {
 
       if (response.status === 200) {
         const data = response.data;
-        console.log(data);
+        // console.log(data);
         setContests(data);
       } else {
         console.log("Failed to fetch quizzes");
@@ -121,43 +124,43 @@ const Home = () => {
           <div className="homephase3">
             <div className="homephase3content">
               <div className="homephase3contentheading">
-                <p>Our Community Partners</p>
+                <p> Community Partners</p>
               </div>
               <div className="home-phase3">
                 <div className="slider">
                   <div className="slide-track">
                     {/* Place your images here */}
                     <div className="slide">
-                      <img src={lightning} height="100" width="250" alt="" />
+                      <img src={img1} height="100" width="250" alt="" />
                     </div>
                     <div className="slide">
-                      <img src={Softstar} height="100" width="250" alt="" />
+                      <img src={img2} height="100" width="250" alt="" />
                     </div>
                     <div className="slide">
-                      <img src={lightning} height="100" width="250" alt="" />
+                      <img src={img1} height="100" width="250" alt="" />
                     </div>
                     <div className="slide">
-                      <img src={Softstar} height="100" width="250" alt="" />
+                      <img src={img2} height="100" width="250" alt="" />
                     </div>
                     <div className="slide">
-                      <img src={lightning} height="100" width="250" alt="" />
+                      <img src={img1} height="100" width="250" alt="" />
+                    </div>
+                    <div className="slide">
+                      <img src={img2} height="100" width="250" alt="" />
+                    </div>
+                    <div className="slide">
+                      <img src={img1} height="100" width="250" alt="" />
+                    </div>
+                    <div className="slide">
+                      <img src={img2} height="100" width="250" alt="" />
+                    </div>
+                    <div className="slide">
+                      <img src={img1} height="100" width="250" alt="" />
+                    </div>
+                    <div className="slide">
+                      <img src={img2} height="100" width="250" alt="" />
                     </div>
                     {/* Repeat the images to create infinite loop */}
-                    <div className="slide">
-                      <img src={lightning} height="100" width="250" alt="" />
-                    </div>
-                    <div className="slide">
-                      <img src={Softstar} height="100" width="250" alt="" />
-                    </div>
-                    <div className="slide">
-                      <img src={lightning} height="100" width="250" alt="" />
-                    </div>
-                    <div className="slide">
-                      <img src={Softstar} height="100" width="250" alt="" />
-                    </div>
-                    <div className="slide">
-                      <img src={lightning} height="100" width="250" alt="" />
-                    </div>
                   </div>
                 </div>
               </div>
@@ -165,7 +168,7 @@ const Home = () => {
           </div>
           <div className="homephase4" ref={whyChooseUsRef}>
             <div className="homephase4heading">
-              <p>Why Choose Us</p>
+              <p>Platform Offerings</p>
             </div>
             <div className="homephase4content">
               <div className="homephase4contentquestions">
@@ -181,7 +184,7 @@ const Home = () => {
               <div className="homephase4contentimg">
                 {selectedQuestion && (
                   <img
-                    style={{ width: "100%", height:"100%" }}
+                    style={{ width: "100%", height: "100%" }}
                     src={selectedQuestion.sideimage}
                     alt="Side Image"
                   />
@@ -190,7 +193,7 @@ const Home = () => {
             </div>
             <div className="homephase5">
               <div className="homephase5heading">
-                <p>Upcoming Contest</p>
+                <p>Upcoming Contests</p>
               </div>
               <div className="homephase5heading2">
                 <button onClick={handleViewAllClick}>View All</button>

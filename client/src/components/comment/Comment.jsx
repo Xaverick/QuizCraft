@@ -1,6 +1,6 @@
 import React from 'react'
 import './Comment.scss'
-import commentboxdesign from '../../assets/homepageimages/design.png'
+import commentboxdesign from '../../assets/homepageimages/comma.svg'
 const Comment = ({ ca }) => {
     return (
         <>
