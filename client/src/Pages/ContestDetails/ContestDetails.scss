@@ -111,14 +111,21 @@
     align-items: center;
     padding: 20px 4px;
     justify-content: space-between;
+    gap: 1rem;
+
+    .filters {
+        width: 60%;
+    }
 
     .live-search-box {
-        width: 40vw;
+        // width: 40vw;
+        width: 100%;
         display: flex;
         justify-content: center;
         align-items: center;
         border: 1px solid #B3B3B3 !important;
         border-radius: 10px;
+        margin: 0;
     }
 
 }
@@ -225,4 +232,11 @@
     justify-content: center;
     align-items: center;
     margin-top: 40px;
+}
+
+@media screen and (max-width:700px) {
+    .ladder-nav .filters {
+        width: 100%;
+        margin-top: 1rem;
+    }
 }

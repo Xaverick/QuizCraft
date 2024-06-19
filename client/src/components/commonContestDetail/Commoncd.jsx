@@ -168,7 +168,7 @@ const Commoncd = ({ data }) => {
                     {Date.now() >= new Date(data.startTime) && Date.now() <= new Date(data.endTime) && (
                         <button onClick={async () => {
                             if (!(await isregis())) {
-                                toast.error('you cannot register bcz qyuiz has start ');
+                                toast.error('you cannot register because quiz has already started ');
                             }
                             else {
                                 setIsStartModalOpen(true);

@@ -13,20 +13,7 @@
         margin: auto;
     }
 
-    .contestdataimage img {
-        margin: 20px 19px;
-    }
 
-    @media screen and (max-width: 380px) {
-        .contestdataimage img {
-            margin: 0;
-        }
-
-        .contestdatabox {
-            height: 20rem;
-            width: 20rem;
-        }
-    }
 
     .contestdatacontent {
         display: flex;
@@ -38,9 +25,25 @@
             font-size: 14px;
             font-weight: 500;
             margin: auto;
-            padding: 10px 20px;
+            padding: 10px 20px 0px 20px;
             color: #666666;
+
+            // text-overflow: ellipsis;
+
+            font-size: 14px;
+            font-weight: 500;
+
+            color: #666666;
+            // text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
         }
+
+
 
         h3 {
             font-size: 22px;
@@ -162,5 +165,23 @@
 
     }
 
+
+}
+
+@media screen and (max-width:400px) {
+    .contestdatabox {
+        width: 92%;
+        margin: 0 auto;
+
+        .contestdataimage {
+            width: 90%;
+            margin: 5% auto;
+
+            img {
+                width: 100%;
+
+            }
+        }
+    }
 
 }

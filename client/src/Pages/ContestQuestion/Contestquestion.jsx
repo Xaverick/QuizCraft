@@ -3,7 +3,7 @@ import './Contestquestion.scss';
 import { Link, useParams } from 'react-router-dom';
 import logo from '../../assets/homepageimages/navbarlogo.png'
 import { toast } from 'react-toastify';
-
+import { useNavigate } from 'react-router-dom'
 const ContestQuestion = () => {
     const { id } = useParams();
     const [questions, setQuestions] = useState([]);
@@ -12,6 +12,7 @@ const ContestQuestion = () => {
     const [timer, setTimer] = useState(1);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [responses, setResponses] = useState([]);
+    const navigate = useNavigate();
     let timerInterval;
 
     useEffect(() => {
@@ -28,19 +29,19 @@ const ContestQuestion = () => {
                 const data = await response.json();
                 setQuestions(data.questions);
                 const storedTimer = sessionStorage.getItem(`quizTimer_${id}`);
-                console.log('stored timer:', storedTimer);
+                // console.log('stored timer:', storedTimer);
                 if (storedTimer) {
                     const startTime = parseInt(storedTimer);
-                    console.log('start time:', startTime)
+                    // console.log('start time:', startTime)
                     const elapsed = Math.floor((Date.now() - startTime) / 1000);
-                    console.log('elapsed:', elapsed);
+                    // console.log('elapsed:', elapsed);
                     const remaining = Math.max(0, data.duration - elapsed);
-                    console.log('remaining:', remaining);
+                    // console.log('remaining:', remaining);
                     setTimer(remaining);
                 } else {
 
                     setTimer(data.duration);
-                    console.log('timer:', data.duration);
+                    // console.log('timer:', data.duration);
                 }
 
                 setQuestions(data.questions);
@@ -89,8 +90,8 @@ const ContestQuestion = () => {
     const startTimer = (startTime) => {
         const elapsed = Math.floor((Date.now() - startTime) / 1000);
         const remaining = Math.max(0, timer - elapsed);
-        console.log(remaining);
-        console.log(timer);
+        // console.log(remaining);
+        // console.log(timer);
         setTimer(remaining);
         timerInterval = setInterval(() => {
             setTimer((prevTimer) => {
@@ -133,13 +134,15 @@ const ContestQuestion = () => {
         localStorage.setItem(`quizFormSubmitted_${id}`, 'true');
         sessionStorage.removeItem(`quizTimer_${id}`);
         setTimer(0); // Set timer to 0 upon submission
+
         const formattedResponses = questions.map((question, index) => ({
             questionId: question._id,
             response: responses[index],
-            correct: question.correctOption.toLowerCase() === responses[index].toLowerCase()
+
+            correct: question.correctOption.toLowerCase() === responses[index]?.toLowerCase()
         }));
 
-        console.log(formattedResponses);
+        // console.log(formattedResponses);
 
         const response = await fetch(`http://localhost:4000/quiz/submitQuiz/${id}`, {
             method: 'POST',
@@ -163,6 +166,7 @@ const ContestQuestion = () => {
                 hideProgressBar: true,
             });
         }
+        navigate('/');
     };
 
     const currentQuestion = questions[currentIndex];
