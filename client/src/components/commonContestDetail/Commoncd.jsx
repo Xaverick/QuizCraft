@@ -157,7 +157,7 @@ const Commoncd = ({ data }) => {
                         {/* <p><img src={tr}></img><span>{contest.totalRegistered}</span>joined</p> */}
                         <div>
                             <img src={tr}></img>
-                            <span>+{data.totalRegistered}</span><p>joined</p>
+                            {data.totalRegistered}Joined
                         </div>
                     </div>
 
@@ -168,7 +168,7 @@ const Commoncd = ({ data }) => {
                     {Date.now() >= new Date(data.startTime) && Date.now() <= new Date(data.endTime) && (
                         <button onClick={async () => {
                             if (!(await isregis())) {
-                                toast.error('you cannot register because quiz has already started ');
+                                toast.error('You cannot register because contest has already started ');
                             }
                             else {
                                 setIsStartModalOpen(true);
@@ -185,9 +185,9 @@ const Commoncd = ({ data }) => {
                 <div className='commoncd-right-time'>
 
                     <span>
-                        {new Date() >= new Date(data.startTime) && new Date() <= new Date(data.endTime) && `You can give Quiz in: ${timeRemaining}`}
-                        {new Date() < new Date(data.startTime) && `Quiz will start in: ${Math.max(0, Math.floor((new Date(data.startTime) - new Date()) / (1000 * 60 * 60)))}hr ${Math.max(0, Math.floor((new Date(data.startTime) - new Date()) / (1000 * 60)) % 60)}min  ${Math.max(0, Math.floor((new Date(data.startTime) - new Date()) / 1000) % 60)}s`}
-                        {new Date() > new Date(data.endTime) && 'Quiz has ended'}
+                        {new Date() >= new Date(data.startTime) && new Date() <= new Date(data.endTime) && `You can give Contest in: ${timeRemaining}`}
+                        {new Date() < new Date(data.startTime) && `Contest will start in: ${Math.max(0, Math.floor((new Date(data.startTime) - new Date()) / (1000 * 60 * 60)))}hr ${Math.max(0, Math.floor((new Date(data.startTime) - new Date()) / (1000 * 60)) % 60)}min  ${Math.max(0, Math.floor((new Date(data.startTime) - new Date()) / 1000) % 60)}s`}
+                        {new Date() > new Date(data.endTime) && 'Contest has ended'}
                     </span>
 
                 </div>
