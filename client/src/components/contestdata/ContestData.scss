@@ -112,13 +112,18 @@
         background-color: #56AFB2;
         color: #F1F1F1;
         font-size: 19px;
-        font-weight: 600;
+        font-weight: 500;
         border-radius: 6px;
         cursor: pointer;
         padding: 8px 32px;
         border: none;
         margin: 20px 20px;
         width: 85%;
+
+        &:hover {
+            background: linear-gradient(to right, #11222E 0%, #086A6A 54%, #086A6A 100%);
+
+        }
     }
 }
 
