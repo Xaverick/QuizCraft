@@ -1,13 +1,14 @@
 .contact {
     display: flex;
     flex-direction: row;
-    margin-top: 50px;
+    // margin-top: 50px;
+    max-width: 85%;
+    margin: 3rem auto;
 
     .contactcontent {
         display: flex;
         flex-direction: row;
-        max-width: 1200px;
-        margin: 0 auto;
+        gap: 1.5rem;
     }
 
     .contactmain {

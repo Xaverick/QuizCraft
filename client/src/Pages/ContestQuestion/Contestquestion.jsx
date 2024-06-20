@@ -8,7 +8,7 @@ const ContestQuestion = () => {
     const { id } = useParams();
     const [questions, setQuestions] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [selectedOption, setSelectedOption] = useState(null);
+    // const [selectedOption, setSelectedOption] = useState(null);
     const [timer, setTimer] = useState(1);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [responses, setResponses] = useState([]);
@@ -189,15 +189,9 @@ const ContestQuestion = () => {
                 </div>
 
             </nav>
-            <span><hr /></span>
+            {/* <span><hr /></span> */}
             <div className="container">
                 {/* <h1 className="quiz-title">Quiz Title</h1> */}
-                <div className="progress-bar-container">
-                    <div className="progress-text">
-                        {currentIndex + 1}/{questions.length} Questions Attempted
-                    </div>
-                    <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
-                </div>
                 <section className="questions-nav-section">
                     <div className="d-flex">
                         <ul className="question-nums-list">
@@ -220,48 +214,58 @@ const ContestQuestion = () => {
                     </div>
                 </section>
                 <section className="question-section">
+                    <div className="progress-bar-container">
+                        <div className="progress-text">
+                            {currentIndex + 1}/{questions.length}
+                            <br />
+                            <span>Completed</span>
+                        </div>
+                        <div className='progress-background'>
+                            <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
+                        </div>
+                    </div>
                     <div className="question">
                         <h2 className="question-num">
                             Question {currentIndex + 1}: {currentQuestion?.text}
                         </h2>
                     </div>
-                    <div className="answer">
+                    <div className="answer " >
                         {currentQuestion?.type === 'radio' && (
                             currentQuestion?.options?.map((option) => (
                                 <label
                                     key={option._id}
-                                    className={`answer-item ${selectedOption === option.text ? 'selected' : ''}`}
+                                    className={`answer-item ${option.text ? 'selected' : ''}`}
                                 >
                                     <input
                                         className='form-tick appearance-none h-4 w-4 border border-gray-300 rounded checked:bg-blue-600 checked:border-transparent dark:border-gray-700 dark:checked:bg-blue-500'
                                         id={option._id}
                                         name={`question-${currentIndex}`}
                                         type='radio'
-                                        value={option.text} //
+                                        value={option.text}
                                         checked={responses[currentIndex] === option.text}
                                         onChange={handleOptionChange}
                                         disabled={formSubmitted}
                                     />
                                     <span>{option.text}</span>
+
                                 </label>
                             ))
                         )}
 
                         {currentQuestion?.type === 'text' && (
                             currentQuestion?.options?.map((option) => (
-                                <label
-                                    key={option._id}
-                                    className={`answer-item ${selectedOption === option.text ? 'selected' : ''}`}
-                                >
+                                <>
                                     <input
+                                        className='border-black active:border-black'
                                         type='text'
                                         name={`question-${currentIndex}`}
                                         value={responses[currentIndex] || ''}
                                         onChange={handleTextChange}
                                         disabled={formSubmitted}
+                                        placeholder='Enter your answer here...'
                                     />
+                                </>
 
-                                </label>
                             ))
                         )}
                     </div>

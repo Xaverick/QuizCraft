@@ -24,7 +24,7 @@ const ContestData = ({ contest }) => {
                 </div>
                 <div className='contestdatacontent'>
                     <h3>{contest.title}</h3>
-                    <p>{contest.description}</p>
+                    <p className='description'>{contest.description}</p>
                 </div>
                 <div className='contestdatatime'>
                     <div>
