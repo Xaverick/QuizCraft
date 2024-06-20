@@ -9,12 +9,12 @@
 .commentbox {
     display: flex;
     flex-direction: column;
-    width: 780px;
-    height: 200px;
+    width: 17rem;
+    height: 10.5rem;
     // max-width: 600px;
-    border-radius: 10px;
+    border-radius: 0.62rem;
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
-    padding: 7px;
+    padding: 0.62rem;
     background-color: #fff;
     margin: 10px 10px;
 
@@ -43,7 +43,7 @@
     }
 
     .commentcontent p {
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 600;
         color: #333333;
     }

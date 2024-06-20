@@ -40,7 +40,7 @@ const Commoncd = ({ data }) => {
 
         catch (error) {
 
-            console.log(error);
+            // console.log(error);
             toast.error(error.response.data, {
                 position: "top-left",
                 autoClose: 2000,
@@ -53,7 +53,7 @@ const Commoncd = ({ data }) => {
 
     const isregis = async () => {
         const response = await axios.post(`/quiz/isRegistered/${data._id}`);
-        console.log(response.data);
+        // console.log(response.data);
         return response.data;
     }
 
@@ -107,14 +107,14 @@ const Commoncd = ({ data }) => {
     const eventDate = new Date(data.startTime).toLocaleDateString('en-GB');
     const eventTime = new Date(data.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
     const eventendtime = new Date(data.endTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    console.log(eventendtime)
+    // console.log(eventendtime)
     // console.log(new Date(eventendtime))
-    console.log(new Date())
-    console.log(eventDate);
-    console.log(eventTime);
-    console.log(data.startTime);
-    console.log(data.endTime);
-    console.log(data);
+    // console.log(new Date())
+    // console.log(eventDate);
+    // console.log(eventTime);
+    // console.log(data.startTime);
+    // console.log(data.endTime);
+    // console.log(data);
 
     const closeStartModal = () => {
         setIsStartModalOpen(false);
@@ -134,30 +134,30 @@ const Commoncd = ({ data }) => {
                 <div className='commoncd-left-details'>
                     <span>
                         <img src={CD} alt='' />
-                        Event date: {eventDate}
+                        Event date: <span>{eventDate}</span>
                     </span>
                     <span>
                         <img src={CT} alt='' />
-                        Event Time: {eventTime}
+                        Event Time: <span>{eventTime}</span>
                     </span>
                     <span>
                         <img src={NOQ} alt='' />
-                        No of Questions: {data.questions ? data.questions.length : 'N/A'}
+                        No of Questions: <span>{data.questions ? data.questions.length : 'N/A'}</span>
                     </span>
                     <span>
                         <img src={TM} alt='' />
-                        Total Marks: {data.totalMarks || 'N/A'}
+                        Total Marks:<span>{data.totalMarks || 'N/A'}</span>
                     </span>
                     <span>
                         <img src={Duration} alt='' />
-                        Duration: {data.duration} {data.duration > 1 ? 'minutes' : 'minute'}
+                        Duration: <span>{data.duration} {data.duration > 1 ? 'minutes' : 'minute'}</span>
                     </span>
 
                     <div className='contesttotalregistered'>
                         {/* <p><img src={tr}></img><span>{contest.totalRegistered}</span>joined</p> */}
                         <div>
                             <img src={tr}></img>
-                            <span>+{data.totalRegistered}</span>joined
+                            <span>+{data.totalRegistered}</span><p>joined</p>
                         </div>
                     </div>
 
@@ -168,13 +168,13 @@ const Commoncd = ({ data }) => {
                     {Date.now() >= new Date(data.startTime) && Date.now() <= new Date(data.endTime) && (
                         <button onClick={async () => {
                             if (!(await isregis())) {
-                                toast.error('you cannot register bcz qyuiz has start ');
+                                toast.error('you cannot register because quiz has already started ');
                             }
                             else {
                                 setIsStartModalOpen(true);
                             }
                         }}>
-                            Start Qiiz
+                            Start Quiz
                         </button>
                     )}
                     {Date.now() < new Date(data.startTime) && <button onClick={handleRegister} >Register Now</button>}

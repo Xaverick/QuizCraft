@@ -3,15 +3,16 @@ import './Contestquestion.scss';
 import { Link, useParams } from 'react-router-dom';
 import logo from '../../assets/homepageimages/navbarlogo.png'
 import { toast } from 'react-toastify';
-
+import { useNavigate } from 'react-router-dom'
 const ContestQuestion = () => {
     const { id } = useParams();
     const [questions, setQuestions] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [selectedOption, setSelectedOption] = useState(null);
+    // const [selectedOption, setSelectedOption] = useState(null);
     const [timer, setTimer] = useState(1);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [responses, setResponses] = useState([]);
+    const navigate = useNavigate();
     let timerInterval;
 
     useEffect(() => {
@@ -28,19 +29,19 @@ const ContestQuestion = () => {
                 const data = await response.json();
                 setQuestions(data.questions);
                 const storedTimer = sessionStorage.getItem(`quizTimer_${id}`);
-                console.log('stored timer:', storedTimer);
+                // console.log('stored timer:', storedTimer);
                 if (storedTimer) {
                     const startTime = parseInt(storedTimer);
-                    console.log('start time:', startTime)
+                    // console.log('start time:', startTime)
                     const elapsed = Math.floor((Date.now() - startTime) / 1000);
-                    console.log('elapsed:', elapsed);
+                    // console.log('elapsed:', elapsed);
                     const remaining = Math.max(0, data.duration - elapsed);
-                    console.log('remaining:', remaining);
+                    // console.log('remaining:', remaining);
                     setTimer(remaining);
                 } else {
 
                     setTimer(data.duration);
-                    console.log('timer:', data.duration);
+                    // console.log('timer:', data.duration);
                 }
 
                 setQuestions(data.questions);
@@ -89,8 +90,8 @@ const ContestQuestion = () => {
     const startTimer = (startTime) => {
         const elapsed = Math.floor((Date.now() - startTime) / 1000);
         const remaining = Math.max(0, timer - elapsed);
-        console.log(remaining);
-        console.log(timer);
+        // console.log(remaining);
+        // console.log(timer);
         setTimer(remaining);
         timerInterval = setInterval(() => {
             setTimer((prevTimer) => {
@@ -133,13 +134,15 @@ const ContestQuestion = () => {
         localStorage.setItem(`quizFormSubmitted_${id}`, 'true');
         sessionStorage.removeItem(`quizTimer_${id}`);
         setTimer(0); // Set timer to 0 upon submission
+
         const formattedResponses = questions.map((question, index) => ({
             questionId: question._id,
             response: responses[index],
-            correct: question.correctOption.toLowerCase() === responses[index].toLowerCase()
+
+            correct: question.correctOption.toLowerCase() === responses[index]?.toLowerCase()
         }));
 
-        console.log(formattedResponses);
+        // console.log(formattedResponses);
 
         const response = await fetch(`http://localhost:4000/quiz/submitQuiz/${id}`, {
             method: 'POST',
@@ -163,6 +166,7 @@ const ContestQuestion = () => {
                 hideProgressBar: true,
             });
         }
+        navigate('/');
     };
 
     const currentQuestion = questions[currentIndex];
@@ -185,15 +189,9 @@ const ContestQuestion = () => {
                 </div>
 
             </nav>
-            <span><hr /></span>
+            {/* <span><hr /></span> */}
             <div className="container">
                 {/* <h1 className="quiz-title">Quiz Title</h1> */}
-                <div className="progress-bar-container">
-                    <div className="progress-text">
-                        {currentIndex + 1}/{questions.length} Questions Attempted
-                    </div>
-                    <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
-                </div>
                 <section className="questions-nav-section">
                     <div className="d-flex">
                         <ul className="question-nums-list">
@@ -216,48 +214,58 @@ const ContestQuestion = () => {
                     </div>
                 </section>
                 <section className="question-section">
+                    <div className="progress-bar-container">
+                        <div className="progress-text">
+                            {currentIndex + 1}/{questions.length}
+                            <br />
+                            <span>Completed</span>
+                        </div>
+                        <div className='progress-background'>
+                            <div className="progress-bar" style={{ width: `${progressPercentage}%` }}></div>
+                        </div>
+                    </div>
                     <div className="question">
                         <h2 className="question-num">
                             Question {currentIndex + 1}: {currentQuestion?.text}
                         </h2>
                     </div>
-                    <div className="answer">
+                    <div className="answer " >
                         {currentQuestion?.type === 'radio' && (
                             currentQuestion?.options?.map((option) => (
                                 <label
                                     key={option._id}
-                                    className={`answer-item ${selectedOption === option.text ? 'selected' : ''}`}
+                                    className={`answer-item ${option.text ? 'selected' : ''}`}
                                 >
                                     <input
                                         className='form-tick appearance-none h-4 w-4 border border-gray-300 rounded checked:bg-blue-600 checked:border-transparent dark:border-gray-700 dark:checked:bg-blue-500'
                                         id={option._id}
                                         name={`question-${currentIndex}`}
                                         type='radio'
-                                        value={option.text} //
+                                        value={option.text}
                                         checked={responses[currentIndex] === option.text}
                                         onChange={handleOptionChange}
                                         disabled={formSubmitted}
                                     />
                                     <span>{option.text}</span>
+
                                 </label>
                             ))
                         )}
 
                         {currentQuestion?.type === 'text' && (
                             currentQuestion?.options?.map((option) => (
-                                <label
-                                    key={option._id}
-                                    className={`answer-item ${selectedOption === option.text ? 'selected' : ''}`}
-                                >
+                                <>
                                     <input
+                                        className='border-black active:border-black'
                                         type='text'
                                         name={`question-${currentIndex}`}
                                         value={responses[currentIndex] || ''}
                                         onChange={handleTextChange}
                                         disabled={formSubmitted}
+                                        placeholder='Enter your answer here...'
                                     />
+                                </>
 
-                                </label>
                             ))
                         )}
                     </div>
