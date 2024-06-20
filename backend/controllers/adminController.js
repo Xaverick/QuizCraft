@@ -258,39 +258,33 @@ const calculateScore = (submission, quiz) => {
 }
 
 const addRating = async (leaderboard) => {
-    leaderboard.populate('ranks.userId');
     const ranksDescending = leaderboard.ranks.sort((a,b) => {b.score - a.score});
     let rating = 0;
-    for(i = 1; i<= ranksDescending.length ; i++){
-        if(i==1){
+    for(i = 0; i< ranksDescending.length ; i++){
+        if(i==0){
             // rank first: 30 rating alloted
             rating = 30;
-            const userClient = await userModel.findOne({_id : ranksDescending[i].userId._id});
-            userClient.populate('profile');
+            const userClient = await userModel.findOne({_id : ranksDescending[i].userId._id}).populate('profile');
             const ratingUpdateOnProfile = await profile.updateOne({_id: userClient.profile._id},{$inc :{rating:rating}});
-        }else if(i==2){
+        }else if(i==1){
             // rank second: 25 rating alloted
             rating = 25;
-            const userClient = await userModel.findOne({_id : ranksDescending[i].userId._id});
-            userClient.populate('profile');
+            const userClient = await userModel.findOne({_id : ranksDescending[i].userId._id}).populate('profile');
             const ratingUpdateOnProfile = await profile.updateOne({_id: userClient.profile._id},{$inc :{rating:rating}});
-        }else if(i==3){
+        }else if(i==2){
             // rank third: 20 rating alloted
             rating = 20;
-            const userClient = await userModel.findOne({_id : ranksDescending[i].userId._id});
-            userClient.populate('profile');
+            const userClient = await userModel.findOne({_id : ranksDescending[i].userId._id}).populate('profile');
             const ratingUpdateOnProfile = await profile.updateOne({_id: userClient.profile._id},{$inc :{rating:rating}});
-        }else if(i>3 && i<=10){
+        }else if(i>2 && i<10){
             // rank 4 to 10: 15 rating alloted
             rating = 15;
-            const userClient = await userModel.findOne({_id : ranksDescending[i].userId._id});
-            userClient.populate('profile');
+            const userClient = await userModel.findOne({_id : ranksDescending[i].userId._id}).populate('profile');
             const ratingUpdateOnProfile = await profile.updateOne({_id: userClient.profile._id},{$inc :{rating:rating}});
         }else {
             // rank rest of participants: 10 rating alloted
             rating = 10;
-            const userClient = await userModel.findOne({_id : ranksDescending[i].userId._id});
-            userClient.populate('profile');
+            const userClient = await userModel.findOne({_id : ranksDescending[i].userId._id}).populate('profile');
             const ratingUpdateOnProfile = await profile.updateOne({_id: userClient.profile._id},{$inc :{rating:rating}});
         }
     }
@@ -306,7 +300,7 @@ module.exports.compileResults = async (req, res) => {
     if(!quiz){
         throw new ExpressError('quiz not found', 400);
     }
-    let leaderboard = await Leaderboard.findOne({quizId: quizId});
+    let leaderboard = await Leaderboard.findOne({quizId: quizId}).populate('ranks.userId');
     if(!leaderboard){
         leaderboard = new Leaderboard({quizId});
     }    
