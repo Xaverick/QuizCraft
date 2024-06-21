@@ -122,7 +122,16 @@ const Contact = () => {
                                     <label htmlFor="subject">Subject</label>
                                     <br />
 
-                                    <textarea id="message" name='subject' value={formdata.subject} onChange={handleChange} placeholder='Enter your Subject'></textarea>
+                                    <textarea
+                                        id="subject"
+                                        name="subject"
+                                        value={formdata.subject}
+                                        onChange={handleChange}
+                                        placeholder="Enter your Subject"
+                                        cols="57"
+
+
+                                    ></textarea>
                                 </div>
                                 <div className="message">
                                     <label htmlFor="message">Message</label>

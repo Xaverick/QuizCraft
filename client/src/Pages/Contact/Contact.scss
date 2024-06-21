@@ -155,6 +155,8 @@
         // Text area
         .message {
             grid-column: 1/3;
+            gap: 2rem;
+
 
             label {
                 font-size: 16px;
@@ -162,6 +164,26 @@
                 color: #333333;
                 font-weight: 600;
                 padding: 10px;
+            }
+
+            #subject {
+                padding: 10px;
+                outline: none;
+                border: 1px solid #87BEBC;
+                border-radius: 10px;
+                margin-top: 10px;
+                margin-bottom: 1rem;
+
+                width: 94%;
+
+
+                &::placeholder {
+                    color: #98989A;
+                    font-size: 12px;
+                    // padding: 10px 10px;
+                    opacity: 1; // Firefox
+                    font-family: 'Poppins', sans-serif;
+                }
             }
 
 
@@ -488,6 +510,14 @@
 @media screen and (max-width:400px) {
     .contact {
         max-width: 95%;
-        margin: 0 auto;
+        margin: 2rem auto;
+    }
+
+    .box form {
+        .message {
+            #subject {
+                margin-bottom: 1rem;
+            }
+        }
     }
 }
