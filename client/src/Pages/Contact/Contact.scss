@@ -484,3 +484,10 @@
     }
 
 }
+
+@media screen and (max-width:400px) {
+    .contact {
+        max-width: 95%;
+        margin: 0 auto;
+    }
+}
