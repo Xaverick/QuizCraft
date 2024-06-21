@@ -104,7 +104,10 @@ const Allcont = () => {
         </div>
         <div className="Allcontestbuttons">
           <button
-            onClick={() => setShowCategoryDropdown(!showCategoryDropdown)}
+            onClick={() => {
+              setShowCategoryDropdown(!showCategoryDropdown);
+              if (showStatusDropdown) setShowStatusDropdown(false);
+            }}
           >
             Category
             <span>
@@ -113,16 +116,54 @@ const Allcont = () => {
           </button>
           {showCategoryDropdown && (
             <div className="dropdown category-dropdown">
-              <div onClick={() => handleCategoryChange("All")}>All</div>
-              <div onClick={() => handleCategoryChange("Java")}>Java</div>
-              <div onClick={() => handleCategoryChange("HTML")}>HTML</div>
-              <div onClick={() => handleCategoryChange("CSS")}>CSS</div>
-              <div onClick={() => handleCategoryChange("UI/UX Design")}>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={category === "All"}
+                  onChange={() => handleCategoryChange("All")}
+                />
+                All
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={category === "Java"}
+                  onChange={() => handleCategoryChange("Java")}
+                />
+                Java
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={category === "HTML"}
+                  onChange={() => handleCategoryChange("HTML")}
+                />
+                HTML
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={category === "CSS"}
+                  onChange={() => handleCategoryChange("CSS")}
+                />
+                CSS
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={category === "UI/UX Design"}
+                  onChange={() => handleCategoryChange("UI/UX Design")}
+                />
                 UI/UX Design
-              </div>
+              </label>
             </div>
           )}
-          <button onClick={() => setShowStatusDropdown(!showStatusDropdown)}>
+          <button
+            onClick={() => {
+              setShowStatusDropdown(!showStatusDropdown);
+              if (showCategoryDropdown) setShowCategoryDropdown(false);
+            }}
+          >
             Status
             <span>
               <img src={down} alt="" />
@@ -130,10 +171,38 @@ const Allcont = () => {
           </button>
           {showStatusDropdown && (
             <div className="dropdown status-dropdown">
-              <div onClick={() => handleStatusChange("All")}>All</div>
-              <div onClick={() => handleStatusChange("Live")}>Live</div>
-              <div onClick={() => handleStatusChange("Expired")}>Expired</div>
-              <div onClick={() => handleStatusChange("Closed")}>Closed</div>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={status === "All"}
+                  onChange={() => handleStatusChange("All")}
+                />
+                All
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={status === "Live"}
+                  onChange={() => handleStatusChange("Live")}
+                />
+                Live
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={status === "Expired"}
+                  onChange={() => handleStatusChange("Expired")}
+                />
+                Expired
+              </label>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={status === "Closed"}
+                  onChange={() => handleStatusChange("Closed")}
+                />
+                Closed
+              </label>
             </div>
           )}
         </div>

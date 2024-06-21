@@ -197,18 +197,24 @@
                 cursor: pointer;
                 background: #56AFB2;
                 letter-spacing: 0.2em;
-                padding: 10px;
+                padding: 7px 12px;
                 outline: none;
                 border: none;
                 border-radius: 5px;
-                display: block;
+                // display: block;
                 /* max-width: 80%; */
                 /* width: 50%; */
                 margin: auto;
                 text-align: center;
                 transition: 0.3s linear;
-                font-weight: bold;
+                font-weight: 600;
                 color: #ffffff;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                font-size: 0.9rem;
+
 
 
 
@@ -358,6 +364,26 @@
         gap: 20px;
         padding: 0px 20px;
         font-size: 14px;
+    }
+
+    .box {
+        form {
+            .submit {
+                button {
+                    font-size: 0.7rem;
+                    padding: 10px 7px;
+
+                    span {
+                        img {
+                            width: 30px;
+                            height: 30px;
+                        }
+
+                    }
+                }
+
+            }
+        }
     }
 }
 

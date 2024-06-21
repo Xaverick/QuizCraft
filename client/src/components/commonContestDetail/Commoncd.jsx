@@ -157,13 +157,13 @@ const Commoncd = ({ data }) => {
                         {/* <p><img src={tr}></img><span>{contest.totalRegistered}</span>joined</p> */}
                         <div>
                             <img src={tr}></img>
-                            {data.totalRegistered}Joined
+                            +{data.totalRegistered} Joined
                         </div>
                     </div>
 
                 </div>
                 <div className='commoncd-left-button'>
-                    {Date.now() > new Date(data.endTime) && <button disabled>Quiz Ended</button>}
+                    {Date.now() > new Date(data.endTime) && <button disabled>Contest Ended</button>}
 
                     {Date.now() >= new Date(data.startTime) && Date.now() <= new Date(data.endTime) && (
                         <button onClick={async () => {
@@ -174,7 +174,7 @@ const Commoncd = ({ data }) => {
                                 setIsStartModalOpen(true);
                             }
                         }}>
-                            Start Quiz
+                            Start Contest
                         </button>
                     )}
                     {Date.now() < new Date(data.startTime) && <button onClick={handleRegister} >Register Now</button>}
@@ -197,8 +197,8 @@ const Commoncd = ({ data }) => {
 
             </div>
             <Modal isOpen={isStartModalOpen} onRequestClose={closeStartModal} className='modal' overlayClassName='overlay'>
-                <h2>Quiz Starting</h2>
-                <p>The quiz is about to begin. Get ready!</p>
+                <h2>Contest Started</h2>
+                <p>Please Click on Start now for start the Contest</p>
                 <img src={defaultimage} alt='Start Quiz' />
                 <button onClick={handleStartQuiz}>Start Now</button>
             </Modal>

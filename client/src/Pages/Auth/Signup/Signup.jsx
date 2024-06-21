@@ -243,10 +243,10 @@ const Signup = () => {
                   />
                 )}
               </div>
-              <div className="remember-me">
+              {/* <div className="remember-me">
                 <input type="checkbox" id="rememberMe" name="rememberMe" required />
                 <label htmlFor="rememberMe">I agree with Terms of Use and Privacy Policy</label>
-              </div>
+              </div> */}
             </div>
             <button className="cta-btn" type="submit">Sign Up</button>
             <p className="or"><span></span></p>

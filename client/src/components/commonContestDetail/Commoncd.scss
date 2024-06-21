@@ -62,7 +62,7 @@
                 // justify-content: center;
                 align-items: center;
                 margin: 10px;
-                gap: 10px;
+                gap: 5px;
                 color: #6E6E73;
 
                 span {
@@ -94,7 +94,7 @@
         padding: 8px 32px;
         font-size: 14px;
         font-weight: 500;
-        width: 100%;
+        width: 300px;
         cursor: pointer;
     }
 }
@@ -189,7 +189,7 @@
     .commoncd-left .commoncd-left-details span {
         display: flex;
         flex-direction: row;
-        gap: 15px;
+        gap: 5px;
         font-size: 15px;
         color: #333333;
 
@@ -225,14 +225,14 @@
     .commoncd-left-button button {
 
 
-        padding: 5px 20px;
-        font-size: 1.2rem;
+        padding: 10px 20px;
+        font-size: 0.9rem;
         margin: 10px;
     }
 
     .commoncd-left-button {
         button {
-            width: 60%;
+            width: 70%;
         }
     }
 }

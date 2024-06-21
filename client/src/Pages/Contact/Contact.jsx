@@ -8,6 +8,7 @@ import rightside from '../../assets/Contactpage/rightside.png'
 import { useState } from 'react'
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import send from '../../assets/Contactpage/send.svg';
 
 const Contact = () => {
     const [formdata, setFormdata] = useState({
@@ -130,7 +131,9 @@ const Contact = () => {
                                 </div>
                                 <div className="submit">
                                     {/* <input type="submit" value="Send Your Message" onC/>  */}
-                                    <button onClick={handleSubmit} type='submit'>Send Your Message</button>
+                                    <button onClick={handleSubmit} type='submit'><span>
+                                        <img src={send}></img>
+                                    </span>Send Your Message</button>
                                 </div>
                             </form>
                         </div>
