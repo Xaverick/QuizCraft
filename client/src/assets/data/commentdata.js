@@ -1,4 +1,4 @@
-import dumy3 from '../Contestimages/dumy3.png';
+// import dumy3 from '../Contestimages/dumy3.png';
 import boy from '../Contestimages/Boy.png'
 import girl from '../Contestimages/Girl.png'
 const commentdata = [

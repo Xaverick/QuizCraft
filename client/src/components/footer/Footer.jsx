@@ -60,6 +60,9 @@ const Footer = () => {
           </div>
         </div>
       </div>
+      <div className="copyright">
+        <p>Copyright ©️ 2024 PHICSIT InfoTech Pvt. Ltd. All rights reserved.</p>
+      </div>
     </div>
   );
 };
