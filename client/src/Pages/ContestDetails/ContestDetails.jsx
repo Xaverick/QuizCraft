@@ -13,6 +13,7 @@ import Stack from '@mui/material/Stack';
 import PaginationItem from '@mui/material/PaginationItem';
 import { IoIosArrowDown } from "react-icons/io";
 
+
 const ContestDetails = () => {
     const [activeSection, setActiveSection] = useState('details');
     const [quizData, setQuizData] = useState({});

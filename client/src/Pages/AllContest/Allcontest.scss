@@ -9,9 +9,8 @@
       font-weight: 300;
     }
 
-
     .Allcontestcontentheading .heading {
-      font-weight:600;
+      font-weight: 600;
       margin: 0 0 1.3rem 0;
     }
 
@@ -19,15 +18,12 @@
       display: flex;
       align-items: center;
       justify-content: center;
-    }
 
-    .Allcontestcontentpharagraph {
       p {
         font-size: 24px;
         color: #4c4c4c;
         text-align: center;
         margin: 0px 40px;
-        text-align: center;
         width: 75%;
       }
     }
@@ -56,7 +52,7 @@
       align-items: center;
       gap: 10px;
       position: relative;
-      border: 0.5px solid #B3B3B3;
+      border: 0.5px solid #b3b3b3;
       box-shadow: black;
     }
 
@@ -69,20 +65,26 @@
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       z-index: 1000;
       width: 200px;
+      padding: 10px;
     }
 
     .category-dropdown {
-      left: 0; // Adjust as necessary
+      left: 0;
     }
 
     .status-dropdown {
-      left: 210px; // Adjust as necessary to position next to category button
+      left: 210px;
     }
 
-    .category-dropdown div,
-    .status-dropdown div {
-      padding: 10px;
+    .category-dropdown label,
+    .status-dropdown label {
+      display: block;
+      margin-bottom: 10px;
       cursor: pointer;
+
+      input {
+        margin-right: 10px;
+      }
 
       &:hover {
         background-color: #f0f0f0;
@@ -95,7 +97,7 @@
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 15px;
   }
 
   .pagination {
@@ -107,41 +109,64 @@
 
   @media screen and (max-width: 780px) {
     .Allcontestbuttons {
-      flex-direction: row;
+      // flex-direction: column;
       align-items: center;
-      margin: 12px 0px;
+      display: flex;
       justify-content: center;
+      align-items: center;
+
+      button {
+        // width: 100%;
+        text-align: left;
+        padding: 1rem 2rem;
+      }
+
+      .category-dropdown,
+      .status-dropdown {
+        left: 10px;
+        width: 80%;
+      }
     }
 
-    .category-dropdown,
-    .status-dropdown {
-      left: 0; // Adjust as necessary for mobile view
+    .Allcontestcontentheading .heading {
+      font-size: 1.6rem;
     }
-  }
 
-  @media screen and (max-width: 1180px) {
-    .Allcontestbuttons {
-      max-width: 800px;
-      margin: 21px;
+    .Allcontestcontent .Allcontestcontentpharagraph p {
+      font-size: 1.2rem;
+      margin: 0 20px;
+      width: 90%;
     }
   }
 
   @media screen and (max-width: 600px) {
     .Allcontestcontentheading .heading {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
     }
 
     .Allcontestcontent .Allcontestcontentpharagraph {
       p {
-        font-size: 0.8rem;
+        font-size: 1rem;
       }
+    }
+
+
+    .Allcontestbuttons button {
+      font-size: 18px;
+      padding: 5px 20px;
     }
   }
 
-  @media screen and (min-width: 600px) and (max-width:850px){
-    .Allcontestcontentheading  h1 {
-        font-size: 3rem;
-        padding-top: 3rem;
+  @media screen and (min-width: 600px) and (max-width: 850px) {
+    .Allcontestcontentheading .heading {
+      font-size: 2rem;
+      padding-top: 3rem;
+    }
+
+    .Allcontestcontent .Allcontestcontentpharagraph {
+      p {
+        font-size: 1.4rem;
       }
+    }
   }
 }

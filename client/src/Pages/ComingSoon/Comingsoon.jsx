@@ -12,7 +12,7 @@ const Comingsoon = () => {
                 <Sidebar />
                 <div className="content">
                     {/* Add your main content here */}
-                     <h1>Leaderboard</h1>
+                    <h1>Leaderboard</h1>
                 </div>
             </div>
         </main>

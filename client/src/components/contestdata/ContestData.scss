@@ -1,7 +1,7 @@
 .contestdatabox {
     display: flex;
     flex-direction: column;
-    border: 1px solid black;
+    border: 0.5px solid #B3B3B3;
     border-radius: 2rem;
     width: 24.14rem;
     // margin: 20px;
@@ -87,16 +87,9 @@
                 justify-content: center;
                 align-items: center;
                 margin: 20px;
+                gap: 0.5rem;
+                color: #6E6E73;
 
-                span {
-                    border: 1px solid white;
-                    border-radius: 50%;
-                    padding: 4px 6px;
-                    background-color: #D1D1D1;
-                    color: #6E6E73;
-
-
-                }
             }
         }
     }
@@ -118,7 +111,7 @@
         padding: 8px 32px;
         border: none;
         margin: 20px 20px;
-        width: 85%;
+        width: 90%;
 
         &:hover {
             background: linear-gradient(to right, #11222E 0%, #086A6A 54%, #086A6A 100%);

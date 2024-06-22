@@ -36,7 +36,7 @@ const ContestData = ({ contest }) => {
                         {/* <p><img src={tr}></img><span>{contest.totalRegistered}</span>joined</p> */}
                         <div>
                             <img src={tr}></img>
-                            <span>+{contest.totalRegistered}</span>joined
+                            +{contest.totalRegistered} Joined
                         </div>
                     </div>
                 </div>
