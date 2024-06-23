@@ -1,11 +1,15 @@
-// Import the required modules
 const express = require("express")
 const router = express.Router()
-
-const { capturePayment, verifyPayment,  } = require("../controllers/Payments")
+const paymentController = require("../controllers/Payments")
 const { isClient } = require("../middleware")
-router.post("/capturePayment", isClient, capturePayment)
-router.post("/verifyPayment",isClient, verifyPayment)
+
+
+router.route("/capturePayment")
+    .post(isClient, paymentController.createOrder)
+
+    
+router.route("/verifyPayment")
+    .post(isClient, paymentController.verify)
 
 
 module.exports = router
