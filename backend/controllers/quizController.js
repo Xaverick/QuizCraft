@@ -53,6 +53,17 @@ module.exports.registerQuiz = async (req, res) => {
     user.registeredQuizzes.push(quizId);
     await user.save();
     quiz.totalRegistered++;
+    // saves the recent joinee profile
+    const data = user.populate('profile');
+    if(data.profilePhoto){
+      if(quiz.User_profile_Image.length()<3){   
+        quiz.User_profile_Image.push(data.profilePhoto);
+      }
+      else if(quiz.User_profile_Image.length()==3){
+        quiz.User_profile_Image.shift();
+        quiz.User_profile_Image.push(data.profilePhoto);
+      }
+    }
     await quiz.save();
     
     res.status(200).json('Quiz registered');
