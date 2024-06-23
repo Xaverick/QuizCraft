@@ -22,7 +22,7 @@ const Login = () => {
 
   const googleAuth = () => {
 
-    const link = import.meta.env.DEV ? import.meta.env.VITE_LOCALHOST : import.meta.env.VITE_PRODUCTION
+    const link = import.meta.env.DEV ? import.meta.env.VITE_LOCALHOST : import.meta.env.VITE_SERVER_URL
 
     window.open(
       `${link}/auth/google/callback`,
@@ -162,17 +162,18 @@ const Login = () => {
                 <label htmlFor="rememberMe">Remember Me</label>
               </div> */}
             </div>
-            <button className="cta-btn" type="submit">Login</button>
-            <p className="or"><span></span></p>
-            <div className="social-login">
-              <button className="google-btn" onClick={googleAuth}>
-                <img alt="Google" src={google} />
-                <p className="btn-text">Login with Google</p>
-              </button>
-            </div>
-            <Link to='/forgotpassword' className="forget-pass">Forgot password?</Link>
-            <p className="subtitle">Don't have an account? <Link to='/signup'>Sign Up </Link></p>
+
           </form>
+          <button className="cta-btn" type="submit">Login</button>
+          <p className="or"><span></span></p>
+          <div className="social-login">
+            <button className="google-btn" onClick={googleAuth}>
+              <img alt="Google" src={google} />
+              <p className="btn-text">Login with Google</p>
+            </button>
+          </div>
+          <Link to='/forgotpassword' className="forget-pass">Forgot password?</Link>
+          <p className="subtitle">Don't have an account? <Link to='/signup'>Sign Up </Link></p>
         </div>
         <div className='loginformphoto'>
           <div className='loginformphotopht'>
