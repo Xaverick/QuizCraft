@@ -52,6 +52,8 @@ const ContestDetails = () => {
         const fetchLeaderboardData = async () => {
             try {
                 const response = await axios.get(`/quiz/getLeaderboard/${id}`);
+                // SORTING THE respons.data.ranks
+                response.data.ranks.sort((a, b) => b.score - a.score);
                 if (response.status === 200) {
                     setLeaderboardData(response.data.ranks);
                 }
