@@ -75,14 +75,8 @@ const Login = () => {
         console.log('Error during login:', error);
       }
     }
-    if (localStorage.getItem('isLoggedIn') === 'true') {
-      Navigate('/');
-    }
-    else {
-      getDetails();
-    }
-
-
+    
+    getDetails();
   })
 
   const handleSubmit = async (event) => {
@@ -129,7 +123,7 @@ const Login = () => {
     <div className='lginformcontainer'>
       <div className='loginfrom'>
         <div className="card">
-          <form onSubmit={handleSubmit}>
+          <form>
             <p className="title">Login</p>
             <p className='titlesubheading'>Welcome back! Please log in to access your account.</p>
             <div className="email-login">
@@ -162,9 +156,9 @@ const Login = () => {
                 <label htmlFor="rememberMe">Remember Me</label>
               </div> */}
             </div>
+            <button className="cta-btn" type="submit" onClick={handleSubmit}>Login</button>
 
           </form>
-          <button className="cta-btn" type="submit">Login</button>
           <p className="or"><span></span></p>
           <div className="social-login">
             <button className="google-btn" onClick={googleAuth}>

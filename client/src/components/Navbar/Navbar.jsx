@@ -25,6 +25,14 @@ const Navbar = () => {
     setShowProfileMenu(false); // Close profile menu on link click
   };
 
+  useEffect(() => {
+    if (!isLoggedIn) {
+      localStorage.removeItem("user");
+      localStorage.removeItem("expiresIn");
+      dispatch(logout());
+    }
+  }, [isLoggedIn]);
+
   const handleLogout = async () => {
 
     try {
