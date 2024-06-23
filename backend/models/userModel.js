@@ -19,6 +19,12 @@ const userSchema = new schema({
     //     min: 6,
 
     // },
+    googleId: {
+        type: String,
+    },
+    picture:{
+        type: String,
+    },
 
     email: {
         type: String,
@@ -31,7 +37,6 @@ const userSchema = new schema({
 
     password: {
         type: String,
-        required: true,
         min: 6,
         max: 1024,
     },

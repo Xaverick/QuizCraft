@@ -1,5 +1,4 @@
-
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { login } from '../../../store/slices/authSlice'
@@ -19,6 +18,19 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const Navigate = useNavigate();
 
+
+
+  const googleAuth = () => {
+    
+    const link = import.meta.env.DEV ? import.meta.env.VITE_LOCALHOST : import.meta.env.VITE_PRODUCTION
+    
+    window.open(
+			`${link}/auth/google/callback`,
+			"_self"
+		);
+  };
+
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     if (name === 'email') {
@@ -28,6 +40,51 @@ const Login = () => {
     }
   };
 
+
+  useEffect(() => {
+    const getDetails = async () => {
+      try {
+        const response = await axios.get('/auth/getDetails', 
+          {
+            withCredentials: true
+          }
+        );
+    
+        const { data, status } = response;
+        console.log(data);
+    
+        if (status === 200) {
+          const { payload, expiresIn } = data;
+          localStorage.setItem('user', JSON.stringify(payload));
+          localStorage.setItem('expiresIn', expiresIn);
+          dispatch(login());
+          toast.success('Login successful', {
+            position: "top-left",
+            autoClose: 2000,
+            hideProgressBar: true,
+          });
+          setEmail('');
+          setPassword('');
+          setTimeout(() => {
+            Navigate('/');
+          }, 1000);
+        } else {
+          throw new Error('Login failed');
+        }
+      } catch (error) {
+        console.log('Error during login:', error);
+      }
+    }
+    if(localStorage.getItem('isLoggedIn') === 'true') {
+      Navigate('/dashboard');
+    }
+    else{
+      getDetails();
+    }
+
+    
+  })
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -36,7 +93,7 @@ const Login = () => {
       if (response.status === 200) {
         const { payload, expiresIn } = response.data;
         localStorage.setItem('user', JSON.stringify(payload));
-        localStorage.setItem('expiresIn', new Date(Date.now() + expiresIn));
+        localStorage.setItem('expiresIn', expiresIn);
         dispatch(login());
         toast.success('Login successfull', {
           position: "top-left",
@@ -61,43 +118,6 @@ const Login = () => {
       })
     }
 
-
-
-    // const response = await fetch('http://localhost:4000/user/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({ email, password }),
-    //   credentials: 'include'
-    // })
-
-    // if (response) {
-    //   const data = await response.json();
-    //   const { payload, expiresIn } = data; // Assuming the response contains token and expiration
-    //   localStorage.setItem('user', JSON.stringify(payload));
-    //   localStorage.setItem('expiresIn', Date.now() + expiresIn);
-    //   dispatch(login());
-    //   toast.success('Login successfull', {
-    //     position: "top-left",
-    //     autoClose: 2000,
-    //     hideProgressBar: true,
-    //   })
-    //   setEmail('');
-    //   setPassword('');
-    //   setTimeout(() => {
-    //     Navigate('/');
-    //   }, 1000);
-
-    // }
-
-    // else {
-    //   toast.error('Login failed', {
-    //     position: "top-left",
-    //     autoClose: 2000,
-    //     hideProgressBar: true,
-    //   })
-    // }
   };
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -145,7 +165,7 @@ const Login = () => {
             <button className="cta-btn" type="submit">Login</button>
             <p className="or"><span></span></p>
             <div className="social-login">
-              <button className="google-btn">
+              <button className="google-btn" onClick={googleAuth}>
                 <img alt="Google" src={google} />
                 <p className="btn-text">Login with Google</p>
               </button>
