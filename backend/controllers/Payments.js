@@ -144,8 +144,6 @@ module.exports.verify = async (req, res) => {
       <p>Thank you for your purchase!</p>`);
       
       // Remove local invoice file after sending email
-      if(sending)
-        fs.unlinkSync(invoicePath);
 
       res.status(200).send('Payment verified successfully.');
   } else {
