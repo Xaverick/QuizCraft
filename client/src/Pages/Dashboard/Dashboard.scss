@@ -1,0 +1,195 @@
+
+.top-heading{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    p{
+        cursor: pointer;
+    }
+}
+
+.upper{
+   width: 100%;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+
+}
+
+
+.upper-inner{
+    width: 60%;
+    margin: auto;
+
+    .img-box{
+        height: 9rem;
+        width: 9rem;
+        border-radius: 50%;
+        border: 1px solid #FFB800
+    }
+
+    .image-username{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    
+    }
+
+
+    .bio{
+        text-align: center;
+    }
+
+    .platforms{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+
+
+        a{
+            padding: 5px;
+            border: 1px solid gray;
+            border-radius: 10px;
+            // height: 1rem;
+            // width: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img{
+                height: 2rem;
+                width: 2rem;
+            }
+        }
+
+    }
+}
+
+.detail-box{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.detail-box .profile-title, 
+.detail-box .previous-session {
+  padding: 10px;
+  border: 1px solid gray;
+  background: linear-gradient(90deg, #d2af59 0%, #76411b 100%);
+  border-radius: 999px;
+  font-size: 12px;
+  color: white;
+}
+
+.skills {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px; /* Adds space between the grid items */
+    justify-content: center; /* Center items in the grid */
+    grid-auto-flow: dense; /* Fill rows with items in the order they appear */
+  }
+  
+  .skill {
+    padding: 5px 5px;
+    border: 1px solid gray;
+    border-radius: 999px;
+    text-align: center; /* Centers text within each skill item */
+    font-size: 12px;
+    text-wrap: nowrap;
+  }
+  
+
+
+  .badges{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: space-evenly;
+
+    img{
+        height: 9.8rem;
+        width: 9.8rem;
+    }
+
+    p{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+  }
+
+
+
+  .refferal {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem 0;
+
+    p{
+        font-size: 14px;
+    }
+  
+    .copy-referral {
+      display: flex;
+      width: 50%;
+      height: 4rem;
+      flex-direction: row;
+      border: 1px solid gray;
+      border-radius: 1rem;
+    }
+  
+    .copy-referral input {
+      width: 80%;
+      height: 100%;
+      margin-top: 0;
+      margin-bottom: 0;
+      border: none; /* Remove border */
+      outline: none; /* Remove outline */
+      border-radius: 1rem 0 0 1rem; /* Adjust border radius to fit within the container */
+      padding: 0 10px; /* Add padding for better appearance */
+    }
+  
+    .copy-referral button {
+      width: 20%;
+      height: 100%; /* Ensure the button height matches the input height */
+      background-color: green;
+      color: white;
+      border: none; /* Remove border */
+      border-radius: 0 1rem 1rem 0; /* Adjust border radius to fit within the container */
+      cursor: pointer; /* Add pointer cursor */
+    }
+
+    .share-now{
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .platforms{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+
+        a{
+            padding: 5px;
+            border: 1px solid gray;
+            border-radius: 10px;
+            height: 1rem;
+            width: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+  }
+  
