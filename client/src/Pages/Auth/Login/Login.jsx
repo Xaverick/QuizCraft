@@ -21,13 +21,13 @@ const Login = () => {
 
 
   const googleAuth = () => {
-    
+
     const link = import.meta.env.DEV ? import.meta.env.VITE_LOCALHOST : import.meta.env.VITE_PRODUCTION
-    
+
     window.open(
-			`${link}/auth/google/callback`,
-			"_self"
-		);
+      `${link}/auth/google/callback`,
+      "_self"
+    );
   };
 
 
@@ -44,15 +44,15 @@ const Login = () => {
   useEffect(() => {
     const getDetails = async () => {
       try {
-        const response = await axios.get('/auth/getDetails', 
+        const response = await axios.get('/auth/getDetails',
           {
             withCredentials: true
           }
         );
-    
+
         const { data, status } = response;
         console.log(data);
-    
+
         if (status === 200) {
           const { payload, expiresIn } = data;
           localStorage.setItem('user', JSON.stringify(payload));
@@ -75,14 +75,14 @@ const Login = () => {
         console.log('Error during login:', error);
       }
     }
-    if(localStorage.getItem('isLoggedIn') === 'true') {
-      Navigate('/dashboard');
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+      Navigate('/');
     }
-    else{
+    else {
       getDetails();
     }
 
-    
+
   })
 
   const handleSubmit = async (event) => {
