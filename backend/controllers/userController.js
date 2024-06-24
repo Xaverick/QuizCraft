@@ -94,6 +94,9 @@ module.exports.logout = (req, res) => {
 module.exports.profile = async (req, res) => {
     console.log('Inside profile');
     const user = await User.findById(req.userId);
+    if (!user) {
+        throw new ExpressError('user not found', 400);
+    }
     const userDetails = await user.populate('profile');
     console.log(userDetails.username);
     const userFullDetails = {
@@ -106,10 +109,6 @@ module.exports.profile = async (req, res) => {
         //platformLink: userDetails.profile.platformLinks,
     }
     console.log(userFullDetails);
-    if (!user) {
-        throw new ExpressError('user not found', 400);
-    }
-
     res.status(200).json(userFullDetails);
 }
 
