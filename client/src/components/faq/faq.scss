@@ -19,6 +19,13 @@
             flex-direction: row;
             justify-content: space-between;
 
+            p {
+                margin: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
             button {
                 background: none;
                 border: none;

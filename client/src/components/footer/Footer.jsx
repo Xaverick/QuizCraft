@@ -15,9 +15,9 @@ const Footer = () => {
           </div>
           <div className="content1content">
             <p>
-              Geek Clash platform lets you complete globally across a variety of topics.
-              <br />
-              Battle it out, climb the leaderboards, and connect with a vibrant community of fellow geeks.
+              Geek Clash platform lets you complete globally across a variety of
+              topics. Battle it out, climb the leaderboards, and connect with a
+              vibrant community of fellow geeks.
             </p>
           </div>
           <div className="contnet1links">

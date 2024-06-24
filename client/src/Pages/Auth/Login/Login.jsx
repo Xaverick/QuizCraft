@@ -226,16 +226,16 @@ const Login = () => {
       <div className='loginfrom'>
         <div className="card">
           <form onSubmit={handleSubmit}>
-            <p className="title">Login</p>
+            <h1 className="title">Login</h1>
             <p className='titlesubheading'>Welcome back! Please log in to access your account.</p>
             <div className="email-login">
               <label htmlFor="email"><b></b></label>
-              <input type="email" placeholder="Enter Your Email" name="email" value={email} onChange={handleChange} required />
+              <input type="email" placeholder="Enter your email address" name="email" value={email} onChange={handleChange} required />
               <label htmlFor="password"><b></b></label>
               <div className="password-input-container">
                 <input
                   type={passwordVisible ? "text" : "password"}
-                  placeholder="Enter Your Password"
+                  placeholder="Enter your password"
                   name="password"
                   value={password}
                   onChange={handleChange}

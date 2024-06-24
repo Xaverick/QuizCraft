@@ -214,18 +214,18 @@ const Signup = () => {
       <div className='loginfrom'>
         <div className="card">
           <form onSubmit={handleSubmit}>
-            <p className="title">Sign Up</p>
+            <h1 className="title">Sign Up</h1>
             <p className='titlesubheading'>Create an account to unlock exclusive features.</p>
             <div className="email-login">
               <label htmlFor="text"><b></b></label>
-              <input type="text" placeholder="Enter Your Name" name="name" value={formData.name} onChange={handleChange} required />
+              <input type="text" placeholder="Enter your full name" name="name" value={formData.name} onChange={handleChange} required />
               <label htmlFor="email"><b></b></label>
-              <input type="email" placeholder="Enter Your Email" name="email" value={formData.email} onChange={handleChange} required />
+              <input type="email" placeholder="Enter your email address" name="email" value={formData.email} onChange={handleChange} required />
               <label htmlFor="psw"><b></b></label>
               <div className="password-input-container">
                 <input
                   type={passwordVisible ? "text" : "password"}
-                  placeholder="Enter Your Password"
+                  placeholder="Create a password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
