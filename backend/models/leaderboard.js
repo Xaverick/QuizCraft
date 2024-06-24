@@ -55,8 +55,9 @@ const leaderboardSchema = new schema({
 
 leaderboardSchema.methods.addUser = function(userId, score, name, country) {
     // Check if the userId already exists in the ranks array
-    const existingUserIndex = this.ranks.findIndex(rank => String(rank.userId) === String(userId));
-    if (existingUserIndex !== -1) {
+    const existingUser = this.ranks.find(ranks => ranks.userId.equals(userId));
+    if (existingUser) {
+        const existingUserIndex = this.ranks.indexOf(existingUser);
         // If the userId already exists, update the corresponding entry
         this.ranks[existingUserIndex].score = score;
         this.ranks[existingUserIndex].name = name;

@@ -9,6 +9,8 @@ const ejsMate = require('ejs-mate');
 const mongoose = require('mongoose');
 const dbURL = process.env.DB_URL;
 const bodyParser = require('body-parser');
+const passport = require('passport');
+
 
 mongoose.connect(dbURL);
 const db = mongoose.connection;
@@ -29,6 +31,8 @@ app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:5174', 'https
 app.use(express.json());
 
 
+const authRoutes = require("./routes/authRoutes");
+app.use('/auth', authRoutes);
 
 const user = require('./routes/userRoutes');
 app.use('/user', user);

@@ -3,26 +3,50 @@ const jwt = require('jsonwebtoken');
 const Admin = require('./models/adminModel');
 
 
-module.exports.isClient = async (req, res, next) => {
-    const token = req.signedCookies.userjwt;
-    if (!token) {
-        return res.status(400).json('Please log in first');
-    }
+// module.exports.isClient = async (req, res, next) => {
+//     const token = req.signedCookies.userjwt;
+//     if (!token) {
+//         return res.status(400).json('Please log in first');
+//     }
 
+//     try {
+//         const decoded = jwt.verify(token, process.env.USER_SECRET);
+//         if(!decoded) {
+//             return res.status(400).json('Invalid token');
+//         }
+//         const user = await User.findById(decoded.userId);
+//         if (!user) {
+//             return res.status(400).json('Invalid token');
+//         }
+//         req.userId = user._id;
+//         next();
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json('Internal server error');
+//     }
+// }
+
+module.exports.isClient = async (req, res, next) => {
+    const cookie = req.signedCookies.userjwt;
+
+    if (!cookie) {
+        return res.status(401).json("Not Logged In");
+    }
     try {
+        const token = cookie.token;
+        const expiresIn = cookie.expiresIn;
+        // console.log(token, expiresIn);
         const decoded = jwt.verify(token, process.env.USER_SECRET);
-        if(!decoded) {
-            return res.status(400).json('Invalid token');
-        }
-        const user = await User.findById(decoded.userId);
+        const user = await User.findById(decoded.id);
         if (!user) {
-            return res.status(400).json('Invalid token');
+            throw new Error("Unauthorized");
         }
-        req.userId = user._id;
+        req.userId = user.id;
+        req.expIn = expiresIn;
         next();
-    } catch (error) {
-        console.error(error);
-        res.status(500).json('Internal server error');
+    }
+    catch (e) {
+        return res.status(401).json("Unauthorized");
     }
 }
 

@@ -23,11 +23,18 @@ module.exports.login = async (req, res) => {
         if (!bcrypt.compareSync(password, user.password)) {
             throw new ExpressError('invalid credentials password', 400);
         }
-        const payload = { userId: user._id, email: user.email, name: user.name };
-        const token = jwt.sign(payload, `${process.env.USER_SECRET}`, { expiresIn: '3h' });
-    
-        res.cookie('userjwt', token, { signed: true, httpOnly: true, sameSite: 'none', maxAge: 3 * 1000 * 60 * 60, secure: true })
-        res.status(200).json({ payload, expiresIn: 3 * 1000 * 60 * 60 });
+        const token = jwt.sign({ id: user._id }, process.env.USER_SECRET, { expiresIn: '3h'});
+        res.cookie('userjwt', {token : token, expiresIn: new Date(Date.now() + 3 * 60 * 60 * 1000)}, { signed: true, httpOnly: true, sameSite: 'none', maxAge: 1000 * 60 * 60 * 3, secure: true })
+        // res.cookie('userjwt', {token : token, expiresIn: new Date(Date.now() + 3 * 60 * 60 * 1000)}, { signed: true, maxAge: 1000 * 60 * 60 * 3, httpOnly: true});    
+        const payload = {
+            id: user._id,
+            name: user.name,
+            email: user.email,
+            picture: user.picture,
+            googleId: user.googleId,
+            profile: user.profile,            
+        }
+        res.status(200).json({ payload, expiresIn: new Date(Date.now() + 3 * 60 * 60 * 1000)});
     }
 }
 
@@ -71,7 +78,14 @@ module.exports.register = async (req, res) => {
 }
 
 module.exports.logout = (req, res) => {
-    res.clearCookie('userjwt').json('logout');
+    console.log("In Logout");
+    res.clearCookie('userjwt', {
+        signed: true,
+        httpOnly: true,
+        sameSite: 'none',
+        secure: true
+    });
+    res.status(200).json('logout');
 };
 
 

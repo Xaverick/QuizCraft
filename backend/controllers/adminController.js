@@ -161,7 +161,6 @@ module.exports.getQuestions = async (req, res) => {
 
 module.exports.getQuestionByQuestionId = async (req, res) => {
     const questionId = req.params.questionId;
-    console.log(questionId);
     const question=await Question.findById(questionId);
     if(!question){
         throw new ExpressError('question not found', 400);
@@ -311,9 +310,8 @@ module.exports.compileResults = async (req, res) => {
         leaderboard.addUser(submission.userId._id, submission.score, submission.userId.name, "India");
         submission.save();
     })
-    addRating(leaderboard);
+    // addRating(leaderboard);
     await leaderboard.save();
-    console.log(leaderboard);
     res.status(200).json('results compiled');
 }
 

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 const Quiz = require('./quizzes');
 const User = require('./userModel');
-
+const Question = require('./questions');
 
 const submissionSchema = new schema({
 
@@ -17,15 +17,16 @@ const submissionSchema = new schema({
     },
 
     answers: [{
-        questionId: {
-            type: schema.Types.ObjectId,
-            unique: true,
-            ref: 'Question',
-        },
+
         response: {
             type: String,
         },
 
+        questionId: {
+            type: schema.Types.ObjectId,
+            ref: 'Question',
+        },
+        
         correct: {
             type: Boolean,
             default: false,
