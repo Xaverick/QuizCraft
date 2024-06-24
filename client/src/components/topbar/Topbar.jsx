@@ -21,10 +21,6 @@ const Topbar = () => {
         <div className="user-icons">
           <div className="icon-wrapper">
             <div className="icon-badge" />
-            <img src={Message} alt="Message" />
-          </div>
-          <div className="icon-wrapper">
-            <div className="icon-badge" />
             <img src={Notification} alt="Notification" />
           </div>
         </div>
