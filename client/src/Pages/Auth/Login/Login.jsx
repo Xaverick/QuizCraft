@@ -66,7 +66,7 @@ const Login = () => {
           setEmail('');
           setPassword('');
           setTimeout(() => {
-            Navigate('/');
+            Navigate('/contest');
           }, 1000);
         } else {
           throw new Error('Login failed');

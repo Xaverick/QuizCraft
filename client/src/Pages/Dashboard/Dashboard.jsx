@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect ,useState } from "react";
 import Topbar from "../../components/topbar/Topbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "./Dashboard.scss";
@@ -16,56 +16,76 @@ import twitter from "../../assets/Dashboard/twitter.svg";
 import facebook from "../../assets/Dashboard/facebook.svg";
 import instagram from "../../assets/Dashboard/instagram.svg";
 import link from "../../assets/Dashboard/link.svg";
+import axios from "axios";
 
-const dashboardData = {
-  name: "Ritvik Khanna",
-  username: "ritvik_XD",
-  title: "Champion #22",
-  professions: [
-    "Software Developer",
-    "Game Developer",
-    "iOS Developer",
-    "App Developer",
-    "MLops Engineer",
-    "DevOps Engineer",
-  ],
-  text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.",
-  referralLink: "https://geekcIas.com/signup?ref=ritvik_xd)",
-  platformLink: [
-    {
-      img: linkedin,
-      name: "LinkedIn",
-      link: "https://www.linkedin.com/in/ritvikkhanna/",
-    },
-    {
-      img: facebook,
-      name: "Facebook",
-      link: "https://facebook.com/ritvik_xd",
-    },
-    {
-      img: twitter,
-      name: "Twitter",
-      link: "https://twitter.com/ritvik_xd",
-    },
-    {
-      img: whatsapp,
-      name: "whatsapp",
-      link: "https://whatsapp.com/ritvik_xd",
-    },
-    {
-      img: instagram,
-      name: "Twitter",
-      link: "https://instagram.com/ritvik_xd",
-    },
-    {
-      img: link,
-      name: "Link",
-      link: "https://ritvik_xd.com",
-    },
-  ],
-};
 
 const Dashboard = () => {
+
+  const [dashboardData , setdashboardData] = useState([]);  
+  const [badge, setBadge] = useState([]);
+  //fetching the data from the backend
+  useEffect(() => {
+    const getdetails = async () =>{
+      const response = await axios.get('http://localhost:4000/user/profile')
+      setdashboardData(response.data);
+    }
+    getdetails();
+  }, []);
+  //critera to decide the badges and then alot the badges to the user
+  useEffect(() => {
+    let newBadge = [];
+    if(dashboardData.rating >=0){
+      newBadge.push([{badgeimg:Beginner,badgeName:"Beginner"}]);
+    }
+    if(dashboardData.rating >=200){
+        newBadge.push([{badgeimg:Hustler,badgeName:"Hustler"}]);
+    }
+    if(dashboardData.rating >= 400){
+        newBadge.push([{badgeimg:Champion,badgeName:"Champion"}]);
+    }
+    if(dashboardData.rating >= 700){
+        newBadge.push([{badgeimg:Scholar,badgeName:"Scholar"}]);
+    }
+    if(dashboardData.rating >= 1200){
+        newBadge.push([{badgeimg:Pro,badgeName:"Pro"}]);
+    }
+      setBadge(newBadge);
+      dashboardData.title = newBadge[newBadge.length-1][0].badgeName + " #" + dashboardData.rating; 
+  }, [dashboardData]);
+   
+  //the data is saved on temporary basis in the dashboardData object otherwise it will be fetched from the Db
+  dashboardData.platformLink = [
+        {
+          img: linkedin,
+          name: "LinkedIn",
+          link: "https://www.linkedin.com/in/ritvikkhanna/",
+        },
+        {
+          img: facebook,
+          name: "Facebook",
+          link: "https://facebook.com/ritvik_xd",
+        },
+        {
+          img: twitter,
+          name: "Twitter",
+          link: "https://twitter.com/ritvik_xd",
+        },
+        {
+          img: whatsapp,
+          name: "whatsapp",
+          link: "https://whatsapp.com/ritvik_xd",
+        },
+        {
+          img: instagram,
+          name: "Twitter",
+          link: "https://instagram.com/ritvik_xd",
+        },
+        {
+          img: link,
+          name: "Link",
+          link: "https://ritvik_xd.com",
+        }]
+
   const handleCopyClick = () => {
     navigator.clipboard.writeText(dashboardData.referralLink).then(
       () => {
@@ -102,7 +122,8 @@ const Dashboard = () => {
               <p className="bio">{dashboardData.text}</p>
 
               <div className="skills">
-                {dashboardData.professions.map((skill, index) => (
+                {/* if professions are not added then will be blank */}
+                {dashboardData.professions && dashboardData.professions.map((skill, index) => (
                   <Skills skill={skill} key={index} />
                 ))}
               </div>
@@ -121,26 +142,13 @@ const Dashboard = () => {
           {/* Badges */}
           <h3>My Badges</h3>
           <div className="badges">
-            <div className="badge">
-              <img src={Beginner} alt="Beginner" />
-              <p>Beginner</p>
-            </div>
-            <div className="badge">
-              <img src={Hustler} alt="Hustler" />
-              <p>Hustler</p>
-            </div>
-            <div className="badge">
-              <img src={Scholar} alt="Scholar" />
-              <p>Scholar</p>
-            </div>
-            <div className="badge">
-              <img src={Pro} alt="Pro" />
-              <p>Pro</p>
-            </div>
-            <div className="badge">
-              <img src={Champion} alt="Champion" />
-              <p>Champion</p>
-            </div>
+           {badge.map((badgeitem,index) => {
+               return ( <div className="badge" key={index}>
+                {/* {console.log(badgeitem[index].badgeName)} */}
+              <img src={badgeitem[0].badgeimg} alt={badgeitem[0].badgeName}/>
+                <p>{badgeitem[0].badgeName}</p>
+              </div>)
+           })}
           </div>
 
           <h3>Spread To World and Earn Reward</h3>
