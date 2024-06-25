@@ -278,7 +278,7 @@ const ContestQuestion = () => {
                         </button>
                         <button
                             className="btn"
-                            onClick={handleClick}
+                            onClick={handleClickAfter}
                             disabled={currentIndex === questions.length - 1}
                             style={{
                                 fontSize: window.innerWidth < 500 ? '0.8rem' : '1.2rem',
