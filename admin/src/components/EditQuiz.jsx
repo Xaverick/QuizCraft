@@ -3,6 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { useSelector } from "react-redux";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
 
 const EditQuiz = ({ selectedQuiz, setEditQuiz }) => {
   const { toast } = useToast();
@@ -106,12 +115,32 @@ const EditQuiz = ({ selectedQuiz, setEditQuiz }) => {
             </div>
             <div className="w-[50%]">
               <label htmlFor="Category" className="text-sm font-semibold">Category</label>
-              <Input
+              {/* <Input
                 type="text"
                 id="category"
                 onChange={(e) => handleInputChange("category", e.target.value)}
                 value={quizData.category}
-              />
+              /> */}
+              <Select value={quizData.category} onValueChange={(value) => handleInputChange("category", value)}>
+                <SelectTrigger className="w-[100%]">
+                  <SelectValue placeholder="Select Category"/>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {["Coding", "Design", "Aptitude", "Development", "AI/ML", "Cybersecurity", "Blockchain", "Web3", "AR/VR", "DevOps"].map((category) => (
+                      <SelectItem key={category} value={category}>  
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+              {/* <select id="category" value={quizData.category} onChange={(e) => handleInputChange("category", e.target.value)} className="w-[100%] border border-gray-300 rounded-md p-2">
+                <option value="" disabled hidden >Select Category</option>
+                {["Coding", "Design", "Aptitude", "Development", "AI/ML", "Cybersecurity", "Blockchain", "Web3", "AR/VR", "DevOps"].map((category) => (
+                  <option key={category} value={category}>{category}</option>
+                ))}
+              </select> */}
             </div>
           </div>
           <label className="text-sm font-semibold">Description</label>

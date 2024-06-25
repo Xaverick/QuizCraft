@@ -6,6 +6,7 @@ const Mailgen = require('mailgen');
 const ExpressError = require('../utils/ExpressError');
 const mailSender = require('../utils/mailSender');
 const Profile = require('../models/profileModel');
+const { registerQuiz } = require('./quizController');
 
 
 module.exports.login = async (req, res) => {
@@ -32,8 +33,10 @@ module.exports.login = async (req, res) => {
             email: user.email,
             picture: user.picture,
             googleId: user.googleId,
-            profile: user.profile,            
+            profile: user.profile,      
+            registeredQuizzes: user.registeredQuizzes      
         }
+        console.log(payload);
         res.status(200).json({ payload, expiresIn: new Date(Date.now() + 3 * 60 * 60 * 1000)});
     }
 }
@@ -50,11 +53,13 @@ module.exports.register = async (req, res) => {
     }
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
-    const user = await User.create({ name, email, password: hash });
+    //Generating  temporary username "also its not unique" username
+    const username = "Geeky"+"@"+name;
+    const user = await User.create({ name,username, email, password: hash });
 
-      // creation of referal code and saving in db
-    const referralCodeString = user._id;
-    const referralCodeUrl = `https://geekclash.in/referral/${referralCodeString}`;
+    // creation of referal code and saving in db
+    //refferal id changed
+    const referralCodeUrl = `https://geekclash.in/signup?=${username}`;
     const sameUser = await User.updateOne(
       { email: user.email },
       {
@@ -90,12 +95,24 @@ module.exports.logout = (req, res) => {
 
 
 module.exports.profile = async (req, res) => {
+    console.log('Inside profile');
     const user = await User.findById(req.userId);
     if (!user) {
         throw new ExpressError('user not found', 400);
     }
-
-    res.status(200).json(user);
+    const userDetails = await user.populate('profile');
+    console.log(userDetails.username);
+    const userFullDetails = {
+        name: user.name,
+        username: userDetails.username,
+        referralLink: userDetails.referralCode,
+        rating:userDetails.profile.rating,
+        // text: (userDetails.profile.bio!=undefined)?userDetails.profile.bio: '',
+        //professions: userDetails.profile.professions,
+        //platformLink: userDetails.profile.platformLinks,
+    }
+    console.log(userFullDetails);
+    res.status(200).json(userFullDetails);
 }
 
 
