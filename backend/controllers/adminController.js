@@ -263,28 +263,29 @@ const addRating = async (leaderboard) => {
         if(i==0){
             // rank first: 30 rating alloted
             rating = 30;
-            const userClient = await userModel.findOne({_id : ranksDescending[i].userId._id}).populate('profile');
-            const ratingUpdateOnProfile = await profile.updateOne({_id: userClient.profile._id},{$inc :{rating:rating}});
-        }else if(i==1){
+            const userClient = await userModel.findOne({_id : ranksDescending[i].userId.id}).populate('profile');
+            const ratingUpdateOnProfile = await profile.updateOne({_id: userClient.profile.id},{$inc :{rating:rating}});
+        }
+        else if(i==1){
             // rank second: 25 rating alloted
             rating = 25;
-            const userClient = await userModel.findOne({_id : ranksDescending[i].userId._id}).populate('profile');
-            const ratingUpdateOnProfile = await profile.updateOne({_id: userClient.profile._id},{$inc :{rating:rating}});
+            const userClient = await userModel.findOne({_id : ranksDescending[i].userId.id}).populate('profile');
+            const ratingUpdateOnProfile = await profile.updateOne({_id: userClient.profile.id},{$inc :{rating:rating}});
         }else if(i==2){
             // rank third: 20 rating alloted
             rating = 20;
-            const userClient = await userModel.findOne({_id : ranksDescending[i].userId._id}).populate('profile');
-            const ratingUpdateOnProfile = await profile.updateOne({_id: userClient.profile._id},{$inc :{rating:rating}});
+            const userClient = await userModel.findOne({_id : ranksDescending[i].userId.id}).populate('profile');
+            const ratingUpdateOnProfile = await profile.updateOne({_id: userClient.profile.id},{$inc :{rating:rating}});
         }else if(i>2 && i<10){
             // rank 4 to 10: 15 rating alloted
             rating = 15;
-            const userClient = await userModel.findOne({_id : ranksDescending[i].userId._id}).populate('profile');
-            const ratingUpdateOnProfile = await profile.updateOne({_id: userClient.profile._id},{$inc :{rating:rating}});
+            const userClient = await userModel.findOne({_id : ranksDescending[i].userId.id}).populate('profile');
+            const ratingUpdateOnProfile = await profile.updateOne({_id: userClient.profile.id},{$inc :{rating:rating}});
         }else {
             // rank rest of participants: 10 rating alloted
             rating = 10;
-            const userClient = await userModel.findOne({_id : ranksDescending[i].userId._id}).populate('profile');
-            const ratingUpdateOnProfile = await profile.updateOne({_id: userClient.profile._id},{$inc :{rating:rating}});
+            const userClient = await userModel.findOne({_id : ranksDescending[i].userId.id}).populate('profile');
+            const ratingUpdateOnProfile = await profile.updateOne({_id: userClient.profile.id},{$inc :{rating:rating}});
         }
     }
 }
@@ -310,7 +311,7 @@ module.exports.compileResults = async (req, res) => {
         leaderboard.addUser(submission.userId._id, submission.score, submission.userId.name, "India");
         submission.save();
     })
-    // addRating(leaderboard);
+    addRating(leaderboard);
     await leaderboard.save();
     res.status(200).json('results compiled');
 }
