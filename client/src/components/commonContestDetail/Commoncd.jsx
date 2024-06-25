@@ -14,11 +14,10 @@ import { toast } from 'react-toastify';
 import tr from '../../assets/Contestimages/tr.png'
 Modal.setAppElement('#root');
 
-const Commoncd = ({ data }) => {
+const Commoncd = ({ data, isRegistered}) => {
     const [timeRemaining, setTimeRemaining] = useState('');
     // const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const [isStartModalOpen, setIsStartModalOpen] = useState(false);
-    // const [isRegistered, setIsRegistered] = useState(false);
 
     const navigate = useNavigate();
 
@@ -177,7 +176,7 @@ const Commoncd = ({ data }) => {
                             Start Contest
                         </button>
                     )}
-                    {Date.now() < new Date(data.startTime) && <button onClick={handleRegister} >Register Now</button>}
+                    {Date.now() < new Date(data.startTime) && <button onClick={handleRegister} {...(isRegistered ? { disabled: true } : {})} > {isRegistered ? 'Already Registered !' : 'Register Now'} </button>}
 
                 </div>
             </div>

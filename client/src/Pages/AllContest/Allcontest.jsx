@@ -23,13 +23,33 @@ const Allcont = () => {
 
   useEffect(() => {
     const getQuizzes = async () => {
-      const response = await axios.get("/quiz/getAllQuizzes");
+      try {
+        const response = await axios.get("/quiz/getAllQuizzes");
+        if (response.status === 200) {
+          const data = response.data;
+          const updatedQuizzes = data.map((quiz) => {
+            const now = Date.now();
+            const startTime = new Date(quiz.startTime).getTime();
+            const endTime = new Date(quiz.endTime).getTime();
 
-      if (response.status === 200) {
-        setQuizzes(response.data);
-        setFilteredQuizzes(response.data);
-      } else {
-        console.log("Failed to fetch quizzes");
+            if (startTime < now && endTime > now) {
+              quiz.status = "Live";
+            } else if (startTime > now) {
+              quiz.status = "Upcoming";
+            } else if (endTime < now) {
+              quiz.status = "Expired";
+            }
+
+            return quiz;
+          });
+
+          setQuizzes(updatedQuizzes);
+          setFilteredQuizzes(updatedQuizzes);
+        } else {
+          console.log("Failed to fetch quizzes");
+        }
+      } catch (error) {
+        console.error("Error fetching quizzes:", error);
       }
     };
 
@@ -116,46 +136,18 @@ const Allcont = () => {
           </button>
           {showCategoryDropdown && (
             <div className="dropdown category-dropdown">
-              <label>
-                <input
-                  type="checkbox"
-                  checked={category === "All"}
-                  onChange={() => handleCategoryChange("All")}
-                />
-                All
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={category === "Java"}
-                  onChange={() => handleCategoryChange("Java")}
-                />
-                Java
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={category === "HTML"}
-                  onChange={() => handleCategoryChange("HTML")}
-                />
-                HTML
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={category === "CSS"}
-                  onChange={() => handleCategoryChange("CSS")}
-                />
-                CSS
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={category === "UI/UX Design"}
-                  onChange={() => handleCategoryChange("UI/UX Design")}
-                />
-                UI/UX Design
-              </label>
+              {["All", "Coding", "Design", "Aptitude", "Development", "AI/ML", "Cybersecurity", "Blockchain", "Web3", "AR/VR", "DevOps"].map((availableCategory) => (
+                <label key={availableCategory}>
+                  <input
+                    type="checkbox"
+                    checked={category === availableCategory}
+                    onChange={() => handleCategoryChange(availableCategory)}
+                  />
+                  {availableCategory}
+                </label>
+              
+              ))}
+ 
             </div>
           )}
           <button
@@ -198,10 +190,10 @@ const Allcont = () => {
               <label>
                 <input
                   type="checkbox"
-                  checked={status === "Closed"}
-                  onChange={() => handleStatusChange("Closed")}
+                  checked={status === "Upcoming"}
+                  onChange={() => handleStatusChange("Upcoming")}
                 />
-                Closed
+                Upcoming 
               </label>
             </div>
           )}

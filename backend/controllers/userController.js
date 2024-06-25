@@ -6,6 +6,7 @@ const Mailgen = require('mailgen');
 const ExpressError = require('../utils/ExpressError');
 const mailSender = require('../utils/mailSender');
 const Profile = require('../models/profileModel');
+const { registerQuiz } = require('./quizController');
 
 
 module.exports.login = async (req, res) => {
@@ -32,8 +33,10 @@ module.exports.login = async (req, res) => {
             email: user.email,
             picture: user.picture,
             googleId: user.googleId,
-            profile: user.profile,            
+            profile: user.profile,      
+            registeredQuizzes: user.registeredQuizzes      
         }
+        console.log(payload);
         res.status(200).json({ payload, expiresIn: new Date(Date.now() + 3 * 60 * 60 * 1000)});
     }
 }

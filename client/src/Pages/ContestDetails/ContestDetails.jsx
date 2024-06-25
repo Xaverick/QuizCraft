@@ -20,6 +20,9 @@ const ContestDetails = () => {
     const { id } = useParams();
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 15;
+    const registeredQuizzes = JSON.parse(localStorage.getItem('user'))?.registeredQuizzes || [];
+    const isRegistered = registeredQuizzes.includes(id);
+
 
     const handleNavClick = (section) => {
         setActiveSection(section);
@@ -80,7 +83,7 @@ const ContestDetails = () => {
         <div className="contestdetailspage">
             <div className='contestdetailspart-1'>
                 <div>
-                    <Commoncd data={quizData} />
+                    <Commoncd data={quizData} isRegistered={isRegistered}/>
                 </div>
             </div>
             <div className='mini-nav'>

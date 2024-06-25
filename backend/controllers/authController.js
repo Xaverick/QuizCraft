@@ -70,6 +70,7 @@ exports.getUserDetails = async (req, res) => {
         picture: user.picture,
         googleId: user.googleId,
         profile: user.profile,
+        registeredQuizzes: user.registeredQuizzes
         
     }
     res.status(200).json({payload: payload, expiresIn: req.expIn});

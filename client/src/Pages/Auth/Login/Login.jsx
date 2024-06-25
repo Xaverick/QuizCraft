@@ -51,8 +51,6 @@ const Login = () => {
         );
 
         const { data, status } = response;
-        console.log(data);
-
         if (status === 200) {
           const { payload, expiresIn } = data;
           localStorage.setItem('user', JSON.stringify(payload));
@@ -89,7 +87,7 @@ const Login = () => {
         localStorage.setItem('user', JSON.stringify(payload));
         localStorage.setItem('expiresIn', expiresIn);
         dispatch(login());
-        toast.success('Login successfull', {
+        toast.success('Login successful', {
           position: "top-left",
           autoClose: 2000,
           hideProgressBar: true,

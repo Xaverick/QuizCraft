@@ -14,7 +14,7 @@ const userSchema = new schema({
 
     username: {
         type: String,
-        required: true,
+        // required: true,
         // have removed from unique to just show up the names temporarily
         //unique: true,
         min: 6,

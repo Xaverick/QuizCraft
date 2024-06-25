@@ -92,18 +92,18 @@ module.exports.createQuiz = async (req, res) => {
 }
 
 module.exports.updateQuiz = async (req, res) => {
-    const { title, description, startTime, endTime, duration, rules } = req.body;
+    const { title, description, startTime, endTime, duration, rules, category } = req.body;
     const quizId = req.params.quizid;
 
     const startTimeUTC = moment(startTime).utc().toDate();
     const endTimeUTC = moment(endTime).utc().toDate();
 
 
-    if(!title || !description || !startTime || !endTime || !duration || !rules) {
+    if(!title || !description || !startTime || !endTime || !duration || !rules, !category) {
         throw new ExpressError('missing fields', 400);
     }
 
-    const quiz = await Quiz.findByIdAndUpdate(quizId,{title, description, startTime: startTimeUTC, endTime: endTimeUTC, duration, rules});
+    const quiz = await Quiz.findByIdAndUpdate(quizId,{title, description, startTime: startTimeUTC, endTime: endTimeUTC, duration, rules, category});
     if(!quiz){
         throw new ExpressError('quiz not found', 400);
     }
