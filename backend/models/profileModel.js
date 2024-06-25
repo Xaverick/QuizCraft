@@ -44,8 +44,11 @@ const profileSchema = new schema ({
     rating:{
         type:Number,
         default:0,
-        // required:true,
-    },
+        // required:true,    
+        },
+        //have to discuss about platform links
+    platformLinks: [{}],
+    professions: [],
 })
 
 
