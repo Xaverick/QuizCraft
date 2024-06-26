@@ -88,7 +88,7 @@ module.exports.register = async (req, res) => {
       }
     );
     if (sameUser) {
-      console.log(`this is the newly created referral code : ${referralCodeUrl}`);
+      console.log(`this is the newly created referral code : ${referralCodeString}`);
     }
 
     // profile data is created and the profile is saved in the User.
