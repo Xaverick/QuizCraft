@@ -5,7 +5,8 @@ import logo from '../../assets/homepageimages/navbarlogo.png'
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
-
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
+import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
 
 const ContestQuestion = () => {
     const { id } = useParams();
@@ -20,9 +21,9 @@ const ContestQuestion = () => {
 
     useEffect(() => {
         const getQuestions = async () => {
-            try{
+            try {
                 const response = await axios.get(`/quiz/getQuestions/${id}`);
-                const {questions, duration} = response.data;
+                const { questions, duration } = response.data;
 
                 const storedTimer = sessionStorage.getItem(`quizTimer_${userId}_${id}`);
                 if (storedTimer) {
@@ -35,11 +36,11 @@ const ContestQuestion = () => {
                 }
 
                 setQuestions(questions);
-               
-            }catch(err){
+
+            } catch (err) {
                 console.log(err);
             }
-            
+
         };
 
         getQuestions();
@@ -138,8 +139,8 @@ const ContestQuestion = () => {
         try {
             const response = await axios.post(`/quiz/submitQuiz/${id}`, {
                 answers: formattedResponses
-            });   
-          
+            });
+
             if (response.status === 200) {
                 toast.success('Quiz submitted successfully', {
                     position: "top-left",
@@ -147,9 +148,9 @@ const ContestQuestion = () => {
                     hideProgressBar: true,
                 })
                 setTimeout(() => {
-                    navigate('/');  
+                    navigate('/');
                 }, 2000);
-            } 
+            }
         } catch (error) {
             console.error('Error submitting quiz:', error);
             console.log(error.response.data);
@@ -159,10 +160,10 @@ const ContestQuestion = () => {
                 hideProgressBar: true,
             })
             setTimeout(() => {
-                navigate('/');  
+                navigate('/');
             }, 2000);
         }
-       
+
     };
 
     const currentQuestion = questions[currentIndex];
@@ -198,7 +199,7 @@ const ContestQuestion = () => {
                                         href="#"
                                         onClick={() => {
                                             setCurrentIndex(index);
-                
+
                                         }}
                                     >
                                         {index + 1}
@@ -229,10 +230,10 @@ const ContestQuestion = () => {
                             currentQuestion?.options?.map((option) => (
                                 <label
                                     key={option._id}
-                                    className={`answer-item ${option.text ? 'selected' : ''}`}
+                                    className={`answer-item ${responses[currentIndex] === option.text ? 'selected' : ''}`}
                                 >
                                     <input
-                                        className='form-tick appearance-none h-4 w-4 border border-gray-300 rounded checked:bg-blue-600 checked:border-transparent dark:border-gray-700 dark:checked:bg-blue-500'
+                                        // className='form-tick appearance-none h-4 w-4 border border-gray-300 rounded checked:bg-blue-600 checked:border-transparent dark:border-gray-700 dark:checked:bg-blue-500'
                                         id={option._id}
                                         name={`question-${currentIndex}`}
                                         type='radio'
@@ -242,7 +243,6 @@ const ContestQuestion = () => {
                                         disabled={formSubmitted}
                                     />
                                     <span>{option.text}</span>
-
                                 </label>
                             ))
                         )}
@@ -265,12 +265,29 @@ const ContestQuestion = () => {
                         )}
                     </div>
                     <div className="action">
-                        <button className="btn" onClick={handleClick} disabled={currentIndex === 0}>
-                            Previous
+                        <button
+                            className="btn"
+                            onClick={handleClick}
+                            disabled={currentIndex === 0}
+                            style={{
+                                fontSize: window.innerWidth < 500 ? '0.8rem' : '1.2rem',
+                                padding: window.innerWidth < 500 ? '0.5rem 1.2rem' : '0.5rem 1.2rem'
+                            }}
+                        >
+                            <MdOutlineKeyboardArrowLeft fontSize={window.innerWidth < 500 ? "1rem" : "1.5rem"} /> Previous
                         </button>
-                        <button className="btn" onClick={handleClickAfter} disabled={currentIndex === questions.length - 1}>
-                            Next
+                        <button
+                            className="btn"
+                            onClick={handleClickAfter}
+                            disabled={currentIndex === questions.length - 1}
+                            style={{
+                                fontSize: window.innerWidth < 500 ? '0.8rem' : '1.2rem',
+                                padding: window.innerWidth < 500 ? '0.5rem 1.2rem' : '0.5rem 1.2rem'
+                            }}
+                        >
+                            Next <MdOutlineKeyboardArrowRight fontSize={window.innerWidth < 500 ? "1rem" : "1.5rem"} />
                         </button>
+
                     </div>
                 </section>
             </div>

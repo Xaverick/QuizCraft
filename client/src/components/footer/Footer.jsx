@@ -4,6 +4,7 @@ import insta from "../../assets/Footerimages/Instagram.svg";
 import twiter from "../../assets/Footerimages/Twitter.svg";
 import facebook from "../../assets/Footerimages/Facebook.svg";
 import linkedlin from "../../assets/Footerimages/LinkedIn.svg";
+import { Link } from "react-router-dom";
 import "./Footer.scss";
 const Footer = () => {
   return (
@@ -11,7 +12,7 @@ const Footer = () => {
       <div className="footercontent">
         <div className="content1">
           <div className="content1logo">
-            <img src={logo} alt="" />
+            <Link to='/'><img src={logo} alt="" /></Link>
           </div>
           <div className="content1content">
             <p>

@@ -218,12 +218,13 @@ const Signup = () => {
             <p className='titlesubheading'>Create an account to unlock exclusive features.</p>
             <div className="email-login">
               <label htmlFor="text"><b></b></label>
-              <input type="text" placeholder="Enter your full name" name="name" value={formData.name} onChange={handleChange} required />
+              <input className='signup-input' type="text" placeholder="Enter your full name" name="name" value={formData.name} onChange={handleChange} required />
               <label htmlFor="email"><b></b></label>
-              <input type="email" placeholder="Enter your email address" name="email" value={formData.email} onChange={handleChange} required />
+              <input className='signup-input' type="email" placeholder="Enter your email address" name="email" value={formData.email} onChange={handleChange} required />
               <label htmlFor="psw"><b></b></label>
               <div className="password-input-container">
                 <input
+                  className='signup-input'
                   type={passwordVisible ? "text" : "password"}
                   placeholder="Create a password"
                   name="password"

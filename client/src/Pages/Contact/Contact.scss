@@ -113,7 +113,7 @@
 
 
     // form section styling
-    form {
+    .form-contact-inputs {
         // width: 100%;
         display: grid;
         // background: #F5FAFA;
@@ -134,18 +134,22 @@
                 font-weight: 600;
             }
 
-            input {
-                padding: 5px;
+            .contanctstyling {
                 outline: none;
                 border: 1px solid #87BEBC;
                 width: 100%;
                 height: 53%;
                 border-radius: 10px;
+                padding: 20px !important;
+                margin: 8px 0 15px;
+                // border-radius: 6px;
+                box-sizing: border-box;
+                font-size: 15px !important;
 
                 &::placeholder {
                     color: #98989A;
                     font-size: 12px;
-                    padding: 10px 10px;
+                    // padding: 0px 10px;
                     opacity: 1; // Firefox
                 }
             }
@@ -341,7 +345,7 @@
         margin-right: 0px;
     }
 
-    .box form {
+    .box .form-contact-inputs {
         display: block;
     }
 }
@@ -389,7 +393,7 @@
     }
 
     .box {
-        form {
+        .form-contact-inputs {
             .submit {
                 button {
                     font-size: 0.7rem;
@@ -513,7 +517,7 @@
         margin: 2rem auto;
     }
 
-    .box form {
+    .box .form-contact-inputs {
         .message {
             #subject {
                 margin-bottom: 1rem;

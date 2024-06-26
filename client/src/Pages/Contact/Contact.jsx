@@ -97,26 +97,26 @@ const Contact = () => {
                     </div>
                     <div className='box'>
                         <div className="box">
-                            <form>
+                            <form className='form-contact-inputs'>
                                 <div className="name">
                                     <label htmlFor="firstName">First Name</label>
                                     <br />
-                                    <input type="text" name='firstName' value={formdata.firstName} onChange={handleChange} id="firstName" placeholder='Enter first Name' required />
+                                    <input className='contanctstyling' type="text" name='firstName' value={formdata.firstName} onChange={handleChange} id="firstName" placeholder='Enter first Name' required />
                                 </div>
                                 <div className="company">
                                     <label htmlFor="lastName">Last Name </label>
                                     <br />
-                                    <input type="text" id="lastName" name='lastName' value={formdata.lastName} onChange={handleChange} placeholder='Enter Last Name' required />
+                                    <input className='contanctstyling' type="text" id="lastName" name='lastName' value={formdata.lastName} onChange={handleChange} placeholder='Enter Last Name' required />
                                 </div>
                                 <div className="email">
                                     <label htmlFor="email">Email</label>
                                     <br />
-                                    <input type="email" id="email" name='email' value={formdata.email} onChange={handleChange} placeholder='Enter your Email' required />
+                                    <input className='contanctstyling' type="email" id="email" name='email' value={formdata.email} onChange={handleChange} placeholder='Enter your Email' required />
                                 </div>
                                 <div className="tele">
                                     <label htmlFor="phoneNumber">Phone </label>
                                     <br />
-                                    <input type="tel" id="phoneNumber" name='phoneNumber' value={formdata.phoneNumber} onChange={handleChange} pattern="[0-9]{10}" placeholder='Enter Phone Number' required />
+                                    <input className='contanctstyling' type="tel" id="phoneNumber" name='phoneNumber' value={formdata.phoneNumber} onChange={handleChange} pattern="[0-9]{10}" placeholder='Enter Phone Number' required />
                                 </div>
                                 <div className="message">
                                     <label htmlFor="subject">Subject</label>
@@ -129,6 +129,7 @@ const Contact = () => {
                                         onChange={handleChange}
                                         placeholder="Enter your Subject"
                                         cols="57"
+                                        className='contanctstyling'
 
 
                                     ></textarea>
