@@ -92,3 +92,13 @@
     resize: vertical;
   }
 }
+
+@media screen and (max-width:650px) {
+  .profile-form form .myprofile-row {
+    flex-direction: column;
+  }
+
+  .profile-form {
+    padding: 1rem;
+  }
+}

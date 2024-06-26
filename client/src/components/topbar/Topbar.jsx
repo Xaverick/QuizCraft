@@ -3,12 +3,13 @@ import logo from "../../assets/homepageimages/GeekClash.svg";
 import Message from "../../assets/Topbar/Message.svg";
 import Notification from "../../assets/Topbar/Notification.svg";
 import './Topbar.scss';
+import { Link } from "react-router-dom";
 
 const Topbar = () => {
   return (
     <nav className="topbar">
       <div className="topbar-left">
-        <img src={logo} alt="logo" className="topbar-logo" />
+        <Link to='/'><img src={logo} alt="logo" className="topbar-logo" /></Link>
         <div className="topbar-search">
           <input
             type="text"

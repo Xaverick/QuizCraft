@@ -6,6 +6,8 @@ import { FaUserCircle } from 'react-icons/fa'; // Importing the profile icon fro
 import './Navbar.scss';
 import navbarlogo from '../../assets/homepageimages/GeekClash.svg';
 import axios from 'axios';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Navbar = () => {
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
@@ -57,7 +59,7 @@ const Navbar = () => {
   };
 
   const toggleProfileMenu = () => {
-    setShowProfileMenu(!showProfileMenu);
+    navigate('/dashboard')
   };
 
   return (
@@ -65,7 +67,7 @@ const Navbar = () => {
       <div className='navbar'>
         <div className='navbar-content'>
           <div className='navbar-logo'>
-            <img src={navbarlogo} alt='logo' />
+            <Link to='/'> <img src={navbarlogo} alt='logo' /></Link>
           </div>
           <div className='navbar-links'>
             <Link
