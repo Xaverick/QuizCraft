@@ -14,7 +14,7 @@ import { toast } from 'react-toastify';
 import tr from '../../assets/Contestimages/tr.png'
 Modal.setAppElement('#root');
 
-const Commoncd = ({ data, isRegistered}) => {
+const Commoncd = ({ data, isRegistered }) => {
     const [timeRemaining, setTimeRemaining] = useState('');
     // const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const [isStartModalOpen, setIsStartModalOpen] = useState(false);
@@ -199,7 +199,7 @@ const Commoncd = ({ data, isRegistered}) => {
                 <h2>Contest Started</h2>
                 <p>Please Click on Start now for start the Contest</p>
                 <img src={defaultimage} alt='Start Quiz' />
-                <button onClick={handleStartQuiz}>Start Now</button>
+                <button onClick={handleStartQuiz} style={{ backgroundColor: "#56AFB2" }}>Start Now</button>
             </Modal>
         </div>
     );

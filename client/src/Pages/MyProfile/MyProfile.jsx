@@ -2,6 +2,7 @@
 import React from "react";
 import Topbar from "../../components/topbar/Topbar";
 import Sidebar from "../../components/sidebar/Sidebar";
+
 import "./MyProfile.scss";
 
 const MyProfile = () => {
@@ -93,8 +94,9 @@ const MyProfile = () => {
                 </div>
               </form>
             </div>
-
+            <button className="myprofile-btn" type="submit">Save</button>
           </div>
+
         </div>
       </div>
     </main>
@@ -105,20 +107,24 @@ export default MyProfile;
 
 const Input = ({ label, type = "text", placeholder, required }) => {
   return (
-    <div className="input-wrapper ">
-      <label className="profileinputslabel">{label}
-        {required && <span style={{ color: "red" }}>*</span>}
-      </label>
-      {type === "textarea" ? (
-        <textarea
-          placeholder={placeholder}
-          required={required}
-          className="profileinputs"
-        ></textarea>
-      ) : (
-        <input className="profileinputs" type={type} placeholder={placeholder} required={required} />
-      )}
-    </div>
+    <>
+      <div className="input-wrapper ">
+        <label className="profileinputslabel">{label}
+          {required && <span style={{ color: "red" }}>*</span>}
+        </label>
+        {type === "textarea" ? (
+          <textarea
+            placeholder={placeholder}
+            required={required}
+            className="profileinputs"
+          ></textarea>
+        ) : (
+          <input className="profileinputs" type={type} placeholder={placeholder} required={required} />
+        )}
+      </div>
+
+    </>
+
   );
 };
 
