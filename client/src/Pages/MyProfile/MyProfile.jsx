@@ -14,11 +14,11 @@ const MyProfile = () => {
           <h1>My Profile</h1>
           <div className="profile-form">
             <div className="profile-photo">
-              <img src="" alt="Profile" />
+              <img src="" alt="" />
               <button>Upload Photo</button>
 
               <form action="">
-                <div className="row">
+                <div className="myprofile-row">
                   <Input
                     label="Username"
                     placeholder="Enter your username"
@@ -31,14 +31,14 @@ const MyProfile = () => {
                   />
                 </div>
 
-                <div className="row">
+                <div className="myprofile-row">
                   <Input
                     label="Brief bio"
                     type="textarea"
                     placeholder="Enter your message"
                     required
                   />
-                  <div className="row-2">
+                  <div className="myprofile-row-2">
                     <Input
                       label="Country"
                       placeholder="India"
@@ -52,7 +52,7 @@ const MyProfile = () => {
                   </div>
                 </div>
 
-                <div className="row">
+                <div className="myprofile-row">
                   <Input
                     label="Phone number"
                     type="tel"
@@ -66,7 +66,7 @@ const MyProfile = () => {
                 </div>
                 <Input label="Profile Tags" type="text" placeholder="Enter Profile Tags" required={false} />
 
-                <div className="row">
+                <div className="myprofile-row">
                   <Input
                     label="Social Link #1"
                     type="url"
@@ -79,7 +79,7 @@ const MyProfile = () => {
                   />
                 </div>
 
-                <div className="row">
+                <div className="myprofile-row">
                   <Input
                     label="Social Link #3"
                     type="url"
@@ -93,7 +93,7 @@ const MyProfile = () => {
                 </div>
               </form>
             </div>
-            <form></form>
+
           </div>
         </div>
       </div>
@@ -106,11 +106,14 @@ export default MyProfile;
 const Input = ({ label, type = "text", placeholder, required }) => {
   return (
     <div className="input-wrapper ">
-      <label>{label}</label>
+      <label className="profileinputslabel">{label}
+        {required && <span style={{ color: "red" }}>*</span>}
+      </label>
       {type === "textarea" ? (
         <textarea
           placeholder={placeholder}
           required={required}
+          className="profileinputs"
         ></textarea>
       ) : (
         <input className="profileinputs" type={type} placeholder={placeholder} required={required} />
