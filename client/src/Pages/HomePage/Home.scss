@@ -273,8 +273,8 @@ $animationSpeed: 20s;
       align-items: center;
       gap: 10px;
       text-wrap: nowrap;
-      
-      p{
+
+      p {
         font-size: 16px;
       }
     }
@@ -296,6 +296,10 @@ $animationSpeed: 20s;
 
       .question .question-answer p {
         font-size: 12px;
+      }
+
+      .question-text {
+        text-wrap: pretty;
       }
     }
   }

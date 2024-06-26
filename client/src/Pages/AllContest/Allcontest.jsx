@@ -145,9 +145,9 @@ const Allcont = () => {
                   />
                   {availableCategory}
                 </label>
-              
+
               ))}
- 
+
             </div>
           )}
           <button
@@ -193,7 +193,7 @@ const Allcont = () => {
                   checked={status === "Upcoming"}
                   onChange={() => handleStatusChange("Upcoming")}
                 />
-                Upcoming 
+                Upcoming
               </label>
             </div>
           )}
