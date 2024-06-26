@@ -50,7 +50,9 @@ const Dashboard = () => {
         newBadge.push([{badgeimg:Pro,badgeName:"Pro"}]);
     }
       setBadge(newBadge);
-      dashboardData.title = newBadge[newBadge.length-1][0].badgeName + " #" + dashboardData.rating; 
+      if(badge.length != 0){
+        dashboardData.title = newBadge[newBadge.length-1][0].badgeName + " #" + dashboardData.rating;
+      }
   }, [dashboardData]);
    
   //the data is saved on temporary basis in the dashboardData object otherwise it will be fetched from the Db
