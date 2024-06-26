@@ -8,7 +8,7 @@ const ExpressError = require('../utils/ExpressError');
 const mailSender = require('../utils/mailSender');
 const Profile = require('../models/profileModel');
 const { registerQuiz } = require('./quizController');
-const { findOneAndUpdate } = require('../models/questions');
+
 
 
 module.exports.login = async (req, res) => {
