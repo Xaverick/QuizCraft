@@ -32,64 +32,64 @@ const MyProfile = () => {
                 </div>
 
                 <div className="row">
+                  <Input
+                    label="Brief bio"
+                    type="textarea"
+                    placeholder="Enter your message"
+                    required
+                  />
+                  <div className="row-2">
                     <Input
-                        label="Brief bio"
-                        type="textarea"
-                        placeholder="Enter your message"
-                        required
+                      label="Country"
+                      placeholder="India"
+                      required
                     />
-                    <div className="row-2">
-                        <Input
-                            label="Country"
-                            placeholder="India"
-                            required
-                        />
-                        <Input
-                            label="Occupation"
-                            placeholder="Enter your occupation"
-                            required
-                        />
-                    </div>
+                    <Input
+                      label="Occupation"
+                      placeholder="Enter your occupation"
+                      required
+                    />
+                  </div>
                 </div>
 
                 <div className="row">
-                    <Input
-                        label="Phone number"
-                        type="tel"
-                        placeholder="Enter your phone number"
-                    />
-                    <Input
-                        label="Date of Birth"
-                        type="date"
-                        placeholder="Enter your birthdate"
-                    />
+                  <Input
+                    label="Phone number"
+                    type="tel"
+                    placeholder="Enter your phone number"
+                  />
+                  <Input
+                    label="Date of Birth"
+                    type="date"
+                    placeholder="Enter your birthdate"
+                  />
                 </div>
-                <Input label="Profile Tags" type="text" placeholder="Enter Profile Tags" required={false}/>
+                <Input label="Profile Tags" type="text" placeholder="Enter Profile Tags" required={false} />
 
                 <div className="row">
-                    <Input
-                        label="Social Link #1"
-                        type="url"
-                        placeholder="Enter your link"
-                    />
-                    <Input
-                        label="Social Link #2"
-                        type="url"
-                        placeholder="Enter your link"
-                    />
+                  <Input
+                    label="Social Link #1"
+                    type="url"
+                    placeholder="Enter your link"
+                  />
+                  <Input
+                    label="Social Link #2"
+                    type="url"
+                    placeholder="Enter your link"
+                  />
                 </div>
 
                 <div className="row">
-                    <Input
-                        label="Social Link #3"
-                        type="url"
-                        placeholder="Enter your link"
-                    />
-                    <Input
-                        label="Social Link #4"
-                        type="url"
-                        placeholder="Enter your link"
-                    />
+                  <Input
+                    label="Social Link #3"
+                    type="url"
+                    placeholder="Enter your link"
+                  />
+                  <Input
+                    label="Social Link #4"
+                    type="url"
+                    placeholder="Enter your link"
+                  />
                 </div>
               </form>
             </div>
@@ -113,7 +113,7 @@ const Input = ({ label, type = "text", placeholder, required }) => {
           required={required}
         ></textarea>
       ) : (
-        <input type={type} placeholder={placeholder} required={required} />
+        <input className="profileinputs" type={type} placeholder={placeholder} required={required} />
       )}
     </div>
   );

@@ -91,10 +91,10 @@
         color: white;
         border: none;
         border-radius: 6px;
-        padding: 8px 32px;
+        padding: 10px 32px;
         font-size: 14px;
         font-weight: 500;
-        width: 300px;
+        width: 260px;
         cursor: pointer;
     }
 }
@@ -157,7 +157,7 @@
 
 @media screen and (max-width: 580px) {
     .commoncd-left .commoncd-left-heading p {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
         font-weight: 600;
         color: #333333;
     }
@@ -227,7 +227,7 @@
 
         padding: 10px 20px;
         font-size: 0.9rem;
-        margin: 10px;
+        margin: 10px 0px;
     }
 
     .commoncd-left-button {

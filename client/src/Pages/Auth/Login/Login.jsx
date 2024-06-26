@@ -56,11 +56,11 @@ const Login = () => {
           localStorage.setItem('user', JSON.stringify(payload));
           localStorage.setItem('expiresIn', expiresIn);
           dispatch(login());
-          toast.success('Login successful', {
-            position: "top-left",
-            autoClose: 2000,
-            hideProgressBar: true,
-          });
+          // toast.success('Login successful', {
+          //   position: "top-left",
+          //   autoClose: 2000,
+          //   hideProgressBar: true,
+          // });
           setEmail('');
           setPassword('');
           setTimeout(() => {
@@ -73,7 +73,7 @@ const Login = () => {
         console.log('Error during login:', error);
       }
     }
-    
+
     getDetails();
   })
 
@@ -127,10 +127,11 @@ const Login = () => {
             <p className='titlesubheading'>Welcome back! Please log in to access your account.</p>
             <div className="email-login">
               <label htmlFor="email"><b></b></label>
-              <input type="email" placeholder="Enter your email address" name="email" value={email} onChange={handleChange} required />
+              <input className='login-inputs' type="email" placeholder="Enter your email address" name="email" value={email} onChange={handleChange} required />
               <label htmlFor="password"><b></b></label>
               <div className="password-input-container">
                 <input
+                  className='login-inputs'
                   type={passwordVisible ? "text" : "password"}
                   placeholder="Enter your password"
                   name="password"
@@ -155,7 +156,7 @@ const Login = () => {
                 <label htmlFor="rememberMe">Remember Me</label>
               </div> */}
             </div>
-            <button className="cta-btn" type="submit" onClick={handleSubmit}>Login</button>
+            <button className="cta-btn" type="submit" >Login</button>
 
           </form>
           <p className="or"><span></span></p>

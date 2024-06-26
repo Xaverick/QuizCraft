@@ -251,11 +251,7 @@ a {
 
 
 
-input[type="email"],
-input[type="password"],
-input[type="text"],
-input[type='tel'],
-input[type='textarea'] {
+.signup-input {
   padding: 20px 20px !important;
   margin: 8px 0 15px 0;
   border: 1px solid #E5EFFF !important;
@@ -269,8 +265,8 @@ input[type='textarea'] {
   position: relative;
 }
 
-.password-input-container input[type="password"],
-.password-input-container input[type="text"] {
+.password-input-container .signup-input,
+.password-input-container .signup-input {
   // padding-right: 40px;
   width: 100%;
   /* Adjust padding to make space for the icon */
@@ -286,7 +282,7 @@ input[type='textarea'] {
   transition: color 0.3s;
 }
 
-.password-input-container input[type=text] {
+.password-input-container .signup-input {
   padding: 20px 20px;
   margin: 8px 0 15px 0;
   border: 1px solid #E5EFFF;
@@ -332,9 +328,7 @@ input[type='textarea'] {
   cursor: pointer;
 }
 
-.remember-me input {
-  margin-right: 7px;
-}
+
 
 .loginfrom {
   display: flex;
