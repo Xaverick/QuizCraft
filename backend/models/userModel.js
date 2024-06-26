@@ -58,12 +58,19 @@ const userSchema = new schema({
     },
 
 
-    referralCode: {
-      type: String,
+    // referralCodeUrl: {
+    //   type: String,
+    // },
+    referralCodeString:{
+        type:String,
     },
-
+    totalUsersReferred:{
+        type:Number,
+        default:0
+    },
     coin: {
-      type: String,
+      type: Number,
+      default:0
     },
   
     profile : {
