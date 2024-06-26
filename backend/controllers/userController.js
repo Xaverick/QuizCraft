@@ -78,8 +78,6 @@ module.exports.register = async (req, res) => {
     // await sendVerificationEmail(email,user);
     console.log(user);
     res.status(200).json('register');
-
-
 }
 
 module.exports.logout = (req, res) => {
