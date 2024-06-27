@@ -215,7 +215,7 @@ const Signup = () => {
         <div className="card">
           <form onSubmit={handleSubmit}>
             <h1 className="title">Sign Up</h1>
-            <p className='titlesubheading'>Create an account to unlock exclusive features.</p>
+            <p className='titlesubheading' style={{fontSize:'medium'}}>Create an account to unlock exclusive features.</p>
             <div className="email-login">
               <label htmlFor="text"><b></b></label>
               <input className='signup-input' type="text" placeholder="Enter your full name" name="name" value={formData.name} onChange={handleChange} required />
@@ -249,7 +249,7 @@ const Signup = () => {
                 <label htmlFor="rememberMe">I agree with Terms of Use and Privacy Policy</label>
               </div> */}
             </div>
-            <button className="cta-btn" type="submit">Sign Up</button>
+            <button className="cta-btn" type="submit" style={{    background: 'linear-gradient(to right, #05f5bd, #1bb38f)'}}>Sign Up</button>
             <p className="or"><span></span></p>
             <div className="social-login">
               <button className="google-btn">
@@ -263,7 +263,7 @@ const Signup = () => {
         </div>
         <div className='loginformphoto'>
           <div className='loginformphotopht'>
-            <img src={image} />
+            <img src={image} style={{width:'-webkit-fill-available'}}/>
           </div>
           <div className='loginformphotoquote'>
             <p>Lorem ipsum dolor sit amet consectetur. Tincidunt libero sed a penatibus eu mi risus habitant mattis. Volutpat lectus gravida scelerisque et felis dolor odio adipiscing. Volutpat lacus nascetur arcu enim congue pretium purus sed. Enim ullamcorper natoque nisi ut pellentesque.</p>

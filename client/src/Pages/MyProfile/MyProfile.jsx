@@ -1,11 +1,20 @@
 // MyProfile.js
-import React from "react";
+import React,{useState} from "react";
 import Topbar from "../../components/topbar/Topbar";
 import Sidebar from "../../components/sidebar/Sidebar";
+import TagsInput from 'react-tagsinput';
+import 'react-tagsinput/react-tagsinput.css';
 
 import "./MyProfile.scss";
 
 const MyProfile = () => {
+  const [tags, setTags] = useState([]);
+
+  const handleChange = (newTags) => {
+    setTags(newTags);
+    console.log(tags)
+  };
+
   return (
     <main className="app">
       <Topbar />
@@ -15,7 +24,7 @@ const MyProfile = () => {
           <h1>My Profile</h1>
           <div className="profile-form">
             <div className="profile-photo">
-              <img src="" alt="" />
+              <img src={"https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"} alt="" />
               <button>Upload Photo</button>
 
               <form action="">
@@ -65,7 +74,8 @@ const MyProfile = () => {
                     placeholder="Enter your birthdate"
                   />
                 </div>
-                <Input label="Profile Tags" type="text" placeholder="Enter Profile Tags" required={false} />
+                {/* <Input label="Profile Tags" type="text" placeholder="Enter Profile Tags" required={false} /> */}
+                <TagsInput value={tags} onChange={handleChange} />
 
                 <div className="myprofile-row">
                   <Input

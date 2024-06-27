@@ -15,6 +15,8 @@ import faqdata from "../../assets/data/faqs.js";
 import axios from "axios";
 import img1 from '../../assets/CommunityParters/img1.svg';
 import img2 from '../../assets/CommunityParters/img2.svg'
+import Marquee from "react-fast-marquee";
+
 const Question = ({ questionData, onSelect, isOpen }) => {
   const handleClick = () => {
     onSelect(questionData.id);
@@ -127,9 +129,12 @@ const Home = () => {
                 <p> Community Partners</p>
               </div>
               <div className="home-phase3">
-                <div className="slider">
+              <Marquee className="h-16  " autoFill pauseOnHover gradient>
+              <img src={img1} height="100" width="250" alt="" />
+              <img src={img2} height="100" width="250" alt="" />
+              </Marquee>
+                {/* <div className="slider">
                   <div className="slide-track">
-                    {/* Place your images here */}
                     <div className="slide">
                       <img src={img1} height="100" width="250" alt="" />
                     </div>
@@ -160,9 +165,8 @@ const Home = () => {
                     <div className="slide">
                       <img src={img2} height="100" width="250" alt="" />
                     </div>
-                    {/* Repeat the images to create infinite loop */}
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

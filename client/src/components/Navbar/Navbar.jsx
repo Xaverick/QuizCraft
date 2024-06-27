@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/slices/authSlice';
 import { FaUserCircle } from 'react-icons/fa'; // Importing the profile icon from react-icons
 import './Navbar.scss';
-import navbarlogo from '../../assets/homepageimages/GeekClash.svg';
+import navbarlogo from '../../assets/GeekClash.svg';
 import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -66,7 +66,7 @@ const Navbar = () => {
     <div className='nav'>
       <div className='navbar'>
         <div className='navbar-content'>
-          <div className='navbar-logo'>
+          <div className='navbar-logo' >
             <Link to='/'> <img src={navbarlogo} alt='logo' /></Link>
           </div>
           <div className='navbar-links'>

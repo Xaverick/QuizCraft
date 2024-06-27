@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/slices/authSlice';
 import { RxHamburgerMenu, RxCross1 } from 'react-icons/rx';
-import navbarlogo from '../../assets/homepageimages/navbarlogo.png';
+import navbarlogo from '../../assets/GeekClash.svg';
 import axios from 'axios';
 
 
@@ -56,7 +56,7 @@ const SideNavbar = () => {
         <div className='side-nav'>
             <div className='side-navbar'>
                 <div className='side-navbar-content'>
-                    <div className='side-navbar-logo'>
+                    <div className='side-navbar-logo ' style={{marginBottom:'-8px'}}>
                         <img src={navbarlogo} alt='logo' />
                     </div>
                     <div className='side-menu-icon' onClick={toggleMenu}>

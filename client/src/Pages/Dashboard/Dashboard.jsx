@@ -18,45 +18,41 @@ import instagram from "../../assets/Dashboard/instagram.svg";
 import link from "../../assets/Dashboard/link.svg";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { FaArrowRight, FaCopy } from "react-icons/fa";
 
+const allBadges = [
+  { badgeimg: Beginner, badgeName: "Beginner", threshold: 0 },
+  { badgeimg: Hustler, badgeName: "Hustler", threshold: 200 },
+  { badgeimg: Champion, badgeName: "Champion", threshold: 400 },
+  { badgeimg: Scholar, badgeName: "Scholar", threshold: 700 },
+  { badgeimg: Pro, badgeName: "Pro", threshold: 1200 },
+];
 
 const Dashboard = () => {
-
-  const [dashboardData, setdashboardData] = useState([]);
+  const [dashboardData, setDashboardData] = useState({});
   const [badge, setBadge] = useState([]);
-  //fetching the data from the backend
+
   useEffect(() => {
-    const getdetails = async () => {
-      const response = await axios.get('/user/profile')
-      setdashboardData(response.data);
-    }
-    getdetails();
+    const getDetails = async () => {
+      const response = await axios.get('/user/profile');
+      setDashboardData(response.data);
+    };
+    getDetails();
   }, []);
-  //critera to decide the badges and then alot the badges to the user
+
   useEffect(() => {
     let newBadge = [];
-    if (dashboardData.rating >= 0) {
-      newBadge.push([{ badgeimg: Beginner, badgeName: "Beginner" }]);
-    }
-    if (dashboardData.rating >= 200) {
-      newBadge.push([{ badgeimg: Hustler, badgeName: "Hustler" }]);
-    }
-    if (dashboardData.rating >= 400) {
-      newBadge.push([{ badgeimg: Champion, badgeName: "Champion" }]);
-    }
-    if (dashboardData.rating >= 700) {
-      newBadge.push([{ badgeimg: Scholar, badgeName: "Scholar" }]);
-    }
-    if (dashboardData.rating >= 1200) {
-      newBadge.push([{ badgeimg: Pro, badgeName: "Pro" }]);
-    }
+    allBadges.forEach(badge => {
+      if (dashboardData.rating >= badge.threshold) {
+        newBadge.push(badge);
+      }
+    });
     setBadge(newBadge);
-    if (badge.length != 0) {
-      dashboardData.title = newBadge[newBadge.length - 1][0].badgeName + " #" + dashboardData.rating;
+    if (newBadge.length !== 0) {
+      dashboardData.title = newBadge[newBadge.length - 1].badgeName + " #" + dashboardData.rating;
     }
   }, [dashboardData]);
 
-  //the data is saved on temporary basis in the dashboardData object otherwise it will be fetched from the Db
   dashboardData.platformLink = [
     {
       img: linkedin,
@@ -87,7 +83,8 @@ const Dashboard = () => {
       img: link,
       name: "Link",
       link: "https://ritvik_xd.com",
-    }]
+    }
+  ];
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(dashboardData.referralLink).then(
@@ -106,68 +103,68 @@ const Dashboard = () => {
       <div className="main">
         <Sidebar />
         <div className="content">
-          {/* Add your main content here */}
           <div className="top-heading">
             <h1>Dashboard</h1>
-            <Link to='/my-profile'><p>Edit Profile</p></Link>
+            <Link to='/my-profile' className="edit-profile"><p>Edit Profile</p></Link>
           </div>
-          {/* upper profile information */}
           <div className="upper">
             <div className="upper-inner">
               <div className="image-username">
-                <div className="img-box" />
-                <p className="username">{dashboardData.username}</p>
+                <div className="img-box">
+                  <img style={{width:'90%', borderRadius:'9999px'}} src={dashboardData.profilePicture||"https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"}/>
+                </div>
+                <p className="username">{dashboardData.username || '@ritvik_xd'}</p>
               </div>
               <div className="detail-box">
                 <p className="profile-title">{dashboardData.title}</p>
-                <p className="previous-session">view previous session</p>
+                <p className="previous-session">view previous session <FaArrowRight/></p>
               </div>
-              <p className="bio">{dashboardData.text}</p>
-
+              <p className="bio">{dashboardData.text || 'lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum '}</p>
               <div className="skills">
-                {/* if professions are not added then will be blank */}
                 {dashboardData.professions && dashboardData.professions.map((skill, index) => (
                   <Skills skill={skill} key={index} />
                 ))}
               </div>
-
               <div className="platforms">
                 {dashboardData.platformLink.map((platform, index) => (
                   <a href={platform.link} key={index}>
-                    <img src={platform.img} alt="" />
+                    <img src={platform.img} alt={platform.name} />
                   </a>
                 ))}
               </div>
             </div>
           </div>
-
-          {/* lower profile information */}
-          {/* Badges */}
           <h3>My Badges</h3>
           <div className="badges">
-            {badge.map((badgeitem, index) => {
-              return (<div className="badge" key={index}>
-                {/* {console.log(badgeitem[index].badgeName)} */}
-                <img src={badgeitem[0].badgeimg} alt={badgeitem[0].badgeName} />
-                <p>{badgeitem[0].badgeName}</p>
-              </div>)
+            {allBadges.map((badgeItem, index) => {
+              const isActive = dashboardData.rating >= badgeItem.threshold;
+              return (
+                <div className="badge" key={index}>
+                  <img
+                    src={badgeItem.badgeimg}
+                    alt={badgeItem.badgeName}
+                    style={{ filter: isActive ? 'none' : 'grayscale(100%)' }}
+                  />
+                  <p>{badgeItem.badgeName}</p>
+                </div>
+              );
             })}
           </div>
-
-          <h3>Spread To World and Earn Reward</h3>
+          <h3 style={{marginBottom:'-1rem'}}>Spread To World and Earn Reward</h3>
           <div className="refferal">
             <p>Share your unique referral link</p>
             <div className="copy-referral">
               <input type="text" value={dashboardData.referralLink} readOnly />
-              <button onClick={handleCopyClick}>Copy</button>
+              <button onClick={handleCopyClick} style={{
+                display:'flex', alignItems:'center', textAlign:'center', justifyContent:'center', gap:'5px'
+              }}><FaCopy/>Copy</button>
             </div>
-
             <div className="share-now">
               <p>Share Now</p>
               <div className="platforms">
                 {dashboardData.platformLink.map((platform, index) => (
                   <a href={platform.link} key={index}>
-                    <img src={platform.img} alt="" />
+                    <img src={platform.img} alt={platform.name} />
                   </a>
                 ))}
               </div>

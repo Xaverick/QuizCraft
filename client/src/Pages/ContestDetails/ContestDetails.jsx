@@ -12,7 +12,21 @@ import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 import PaginationItem from '@mui/material/PaginationItem';
 import { IoIosArrowDown } from "react-icons/io";
+import { FlagIcon } from 'react-flag-kit';
 
+const countryCodeMap = {
+    'india': 'IN',
+    'united states': 'US',
+    'canada': 'CA',
+    'germany': 'DE',
+    'france': 'FR',
+    'japan': 'JP',
+    'china': 'CN',
+    'australia': 'AU',
+    'brazil': 'BR',
+    'russia': 'RU',
+    // Add more countries as needed
+  };
 
 const ContestDetails = () => {
     const [activeSection, setActiveSection] = useState('details');
@@ -134,7 +148,7 @@ const ContestDetails = () => {
                             <section id="leaderboard">
                                 <nav className="ladder-nav">
                                     <div className="filters">
-                                        <input type="text" id="search-name" className="live-search-box" placeholder=" Enter Your name to search " />
+                                        <input type="text" id="search-name" className="live-search-box" placeholder="🔍 Enter Your name to search " />
                                     </div>
                                     <div>
                                         <div className="custom-select">
@@ -161,7 +175,12 @@ const ContestDetails = () => {
                                             <tr key={idx}>
                                                 <td>{(currentPage - 1) * itemsPerPage + idx + 1}</td>
                                                 <td>{rank.name}</td>
-                                                <td>{rank.country}</td>
+                                                {/* <td>{rank.country}</td> */}
+                                                <td>
+                                                <FlagIcon code={countryCodeMap[rank.country.toLowerCase()]} width={32} />
+
+                                                </td>
+                                                
                                                 <td>{rank.score}</td>
                                             </tr>
                                         ))}

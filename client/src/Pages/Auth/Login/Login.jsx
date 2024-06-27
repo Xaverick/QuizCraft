@@ -124,7 +124,7 @@ const Login = () => {
           <form onSubmit={handleSubmit}>
             <h1 className="title">Login</h1>
 
-            <p className='titlesubheading'>Welcome back! Please log in to access your account.</p>
+            <p className='titlesubheading' style={{fontSize:'medium'}}>Welcome back! Please log in to access your account.</p>
             <div className="email-login">
               <label htmlFor="email"><b></b></label>
               <input className='login-inputs' type="email" placeholder="Enter your email address" name="email" value={email} onChange={handleChange} required />
@@ -156,7 +156,7 @@ const Login = () => {
                 <label htmlFor="rememberMe">Remember Me</label>
               </div> */}
             </div>
-            <button className="cta-btn" type="submit" >Login</button>
+            <button className="cta-btn" type="submit" style={{    background: 'linear-gradient(to right, #05f5bd, #1bb38f)'}} >Login</button>
 
           </form>
           <p className="or"><span></span></p>
@@ -171,7 +171,7 @@ const Login = () => {
         </div>
         <div className='loginformphoto'>
           <div className='loginformphotopht'>
-            <img src={image} />
+            <img src={image} style={{width:'-webkit-fill-available'}} />
           </div>
           <div className='loginformphotoquote'>
             <p>Lorem ipsum dolor sit amet consectetur. Tincidunt libero sed a penatibus eu mi risus habitant mattis. Volutpat lectus gravida scelerisque et felis dolor odio adipiscing. Volutpat lacus nascetur arcu enim congue pretium purus sed. Enim ullamcorper natoque nisi ut pellentesque.</p>
