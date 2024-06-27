@@ -1,5 +1,6 @@
 import React from "react";
-import logo from "../../assets/homepageimages/GeekClash.svg";
+// import logo from "../../assets/homepageimages/GeekClash.svg";
+import logo from '../../assets/homepageimages/navbarlogo2.svg';
 import insta from "../../assets/Footerimages/Instagram.svg";
 import twiter from "../../assets/Footerimages/Twitter.svg";
 import facebook from "../../assets/Footerimages/Facebook.svg";

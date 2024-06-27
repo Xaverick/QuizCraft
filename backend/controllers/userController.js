@@ -3,10 +3,12 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const Mailgen = require('mailgen');
+const randomStringGenerator = require('randomstring');
 const ExpressError = require('../utils/ExpressError');
 const mailSender = require('../utils/mailSender');
 const Profile = require('../models/profileModel');
 const { registerQuiz } = require('./quizController');
+
 
 
 module.exports.login = async (req, res) => {
@@ -53,21 +55,40 @@ module.exports.register = async (req, res) => {
     }
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
+
+    // checking for referral code from user
+    const referralCode = req.body.referralcode;
+    if(referralCode != ''){
+        const referrerExists = await User.findOne({
+            referralCodeString:referralCode
+        });
+        if(referrerExists){
+            let userCountIncreased = 1;
+            let coinsIncreased = 50;
+            const sameUser = await User.findOneAndUpdate({referralCodeString:referralCode},
+                {$inc :{totalUsersReferred:userCountIncreased, coin:coinsIncreased}},{new:true});
+        }
+    }
     //Generating  temporary username "also its not unique" username
-    const username = "Geeky"+"@"+name;
+    // const username = "Geeky"+"@"+name;
+    // made changes to username, now its pretty much unique, name+[5]+"@Geeky"+[2], these are alot of combinations
+    const username = name+randomStringGenerator.generate(5)+"@Geeky"+randomStringGenerator.generate(2);
     const user = await User.create({ name,username, email, password: hash });
 
     // creation of referal code and saving in db
     //refferal id changed
-    const referralCodeUrl = `https://geekclash.in/signup?=${username}`;
+    //referal code added
+    const referralCodeString = randomStringGenerator.generate(7).toUpperCase();
+    // const referralCodeUrl = `${process.env.SITE_URL}/signup?referralcode=${referralCodeString}`;
     const sameUser = await User.updateOne(
       { email: user.email },
       {
-        referralCode: referralCodeUrl,
+        // referralCodeUrl: referralCodeUrl,
+        referralCodeString:referralCodeString,
       }
     );
     if (sameUser) {
-      console.log(`this is the newly created referral code : ${referralCodeUrl}`);
+      console.log(`this is the newly created referral code : ${referralCodeString}`);
     }
 
     // profile data is created and the profile is saved in the User.
