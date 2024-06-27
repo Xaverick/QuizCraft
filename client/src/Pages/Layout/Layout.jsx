@@ -7,7 +7,7 @@ import Login from '../Auth/Login/Login.jsx'
 import Signup from '../Auth/Signup/Signup.jsx'
 // import TakeQuiz from '../Pages/TakeQuiz/TakeQuiz'
 import PrivateRoutes from '../../utils/PrivateRoutes.jsx'
-// import YourQuiz from '../YourQuiz/YourQuiz.jsx'
+import YourQuiz from '../YourQuiz/YourQuiz.jsx'
 // import Analytics from '../Analytics/Analytics.jsx'
 // import BuyCourse from '../BuyCourse/index.jsx'
 import Home from '../HomePage/Home.jsx'
@@ -60,7 +60,7 @@ function Layout() {
                     <Route path='/contest/:id' element={<ContestDetails />} />
 
                     {/* <Route path='/contestquestion/:id' element={<ContestQuestion />} /> */}
-                    {/* <Route path="/your-quizzes" element={<YourQuiz />} /> */}
+                    <Route path="/your-quizzes" element={<YourQuiz />} />
                     {/* <Route path="/analytics/:id" element={<Analytics />} /> */}
                 </Route>
                 {/* <Route path="/quiz/:id" element={<QuizPage />} /> */}
