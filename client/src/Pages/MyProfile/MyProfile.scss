@@ -1,4 +1,13 @@
 // MyProfile.scss
+
+.content{
+  h1{
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+}
+
 .profile-form {
   max-width: 100%;
   margin: 0 auto;
@@ -20,6 +29,10 @@
       margin-bottom: 0.5rem;
     }
 
+    .file-input{
+      visibility: hidden;
+    }
+
     button {
 
       color: #4379EE;
@@ -38,6 +51,10 @@
     padding: 0.6rem 1.4rem;
     font-size: 1.2rem;
     border-radius: 8px;
+  }
+
+  input{
+    outline: none;
   }
 
 

@@ -231,7 +231,7 @@ const Home = () => {
           <div className="homephase7">
             <div className="homephase7content">
               <div className="homephase7heading">
-                <p>What our Students say About us</p>
+                <p>Testimonials</p>
               </div>
             </div>
             <div className="homephase7comments">

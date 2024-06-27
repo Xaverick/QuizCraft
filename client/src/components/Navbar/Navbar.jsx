@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/slices/authSlice';
 import { FaUserCircle } from 'react-icons/fa'; // Importing the profile icon from react-icons
 import './Navbar.scss';
-import navbarlogo from '../../assets/GeekClash.svg';
+import navbarlogo from '../../assets/homepageimages/GeekClashLogo.svg';
 import axios from 'axios';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

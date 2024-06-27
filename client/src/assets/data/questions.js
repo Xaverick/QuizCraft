@@ -3,7 +3,7 @@ import question2 from '../Questionsimages/wcu2.svg';
 import question3 from '../Questionsimages/wcu3.svg';
 import question4 from '../Questionsimages/wcu4.svg';
 import up from '../Questionsimages/up.png'
-import down from '../Questionsimages/down.png'
+import down from '../Questionsimages/down.svg'
 import que1 from '../Questionsimages/questions1.png'
 import que2 from '../Questionsimages/questions2.png';
 import que3 from '../Questionsimages/questions3.png'

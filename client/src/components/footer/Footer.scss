@@ -15,10 +15,11 @@
     .content1logo{
         display: flex;
         align-items: center;
-        height: 100px;
+        height: 50px;
         margin-bottom: 1rem;
         img{
-            width: 270px;
+            width: 250px;
+           
         }
     }
     .content1content p {
@@ -50,7 +51,21 @@
     margin-bottom: 5rem;
     gap: 3.125rem;
     /* 50px = 3.125rem */
+
+
+        .Links{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            gap: 2rem;
+            width: 50%;
+
+            /* 10px = 0.625rem */
+        }
+  
 }
+
+
 
 .content2 {
     padding: 0 5rem;
@@ -64,6 +79,8 @@
 .content2 {
     .content2points p {
         font-size: 1rem;
+        text-wrap: nowrap;
+        margin-top: 0.8rem;
     }
 }
 
@@ -71,7 +88,7 @@
 .content3 {
     display: flex;
     flex-direction: column;
-
+    
     .content2heading p {
         font-size: 1.375rem;
         /* 22px = 1.375rem */
@@ -115,17 +132,17 @@
 @media screen and (max-width: 52.5rem) {
 
     /* 840px = 52.5rem */
-    .footercontent .content2 {
-        display: none;
-    }
+    // .footercontent .content2 {
+    //     display: none;
+    // }
 
-    .footercontent .content3 {
-        display: none;
-    }
+    // .footercontent .content3 {
+    //     display: none;
+    // }
 
-    .content1 {
-        width: 100%;
-    }
+    // .content1 {
+    //     width: 100%;
+    // }
 }
 
 @media screen and (max-width: 52rem) {
@@ -133,7 +150,7 @@
     /* 832px = 52rem */
     .footercontent {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: flex-start;
         margin-top: 5rem;
         /* 80px = 5rem */
@@ -143,8 +160,21 @@
             /* 20px = 1.25rem */
         }
 
+        .Links{
+            display: flex;
+            flex-direction: row;
+            gap: 2rem;
+            width: 100%;
+            /* 10px = 0.625rem */
+        }
+
         .content1 {
             width: 100%;
+        }
+
+        .content2 {
+            padding: 0;
+            border: none;
         }
     }
 }

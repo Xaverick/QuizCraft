@@ -1,10 +1,10 @@
 import React from 'react'
 import './Contact.scss'
-import contactimage from '../../assets/Contactpage/contactimage.png'
-import tick from '../../assets/Contactpage/tick.png'
+import contactimage from '../../assets/Contactpage/Contactimage.svg'
+import tick from '../../assets/Contactpage/tick.svg'
 import Comment from '../../components/comment/Comment.jsx';
 import commentdata from '../../assets/data/commentdata.js';
-import rightside from '../../assets/Contactpage/rightside.png'
+import rightside from '../../assets/Contactpage/rightside.svg'
 import { useState } from 'react'
 import axios from 'axios';
 import { toast } from 'react-toastify';

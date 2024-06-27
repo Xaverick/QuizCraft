@@ -203,9 +203,12 @@ $animationSpeed: 20s;
   .homephase4heading {
     p {
       margin-top: 3rem;
+      font-size: 4rem;
     }
   }
 }
+
+
 
 .homephase4content {
   max-width: 90%;
@@ -282,7 +285,7 @@ $animationSpeed: 20s;
 
 
     .question .question-answer {
-      font-size: 18px;
+      font-size: 14px;
       display: flex;
       gap: 25px;
       flex-direction: row;
@@ -320,6 +323,14 @@ $animationSpeed: 20s;
       padding: 0;
       margin-bottom: 0px;
       color: #333333;
+    }
+  }
+
+  @media screen and (max-width: 320px) {
+    .homephase5heading{
+      p{
+        font-size: 4rem;
+      }
     }
   }
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Allcontest.scss";
-import down from "../../assets/Questionsimages/down.png";
+import down from "../../assets/Questionsimages/down.svg";
 import ContestData from "../../components/contestdata/ContestData.jsx";
 import Pagination from "@mui/material/Pagination";
 import Stack from "@mui/material/Stack";

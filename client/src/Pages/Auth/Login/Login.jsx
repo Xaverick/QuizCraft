@@ -156,7 +156,7 @@ const Login = () => {
                 <label htmlFor="rememberMe">Remember Me</label>
               </div> */}
             </div>
-            <button className="cta-btn" type="submit" style={{    background: 'linear-gradient(to right, #05f5bd, #1bb38f)'}} >Login</button>
+            <button className="cta-btn" type="submit" style={{    background: 'linear-gradient(to right, #08AAA2, #5CD7D1)'}} >Login</button>
 
           </form>
           <p className="or"><span></span></p>

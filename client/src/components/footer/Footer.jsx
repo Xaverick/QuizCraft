@@ -1,6 +1,6 @@
 import React from "react";
 // import logo from "../../assets/homepageimages/GeekClash.svg";
-import logo from '../../assets/homepageimages/navbarlogo2.svg';
+import logo from "../../assets/homepageimages/navbarlogo2.svg";
 import insta from "../../assets/Footerimages/Instagram.svg";
 import twiter from "../../assets/Footerimages/Twitter.svg";
 import facebook from "../../assets/Footerimages/Facebook.svg";
@@ -13,7 +13,9 @@ const Footer = () => {
       <div className="footercontent">
         <div className="content1">
           <div className="content1logo">
-            <Link to='/'><img src={logo} alt="" /></Link>
+            <Link to="/">
+              <img src={logo} alt="" />
+            </Link>
           </div>
           <div className="content1content">
             <p>
@@ -37,28 +39,30 @@ const Footer = () => {
             </a>
           </div>
         </div>
-        <div className="content2">
-          <div className="content2heading">
-            <p>Quick Links</p>
+        <div className="Links">
+          <div className="content2">
+            <div className="content2heading">
+              <p>Quick Links</p>
+            </div>
+            <div className="content2points">
+              <p>Contest</p>
+              <p>Leaderboard</p>
+              <p>Premium</p>
+              <p>Advertise With Us</p>
+              <p>Sign Up</p>
+            </div>
           </div>
-          <div className="content2points">
-            <p>Contest</p>
-            <p>Leaderboard</p>
-            <p>Premium</p>
-            <p>Advertise With Us</p>
-            <p>Sign Up</p>
-          </div>
-        </div>
-        <div className="content3">
-          <div className="content3heading">
-            <p>Company</p>
-          </div>
-          <div className="content2points">
-            <p>About Us</p>
-            <p>Privacy Policy</p>
-            <p>Community Guidelines</p>
-            <p>Code of Conduct</p>
-            <p>Terms of Services</p>
+          <div className="content3">
+            <div className="content3heading">
+              <p>Company</p>
+            </div>
+            <div className="content2points">
+              <p>About Us</p>
+              <p>Privacy Policy</p>
+              <p>Community Guidelines</p>
+              <p>Code of Conduct</p>
+              <p>Terms of Services</p>
+            </div>
           </div>
         </div>
       </div>

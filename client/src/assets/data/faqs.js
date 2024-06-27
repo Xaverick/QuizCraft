@@ -1,7 +1,6 @@
 import o from '../homepageimages/OpenButton.svg';
 import c from '../homepageimages/closeButton.svg';
-import up from '../Questionsimages/up.png'
-import down from '../Questionsimages/down.png'
+
 
 const faqs = [
     {

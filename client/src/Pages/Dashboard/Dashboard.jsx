@@ -23,9 +23,9 @@ import { FaArrowRight, FaCopy } from "react-icons/fa";
 const allBadges = [
   { badgeimg: Beginner, badgeName: "Beginner", threshold: 0 },
   { badgeimg: Hustler, badgeName: "Hustler", threshold: 200 },
-  { badgeimg: Champion, badgeName: "Champion", threshold: 400 },
-  { badgeimg: Scholar, badgeName: "Scholar", threshold: 700 },
   { badgeimg: Pro, badgeName: "Pro", threshold: 1200 },
+  { badgeimg: Scholar, badgeName: "Scholar", threshold: 700 },
+  { badgeimg: Champion, badgeName: "Champion", threshold: 400 },
 ];
 
 const Dashboard = () => {
@@ -53,7 +53,30 @@ const Dashboard = () => {
     }
   }, [dashboardData]);
 
-  dashboardData.platformLink = [
+   dashboardData.platformLink = [
+    {
+      img: linkedin,
+      name: "LinkedIn",
+      link: "https://www.linkedin.com/in/ritvikkhanna/",
+    },
+    {
+      img: twitter,
+      name: "Twitter",
+      link: "https://twitter.com/ritvik_xd",
+    },
+    {
+      img: instagram,
+      name: "Twitter",
+      link: "https://instagram.com/ritvik_xd",
+    },
+    {
+      img: link,
+      name: "Link",
+      link: "https://ritvik_xd.com",
+    }
+  ];
+
+  const user = [
     {
       img: linkedin,
       name: "LinkedIn",
@@ -79,11 +102,11 @@ const Dashboard = () => {
       name: "Twitter",
       link: "https://instagram.com/ritvik_xd",
     },
-    {
-      img: link,
-      name: "Link",
-      link: "https://ritvik_xd.com",
-    }
+    // {
+    //   img: link,
+    //   name: "Link",
+    //   link: "https://ritvik_xd.com",
+    // }
   ];
 
   const handleCopyClick = () => {
@@ -113,11 +136,14 @@ const Dashboard = () => {
                 <div className="img-box">
                   <img style={{width:'90%', borderRadius:'9999px'}} src={dashboardData.profilePicture||"https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"}/>
                 </div>
+                <div className="name-username">
+                <p className="name">Ritvik Chauhan</p>
                 <p className="username">{dashboardData.username || '@ritvik_xd'}</p>
+                </div>
               </div>
               <div className="detail-box">
                 <p className="profile-title">{dashboardData.title}</p>
-                <p className="previous-session">view previous session <FaArrowRight/></p>
+                <p className="previous-session">view previous season <FaArrowRight/></p>
               </div>
               <p className="bio">{dashboardData.text || 'lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum '}</p>
               <div className="skills">
@@ -162,7 +188,7 @@ const Dashboard = () => {
             <div className="share-now">
               <p>Share Now</p>
               <div className="platforms">
-                {dashboardData.platformLink.map((platform, index) => (
+                {user.map((platform, index) => (
                   <a href={platform.link} key={index}>
                     <img src={platform.img} alt={platform.name} />
                   </a>
