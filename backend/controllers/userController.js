@@ -124,11 +124,10 @@ module.exports.profile = async (req, res) => {
     const userFullDetails = {
         name: user.name,
         username: userDetails.username,
-        referralLink: userDetails.referralCode,
         rating:userDetails.profile.rating,
-        // text: (userDetails.profile.bio!=undefined)?userDetails.profile.bio: '',
-        //professions: userDetails.profile.professions,
-        //platformLink: userDetails.profile.platformLinks,
+        text:userDetails.profile.bio,
+        professions: userDetails.profile.professions,
+        platformLink: userDetails.profile.platformLinks,
     }
     console.log(userFullDetails);
     res.status(200).json(userFullDetails);
@@ -225,4 +224,44 @@ module.exports.contactUs = async (req, res) => {
     const emailBody = `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone Number: ${phoneNumber}\nMessage: ${message}`;
     mailSender(email, subject, emailBody);
     res.status(200).json('contact us');
+}
+
+module.exports.updateProfile = async (req, res) => {
+    const { username, name, bio, country, occupation, phoneNo, dob, tags , socialLinks } = req.body;
+    try {
+    // Find the user by userId
+    console.log(socialLinks);
+    const user = await User.findById(req.userId);
+    if (!user) {
+      throw new ExpressError('User not found', 404);
+    }
+    // Update user fields
+    user.username = username;
+    user.name = name;
+    // Update profile fields
+    const profile = await Profile.findById(user.profile);
+
+    if (!profile) {
+      throw new ExpressError('Profile not found', 404);
+    }
+    console.log(tags);
+    profile.name = name;
+    profile.bio = bio;
+    profile.country = country;
+    profile.occupation = occupation;
+    profile.phoneNo = phoneNo;
+    profile.dateOfBirth = dob;
+    profile.professions = tags ;
+    profile.platformLinks = socialLinks;
+
+    // Save both user and profile
+    await user.save();
+    await profile.save();
+    // Populate user with updated profile data
+    //await user.populate('profile').execPopulate();
+    res.status(200).json({ message: 'Profile updated successfully', user });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(error.statusCode || 500).json({ error: error.message || 'Internal Server Error' });
+  }
 }

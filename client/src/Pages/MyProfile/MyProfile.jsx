@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { TagsInput } from "react-tag-input-component";
-
+import axios from "axios";
 import Topbar from "../../components/topbar/Topbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "react-tagsinput/react-tagsinput.css";
@@ -14,9 +14,30 @@ const MyProfile = () => {
   );
   const [filename, setFilename] = useState("No file selected");
   const [selected, setSelected] = useState(["papaya"]);
+  const [formData, setFormData] = useState({
+    username: '',
+    name: '',
+    bio: '',
+    country: 'India',
+    occupation: '',
+    phoneNo: '',
+    dob: '',
+    tags: [],
+    socialLinks: ['', '', '', '']  
+  });
 
-  const handleChange = (newTags) => {
-    setTags(newTags);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
+  };
+  const handleTagsChange = (newTags) => {
+    setFormData({
+      ...formData,
+      tags: newTags
+    });
   };
 
   const handlePhotoChange = (event) => {
@@ -28,20 +49,44 @@ const MyProfile = () => {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleChangelinks = (e, index) => {
+    const { name, value } = e.target;
+    const updatedSocialLinks = [...formData.socialLinks]; // Create a copy of socialLinks array
+    updatedSocialLinks[index] = value; // Update the specific index with the new value
+    setFormData({
+      ...formData,
+      socialLinks: updatedSocialLinks // Update formData with the updated array
+    });
+  };
+
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // Here you can handle the form submission, including the uploaded photo
-    const formData = new FormData();
-    formData.append("photo", photo);
-    // Append other form data as needed
+    const formDatatosend = new FormData();
+    // Append data to FormData
+    formDatatosend.append("photo", photo);
+    formDatatosend.append("username", formData.username);
+    formDatatosend.append("name", formData.name);
+    formDatatosend.append("bio", formData.bio);
+    formDatatosend.append("country", formData.country);
+    formDatatosend.append("occupation", formData.occupation);
+    formDatatosend.append("phoneNo", formData.phoneNo);
+    formDatatosend.append("dob", formData.dob);
+    formData.tags.forEach((tag, index) => {
+      formDatatosend.append(`tags[${index}]`, tag);
+    });
+    formData.socialLinks.forEach((link, index) => {
+      formDatatosend.append(`socialLinks[${index}]`, link);
+    });
+    try {
+      console.log(formData)
+      const response = await axios.post('/user/updateprofile', formDatatosend);
+      console.log('Response:', response.data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
 
-    // Example: send the form data to the server
-    // fetch('/api/upload', {
-    //   method: 'POST',
-    //   body: formData,
-    // }).then(response => {
-    //   console.log(response);
-    // });
   };
 
   return (
@@ -74,11 +119,17 @@ const MyProfile = () => {
                   <Input
                     label="Username"
                     placeholder="Enter your username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    name="username"
                     required
                   />
                   <Input
                     label="Your name"
                     placeholder="Enter your full name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    name="name"
                     required
                   />
                 </div>
@@ -88,6 +139,9 @@ const MyProfile = () => {
                     label="Brief bio"
                     type="textarea"
                     placeholder="Enter your message"
+                    value={formData.bio}
+                    onChange={handleChange}
+                    name="bio"
                     required
                   />
                   <div className="myprofile-row-2">
@@ -110,11 +164,17 @@ const MyProfile = () => {
                         "United States",
                         "United Kingdom",
                       ]}
+                      value={formData.country}
+                      onChange={handleChange}
+                      name="country"
                     />
 
                     <Input
                       label="Occupation"
                       placeholder="Enter your occupation"
+                      value={formData.occupation}
+                      onChange={handleChange}
+                      name="occupation"
                       required
                     />
                   </div>
@@ -125,18 +185,24 @@ const MyProfile = () => {
                     label="Phone number"
                     type="tel"
                     placeholder="Enter your phone number"
+                    value={formData.phoneNo}
+                    onChange={handleChange}
+                    name="phoneNo"
                   />
                   <Input
                     label="Date of Birth"
                     type="date"
                     placeholder="Enter your birthdate"
+                    value={formData.dob}
+                    onChange={handleChange}
+                    name="dob"
                   />
                 </div>
                 <>
-                  <TagsInput
-                    value={tags}
-                    onChange={setTags}
-                    name="fruits"
+                  <TagInput
+                    value={formData.tags}
+                    onChange={handleTagsChange}
+                    name="tags"
                     placeHolder="Add Tags"
                     classNames="tag-input"
                   />
@@ -144,27 +210,40 @@ const MyProfile = () => {
                 </>
                 <div className="myprofile-row">
                   <Input
-                    label="Social Link #1"
+                    label="Instagram"
                     type="url"
-                    placeholder="Enter your link"
+                    placeholder="Enter your Insta link"
+                    value={formData.socialLinks[0]}
+                    name="socialLinks"
+                    onChange={(e) => handleChangelinks(e, 0)} 
+
                   />
                   <Input
-                    label="Social Link #2"
+                    label="Twitter"
                     type="url"
-                    placeholder="Enter your link"
+                    placeholder="Enter your Twitter link"
+                    value={formData.socialLinks[1]}
+                    name="socialLinks"
+                    onChange={(e) => handleChangelinks(e, 1)} 
                   />
                 </div>
 
                 <div className="myprofile-row">
                   <Input
-                    label="Social Link #3"
+                    label="LinkedIn"
                     type="url"
-                    placeholder="Enter your link"
+                    placeholder="Enter your LinkedIn link"
+                    name="socialLinks"
+                    value={formData.socialLinks[2]}
+                    onChange={(e) => handleChangelinks(e, 2)} 
                   />
                   <Input
-                    label="Social Link #4"
+                    label="Portfolio"
                     type="url"
-                    placeholder="Enter your link"
+                    placeholder="Share your Portfolio link"
+                    name="socialLinks"
+                    value={formData.socialLinks[3]}
+                    onChange={(e) => handleChangelinks(e, 3)}  
                   />
                 </div>
 
@@ -182,7 +261,38 @@ const MyProfile = () => {
 
 export default MyProfile;
 
-const Input = ({ label, type = "text", placeholder, required }) => {
+const TagInput = ({ value, onChange, name, placeHolder, classNames }) => {
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ',') {
+      e.preventDefault();
+      const tagValue = e.target.value.trim();
+      if (tagValue) {
+        onChange([...value, tagValue]);
+      }
+      e.target.value = '';
+    }
+  };
+
+  return (
+    <div className={classNames}>
+      <input
+        type="text"
+        placeholder={placeHolder}
+        onKeyDown={handleKeyDown}
+      />
+      <ul>
+        {value.map((tag, index) => (
+          <li key={index}>
+            {tag} <button onClick={() => onChange(value.filter((_, i) => i !== index))}>x</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+
+const Input = ({ label, type = "text", placeholder, required ,value, onChange, name}) => {
   return (
     <div className="input-wrapper">
       <label className="profileinputslabel">
@@ -194,6 +304,9 @@ const Input = ({ label, type = "text", placeholder, required }) => {
           placeholder={placeholder}
           required={required}
           className="profileinputs"
+          value={value}
+          onChange={onChange}
+          name={name}
         ></textarea>
       ) : (
         <input
@@ -201,6 +314,9 @@ const Input = ({ label, type = "text", placeholder, required }) => {
           type={type}
           placeholder={placeholder}
           required={required}
+          value={value}
+          onChange={onChange}
+          name={name}
         />
       )}
     </div>

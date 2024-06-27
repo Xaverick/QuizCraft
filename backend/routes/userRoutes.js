@@ -38,8 +38,8 @@ router.route('/contact')
 router.route('/profile')
     .get(isClient,catchAsync(user.profile));
 
-// router.route('/updateprofile')
-//     .post(isClient,catchAsync(user.updateProfile));
+router.route('/updateprofile')
+    .post(isClient,catchAsync(user.updateProfile));
 
 
 
