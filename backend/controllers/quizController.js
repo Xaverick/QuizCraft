@@ -17,10 +17,15 @@ module.exports.getAllQuizes= async (req, res) => {
 
 module.exports.getQuiz = async (req, res) => {
     const quiz = await Quiz.findById(req.params.quizid);
+    const quizId = req.params.quizid;
+    const userId = req.userId;
+    const response = await Submission.findOne({ quizId: quizId, userId: userId });
+    console.log(response);
     if(!quiz){
       throw new ExpressError('quiz not found', 400);
     }
-    res.json(quiz);
+
+    res.json({quiz: quiz, response: response});
 }
 
 
@@ -254,6 +259,5 @@ module.exports.getLeaderboard = async (req, res) => {
   if (!leaderboard) {
     throw new ExpressError('Leaderboard not found', 400);
   }
-  console.log(leaderboard);
   res.status(200).json(leaderboard);
 }

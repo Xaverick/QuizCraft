@@ -30,6 +30,7 @@ const countryCodeMap = {
 
 const ContestDetails = () => {
     const [activeSection, setActiveSection] = useState('details');
+    const [contestGiven, setContestGiven] = useState(false);
     const [quizData, setQuizData] = useState({});
     const { id } = useParams();
     const [currentPage, setCurrentPage] = useState(1);
@@ -47,7 +48,11 @@ const ContestDetails = () => {
             try {
                 const response = await axios.get(`/quiz/getQuiz/${id}`);
                 if (response.status === 200) {
-                    setQuizData(response.data);
+                    setQuizData(response.data.quiz);
+                    console.log(response.data);
+                    if(response.data.response){
+                        setContestGiven(true);
+                    }
                 } else {
                     throw new Error('Failed to fetch quiz data');
                 }
@@ -97,7 +102,7 @@ const ContestDetails = () => {
         <div className="contestdetailspage">
             <div className='contestdetailspart-1'>
                 <div>
-                    <Commoncd data={quizData} isRegistered={isRegistered}/>
+                    <Commoncd data={quizData} isRegistered={isRegistered} given={contestGiven}/>
                 </div>
             </div>
             <div className='mini-nav'>

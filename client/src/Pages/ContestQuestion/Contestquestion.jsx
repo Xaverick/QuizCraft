@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import './Contestquestion.scss';
 import { Link, useParams } from 'react-router-dom';
-import logo from '../../assets/homepageimages/navbarlogo.png'
+import logo from '../../assets/GeekClash.svg'
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';

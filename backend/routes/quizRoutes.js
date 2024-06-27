@@ -9,7 +9,7 @@ router.route('/getAllQuizzes')
     .get(catchAsync(quiz.getAllQuizes));
 
 router.route('/getQuiz/:quizid')
-    .get(catchAsync(quiz.getQuiz));
+    .get(isClient, catchAsync(quiz.getQuiz));
 
 router.route('/registerQuiz/:quizId')
     .post(isClient,catchAsync(quiz.registerQuiz));
