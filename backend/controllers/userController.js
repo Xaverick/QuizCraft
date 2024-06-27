@@ -258,7 +258,7 @@ module.exports.updateProfile = async (req, res) => {
     await user.save();
     await profile.save();
     // Populate user with updated profile data
-    //await user.populate('profile').execPopulate();
+    //await user.populate('profile')=
     res.status(200).json({ message: 'Profile updated successfully', user });
   } catch (error) {
     console.error('Error updating profile:', error);
