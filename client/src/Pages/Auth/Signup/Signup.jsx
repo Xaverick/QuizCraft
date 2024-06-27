@@ -151,8 +151,10 @@ const Signup = () => {
     email: '',
     password: '',
     // username: '',
-    name: ''
+    name: '',
+    referralcode : ''
   });
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -180,7 +182,8 @@ const Signup = () => {
           email: '',
           password: '',
           // username: '',
-          name: ''
+          name: '',
+          referralcode : ''
         });
 
         setTimeout(() => {
@@ -244,6 +247,7 @@ const Signup = () => {
                   />
                 )}
               </div>
+              <input className='signup-input' type="text" placeholder="Have Referal Code ?" name="referralcode" value={formData.referralcode} onChange={handleChange}  />
               {/* <div className="remember-me">
                 <input type="checkbox" id="rememberMe" name="rememberMe" required />
                 <label htmlFor="rememberMe">I agree with Terms of Use and Privacy Policy</label>
