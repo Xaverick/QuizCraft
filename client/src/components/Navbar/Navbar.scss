@@ -10,6 +10,16 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+    height: 50px;
+
+    img {
+      width: 250px;
+    }
+  }
 }
 
 .navbar-links {

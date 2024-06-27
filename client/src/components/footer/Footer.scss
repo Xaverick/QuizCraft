@@ -5,8 +5,6 @@
     margin-top: 6rem;
     display: flex;
     flex-direction: column;
-
-
 }
 
 .content1 {
@@ -14,7 +12,15 @@
     flex-direction: column;
     padding-top: 1rem;
     width: 30%;
-
+    .content1logo{
+        display: flex;
+        align-items: center;
+        height: 100px;
+        margin-bottom: 1rem;
+        img{
+            width: 270px;
+        }
+    }
     .content1content p {
         font-size: 0.9rem;
         /* 12px = 0.75rem */
