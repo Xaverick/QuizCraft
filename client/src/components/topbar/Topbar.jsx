@@ -1,11 +1,21 @@
-import React from "react";
+import React ,{useEffect, useState} from "react";
 import logo from "../../assets/homepageimages/GeekClash.svg";
 import Message from "../../assets/Topbar/Message.svg";
 import Notification from "../../assets/Topbar/Notification.svg";
 import './Topbar.scss';
 import { Link } from "react-router-dom";
+import axios from "axios";
  
 const Topbar = () => {
+  const [data,setdata] = useState([]);
+  
+  useEffect(() => {
+    const getDetails = async () => {
+      const response = await axios.get('/user/profile');
+      setdata(response.data);
+    }
+    getDetails();
+  },[])
   return (
     <nav className="topbar">
       <div className="topbar-left">
@@ -27,8 +37,8 @@ const Topbar = () => {
         </div>
         <div className="user-avatar" />
         <div className="topbar-user-info">
-          <span>Ritvik Khanna</span>
-          <span>UI/UX Designer</span>
+          <span>{data.name}</span>
+          <span>{data.occupation}</span>
         </div>
         <select name="language" id="language-select" className="language-select">
           <option value="">{""}</option>
