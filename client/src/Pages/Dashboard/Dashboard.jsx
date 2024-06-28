@@ -32,7 +32,7 @@ const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState({});
   const [links,setlinks] = useState([]);
   const [badge, setBadge] = useState([]);
-  const referralLink = "https://geekclash.com/signup?ref"+dashboardData.username;
+  const referralLink = "https://geekclash.phicsit.in/signup?ref"+dashboardData.username;
 
   useEffect(() => {
     const getDetails = async () => {
