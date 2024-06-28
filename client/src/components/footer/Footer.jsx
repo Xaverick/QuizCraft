@@ -45,11 +45,21 @@ const Footer = () => {
               <p>Quick Links</p>
             </div>
             <div className="content2points">
-              <p>Contest</p>
-              <p>Leaderboard</p>
-              <p>Premium</p>
-              <p>Advertise With Us</p>
-              <p>Sign Up</p>
+              <a href="/contest" >
+                Contest
+              </a>
+              <a href="/comingsoon" >
+                Leaderboard
+              </a>
+              <a href="">
+                Premium
+              </a>
+              <a href="">
+                Advertise With Us
+              </a>
+              <a href="/signup">
+                Sign Up
+              </a>
             </div>
           </div>
           <div className="content3">
@@ -57,11 +67,21 @@ const Footer = () => {
               <p>Company</p>
             </div>
             <div className="content2points">
-              <p>About Us</p>
-              <p>Privacy Policy</p>
-              <p>Community Guidelines</p>
-              <p>Code of Conduct</p>
-              <p>Terms of Services</p>
+              <a href="about-us">
+                About Us
+              </a>
+              <a href="">
+                Privacy Policy
+              </a>
+              <a href="">
+                Community Guidelines
+              </a>
+              <a href="">
+                Code of Conduct
+              </a>
+              <a href="">
+                Terms of Services
+              </a>
             </div>
           </div>
         </div>
