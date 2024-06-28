@@ -230,7 +230,6 @@ module.exports.updateProfile = async (req, res) => {
     const { username, name, bio, country, occupation, phoneNo, dob, tags , socialLinks } = req.body;
     try {
     // Find the user by userId
-    console.log(socialLinks);
     const user = await User.findById(req.userId);
     if (!user) {
       throw new ExpressError('User not found', 404);
