@@ -323,14 +323,14 @@ const Input = ({ label, type = "text", placeholder, required ,value, onChange, n
   );
 };
 
-const Select = ({ label, required, options }) => {
+const Select = ({ label, required, options , value ,onChange,name }) => {
   return (
     <div className="input-wrapper">
       <label className="profileinputslabel">
         {label}
         {required && <span style={{ color: "red" }}>*</span>}
       </label>
-      <select className="profileinputs" required={required}>
+      <select className="profileinputs" required={required} value={value} onChange={onChange} name={name}>
         {options.map((option, index) => (
           <option key={index} value={option}>
             {option}
