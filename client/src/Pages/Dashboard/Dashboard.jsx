@@ -30,12 +30,15 @@ const allBadges = [
 
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState({});
+  const [links,setlinks] = useState([]);
   const [badge, setBadge] = useState([]);
+  const referralLink = "https://geekclash.com/signup?ref"+dashboardData.username;
 
   useEffect(() => {
     const getDetails = async () => {
       const response = await axios.get('/user/profile');
       setDashboardData(response.data);
+      setlinks(response.data.platformLink);
     };
     getDetails();
   }, []);
@@ -57,22 +60,22 @@ const Dashboard = () => {
     {
       img: linkedin,
       name: "LinkedIn",
-      link: "https://www.linkedin.com/in/ritvikkhanna/",
+      link:  links[2],
     },
     {
       img: twitter,
       name: "Twitter",
-      link: "https://twitter.com/ritvik_xd",
+      link: links[1],
     },
     {
       img: instagram,
-      name: "Twitter",
-      link: "https://instagram.com/ritvik_xd",
+      name: "Instagram",
+      link:   links[0],
     },
     {
       img: link,
       name: "Link",
-      link: "https://ritvik_xd.com",
+      link:  links[3],
     }
   ];
 
@@ -137,7 +140,7 @@ const Dashboard = () => {
                   <img style={{width:'90%', borderRadius:'9999px'}} src={dashboardData.profilePicture||"https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"}/>
                 </div>
                 <div className="name-username">
-                <p className="name">Ritvik Chauhan</p>
+                <p className="name">{dashboardData.name} </p>
                 <p className="username">{dashboardData.username || '@ritvik_xd'}</p>
                 </div>
               </div>
@@ -145,7 +148,7 @@ const Dashboard = () => {
                 <p className="profile-title">{dashboardData.title}</p>
                 <p className="previous-session">view previous season <FaArrowRight/></p>
               </div>
-              <p className="bio">{dashboardData.text || 'lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum lorem epsum '}</p>
+              <p className="bio">{dashboardData.text || 'Write your Bio'}</p>
               <div className="skills">
                 {dashboardData.professions && dashboardData.professions.map((skill, index) => (
                   <Skills skill={skill} key={index} />
@@ -180,7 +183,7 @@ const Dashboard = () => {
           <div className="refferal">
             <p>Share your unique referral link</p>
             <div className="copy-referral">
-              <input type="text" value={dashboardData.referralLink} readOnly />
+              <input type="text" value={referralLink} readOnly />
               <button onClick={handleCopyClick} style={{
                 display:'flex', alignItems:'center', textAlign:'center', justifyContent:'center', gap:'5px'
               }}><FaCopy/>Copy</button>
