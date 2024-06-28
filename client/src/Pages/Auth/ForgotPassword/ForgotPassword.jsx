@@ -41,7 +41,7 @@ const ForgotPassword = () => {
               required
             />
           </div>
-          <button type="submit" className="btn">
+          <button type="submit" className="btn" style={{    background: 'linear-gradient(to right, #08AAA2, #5CD7D1)'}}>
             Send
           </button>
         </form>

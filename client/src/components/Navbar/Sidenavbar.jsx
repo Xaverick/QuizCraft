@@ -85,6 +85,13 @@ const SideNavbar = () => {
                             Leaderboard
                         </Link>
                         <Link
+                            to="/dashboard"
+                            className={`side-navbar-link ${activeLink === '/dashboard' ? 'active' : ''}`}
+                            onClick={() => handleLinkClick('/dashboard')}
+                        >
+                            Dashboard
+                        </Link>
+                        <Link
                             to="/pricing"
                             className={`side-navbar-link ${activeLink === '/pricing' ? 'active' : ''}`}
                             onClick={() => handleLinkClick('/pricing')}

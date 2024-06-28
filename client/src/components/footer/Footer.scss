@@ -35,9 +35,6 @@
     gap: 0.625rem;
     /* 10px = 0.625rem */
 
-    a {
-        cursor: pointer;
-    }
 }
 
 .footercontent {
@@ -77,10 +74,26 @@
 
 .content3,
 .content2 {
-    .content2points p {
+    // .content2points p {
+    //     font-size: 1rem;
+    //     text-wrap: nowrap;
+    //     margin-top: 0.8rem;
+    //     cursor: pointer;
+    // }
+
+    .content2points{
+        display: flex;
+        flex-direction: column;
+    }
+
+    .content2points a{
+        text-decoration: none;
+        color: whitesmoke;
         font-size: 1rem;
         text-wrap: nowrap;
         margin-top: 0.8rem;
+        cursor: pointer;
+
     }
 }
 
@@ -94,6 +107,15 @@
         /* 22px = 1.375rem */
         font-weight: bold;
         color: white;
+    }
+
+    @media screen and (max-width: 520px){
+        .content2heading p {
+            font-size: 1.125rem;
+            /* 22px = 1.375rem */
+            font-weight: bold;
+            color: white;
+        }
     }
 
     .content3heading p {
@@ -193,3 +215,4 @@
         text-align: center;
     }
 }
+
