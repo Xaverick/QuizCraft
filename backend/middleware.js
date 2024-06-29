@@ -1,32 +1,11 @@
 const User = require('./models/userModel')
 const jwt = require('jsonwebtoken');
 const Admin = require('./models/adminModel');
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
 
-
-// module.exports.isClient = async (req, res, next) => {
-//     const token = req.signedCookies.userjwt;
-//     if (!token) {
-//         return res.status(400).json('Please log in first');
-//     }
-
-//     try {
-//         const decoded = jwt.verify(token, process.env.USER_SECRET);
-//         if(!decoded) {
-//             return res.status(400).json('Invalid token');
-//         }
-//         const user = await User.findById(decoded.userId);
-//         if (!user) {
-//             return res.status(400).json('Invalid token');
-//         }
-//         req.userId = user._id;
-//         next();
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json('Internal server error');
-//     }
-// }
-
-module.exports.isClient = async (req, res, next) => {
+const isClient = async (req, res, next) => {
     const cookie = req.signedCookies.userjwt;
 
     if (!cookie) {
@@ -51,7 +30,7 @@ module.exports.isClient = async (req, res, next) => {
 }
 
 
-module.exports.isAdmin = async (req, res, next) => {
+const isAdmin = async (req, res, next) => {
     const token = req.signedCookies.adminjwt;
     // console.log(token);
     if (!token) {
@@ -74,3 +53,19 @@ module.exports.isAdmin = async (req, res, next) => {
         res.status(500).json('Internal server error');
     }
 }
+
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './public/temp')
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
+        cb(null, file.fieldname + '-' + uniqueSuffix);
+    }
+})
+
+
+const upload = multer({ storage: storage })
+
+module.exports = { isAdmin, isClient, upload };

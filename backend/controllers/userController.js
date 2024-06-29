@@ -7,7 +7,7 @@ const randomStringGenerator = require('randomstring');
 const ExpressError = require('../utils/ExpressError');
 const mailSender = require('../utils/mailSender');
 const Profile = require('../models/profileModel');
-const { registerQuiz } = require('./quizController');
+const uploadOnCloudinary = require('../utils/cloudinary');
 
 
 
@@ -43,63 +43,63 @@ module.exports.login = async (req, res) => {
     }
 }
 
+function generateUsername(fullName) {
+    // Split the full name by spaces
+    let nameParts = fullName.split(' ');
+    let firstName = nameParts[0];
+    let randomNumber = Math.floor(1000 + Math.random() * 9000);
+    let username = firstName + randomNumber;
+    
+    return username;
+}
 
 module.exports.register = async (req, res) => {
-    let { name, email, password } = req.body;
+    let { name, email, password, referralcode } = req.body;
     if (!name || !email || !password) throw new ExpressError('missing fields', 400);
     email = email.toLowerCase();
-    const registeredEmail = await User.findOne({ email: email, name: name });
+    const registeredEmail = await User.findOne({email: email});
 
     if (registeredEmail) {
-        throw new ExpressError('email or username already registered', 400);
+        throw new ExpressError('email already registered', 400);
     }
+
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(password, salt);
 
     // checking for referral code from user
-    const referralCode = req.body.referralcode;
+    const referralCode = referralcode;
     if(referralCode != ''){
-        const referrerExists = await User.findOne({
+        const referrerExists = await Profile.findOne({
             referralCodeString:referralCode
         });
         if(referrerExists){
             let userCountIncreased = 1;
             let coinsIncreased = 50;
-            const sameUser = await User.findOneAndUpdate({referralCodeString:referralCode},
+            const referredUser = await Profile.findOneAndUpdate({referralCodeString:referralCode},
                 {$inc :{totalUsersReferred:userCountIncreased, coin:coinsIncreased}},{new:true});
         }
     }
-    //Generating  temporary username "also its not unique" username
-    // const username = "Geeky"+"@"+name;
+
     // made changes to username, now its pretty much unique, name+[5]+"@Geeky"+[2], these are alot of combinations
-    const username = name+randomStringGenerator.generate(5)+"@Geeky"+randomStringGenerator.generate(2);
+    const username = generateUsername(name);
     const user = await User.create({ name,username, email, password: hash });
-
-    // creation of referal code and saving in db
-    //refferal id changed
-    //referal code added
+    
+    //Creating Profile
     const referralCodeString = randomStringGenerator.generate(7).toUpperCase();
-    // const referralCodeUrl = `${process.env.SITE_URL}/signup?referralcode=${referralCodeString}`;
-    const sameUser = await User.updateOne(
-      { email: user.email },
-      {
-        // referralCodeUrl: referralCodeUrl,
+    const profile = await Profile.create({
+        userId: user._id,
         referralCodeString:referralCodeString,
-      }
-    );
-    if (sameUser) {
-      console.log(`this is the newly created referral code : ${referralCodeString}`);
-    }
+    });
 
-    // profile data is created and the profile is saved in the User.
-    const profile = await Profile.create({name});
     await profile.save();
     user.profile = profile._id;
+
     await user.save();
     // await sendVerificationEmail(email,user);
-    console.log(user);
     res.status(200).json('register');
+
 }
+
 
 module.exports.logout = (req, res) => {
     console.log("In Logout");
@@ -120,10 +120,9 @@ module.exports.profile = async (req, res) => {
         throw new ExpressError('user not found', 400);
     }
     const userDetails = await user.populate('profile');
-    console.log(userDetails.username);
     const userFullDetails = {
         name: user.name,
-        username: userDetails.username,
+        username: user.username,
         rating:userDetails.profile.rating,
         text:userDetails.profile.bio,
         professions: userDetails.profile.professions,
@@ -227,41 +226,48 @@ module.exports.contactUs = async (req, res) => {
     res.status(200).json('contact us');
 }
 
+
 module.exports.updateProfile = async (req, res) => {
     const { username, name, bio, country, occupation, phoneNo, dob, tags , socialLinks } = req.body;
-    try {
     // Find the user by userId
     const user = await User.findById(req.userId);
     if (!user) {
       throw new ExpressError('User not found', 404);
     }
     // Update user fields
-    user.username = username;
-    user.name = name;
+    if (user.username) {
+      const usernameExists = await User.findOne({ username });
+
+      if (usernameExists && usernameExists._id.toString() !== user._id.toString()) {
+        throw new ExpressError('Username already exists', 400);
+      }
+      user.username = username;
+    }
+    
+    if (user.name) {
+      user.name = name;
+    }
+
+    if (user.country) {
+      user.country = country;
+    }
+
     // Update profile fields
     const profile = await Profile.findById(user.profile);
 
     if (!profile) {
       throw new ExpressError('Profile not found', 404);
     }
+
     console.log(tags);
-    profile.name = name;
     profile.bio = bio;
-    profile.country = country;
     profile.occupation = occupation;
     profile.phoneNo = phoneNo;
     profile.dateOfBirth = dob;
     profile.professions = tags ;
     profile.platformLinks = socialLinks;
-
-    // Save both user and profile
     await user.save();
     await profile.save();
-    // Populate user with updated profile data
-    //await user.populate('profile')=
     res.status(200).json({ message: 'Profile updated successfully', user });
-  } catch (error) {
-    console.error('Error updating profile:', error);
-    res.status(error.statusCode || 500).json({ error: error.message || 'Internal Server Error' });
-  }
+  
 }

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const user  = require('../controllers/userController');
 const catchAsync = require('../utils/CatchAsync');
-const { isClient } = require('../middleware.js');
+const { isClient, upload } = require('../middleware.js');
 
 
 router.route('/login')
@@ -39,7 +39,7 @@ router.route('/profile')
     .get(isClient,catchAsync(user.profile));
 
 router.route('/updateprofile')
-    .post(isClient,catchAsync(user.updateProfile));
+    .post(isClient, upload.single('profilePhoto'), catchAsync(user.updateProfile));
 
 
 

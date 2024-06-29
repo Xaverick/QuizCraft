@@ -14,15 +14,16 @@ const userSchema = new schema({
 
     username: {
         type: String,
-        // required: true,
-        // have removed from unique to just show up the names temporarily
-        //unique: true,
+        required: true,
+        unique: true,
         min: 6,
 
     },
+
     googleId: {
         type: String,
     },
+
     picture:{
         type: String,
     },
@@ -33,7 +34,6 @@ const userSchema = new schema({
         unique: true,
         min: 6,
         max: 255,
-
     },
 
     password: {
@@ -55,24 +55,9 @@ const userSchema = new schema({
 
     country: {
         type: String,
+        default: "India",
     },
-
-
-    // referralCodeUrl: {
-    //   type: String,
-    // },
-    referralCodeString:{
-        type:String,
-    },
-    totalUsersReferred:{
-        type:Number,
-        default:0
-    },
-    coin: {
-      type: Number,
-      default:0
-    },
-  
+ 
     profile : {
         type : schema.Types.ObjectId,
         ref:'Profile',

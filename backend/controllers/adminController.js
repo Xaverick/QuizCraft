@@ -322,12 +322,11 @@ module.exports.compileResults = async (req, res) => {
     submissions.forEach(submission => {
         submission.score = calculateScore(submission, quiz);
         submission.correctAnswers = submission.answers.filter(answer => answer.correct).length;
-        // leaderboard.addUser(submission.userId._id, submission.score, submission.userId.username, submission.userId.country);
-        leaderboard.addUser(submission.userId._id, submission.score, submission.userId.name, "India");
+        leaderboard.addUser(submission.userId._id, submission.score, submission.userId.username, submission.userId.country);
         submission.save();
     })
 
-    addRating(leaderboard);
+    // addRating(leaderboard);
     await leaderboard.save();
     res.status(200).json('results compiled');
 }
