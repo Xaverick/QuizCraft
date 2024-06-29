@@ -26,7 +26,7 @@ const countryCodeMap = {
     'brazil': 'BR',
     'russia': 'RU',
     // Add more countries as needed
-  };
+};
 
 const ContestDetails = () => {
     const [activeSection, setActiveSection] = useState('details');
@@ -50,7 +50,7 @@ const ContestDetails = () => {
                 if (response.status === 200) {
                     setQuizData(response.data.quiz);
                     console.log(response.data);
-                    if(response.data.response){
+                    if (response.data.response) {
                         setContestGiven(true);
                     }
                 } else {
@@ -102,7 +102,7 @@ const ContestDetails = () => {
         <div className="contestdetailspage">
             <div className='contestdetailspart-1'>
                 <div>
-                    <Commoncd data={quizData} isRegistered={isRegistered} given={contestGiven}/>
+                    <Commoncd data={quizData} isRegistered={isRegistered} given={contestGiven} />
                 </div>
             </div>
             <div className='mini-nav'>
@@ -159,10 +159,20 @@ const ContestDetails = () => {
                                         <div className="custom-select">
                                             <select className="filter-country">
                                                 <option value="">All Countries</option>
-                                                <option value="india">India</option>
-                                                <option value="usa">USA</option>
+                                                <option value="australia">Australia</option>
                                                 <option value="canada">Canada</option>
-                                                <option value="uk">UK</option>
+                                                <option value="egypt">Egypt</option>
+                                                <option value="ghana">Ghana</option>
+                                                <option value="india">India</option>
+                                                <option value="malaysia">Malaysia</option>
+                                                <option value="pakistan">Pakistan</option>
+                                                <option value="new-zealand">New Zealand</option>
+                                                <option value="nigeria">Nigeria</option>
+                                                <option value="republic-of-ireland">Republic of Ireland</option>
+                                                <option value="singapore">Singapore</option>
+                                                <option value="south-africa">South Africa</option>
+                                                <option value="united-states">United States</option>
+                                                <option value="united-kingdom">United Kingdom</option>
                                             </select>
                                             <IoIosArrowDown className="dropdown-icon" />
                                         </div>
@@ -182,10 +192,10 @@ const ContestDetails = () => {
                                                 <td>{rank.name}</td>
                                                 {/* <td>{rank.country}</td> */}
                                                 <td>
-                                                <FlagIcon code={countryCodeMap[rank.country.toLowerCase()]} width={32} />
+                                                    <FlagIcon code={countryCodeMap[rank.country.toLowerCase()]} width={32} />
 
                                                 </td>
-                                                
+
                                                 <td>{rank.score}</td>
                                             </tr>
                                         ))}
