@@ -128,6 +128,12 @@ module.exports.profile = async (req, res) => {
         professions: userDetails.profile.professions,
         platformLink: userDetails.profile.platformLinks,
         occupation:userDetails.profile.occupation,
+        phoneNo: userDetails.profile.phoneNumber,
+        dob: userDetails.profile.dateOfBirth,
+        profilePhoto: userDetails.profile.profilePhoto,
+        bio : userDetails.profile.bio
+
+
     }
 
     res.status(200).json(userFullDetails);
@@ -228,10 +234,12 @@ module.exports.contactUs = async (req, res) => {
 
 
 module.exports.updateProfile = async (req, res) => {
+    console.log('Inside updateProfile');
     const { username, name, bio, country, occupation, phoneNo, dob, tags , socialLinks } = req.body;
     // Find the user by userId
     const user = await User.findById(req.userId);
     if (!user) {
+      if (req.file?.path) fs.unlinkSync(req.file?.path);
       throw new ExpressError('User not found', 404);
     }
     // Update user fields
@@ -239,6 +247,7 @@ module.exports.updateProfile = async (req, res) => {
       const usernameExists = await User.findOne({ username });
 
       if (usernameExists && usernameExists._id.toString() !== user._id.toString()) {
+        if (req.file?.path) fs.unlinkSync(req.file?.path);
         throw new ExpressError('Username already exists', 400);
       }
       user.username = username;
@@ -256,13 +265,23 @@ module.exports.updateProfile = async (req, res) => {
     const profile = await Profile.findById(user.profile);
 
     if (!profile) {
+      if (req.file?.path) fs.unlinkSync(req.file?.path);
       throw new ExpressError('Profile not found', 404);
     }
 
-    console.log(tags);
+    let photo = req.file?.path;
+
+    if (photo) {
+        photo = await uploadOnCloudinary(photo);
+        photo = photo.secure_url;
+        profile.profilePhoto = photo;
+    }
+
+    console.log(photo);
+    user.picture = photo;
     profile.bio = bio;
     profile.occupation = occupation;
-    profile.phoneNo = phoneNo;
+    profile.phoneNumber = phoneNo;
     profile.dateOfBirth = dob;
     profile.professions = tags ;
     profile.platformLinks = socialLinks;

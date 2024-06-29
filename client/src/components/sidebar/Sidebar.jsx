@@ -41,6 +41,7 @@ const Account = [
   {
     link: "Setting",
     icon: Setting,
+    path: "/my-profile",
   },
   {
     link: "Logout",

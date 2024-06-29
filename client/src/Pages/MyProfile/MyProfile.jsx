@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { TagsInput } from "react-tag-input-component";
 import axios from "axios";
 import Topbar from "../../components/topbar/Topbar";
@@ -7,24 +7,51 @@ import "react-tagsinput/react-tagsinput.css";
 import "./MyProfile.scss";
 
 const MyProfile = () => {
-  const [tags, setTags] = useState([]);
+  // const [tags, setTags] = useState([]);
   const [photo, setPhoto] = useState(null);
   const [preview, setPreview] = useState(
     "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"
   );
+  // const [selected, setSelected] = useState(["papaya"]);
   const [filename, setFilename] = useState("No file selected");
-  const [selected, setSelected] = useState(["papaya"]);
   const [formData, setFormData] = useState({
     username: '',
     name: '',
     bio: '',
-    country: 'India',
+    country: '',
     occupation: '',
     phoneNo: '',
     dob: '',
     tags: [],
-    socialLinks: ['', '', '', '']  
+    socialLinks: ['','','','']  
   });
+
+  useEffect(() => {
+    // Fetch user data from the backend
+    axios.get('/user/profile') 
+      .then(response => {
+
+        console.log("User data fetched successfully", response.data);
+        setFormData({
+          username: response.data.username,
+          name: response.data.name,
+          bio: response.data.bio,
+          country: response.data.country,
+          occupation: response.data.occupation,
+          phoneNo: response.data.phoneNo,
+          dob: new Date(response.data.dob).toISOString().slice(0, 10),
+          tags: response.data.professions,
+          socialLinks: response.data.platformLink
+        });
+        setPreview(response.data.profilePhoto);
+        
+      })
+      .catch(error => {
+        console.error("There was an error fetching the user data!", error);
+      });
+
+  }, []);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -81,7 +108,13 @@ const MyProfile = () => {
     });
     try {
       console.log(formData)
-      const response = await axios.post('/user/updateprofile', formDatatosend);
+      const response = await axios.post('/user/updateprofile', formDatatosend,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
       console.log('Response:', response.data);
     } catch (error) {
       console.error('Error:', error);
@@ -224,7 +257,7 @@ const MyProfile = () => {
                     label="X (Formerly Twitter)"
                     type="url"
                     placeholder="Enter your Twitter link"
-                    value={formData.socialLinks[1]}
+                    value={formData.socialLinks[1] || ""}
                     name="socialLinks"
                     onChange={(e) => handleChangelinks(e, 1)} 
                   />
@@ -236,7 +269,7 @@ const MyProfile = () => {
                     type="url"
                     placeholder="Enter your LinkedIn link"
                     name="socialLinks"
-                    value={formData.socialLinks[2]}
+                    value={formData.socialLinks[2] || ""}
                     onChange={(e) => handleChangelinks(e, 2)} 
                   />
                   <Input
@@ -244,7 +277,7 @@ const MyProfile = () => {
                     type="url"
                     placeholder="Share your Portfolio link"
                     name="socialLinks"
-                    value={formData.socialLinks[3]}
+                    value={formData.socialLinks[3] || ""}
                     onChange={(e) => handleChangelinks(e, 3)}  
                   />
                 </div>
@@ -263,7 +296,7 @@ const MyProfile = () => {
 
 export default MyProfile;
 
-const TagInput = ({ value, onChange, name, placeHolder, classNames }) => {
+const TagInput = ({ value, onChange, placeHolder, classNames }) => {
   const handleKeyDown = (e) => {
     if (e.key === 'Enter' || e.key === ',') {
       e.preventDefault();
@@ -283,7 +316,7 @@ const TagInput = ({ value, onChange, name, placeHolder, classNames }) => {
         onKeyDown={handleKeyDown}
       />
       <ul>
-        {value.map((tag, index) => (
+        {value?.map((tag, index) => (
           <li key={index}>
             {tag} <button onClick={() => onChange(value.filter((_, i) => i !== index))}>x</button>
           </li>

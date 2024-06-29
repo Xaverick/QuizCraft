@@ -39,7 +39,7 @@ router.route('/profile')
     .get(isClient,catchAsync(user.profile));
 
 router.route('/updateprofile')
-    .post(isClient, upload.single('profilePhoto'), catchAsync(user.updateProfile));
+    .post(isClient, upload.single('photo'), catchAsync(user.updateProfile));
 
 
 

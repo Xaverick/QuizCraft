@@ -122,15 +122,17 @@
 }
 
 .skills {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
+  // grid-template-columns: repeat(5, 1fr);
   gap: 5px; /* Adds space between the grid items */
   justify-content: center; /* Center items in the grid */
   grid-auto-flow: dense; /* Fill rows with items in the order they appear */
 }
 
 .skill {
-  padding: 5px 5px;
+  padding: 5px 2rem;
+  width: fit-content;
+  
   border: 1px solid gray;
   border-radius: 999px;
   text-align: center; /* Centers text within each skill item */

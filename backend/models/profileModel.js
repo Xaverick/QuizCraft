@@ -8,7 +8,7 @@ const profileSchema = new schema ({
         type: schema.Types.ObjectId,    
         ref: 'User',
         required: true,
-        
+
     },
 
     bio: {
@@ -55,7 +55,8 @@ const profileSchema = new schema ({
       default:0
     },
     
-    platformLinks: [{}],
+    platformLinks: [
+    ],
     professions: [],
 })
 
