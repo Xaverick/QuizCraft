@@ -30,15 +30,14 @@ const allBadges = [
 
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState({});
-  const [links,setlinks] = useState([]);
+  const [links, setLinks] = useState([]);
   const [badge, setBadge] = useState([]);
-  const referralLink = "https://geekclash.phicsit.in/signup?ref"+dashboardData.username;
-
+  
   useEffect(() => {
     const getDetails = async () => {
       const response = await axios.get('/user/profile');
       setDashboardData(response.data);
-      setlinks(response.data.platformLink);
+      setLinks(response.data.platformLink);
     };
     getDetails();
   }, []);
@@ -56,11 +55,13 @@ const Dashboard = () => {
     }
   }, [dashboardData]);
 
-   dashboardData.platformLink = [
+  const referralLink = `https://geekclash.in/signup?ref=${dashboardData.username}`;
+
+  const platformLinks = [
     {
       img: linkedin,
       name: "LinkedIn",
-      link:  links[2],
+      link: links[2],
     },
     {
       img: twitter,
@@ -70,12 +71,12 @@ const Dashboard = () => {
     {
       img: instagram,
       name: "Instagram",
-      link:   links[0],
+      link: links[0],
     },
     {
       img: link,
       name: "Link",
-      link:  links[3],
+      link: links[3],
     }
   ];
 
@@ -105,15 +106,10 @@ const Dashboard = () => {
       name: "Twitter",
       link: "https://instagram.com/ritvik_xd",
     },
-    // {
-    //   img: link,
-    //   name: "Link",
-    //   link: "https://ritvik_xd.com",
-    // }
   ];
 
   const handleCopyClick = () => {
-    navigator.clipboard.writeText(dashboardData.referralLink).then(
+    navigator.clipboard.writeText(referralLink).then(
       () => {
         alert("Referral link copied to clipboard!");
       },
@@ -137,16 +133,16 @@ const Dashboard = () => {
             <div className="upper-inner">
               <div className="image-username">
                 <div className="img-box">
-                  <img style={{width:'90%', borderRadius:'9999px'}} src={dashboardData.profilePicture||"https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"}/>
+                  <img style={{ width: '90%', borderRadius: '9999px' }} src={dashboardData.profilePicture || "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"} />
                 </div>
                 <div className="name-username">
-                <p className="name">{dashboardData.name} </p>
-                <p className="username">{dashboardData.username || '@ritvik_xd'}</p>
+                  <p className="name">{dashboardData.name} </p>
+                  <p className="username">{dashboardData.username || '@ritvik_xd'}</p>
                 </div>
               </div>
               <div className="detail-box">
                 <p className="profile-title">{dashboardData.title}</p>
-                <p className="previous-session">view previous season <FaArrowRight/></p>
+                <p className="previous-session">view previous season <FaArrowRight /></p>
               </div>
               <p className="bio">{dashboardData.text || 'Write your Bio'}</p>
               <div className="skills">
@@ -155,7 +151,7 @@ const Dashboard = () => {
                 ))}
               </div>
               <div className="platforms">
-                {dashboardData.platformLink.map((platform, index) => (
+                {platformLinks.map((platform, index) => (
                   <a href={platform.link} key={index}>
                     <img src={platform.img} alt={platform.name} />
                   </a>
@@ -179,14 +175,14 @@ const Dashboard = () => {
               );
             })}
           </div>
-          <h3 style={{marginBottom:'-1rem'}}>Spread To World and Earn Reward</h3>
+          <h3 style={{ marginBottom: '-1rem' }}>Spread To World and Earn Reward</h3>
           <div className="refferal">
             <p>Share your unique referral link</p>
             <div className="copy-referral">
               <input type="text" value={referralLink} readOnly />
               <button onClick={handleCopyClick} style={{
-                display:'flex', alignItems:'center', textAlign:'center', justifyContent:'center', gap:'5px'
-              }}><FaCopy/>Copy</button>
+                display: 'flex', alignItems: 'center', textAlign: 'center', justifyContent: 'center', gap: '5px'
+              }}><FaCopy />Copy</button>
             </div>
             <div className="share-now">
               <p>Share Now</p>

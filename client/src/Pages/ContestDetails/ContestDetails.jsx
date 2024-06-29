@@ -13,6 +13,7 @@ import Stack from '@mui/material/Stack';
 import PaginationItem from '@mui/material/PaginationItem';
 import { IoIosArrowDown } from "react-icons/io";
 import { FlagIcon } from 'react-flag-kit';
+import search from '../../assets/Contestimages/search.svg';
 
 const countryCodeMap = {
     'india': 'IN',
@@ -37,7 +38,8 @@ const ContestDetails = () => {
     const itemsPerPage = 15;
     const registeredQuizzes = JSON.parse(localStorage.getItem('user'))?.registeredQuizzes || [];
     const isRegistered = registeredQuizzes.includes(id);
-
+    const [selectedCountry, setSelectedCountry] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
 
     const handleNavClick = (section) => {
         setActiveSection(section);
@@ -49,7 +51,6 @@ const ContestDetails = () => {
                 const response = await axios.get(`/quiz/getQuiz/${id}`);
                 if (response.status === 200) {
                     setQuizData(response.data.quiz);
-                    console.log(response.data);
                     if (response.data.response) {
                         setContestGiven(true);
                     }
@@ -74,7 +75,6 @@ const ContestDetails = () => {
         const fetchLeaderboardData = async () => {
             try {
                 const response = await axios.get(`/quiz/getLeaderboard/${id}`);
-                // SORTING THE respons.data.ranks
                 response.data.ranks.sort((a, b) => b.score - a.score);
                 if (response.status === 200) {
                     setLeaderboardData(response.data.ranks);
@@ -90,13 +90,38 @@ const ContestDetails = () => {
         setCurrentPage(value);
     };
 
-    const getPageData = () => {
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        return leaderboardData.slice(startIndex, endIndex);
+    const handleCountryChange = (event) => {
+        setSelectedCountry(event.target.value);
+        setCurrentPage(1); // Reset to the first page when filter changes
     };
 
-    const totalPage = Math.ceil(leaderboardData.length / itemsPerPage);
+    const handleSearchTermChange = (event) => {
+        setSearchTerm(event.target.value);
+        setCurrentPage(1); // Reset to the first page when filter changes
+    };
+
+    const getFilteredData = () => {
+        let filteredData = leaderboardData;
+
+        if (selectedCountry) {
+            filteredData = filteredData.filter(rank => rank.country.toLowerCase() === selectedCountry.toLowerCase());
+        }
+
+        if (searchTerm) {
+            filteredData = filteredData.filter(rank => rank.name.toLowerCase().includes(searchTerm.toLowerCase()));
+        }
+
+        return filteredData;
+    };
+
+    const getPageData = () => {
+        const filteredData = getFilteredData();
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        return filteredData.slice(startIndex, endIndex);
+    };
+
+    const totalPage = Math.ceil(getFilteredData().length / itemsPerPage);
 
     return (
         <div className="contestdetailspage">
@@ -153,11 +178,19 @@ const ContestDetails = () => {
                             <section id="leaderboard">
                                 <nav className="ladder-nav">
                                     <div className="filters">
-                                        <input type="text" id="search-name" className="live-search-box" placeholder="🔍 Enter Your name to search " />
+                                        <img src={search} alt="Search" />
+                                        <input
+                                            type="text"
+                                            id="search-name"
+                                            className="live-search-box"
+                                            placeholder="Enter your name to search"
+                                            value={searchTerm}
+                                            onChange={handleSearchTermChange}
+                                        />
                                     </div>
                                     <div>
                                         <div className="custom-select">
-                                            <select className="filter-country">
+                                            <select className="filter-country" onChange={handleCountryChange} value={selectedCountry}>
                                                 <option value="">All Countries</option>
                                                 <option value="australia">Australia</option>
                                                 <option value="canada">Canada</option>
@@ -190,12 +223,9 @@ const ContestDetails = () => {
                                             <tr key={idx}>
                                                 <td>{(currentPage - 1) * itemsPerPage + idx + 1}</td>
                                                 <td>{rank.name}</td>
-                                                {/* <td>{rank.country}</td> */}
                                                 <td>
                                                     <FlagIcon code={countryCodeMap[rank.country.toLowerCase()]} width={32} />
-
                                                 </td>
-
                                                 <td>{rank.score}</td>
                                             </tr>
                                         ))}

@@ -14,7 +14,8 @@ import Faqcompo from "../../components/faq/faq.jsx";
 import faqdata from "../../assets/data/faqs.js";
 import axios from "axios";
 import img1 from '../../assets/CommunityParters/img1.svg';
-import img2 from '../../assets/CommunityParters/img2.svg'
+import img2 from '../../assets/CommunityParters/img2.svg';
+import herobg from "../../assets/homepageimages/homebg.png"
 import Marquee from "react-fast-marquee";
 
 const Question = ({ questionData, onSelect, isOpen }) => {
@@ -120,7 +121,7 @@ const Home = () => {
             </div>
             <div className="homephase2left">
               <div className="photobackground"></div>
-              <img src={photo} alt="Homepage Photo" />
+              <img src={herobg} alt="Homepage Photo" />
             </div>
           </div>
           <div className="homephase3">
