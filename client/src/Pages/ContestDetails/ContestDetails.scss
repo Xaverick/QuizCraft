@@ -118,7 +118,13 @@
     margin: 10px 0px;
 
     .filters {
-        width: 60%;
+        width: 40%;
+        display: flex;
+        align-items: center;
+        border: 1px solid #B3B3B3 !important;
+        border-radius: 0.6rem;
+        padding-left: 1rem;
+
 
         .live-search-box {
             // width: 40vw;
@@ -126,10 +132,11 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 1px solid #B3B3B3 !important;
             border-radius: 10px;
             margin: 0;
             padding: 12px;
+            outline: none;
+            border: none;
         }
 
     }

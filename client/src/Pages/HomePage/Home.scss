@@ -23,7 +23,8 @@
 .homephase1left {
   width: 50%;
   padding: 10px 3rem;
-
+  padding-top: 3rem;
+  
   @media screen and (max-width: 7170px) {
     width: 100%;
   }
@@ -70,7 +71,9 @@
     width: 100%;
     font-weight: 600;
     size: 3rem;
+    margin-bottom: 1rem;
   }
+
 
   span {
     img {
@@ -90,6 +93,7 @@
     border: none;
     cursor: pointer;
     font-size: 17px;
+    margin-top: 1rem;
   }
 }
 

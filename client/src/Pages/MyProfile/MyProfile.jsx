@@ -199,6 +199,7 @@ const MyProfile = () => {
                   />
                 </div>
                 <>
+                  <h3 className="profileinputslabel">Profile Tags</h3>
                   <TagInput
                     value={formData.tags}
                     onChange={handleTagsChange}
@@ -208,18 +209,19 @@ const MyProfile = () => {
                   />
                   <em>press enter or comma to add new tag</em>
                 </>
+                <h3>Social Links</h3>
                 <div className="myprofile-row">
                   <Input
                     label="Instagram"
                     type="url"
-                    placeholder="Enter your Insta link"
+                    placeholder="Enter your Instagram link"
                     value={formData.socialLinks[0]}
                     name="socialLinks"
                     onChange={(e) => handleChangelinks(e, 0)} 
 
                   />
                   <Input
-                    label="Twitter"
+                    label="X (Formerly Twitter)"
                     type="url"
                     placeholder="Enter your Twitter link"
                     value={formData.socialLinks[1]}

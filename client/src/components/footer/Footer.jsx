@@ -25,17 +25,17 @@ const Footer = () => {
             </p>
           </div>
           <div className="contnet1links">
-            <a href="https://www.instagram.com/phicsit.in">
-              <img src={insta} alt="" />
-            </a>
-            <a href="https://www.facebook.com/PHICSIT">
-              <img src={facebook} alt="" />
-            </a>
             <a href="https://x.com/phicsit">
               <img src={twiter} alt="" />
             </a>
             <a href="https://www.linkedin.com/company/phicsit">
               <img src={linkedlin} alt="" />
+            </a>
+            <a href="https://www.instagram.com/phicsit.in">
+              <img src={insta} alt="" />
+            </a>
+            <a href="https://www.facebook.com/PHICSIT">
+              <img src={facebook} alt="" />
             </a>
           </div>
         </div>
@@ -46,7 +46,7 @@ const Footer = () => {
             </div>
             <div className="content2points">
               <a href="/contest" >
-                Contest
+                Contests
               </a>
               <a href="/comingsoon" >
                 Leaderboard
