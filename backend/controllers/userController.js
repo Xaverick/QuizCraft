@@ -128,8 +128,9 @@ module.exports.profile = async (req, res) => {
         text:userDetails.profile.bio,
         professions: userDetails.profile.professions,
         platformLink: userDetails.profile.platformLinks,
+        occupation:userDetails.profile.occupation,
     }
-    console.log(userFullDetails);
+
     res.status(200).json(userFullDetails);
 }
 
