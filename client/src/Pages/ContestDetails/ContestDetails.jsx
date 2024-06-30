@@ -36,9 +36,6 @@ const countryCodeMap = {
     'singapore': 'SG',
     'south africa': 'ZA',
     'united kingdom': 'GB',
-    'united states': 'US'
-
-
     // Add more countries as needed
 };
 
@@ -213,13 +210,13 @@ const ContestDetails = () => {
                                                 <option value="india">India</option>
                                                 <option value="malaysia">Malaysia</option>
                                                 <option value="pakistan">Pakistan</option>
-                                                <option value="new-zealand">New Zealand</option>
+                                                <option value="New Zealand">New Zealand</option>
                                                 <option value="nigeria">Nigeria</option>
-                                                <option value="republic-of-ireland">Republic of Ireland</option>
-                                                <option value="singapore">Singapore</option>
-                                                <option value="south-africa">South Africa</option>
-                                                <option value="united-states">United States</option>
-                                                <option value="united-kingdom">United Kingdom</option>
+                                                <option value="Republic of Ireland">Republic of Ireland</option>
+                                                <option value="Singapore">Singapore</option>
+                                                <option value="South Africa">South Africa</option>
+                                                <option value="United States">United States</option>
+                                                <option value="United Kingdom">United Kingdom</option>
                                             </select>
                                             <IoIosArrowDown className="dropdown-icon" />
                                         </div>
