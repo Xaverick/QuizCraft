@@ -45,8 +45,9 @@ const MyProfile = () => {
           tags: response.data.professions,
           socialLinks: response.data.platformLink
         });
-        setPreview(response.data.profilePhoto);
-        
+        if(response.data.profilePhoto){
+          setPreview(response.data.profilePhoto);
+        }
       })
       .catch(error => {
         console.error("There was an error fetching the user data!", error);

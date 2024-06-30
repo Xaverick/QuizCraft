@@ -26,6 +26,19 @@ const countryCodeMap = {
     'australia': 'AU',
     'brazil': 'BR',
     'russia': 'RU',
+    'egypt': 'EG',
+    'ghana': 'GH',
+    'malaysia': 'MY',
+    'pakistan': 'PK',
+    'new zealand': 'NZ',
+    'nigeria': 'NG',
+    'republic of ireland': 'IE',
+    'singapore': 'SG',
+    'south africa': 'ZA',
+    'united kingdom': 'GB',
+    'united states': 'US'
+
+
     // Add more countries as needed
 };
 
