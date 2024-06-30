@@ -95,7 +95,7 @@ module.exports.register = async (req, res) => {
     user.profile = profile._id;
 
     await user.save();
-    // await sendVerificationEmail(email,user);
+    await sendVerificationEmail(email,user);
     res.status(200).json('register');
 
 }
@@ -220,6 +220,96 @@ module.exports.resetPassword = async (req, res) => {
         }
         else{
             res.status(400).json('invalid token');
+        }
+    }
+}
+
+
+
+module.exports.sendUserVerificationEmail = async (req, res) => {
+    const { userid } = req.params;
+    const user = await User.findOne({ _id: userid });
+
+    if (!user) {
+        throw new ExpressError('user not found', 400);
+    }
+
+    if (user.verified) {
+        throw new ExpressError('user already verified', 400);
+    }
+
+    await sendVerificationEmail(user.email, user);
+    return res.json('email sent');
+};
+
+const sendVerificationEmail = async (email,user) => {
+    const secret = process.env.SECRET;
+    const token = jwt.sign({ id: User._id } , secret , { expiresIn: '120m' });
+
+    let config = {
+        service: 'gmail',
+        auth: {
+            user: `${process.env.EMAIL}`,
+            pass: `${process.env.PASSWORD}`
+        }
+    };
+    let transporter = nodemailer.createTransport(config);
+    let MailGenerator = new Mailgen({
+        theme: 'default',
+        product: {
+            name: 'Geek Clash',
+            link: 'https://mailgen.js/'
+        }
+
+    });
+
+    var response = {
+        body: {
+            name: `${user.username}`,
+            intro: 'this is for the verification of the email you have provided',
+            action: {
+                instructions: 'Click the button below to verify the email:',
+                button: {
+                    color: '#DC4D2F',
+                    text: 'Click here',
+                    link: `${process.env.BACKEND_DOMAIN}/user/verifyEmail/${user._id}/${token}`
+                }
+            },
+            outro: 'If you did not request a verification email, no further action is required on your part.'
+        }
+    };
+
+    var emailBody = MailGenerator.generate(response);
+    let message = {
+        from: `${process.env.EMAIL}`,
+        to: `${email}`,
+        subject: 'Email Verification',
+        html: emailBody
+    };
+
+    transporter.sendMail(message)
+    .then(() => console.log('email sent'))
+    .catch((err) => console.log(err));        
+}
+
+
+module.exports.verifyUser = async (req, res) => {
+    const { userid, token } = req.params;
+    const user = await User.findById(userid);
+
+    if(!user){
+        return res.status(400).json('user not found');
+    }
+
+    else{
+        const secret = `${process.env.SECRET}`;
+        if(jwt.verify(token,secret)){
+            user.verified = true;
+            await user.save();
+            res.render('verifyEmail', {Link: process.env.SITE_URL});
+        }
+        else{
+            return res.status(400).json('invalid token');
         }
     }
 }

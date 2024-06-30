@@ -2,6 +2,9 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require("../models/userModel.js");
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const randomStringGenerator = require('randomstring');
+const Profile = require('../models/profileModel');
+
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
@@ -23,6 +26,16 @@ passport.deserializeUser(function(id, callback) {
     });
 });
 
+
+function generateUsername(fullName) {
+  // Split the full name by spaces
+  let nameParts = fullName.split(' ');
+  let firstName = nameParts[0];
+  let randomNumber = Math.floor(1000 + Math.random() * 9000);
+  let username = firstName + randomNumber;
+  
+  return username;
+}
 
 
 module.exports.googleCallback = async (req, res) => {
@@ -47,12 +60,25 @@ module.exports.googleCallback = async (req, res) => {
 
     else{  
       console.log("Creating new Unregistered User");
+      username = generateUsername(req.user._json.name);
       existingUser = await User.create({
         name: req.user._json.name,
         email: req.user._json.email,
         picture: req.user._json.picture,
-        googleId: req.user._json.sub
+        googleId: req.user._json.sub,
+        verified: true,
+        username: username,
       });
+
+      const referralCodeString = randomStringGenerator.generate(7).toUpperCase();
+      const profile = await Profile.create({
+          userId: existingUser._id,
+          referralCodeString:referralCodeString,
+      });
+
+      await profile.save();
+      existingUser.profile = profile._id;
+      await existingUser.save();
     }
 
     const token = jwt.sign({ id: existingUser._id }, process.env.USER_SECRET, { expiresIn: '3h' });  

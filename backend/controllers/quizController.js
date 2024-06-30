@@ -2,9 +2,63 @@ const User = require('../models/userModel');
 const Quiz = require('../models/quizzes');
 const Question = require('../models/questions');
 const Submission  = require('../models/submissions');
-const { populate } = require('../models/adminModel');
+const nodemailer = require('nodemailer');
+const Mailgen = require('mailgen');
+const jwt = require('jsonwebtoken');
 const Leaderboard = require('../models/leaderboard');
 const ExpressError = require('../utils/ExpressError');
+
+
+
+const sendVerificationEmail = async (email,user) => {
+  const secret = process.env.SECRET;
+  const token = jwt.sign({ id: User._id } , secret , { expiresIn: '120m' });
+
+  let config = {
+      service: 'gmail',
+      auth: {
+          user: `${process.env.EMAIL}`,
+          pass: `${process.env.PASSWORD}`
+      }
+  };
+  let transporter = nodemailer.createTransport(config);
+  let MailGenerator = new Mailgen({
+      theme: 'default',
+      product: {
+          name: 'Geek Clash',
+          link: 'https://mailgen.js/'
+      }
+
+  });
+
+  var response = {
+      body: {
+          name: `${user.username}`,
+          intro: 'this is for the verification of the email you have provided',
+          action: {
+              instructions: 'Click the button below to verify the email:',
+              button: {
+                  color: '#DC4D2F',
+                  text: 'Click here',
+                  link: `${process.env.BACKEND_DOMAIN}/user/verifyEmail/${user._id}/${token}`
+              }
+          },
+          outro: 'If you did not request a verification email, no further action is required on your part.'
+      }
+  };
+
+  var emailBody = MailGenerator.generate(response);
+  let message = {
+      from: `${process.env.EMAIL}`,
+      to: `${email}`,
+      subject: 'Email Verification',
+      html: emailBody
+  };
+
+  transporter.sendMail(message)
+  .then(() => console.log('email sent'))
+  .catch((err) => console.log(err));        
+}
 
 
 module.exports.getAllQuizes= async (req, res) => {
@@ -41,6 +95,11 @@ module.exports.registerQuiz = async (req, res) => {
         throw new ExpressError('user not found', 400);
     }
     
+    if (!user.verified) {
+        await sendVerificationEmail(user.email, user);
+        throw new ExpressError('user not verified. Verification email sent', 400);
+    }
+
     if (user.registeredQuizzes.includes(quizId)) {
         throw new ExpressError('You have already registered for this quiz', 400);
     }

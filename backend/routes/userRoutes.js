@@ -11,11 +11,11 @@ router.route('/login')
 router.route('/register')
     .post(catchAsync(user.register));
 
-// router.route('/sendverificationEmail/:userid')
-//     .post(catchAsync(user.sendUserVerificationEmail));
+router.route('/sendverificationEmail/:userid')
+    .post(catchAsync(user.sendUserVerificationEmail));
 
-// router.route('/verifyEmail/:userid/:token')
-//     .get(catchAsync(user.verifyUser));
+router.route('/verifyEmail/:userid/:token')
+    .get(catchAsync(user.verifyUser));
 
 
 router.route('/logout')

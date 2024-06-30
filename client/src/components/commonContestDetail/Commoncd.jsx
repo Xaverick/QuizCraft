@@ -59,12 +59,6 @@ const Commoncd = ({ data, isRegistered, given }) => {
     }
 
 
-
-
-
-
-
-
     useEffect(() => {
         const calculateEndTime = (endTime) => {
             return new Date(endTime);
@@ -169,7 +163,7 @@ const Commoncd = ({ data, isRegistered, given }) => {
                     {Date.now() >= new Date(data.startTime) && Date.now() <= new Date(data.endTime) && (
                         <button onClick={async () => {
                             if (!(await isregis())) {
-                                toast.error('You cannot register because contest has already started ');
+                                toast.error('You have not registered for this contest');
                             }
                             else {
                                 setIsStartModalOpen(true);

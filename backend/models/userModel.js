@@ -61,7 +61,12 @@ const userSchema = new schema({
     profile : {
         type : schema.Types.ObjectId,
         ref:'Profile',
-    }
+    },
+
+    verified: {
+        type: Boolean,
+        default: false,
+    },
 
 });
 

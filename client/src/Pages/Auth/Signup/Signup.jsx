@@ -20,6 +20,16 @@ const Signup = () => {
   });
 
   // const [showReferralCodeInput, setShowReferralCodeInput] = useState(false);
+  const googleAuth = () => {
+
+    const link = import.meta.env.DEV ? import.meta.env.VITE_LOCALHOST : import.meta.env.VITE_SERVER_URL
+
+    window.open(
+      `${link}/auth/google/callback`,
+      "_self"
+    );
+  };
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -120,15 +130,14 @@ const Signup = () => {
             </div>
             <button className="cta-btn" type="submit" style={{ background: 'linear-gradient(to right, #08AAA2, #5CD7D1)' }}>Sign Up</button>
             <p className="or"><span></span></p>
-            <div className="social-login">
-              <button className="google-btn">
+            <p className="subtitle">Have an account? <Link to='/login'>Login</Link></p>
+          </form>
+          <div className="social-login">
+              <button className="google-btn" onClick={googleAuth}>
                 <img alt="Google" src={google} />
                 <p className="btn-text">Sign Up with Google</p>
               </button>
-            </div>
-            <a className="forget-pass" href="#">Forgot password?</a>
-            <p className="subtitle">Have an account? <Link to='/login'>Login</Link></p>
-          </form>
+          </div>
         </div>
         <div className='loginformphoto'>
           <div className='loginformphotopht'>
