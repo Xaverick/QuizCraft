@@ -40,7 +40,7 @@ const MyProfile = () => {
           country: response.data.country,
           occupation: response.data.occupation,
           phoneNo: response.data.phoneNo,
-          dob: new Date(response.data.dob).toISOString().slice(0, 10),
+          dob: new Date(response.data.dob).toISOString().slice(0, 10) || "",
           tags: response.data.professions,
           socialLinks: response.data.platformLink
         });
