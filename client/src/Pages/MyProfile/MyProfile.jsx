@@ -33,6 +33,7 @@ const MyProfile = () => {
       .then(response => {
 
         console.log("User data fetched successfully", response.data);
+        response.data.dob ? response.data.dob = new Date(response.data.dob).toISOString().slice(0, 10) : response.data.dob = '';
         setFormData({
           username: response.data.username,
           name: response.data.name,
@@ -40,7 +41,7 @@ const MyProfile = () => {
           country: response.data.country,
           occupation: response.data.occupation,
           phoneNo: response.data.phoneNo,
-          dob: new Date(response.data.dob).toISOString().slice(0, 10) || "",
+          dob: response.data.dob,
           tags: response.data.professions,
           socialLinks: response.data.platformLink
         });
