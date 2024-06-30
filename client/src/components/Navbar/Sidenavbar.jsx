@@ -92,11 +92,14 @@ const SideNavbar = () => {
                             Dashboard
                         </Link>
                         <Link
-                            to="/pricing"
+                            // to="/pricing"
+                            to="/comingsoon"
                             className={`side-navbar-link ${activeLink === '/pricing' ? 'active' : ''}`}
-                            onClick={() => handleLinkClick('/pricing')}
+                            // onClick={() => handleLinkClick('/pricing')}
+                            onClick={() => handleLinkClick('/comingsoon')}
                         >
-                            Pricing
+                            {/* Pricing */}
+                            Coming Soon
                         </Link>
                         <Link
                             to="/contact"

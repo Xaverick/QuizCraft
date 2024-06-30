@@ -87,6 +87,11 @@
       width: 2.5rem;
       border-radius: 50%;
       background: #a855f7;
+      img{
+        border-radius: 50%;
+        width: 100%;
+        height: 100%;
+      }
     }
 
     &-info {

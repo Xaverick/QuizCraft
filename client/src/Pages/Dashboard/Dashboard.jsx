@@ -55,7 +55,7 @@ const Dashboard = () => {
     }
   }, [dashboardData]);
 
-  const referralLink = `https://geekclash.in/signup?ref=${dashboardData.username}`;
+  const referralLink = `${import.meta.env.VITE_FRONTEND_URL}/signup?ref=${dashboardData.referralCodeString}`;
 
   const platformLinks = [
     {
@@ -133,7 +133,7 @@ const Dashboard = () => {
             <div className="upper-inner">
               <div className="image-username">
                 <div className="img-box">
-                  <img style={{ width: '90%', borderRadius: '9999px' }} src={dashboardData.profilePicture || "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"} />
+                  <img src={dashboardData.profilePhoto || "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"} />
                 </div>
                 <div className="name-username">
                   <p className="name">{dashboardData.name} </p>

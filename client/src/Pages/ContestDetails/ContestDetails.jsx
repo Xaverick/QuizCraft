@@ -50,6 +50,7 @@ const ContestDetails = () => {
             try {
                 const response = await axios.get(`/quiz/getQuiz/${id}`);
                 if (response.status === 200) {
+                    console.log(response.data);
                     setQuizData(response.data.quiz);
                     if (response.data.response) {
                         setContestGiven(true);
@@ -108,7 +109,7 @@ const ContestDetails = () => {
         }
 
         if (searchTerm) {
-            filteredData = filteredData.filter(rank => rank.name.toLowerCase().includes(searchTerm.toLowerCase()));
+            filteredData = filteredData.filter(rank => rank.username.toLowerCase().includes(searchTerm.toLowerCase()));
         }
 
         return filteredData;
@@ -215,14 +216,14 @@ const ContestDetails = () => {
                                     <tbody>
                                         <tr>
                                             <th>Rank</th>
-                                            <th>Name</th>
+                                            <th>Username</th>
                                             <th>Country</th>
                                             <th>Score</th>
                                         </tr>
                                         {getPageData().map((rank, idx) => (
                                             <tr key={idx}>
                                                 <td>{(currentPage - 1) * itemsPerPage + idx + 1}</td>
-                                                <td>{rank.name}</td>
+                                                <td>{rank.username}</td>
                                                 <td>
                                                     <FlagIcon code={countryCodeMap[rank.country.toLowerCase()]} width={32} />
                                                 </td>

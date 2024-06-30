@@ -41,16 +41,21 @@
       border: none;
       cursor: pointer;
     }
+
+    .myprofile-btn {
+      border: 1px solid transparent;
+      background-color: #56AFB2;
+      color: #fff;
+      padding: 0.6rem 1.4rem;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      cursor: pointer;
+      &:hover{
+        background-color: #4d9aa0;
+      }
+    }
   }
 
-  .myprofile-btn {
-    border: 1px solid transparent;
-    background-color: #56AFB2;
-    color: #fff;
-    padding: 0.6rem 1.4rem;
-    font-size: 1.2rem;
-    border-radius: 8px;
-  }
 
   input{
     outline: none;

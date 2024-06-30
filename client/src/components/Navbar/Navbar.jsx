@@ -17,7 +17,7 @@ const Navbar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [activeLink, setActiveLink] = useState(location.pathname);
   const [showProfileMenu, setShowProfileMenu] = useState(false); // State for profile menu
-
+  const user = JSON.parse(localStorage.getItem('user'));
   useEffect(() => {
     setActiveLink(location.pathname);
   }, [location]);
@@ -92,11 +92,14 @@ const Navbar = () => {
               Leaderboard
             </Link>
             <Link
-              to="/pricing"
+              // to="/pricing"
+              to="/comingsoon"
               className={`navbar-link ${activeLink === '/pricing' ? 'active' : ''}`}
-              onClick={() => handleLinkClick('/pricing')}
+              // onClick={() => handleLinkClick('/pricing')}
+              onClick={() => handleLinkClick('/comingsoon')}
             >
-              Pricing
+              {/* Pricing */}
+              Blogs
             </Link>
             <Link
               to="/contact"
@@ -109,6 +112,8 @@ const Navbar = () => {
           <div className='navbar-profile-buttons'>
             {isLoggedIn ? (
               <div className="profile-container">
+                {/* <img src={user.picture} alt="" onClick={toggleProfileMenu}/> */}
+
                 <FaUserCircle
                   size={30}
                   className="profile-icon"

@@ -18,6 +18,7 @@ const Commoncd = ({ data, isRegistered, given }) => {
     const [timeRemaining, setTimeRemaining] = useState('');
     // const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
     const [isStartModalOpen, setIsStartModalOpen] = useState(false);
+    const user = JSON.parse(localStorage.getItem('user'));
 
     const navigate = useNavigate();
 
@@ -27,7 +28,8 @@ const Commoncd = ({ data, isRegistered, given }) => {
             const response = await axios.post(`/quiz/registerQuiz/${data._id}`);
 
             if (response.status == 200) {
-
+                user.registeredQuizzes.push(data._id);
+                localStorage.setItem('user', JSON.stringify(user));
                 toast.success(response.data, {
                     position: "top-left",
                     autoClose: 2000,
@@ -145,7 +147,7 @@ const Commoncd = ({ data, isRegistered, given }) => {
                     </span>
                     <span>
                         <img src={TM} alt='' />
-                        Total Marks:<span>{data.totalMarks || 'N/A'}</span>
+                        Total Marks:<span>{parseInt(data.questions.length)*10 || 'N/A'}</span>
                     </span>
                     <span>
                         <img src={Duration} alt='' />

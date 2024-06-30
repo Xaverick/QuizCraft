@@ -20,18 +20,22 @@ const Menu = [
     icon: Dashboard,
   },
   {
+    path: "/comingsoon",
     link: "Leaderboard",
     icon: Leaderboard,
   },
   {
+    path: "/comingsoon",
     link: "Subscription",
     icon: Subscription,
   },
   {
+    path: "/comingsoon",
     link: "Your Quiz",
     icon: YourQuiz,
   },
   {
+    path: "/comingsoon",
     link: "Community",
     icon: Community,
   },

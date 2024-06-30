@@ -8,7 +8,7 @@ const ExpressError = require('../utils/ExpressError');
 const mailSender = require('../utils/mailSender');
 const Profile = require('../models/profileModel');
 const uploadOnCloudinary = require('../utils/cloudinary');
-
+const cloudinary = require('cloudinary').v2;
 
 
 module.exports.login = async (req, res) => {
@@ -131,7 +131,9 @@ module.exports.profile = async (req, res) => {
         phoneNo: userDetails.profile.phoneNumber,
         dob: userDetails.profile.dateOfBirth,
         profilePhoto: userDetails.profile.profilePhoto,
-        bio : userDetails.profile.bio
+        bio : userDetails.profile.bio,
+        referralCodeString: userDetails.profile.referralCodeString,
+        country: user.country
 
 
     }
@@ -233,9 +235,18 @@ module.exports.contactUs = async (req, res) => {
 }
 
 
+const getCloudinaryPublicId = (url) => {
+    const parts = url.split('/');
+    const publicIdWithExtension = parts[parts.length - 1];
+    const publicId = publicIdWithExtension.split('.')[0];
+    return publicId;
+};
+  
+
 module.exports.updateProfile = async (req, res) => {
     console.log('Inside updateProfile');
     const { username, name, bio, country, occupation, phoneNo, dob, tags , socialLinks } = req.body;
+    // console.log(req.body);
     // Find the user by userId
     const user = await User.findById(req.userId);
     if (!user) {
@@ -253,13 +264,11 @@ module.exports.updateProfile = async (req, res) => {
       user.username = username;
     }
     
-    if (user.name) {
-      user.name = name;
-    }
+    // console.log("sfsfds", country);
 
-    if (user.country) {
-      user.country = country;
-    }
+    user.name = name;    
+    user.country = country;
+
 
     // Update profile fields
     const profile = await Profile.findById(user.profile);
@@ -272,13 +281,18 @@ module.exports.updateProfile = async (req, res) => {
     let photo = req.file?.path;
 
     if (photo) {
+        if (profile.profilePhoto) {
+            const publicId = getCloudinaryPublicId(profile.profilePhoto);
+            await cloudinary.uploader.destroy(publicId);
+        }
+
+
         photo = await uploadOnCloudinary(photo);
         photo = photo.secure_url;
         profile.profilePhoto = photo;
+        user.picture = photo;
     }
 
-    console.log(photo);
-    user.picture = photo;
     profile.bio = bio;
     profile.occupation = occupation;
     profile.phoneNumber = phoneNo;

@@ -5,6 +5,7 @@ import Topbar from "../../components/topbar/Topbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "react-tagsinput/react-tagsinput.css";
 import "./MyProfile.scss";
+import {toast} from 'react-toastify';
 
 const MyProfile = () => {
   // const [tags, setTags] = useState([]);
@@ -107,7 +108,7 @@ const MyProfile = () => {
       formDatatosend.append(`socialLinks[${index}]`, link);
     });
     try {
-      console.log(formData)
+      // console.log(formData)
       const response = await axios.post('/user/updateprofile', formDatatosend,
         {
           headers: {
@@ -115,9 +116,19 @@ const MyProfile = () => {
           },
         }
       );
-      console.log('Response:', response.data);
+      // console.log('Response:', response.data);
+      toast.success('Profile updated successfully', {
+        position: "top-left",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
     } catch (error) {
       console.error('Error:', error);
+      toast.error('Profile update failed', {
+        position: "top-left",
+        autoClose: 2000,
+        hideProgressBar: true,
+      });
     }
 
   };
@@ -282,7 +293,7 @@ const MyProfile = () => {
                   />
                 </div>
 
-                <button className="myprofile-btn" type="submit">
+                <button className="myprofile-btn" type="submit" >
                   Save
                 </button>
               </form>

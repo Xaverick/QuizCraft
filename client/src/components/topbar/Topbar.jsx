@@ -30,12 +30,15 @@ const Topbar = () => {
       </div>
       <div className="topbar-user">
         <div className="user-icons">
-          <div className="icon-wrapper">
+          {/* <div className="icon-wrapper">
             <div className="icon-badge" />
             <img src={Notification} alt="Notification" />
-          </div>
+          </div> */}
         </div>
-        <div className="user-avatar" />
+        <div className="user-avatar" >
+          <img src={data.profilePhoto} alt="" />
+        </div>
+ 
         <div className="topbar-user-info">
           <span>{data.name}</span>
           <span>{data.occupation}</span>

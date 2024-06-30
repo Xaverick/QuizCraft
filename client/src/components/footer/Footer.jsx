@@ -51,9 +51,10 @@ const Footer = () => {
               <a href="/comingsoon" >
                 Leaderboard
               </a>
-              <a href="">
-                Premium
-              </a>
+              <Link to="/comingsoon">
+                {/* Premium */}
+                Blogs
+              </Link>
               <a href="">
                 Advertise With Us
               </a>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams  } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
@@ -10,15 +10,16 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
 
 const Signup = () => {
   const navigate = useNavigate();
+  const ref = useSearchParams()[0].get('ref');
 
   const [formData, setFormData] = useState({
     email: '',
     password: '',
     name: '',
-    referralcode: ''
+    referralcode: ref
   });
 
-  const [showReferralCodeInput, setShowReferralCodeInput] = useState(false);
+  // const [showReferralCodeInput, setShowReferralCodeInput] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -106,15 +107,15 @@ const Signup = () => {
               </div>
               <div className="referral-section">
                 <label>Have a referral code?</label>
-                {!showReferralCodeInput && (
+                {/* {!showReferralCodeInput && (
                   <span className='referral-text' onClick={() => setShowReferralCodeInput(true)}>Add</span>
-                )}
-                {showReferralCodeInput && (
-                  <>
-                    <input className='signup-input' type="text" placeholder="Enter Referral Code" name="referralcode" value={formData.referralcode} onChange={handleChange} />
-                    <span className='referral-text' onClick={() => setShowReferralCodeInput(false)}>Cancel</span>
-                  </>
-                )}
+                )} */}
+                {/* {showReferralCodeInput && (
+                  <> */}
+                <input className='signup-input' type="text" placeholder="Enter Referral Code" name="referralcode" value={formData.referralcode} onChange={handleChange} />
+                    {/* <span className='referral-text' onClick={() => setShowReferralCodeInput(false)}>Cancel</span> */}
+                  {/* </>
+                )} */}
               </div>
             </div>
             <button className="cta-btn" type="submit" style={{ background: 'linear-gradient(to right, #08AAA2, #5CD7D1)' }}>Sign Up</button>
