@@ -9,6 +9,7 @@ import Comingsoon from "./Pages/ComingSoon/Comingsoon";
 import ScrollToTop from "./components/Scrolltotop/ScrollToTop";
 import MyProfile from "./Pages/MyProfile/MyProfile";
 import Dashboard from "./Pages/Dashboard/Dashboard";
+import ReqProfile from "./Pages/ReqProfile/ReqProfile";
 // import ScrollToTop from './components/Scrolltotop/ScrollToTop'
 // import { useEffect } from 'react'
 
@@ -54,6 +55,7 @@ const App = () => {
           <Route path="/comingsoon" element={<Comingsoon />} />
           <Route path="/my-profile" element={<MyProfile />} />
           <Route path='/dashboard' element={<Dashboard/>}/>
+          <Route path="/user/:userID" element={<ReqProfile/>}/>
         </Route>
 
         <Route path="/*" element={<Layout />} />

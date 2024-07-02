@@ -23,6 +23,18 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    .topbar-search{
+      gap: 1rem;
+      button{
+        background: #56afb2;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 0.8rem 1.1rem;
+        cursor: pointer;
+      }
+    }
   }
 
 

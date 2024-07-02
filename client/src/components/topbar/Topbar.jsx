@@ -3,11 +3,13 @@ import logo from "../../assets/homepageimages/GeekClash.svg";
 import Message from "../../assets/Topbar/Message.svg";
 import Notification from "../../assets/Topbar/Notification.svg";
 import './Topbar.scss';
-import { Link } from "react-router-dom";
+import { Link ,useNavigate } from "react-router-dom";
 import axios from "axios";
  
 const Topbar = () => {
   const [data,setdata] = useState([]);
+  const [user,setuser] = useState('');
+  const navigate = useNavigate();
   
   useEffect(() => {
     const getDetails = async () => {
@@ -16,6 +18,18 @@ const Topbar = () => {
     }
     getDetails();
   },[])
+
+  //search user by get request
+  const SearchUser = async () => {
+    console.log("user details : "+user);
+    const response = await axios.get('/user/getusers',{params:{name:user}});
+    setuser('');
+    const data = response.data.userFullDetails.username;
+    console.log(data);
+    navigate(`/user/${data}`,{ state: { userData:response.data.userFullDetails} });
+  }
+
+
   return (
     <nav className="topbar">
       <div className="topbar-left">
@@ -25,7 +39,10 @@ const Topbar = () => {
             type="text"
             placeholder="Search"
             className="search-input"
+            value={user}
+            onChange={(e) => setuser(e.target.value)}
           />
+          <button type="button" onClick={SearchUser}>Search</button>
         </div>
       </div>
       <div className="topbar-user">
