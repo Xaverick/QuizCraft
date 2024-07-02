@@ -52,4 +52,7 @@ router.route('/getquestion/:questionId')
 router.route('/compileResults/:quizid')
     .get(isAdmin, admin.compileResults);
 
+router.route('/referral-details')
+    .get(isAdmin, admin.referralDetails);
+
 module.exports = router;
