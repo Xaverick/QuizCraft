@@ -2,9 +2,6 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require("../models/userModel.js");
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
-const randomStringGenerator = require('randomstring');
-const Profile = require('../models/profileModel');
-
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
