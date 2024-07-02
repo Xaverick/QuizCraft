@@ -74,7 +74,7 @@ module.exports.register = async (req, res) => {
         });
         if(referrerExists){
             let userCountIncreased = 1;
-            let coinsIncreased = 50;
+            let coinsIncreased = 1;
             const referredUser = await Profile.findOneAndUpdate({referralCodeString:referralCode},
                 {$inc :{totalUsersReferred:userCountIncreased, coin:coinsIncreased}},{new:true});
         }
