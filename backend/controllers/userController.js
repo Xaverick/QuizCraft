@@ -394,3 +394,29 @@ module.exports.updateProfile = async (req, res) => {
     res.status(200).json({ message: 'Profile updated successfully', user });
   
 }
+
+module.exports.getUsers = async (req, res) => {
+    const name = req.query.name;
+    const user = await User.findOne({ username : name });
+    const userDetails = await user.populate('profile');
+    try {
+        const userFullDetails = {
+            name: userDetails.name,
+            username: userDetails.username,
+            rating:userDetails.profile.rating,
+            text:userDetails.profile.bio,
+            professions: userDetails.profile.professions,
+            platformLink: userDetails.profile.platformLinks,
+            occupation:userDetails.profile.occupation,
+            phoneNo: userDetails.profile.phoneNumber,
+            dob: userDetails.profile.dateOfBirth,
+            profilePhoto: userDetails.profile.profilePhoto,
+            bio : userDetails.profile.bio,
+            referralCodeString: userDetails.profile.referralCodeString,
+            country: user.country
+        }
+        res.status(200).json({userFullDetails});
+    } catch (error) {
+        res.status(404).json({message: error.message});
+    }   
+}

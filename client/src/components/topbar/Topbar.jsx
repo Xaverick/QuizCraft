@@ -1,14 +1,16 @@
-import React ,{useEffect, useState} from "react";
+import React ,{useEffect, useState } from "react";
 import logo from "../../assets/homepageimages/GeekClash.svg";
 import Message from "../../assets/Topbar/Message.svg";
 import Notification from "../../assets/Topbar/Notification.svg";
 import './Topbar.scss';
-import { Link } from "react-router-dom";
+import { Link ,useNavigate} from "react-router-dom";
 import axios from "axios";
  
 const Topbar = () => {
   const [data,setdata] = useState([]);
-  
+  const [user,setuser] = useState('');
+  const navigate = useNavigate();
+
   useEffect(() => {
     const getDetails = async () => {
       const response = await axios.get('/user/profile');
@@ -16,6 +18,16 @@ const Topbar = () => {
     }
     getDetails();
   },[])
+    
+    const SearchUser = async () => {
+      console.log("user details : "+user);
+      const response = await axios.get('/user/getusers',{params:{name:user}});
+      setuser('');
+      const data = response.data.userFullDetails.username;
+      console.log(data);
+      navigate(`/user/${data}`,{ state: { userData:response.data.userFullDetails} });
+    }
+
   return (
     <nav className="topbar">
       <div className="topbar-left">
@@ -23,9 +35,12 @@ const Topbar = () => {
         <div className="topbar-search">
           <input
             type="text"
-            placeholder="Search"
+            placeholder="Enter Username"
             className="search-input"
+            value={user}
+            onChange={(e) => setuser(e.target.value)}
           />
+          <button type="button" onClick={SearchUser}>Search</button>
         </div>
       </div>
       <div className="topbar-user">
