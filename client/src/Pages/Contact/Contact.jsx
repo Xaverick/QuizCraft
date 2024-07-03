@@ -75,7 +75,7 @@ const Contact = () => {
                             <img src={contactimage} />
                         </div>
                         <div className='contactmainheading1'>Connect with Us Today!</div>
-                        <div className='contactmainheading2'>At Apex, we value your inquiries, feedback, and collaborations. Whether you are interested in our digital services, have questions about our project</div>
+                        <div className='contactmainheading2'>Have a question or interested in partnering with Geek Clash? Reach out to us for any queries, partnership opportunities, or collaboration ideas. We're here to help and excited to connect with you!</div>
                         <div className='contactmainbox'>
                             <div className='contactmainboxheading'>Our Commitment to You</div>
                             <div className='contactmainboxpoints'>

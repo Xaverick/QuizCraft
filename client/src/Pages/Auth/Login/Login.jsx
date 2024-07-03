@@ -174,11 +174,11 @@ const Login = () => {
             <img src={image} style={{width:'-webkit-fill-available'}} />
           </div>
           <div className='loginformphotoquote'>
-            <p>Lorem ipsum dolor sit amet consectetur. Tincidunt libero sed a penatibus eu mi risus habitant mattis. Volutpat lectus gravida scelerisque et felis dolor odio adipiscing. Volutpat lacus nascetur arcu enim congue pretium purus sed. Enim ullamcorper natoque nisi ut pellentesque.</p>
-            <div className='sys'>
+            <p>Geek Clash is your launchpad to a world of friendly competition. Challenge yourself in diverse topics, battle it out with fellow geeks worldwide, and watch your name climb the leaderboards after each contest. Forge friendships with a supportive community. Join the Clash and unleash your inner champion!</p>
+            {/* <div className='sys'>
               <p className='sys1'>Nathen Hopkins</p>
               <p>Lead Product Designer, Netflix</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -84,7 +84,7 @@ const Home = () => {
   };
 
   // Only show the first 3 contests initially
-  const initialContests = contests.slice(0, 3);
+  const initialContests = contests.reverse().slice(0, 3);
   const handleExploreNowClick = () => {
     if (whyChooseUsRef.current) {
       window.scrollTo({

@@ -1,55 +1,3 @@
-const quizData = [
-  {
-    id: 1,
-    type: 'single',
-    question: "Who wrote 'To Kill a Mockingbird'?",
-    options: [
-      { id: 1, text: "Harper Lee", isCorrect: true },
-      { id: 2, text: "J.K. Rowling", isCorrect: false },
-      { id: 3, text: "Stephen King", isCorrect: false },
-      { id: 4, text: "Mark Twain", isCorrect: false }
-    ]
-  },
-
-  {
-    id: 2,
-    type: 'single',
-    question: "What is the chemical symbol for water?",
-    options: [
-      { id: 1, text: "H2O", isCorrect: true },
-      { id: 2, text: "CO2", isCorrect: false },
-      { id: 3, text: "NaCl", isCorrect: false },
-      { id: 4, text: "O2", isCorrect: false }
-    ]
-  },
-
-  {
-    id: 3,
-    type: 'single', // Question type: single correct option
-    question: "What is the capital of France?",
-    options: [
-      { id: 1, text: "Paris", isCorrect: true },
-      { id: 2, text: "London", isCorrect: false },
-      { id: 3, text: "Berlin", isCorrect: false },
-      { id: 4, text: "Rome", isCorrect: false }
-    ]
-  },
-
-  {
-    id: 4,
-    type: 'trueFalse', // Question type: true/false
-    question: "Water boils at 100 degrees Celsius.",
-  },
-  
-  {
-    id: 5,
-    type: 'text', // Question type: fill in the blank
-    question: "The capital of India is __________."
-  },
-  // Add more questions as needed
-];
-
-
 import './TakeQuiz.scss';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -57,40 +5,40 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const TakeQuiz = () => {
-
   const { id } = useParams();
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [responses, setResponses] = useState([]);
   const [timer, setTimer] = useState(300);
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [startTime, setStartTime] = useState(Date.now());
   let timerInterval;
-
 
   useEffect(() => {
     const getQuestions = async () => {
       const response = await fetch(`http://localhost:4000/quiz/getQuestions/${id}`, {
         method: 'GET',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
-        credentials: 'include'
+        credentials: 'include',
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         const storedTimer = sessionStorage.getItem(`quizTimer_${id}`);
         if (storedTimer) {
-          const startTime = parseInt(storedTimer);
-          const elapsed = Math.floor((Date.now() - startTime) / 1000);
+          const start = parseInt(storedTimer);
+          const elapsed = Math.floor((Date.now() - start) / 1000);
           const remaining = Math.max(0, data.duration - elapsed);
           setTimer(remaining);
+          setStartTime(start);
         } else {
           setTimer(data.duration);
+          setStartTime(Date.now());
+          sessionStorage.setItem(`quizTimer_${id}`, Date.now().toString());
         }
 
-        // setTimer(data.duration);
         setQuestions(data.questions);
         setResponses(Array(data.length).fill('')); // Initialize responses with empty strings for text inputs
       } else {
@@ -100,7 +48,6 @@ const TakeQuiz = () => {
 
     getQuestions();
   }, [id]);
-
 
   useEffect(() => {
     const storedFormSubmitted = localStorage.getItem(`quizFormSubmitted_${id}`);
@@ -122,7 +69,6 @@ const TakeQuiz = () => {
     return () => clearInterval(timerInterval);
   }, [id, formSubmitted]);
 
-
   useEffect(() => {
     if (timer <= 0 && !formSubmitted) {
       handleSubmit();
@@ -130,17 +76,17 @@ const TakeQuiz = () => {
     }
   }, [timer]);
 
-
   const initializeQuiz = () => {
     setCurrentIndex(0);
     setResponses(Array(questions.length).fill(''));
-    const startTime = Date.now();
-    sessionStorage.setItem(`quizTimer_${id}`, startTime.toString());
-    startTimer(startTime);
+    const start = Date.now();
+    setStartTime(start);
+    sessionStorage.setItem(`quizTimer_${id}`, start.toString());
+    startTimer(start);
   };
 
-  const startTimer = (startTime) => {
-    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+  const startTimer = (start) => {
+    const elapsed = Math.floor((Date.now() - start) / 1000);
     const remaining = Math.max(0, timer - elapsed);
     setTimer(remaining);
     timerInterval = setInterval(() => {
@@ -183,45 +129,50 @@ const TakeQuiz = () => {
     localStorage.setItem(`quizFormSubmitted_${id}`, 'true');
     sessionStorage.removeItem(`quizTimer_${id}`);
     setTimer(0); // Set timer to 0 upon submission
+    const timeTaken = Math.floor((Date.now() - startTime) / 1000); // Calculate time taken in seconds
+
     const formattedResponses = questions.map((question, index) => ({
       questionId: question._id,
       response: responses[index],
-      correct: question.correctOption.toLowerCase() === responses[index].toLowerCase()
-    }));   
+      correct: question.correctOption.toLowerCase() === responses[index].toLowerCase(),
+    }));
 
     console.log(formattedResponses);
 
     const response = await fetch(`http://localhost:4000/quiz/submitQuiz/${id}`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify({ answers: formattedResponses })
+      body: JSON.stringify({ answers: formattedResponses, timeTaken }),
     });
 
     if (response.ok) {
       toast.success('Quiz submitted successfully', {
-        position: "top-left",
+        position: 'top-left',
         autoClose: 2000,
         hideProgressBar: true,
       });
     } else {
       toast.error('Failed to submit quiz', {
-        position: "top-left",
+        position: 'top-left',
         autoClose: 2000,
         hideProgressBar: true,
       });
     }
   };
 
-
   return (
     <div className='quiz_container min-h-screen'>
       <div>
         <h1 className='title'>Quiz Name</h1>
         <div>
-          <h3 className='timer'>Time Remaining: {Math.floor(timer / 60)}:{timer % 60 < 10 ? '0' : ''}{timer % 60}</h3>
+          <h3 className='timer'>
+            Time Remaining: {Math.floor(timer / 60)}:
+            {timer % 60 < 10 ? '0' : ''}
+            {timer % 60}
+          </h3>
         </div>
       </div>
       <div className='Questions'>
@@ -282,6 +233,5 @@ const TakeQuiz = () => {
     </div>
   );
 };
-
 
 export default TakeQuiz;

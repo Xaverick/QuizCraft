@@ -11,7 +11,7 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
 
-const apiUrl = "http://localhost:4000";
+const apiUrl = import.meta.env.VITE_API_URL;
 const QuizSlected = ({
   selectedQuiz,
   questions,
@@ -178,7 +178,31 @@ const QuizSlected = ({
     });
   };
 
+  // const calculateResult = async () => {
+  //   try {
+  //     const response = await fetch(`${apiUrl}/admin/compileResults/${quizId}`, {
+  //       method: "GET",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       credentials: "include",
+  //     });
+
+  //     if (response.ok) {
+  //       console.log("Result calculated successfully");
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to calculate result:", error);
+  //   }
+  // };
+  const [showConfirmation, setShowConfirmation] = useState(false); // State to control the confirmation popup
+
   const calculateResult = async () => {
+    if (!showConfirmation) {
+      setShowConfirmation(true); // Show confirmation popup
+      return;
+    }
+
     try {
       const response = await fetch(`${apiUrl}/admin/compileResults/${quizId}`, {
         method: "GET",
@@ -190,12 +214,17 @@ const QuizSlected = ({
 
       if (response.ok) {
         console.log("Result calculated successfully");
+        alert("Result calculated successfully"); // Show success alert
+      } else {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
     } catch (error) {
       console.error("Failed to calculate result:", error);
+      alert("Failed to calculate result. Please try again."); // Show error alert
+    } finally {
+      setShowConfirmation(false); // Reset confirmation state
     }
   };
-
   return (
     <div className="h-[100%] w-[100%] ">
       {quizId ? (
@@ -358,6 +387,31 @@ const QuizSlected = ({
                   >
                     Edit Quiz Details
                   </div>
+                  {showConfirmation && (
+                    <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex items-center justify-center">
+                      <div className="bg-white p-4 rounded-lg shadow-lg w-[50vw] h-[50vh] flex justify-center flex-col items-center">
+                        <p className="text-lg font-bold mb-4">Are you sure you want to calculate results?</p>
+                        <p className="text-lg mb-4">This action will calculate all the score and the leaderboard will be displayed.</p>
+                        <div className="flex">
+                          <button
+                            className="text-white bg-red-500 px-4 py-2 rounded mr-2 hover:bg-red-600"
+                            onClick={() => setShowConfirmation(false)}
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            className="text-white bg-green-500 px-4 py-2 rounded hover:bg-green-600"
+                            onClick={calculateResult}
+                          >
+                            Confirm
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+
+
                   <button
                     className="text-white bg-black p-3 h-fit rounded-xl hover:bg-slate-500"
                     onClick={calculateResult}

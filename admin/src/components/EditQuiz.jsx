@@ -15,7 +15,7 @@ import {
 
 const EditQuiz = ({ selectedQuiz, setEditQuiz }) => {
   const { toast } = useToast();
-  const apiUrl = "http://localhost:4000";
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   // Convert UTC time to local time string in the format required by datetime-local input
   const convertUTCToLocal = (utcTime) => {

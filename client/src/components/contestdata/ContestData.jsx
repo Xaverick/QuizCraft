@@ -1,7 +1,7 @@
 import React from 'react';
 import './ContestData.scss';
 import { useNavigate } from 'react-router-dom';
-import defaultImage from '../../assets/Contestimages/dumy2.png';
+import defaultImage from '../../assets/Contestimages/Online_Contest_svg_banner_dark.png';
 import tr from '../../assets/Contestimages/tr.png'
 const ContestData = ({ contest }) => {
     const navigate = useNavigate();
@@ -19,8 +19,8 @@ const ContestData = ({ contest }) => {
     return (
         <div className='contest'>
             <div className='contestdatabox'>
-                <div className='contestdataimage'>
-                    <img src={contest.image || defaultImage} alt={contest.title} />
+                <div className='contestdataimage' style={{padding:'10px'}}>
+                    <img src={contest.image || defaultImage} alt={contest.title}  style={{width:'100%', borderRadius:'10px'}}/>
                 </div>
                 <div className='contestdatacontent'>
                     <h3>{contest.title}</h3>

@@ -31,7 +31,7 @@ const Menu = [
   },
   {
     path: "/comingsoon",
-    link: "Your Quiz",
+    link: "History",
     icon: YourQuiz,
   },
   {
@@ -75,9 +75,9 @@ const Sidebar = () => {
 
   return (
     <aside className="sidebar">
-      <div className="menu">
+      <div className="menu"> 
         <h3 className="menu-title">Menu</h3>
-        <ul className="menu-list">
+        <ul className="menu-list" >
           {Menu.map((item, index) => (
             <li key={index} className={`menu-item ${location.pathname === item.path ? 'active' : ''}`}>
               <Link to={item.path} className="menu-link">

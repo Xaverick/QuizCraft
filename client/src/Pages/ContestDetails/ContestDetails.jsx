@@ -1,190 +1,234 @@
-import { useState, useEffect } from 'react';
-import './ContestDetails.scss';
-import { useParams } from 'react-router-dom';
-import Commoncd from '../../components/commonContestDetail/Commoncd';
-import { toast } from 'react-toastify';
-import axios from 'axios';
-import price1 from '../../assets/Contestimages/price1.png';
-import price2 from '../../assets/Contestimages/price2.png';
-import price3 from '../../assets/Contestimages/price3.png';
-import price4 from '../../assets/Contestimages/price4.png';
-import Pagination from '@mui/material/Pagination';
-import Stack from '@mui/material/Stack';
-import PaginationItem from '@mui/material/PaginationItem';
+import { useState, useEffect } from "react";
+import "./ContestDetails.scss";
+import { useParams } from "react-router-dom";
+import Commoncd from "../../components/commonContestDetail/Commoncd";
+import { toast } from "react-toastify";
+import axios from "axios";
+import price1 from "../../assets/Contestimages/price1.png";
+import price2 from "../../assets/Contestimages/price2.png";
+import price3 from "../../assets/Contestimages/price3.png";
+import price4 from "../../assets/Contestimages/price4.png";
+import Pagination from "@mui/material/Pagination";
+import Stack from "@mui/material/Stack";
+import PaginationItem from "@mui/material/PaginationItem";
 import { IoIosArrowDown } from "react-icons/io";
-import { FlagIcon } from 'react-flag-kit';
-import search from '../../assets/Contestimages/search.svg';
+import { FlagIcon } from "react-flag-kit";
+import search from "../../assets/Contestimages/search.svg";
+import UserPerformance from "./UserPerformance"; // Import the UserPerformance component
 
 const countryCodeMap = {
-    'india': 'IN',
-    'united states': 'US',
-    'canada': 'CA',
-    'germany': 'DE',
-    'france': 'FR',
-    'japan': 'JP',
-    'china': 'CN',
-    'australia': 'AU',
-    'brazil': 'BR',
-    'russia': 'RU',
-    'egypt': 'EG',
-    'ghana': 'GH',
-    'malaysia': 'MY',
-    'pakistan': 'PK',
-    'new zealand': 'NZ',
-    'nigeria': 'NG',
-    'republic of ireland': 'IE',
-    'singapore': 'SG',
-    'south africa': 'ZA',
-    'united kingdom': 'GB',
-    // Add more countries as needed
+  india: "IN",
+  "united states": "US",
+  canada: "CA",
+  germany: "DE",
+  france: "FR",
+  japan: "JP",
+  china: "CN",
+  australia: "AU",
+  brazil: "BR",
+  russia: "RU",
+  egypt: "EG",
+  ghana: "GH",
+  malaysia: "MY",
+  pakistan: "PK",
+  "new zealand": "NZ",
+  nigeria: "NG",
+  "republic of ireland": "IE",
+  singapore: "SG",
+  "south africa": "ZA",
+  "united kingdom": "GB",
+  // Add more countries as needed
 };
 
 const ContestDetails = () => {
-    const [activeSection, setActiveSection] = useState('details');
-    const [contestGiven, setContestGiven] = useState(false);
-    const [quizData, setQuizData] = useState({});
-    const { id } = useParams();
-    const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 15;
-    const registeredQuizzes = JSON.parse(localStorage.getItem('user'))?.registeredQuizzes || [];
-    const isRegistered = registeredQuizzes.includes(id);
-    const [selectedCountry, setSelectedCountry] = useState('');
-    const [searchTerm, setSearchTerm] = useState('');
+  const [activeSection, setActiveSection] = useState("details");
+  const [contestGiven, setContestGiven] = useState(false);
+  const [quizData, setQuizData] = useState({});
+  const { id } = useParams();
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 15;
+  const registeredQuizzes =
+    JSON.parse(localStorage.getItem("user"))?.registeredQuizzes || [];
+  const isRegistered = registeredQuizzes.includes(id);
+  const [selectedCountry, setSelectedCountry] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [performanceData, setPerformanceData] = useState(null); // Add state for performance data
+  const [contestMessage, setContestMessage] = useState(""); // Add state for performance data
 
-    const handleNavClick = (section) => {
-        setActiveSection(section);
-    };
+  const handleNavClick = (section) => {
+    setActiveSection(section);
+  };
 
-    useEffect(() => {
-        const fetchQuizData = async () => {
-            try {
-                const response = await axios.get(`/quiz/getQuiz/${id}`);
-                if (response.status === 200) {
-                    console.log(response.data);
-                    setQuizData(response.data.quiz);
-                    if (response.data.response) {
-                        setContestGiven(true);
-                    }
-                } else {
-                    throw new Error('Failed to fetch quiz data');
-                }
-            } catch (error) {
-                console.error('Error fetching quiz data:', error);
-                toast.error('Failed to fetch quiz data', {
-                    position: "top-left",
-                    autoClose: 2000,
-                    hideProgressBar: true,
-                });
-            }
-        };
-
-        fetchQuizData();
-    }, [id]);
-
-    const [leaderboardData, setLeaderboardData] = useState([]);
-    useEffect(() => {
-        const fetchLeaderboardData = async () => {
-            try {
-                const response = await axios.get(`/quiz/getLeaderboard/${id}`);
-                response.data.ranks.sort((a, b) => b.score - a.score);
-                if (response.status === 200) {
-                    setLeaderboardData(response.data.ranks);
-                }
-            } catch (error) {
-                console.log('error');
-            }
-        };
-        fetchLeaderboardData();
-    }, [id]);
-
-    const handlePageChange = (event, value) => {
-        setCurrentPage(value);
-    };
-
-    const handleCountryChange = (event) => {
-        setSelectedCountry(event.target.value);
-        setCurrentPage(1); // Reset to the first page when filter changes
-    };
-
-    const handleSearchTermChange = (event) => {
-        setSearchTerm(event.target.value);
-        setCurrentPage(1); // Reset to the first page when filter changes
-    };
-
-    const getFilteredData = () => {
-        let filteredData = leaderboardData;
-
-        if (selectedCountry) {
-            filteredData = filteredData.filter(rank => rank.country.toLowerCase() === selectedCountry.toLowerCase());
+  useEffect(() => {
+    const fetchQuizData = async () => {
+      try {
+        const response = await axios.get(`/quiz/getQuiz/${id}`);
+        if (response.status === 200) {
+          console.log("quiz data: ",response.data);
+          setQuizData(response.data.quiz);
+          if (response.data.response) {
+            setContestGiven(true);
+            setPerformanceData(response.data.response); // Set performance data
+            setContestMessage(response.data.message);
+          }
+        } else {
+          throw new Error("Failed to fetch quiz data");
         }
+      } catch (error) {
+        console.error("Error fetching quiz data:", error);
+        toast.error("Failed to fetch quiz data", {
+          position: "top-left",
+          autoClose: 2000,
+          hideProgressBar: true,
+        });
+      }
+    };
 
-        if (searchTerm) {
-            filteredData = filteredData.filter(rank => rank.username.toLowerCase().includes(searchTerm.toLowerCase()));
+    fetchQuizData();
+  }, [id]);
+
+  const [leaderboardData, setLeaderboardData] = useState([]);
+  useEffect(() => {
+    const fetchLeaderboardData = async () => {
+      try {
+        const response = await axios.get(`/quiz/getLeaderboard/${id}`);
+        console.log(response.data.ranks);
+        response.data.ranks.sort((a, b) => b.score - a.score);
+        if (response.status === 200) {
+          setLeaderboardData(response.data.ranks);
         }
-
-        return filteredData;
+      } catch (error) {
+        console.log("error");
+      }
     };
+    fetchLeaderboardData();
+  }, [id]);
 
-    const getPageData = () => {
-        const filteredData = getFilteredData();
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        return filteredData.slice(startIndex, endIndex);
-    };
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
+  };
 
-    const totalPage = Math.ceil(getFilteredData().length / itemsPerPage);
+  const handleCountryChange = (event) => {
+    setSelectedCountry(event.target.value);
+    setCurrentPage(1); // Reset to the first page when filter changes
+  };
 
-    return (
-        <div className="contestdetailspage">
-            <div className='contestdetailspart-1'>
-                <div>
-                    <Commoncd data={quizData} isRegistered={isRegistered} given={contestGiven} />
-                </div>
-            </div>
-            <div className='mini-nav'>
-                <div className='mini-nav-items'>
-                    <div
-                        className={`mini-nav-item ${activeSection === 'details' ? 'active' : ''}`}
-                        onClick={() => handleNavClick('details')}
+  const handleSearchTermChange = (event) => {
+    setSearchTerm(event.target.value);
+    setCurrentPage(1); // Reset to the first page when filter changes
+  };
+
+  const getFilteredData = () => {
+    let filteredData = leaderboardData;
+
+    if (selectedCountry) {
+      filteredData = filteredData.filter(
+        (rank) => rank.country.toLowerCase() === selectedCountry.toLowerCase()
+      );
+    }
+
+    if (searchTerm) {
+      filteredData = filteredData.filter((rank) =>
+        rank.username.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    return filteredData;
+  };
+
+  const getPageData = () => {
+    const filteredData = getFilteredData();
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return filteredData.slice(startIndex, endIndex);
+  };
+
+  const totalPage = Math.ceil(getFilteredData().length / itemsPerPage);
+
+  return (
+    <div className="contestdetailspage">
+      <div className="contestdetailspart-1">
+        <div>
+          <Commoncd
+            data={quizData}
+            isRegistered={isRegistered}
+            given={contestGiven}
+          />
+        </div>
+      </div>
+      <div className="mini-nav">
+        <div className="mini-nav-items">
+          <div
+            className={`mini-nav-item ${
+              activeSection === "details" ? "active" : ""
+            }`}
+            onClick={() => handleNavClick("details")}
+          >
+            Contest Details
+          </div>
+          <div
+            className={`mini-nav-item ${
+              activeSection === "leaderboard" ? "active" : ""
+            }`}
+            onClick={() => handleNavClick("leaderboard")}
+          >
+            Results
+          </div>
+          <div
+            className={`mini-nav-item ${
+              activeSection === "rewards" ? "active" : ""
+            }`}
+            onClick={() => handleNavClick("rewards")}
+          >
+            Rewards
+          </div>
+          {/* <div
+                        className={`mini-nav-item ${activeSection === 'performance' ? 'active' : ''}`}
+                        onClick={() => handleNavClick('performance')}
                     >
-                        Contest Details
-                    </div>
-                    <div
-                        className={`mini-nav-item ${activeSection === 'leaderboard' ? 'active' : ''}`}
-                        onClick={() => handleNavClick('leaderboard')}
-                    >
-                        Leaderboard
-                    </div>
-                    <div
-                        className={`mini-nav-item ${activeSection === 'rewards' ? 'active' : ''}`}
-                        onClick={() => handleNavClick('rewards')}
-                    >
-                        Rewards
-                    </div>
-                </div>
+                        Performance
+                    </div> */}
+        </div>
+      </div>
+      <div>
+        {activeSection === "details" && (
+          <div className="contestdetailscontent">
+            <span>Contest Details:</span>
+            <div>
+              <ul>
+                <li>Description:</li>
+              </ul>
+              <p>{quizData.description}</p>
             </div>
             <div>
-                {activeSection === 'details' && (
-                    <div className='contestdetailscontent'>
-                        <span>Contest Details:</span>
-                        <div>
-                            <ul><li>Description:</li></ul>
-                            <p>{quizData.description}</p>
-                        </div>
-                        <div>
-                            <ul><li>Rules & Regulations:</li></ul>
-                            {
-                                <ol type='Number'>
-                                    {quizData.rules && Object.values(quizData.rules).map((rule, idx) => (
-                                        <li key={idx}>{rule}</li>
-                                    ))}
-                                </ol>
-                            }
-                        </div>
-                    </div>
-                )}
-                {activeSection === 'leaderboard' && (
-                    <div>
+              <ul>
+                <li>Rules & Regulations:</li>
+              </ul>
+              {
+                <ol type="Number">
+                  {quizData.rules?.map((rule, index) => (
+                    <li key={index}>{rule}</li>
+                  ))}
+                </ol>
+              }
+            </div>
+          </div>
+        )}
+
+        {activeSection === "leaderboard" && (
+          <div className="leaderboard">
+            {performanceData ? (
+              <>
+                <p style={{ textAlign: "center" }}>{contestMessage}</p>
+                <UserPerformance
+                  performanceData={performanceData}
+                  contestGiven={contestGiven}
+                />
+              </>
+            ) : (
+              <></>
+            )}
+            <div>
                         <div className="container-wrap">
                             <section id="leaderboard">
                                 <nav className="ladder-nav">
@@ -279,18 +323,30 @@ const ContestDetails = () => {
                             </section>
                         </div>
                     </div>
-                )}
-                {activeSection === 'rewards' && (
-                    <div className='rewards'>
-                        <img src={price1} alt="Reward 1" />
-                        <img src={price2} alt="Reward 2" />
-                        <img src={price3} alt="Reward 3" />
-                        <img src={price4} alt="Reward 4" />
-                    </div>
-                )}
+          </div>
+        )}
+        {activeSection === "rewards" && (
+          <div className='rewards'>
+            <div className="flex flex-col gap-4 justify-center items-center">
+              <img src={price1} alt="Reward 1" />
+              <p className="" style={{ textAlign: "center" }}>1st Prize</p>
+
             </div>
-        </div>
-    );
+ 
+
+          {/* <img src={price1} alt="Reward 1" />
+          <img src={price2} alt="Reward 2" />
+          <img src={price3} alt="Reward 3" />
+          <img src={price4} alt="Reward 4" /> */}
+      </div>
+
+        )}
+        {/* {activeSection === 'performance' && (
+                    <UserPerformance performanceData={performanceData} contestGiven={contestGiven} />
+                )} */}
+      </div>
+    </div>
+  );
 };
 
 export default ContestDetails;

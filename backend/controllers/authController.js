@@ -9,7 +9,7 @@ const Profile = require('../models/profileModel');
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/auth/google/callback"
+    callbackURL: "https://api.geekclash.in/auth/google/callback"
   },
   async (accessToken, refreshToken, profile, done) => {
     done(null, profile);
@@ -42,9 +42,7 @@ module.exports.googleCallback = async (req, res) => {
     console.log("\n******** Inside handleGoogleLoginCallback function ********");
     // console.log("User Google Info", req.user);
     let existingUser = await User.findOne({ email: req.user._json.email });
-    const redirectUrl = process.env.NODE_ENV === 'production' ? `${process.env.SITE_URL}/login` : 'http://localhost:5173/login';
-    
-    
+    const redirectUrl = `${process.env.SITE_URL}/login`;
     
     if (existingUser) {
       if(!existingUser.googleId) {
@@ -110,6 +108,6 @@ module.exports.logout = (req, res) => {
     sameSite: 'none',
     secure: true
   });
-  const redirectUrl = process.env.NODE_ENV === 'production' ? `${process.env.SITE_URL}/login` : 'http://localhost:5173/login';
+  const redirectUrl = `${process.env.SITE_URL}/login`;
   res.redirect(redirectUrl);
 }

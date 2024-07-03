@@ -6,13 +6,14 @@ import CT from '../../assets/Contestimages/CT.png';
 import Duration from '../../assets/Contestimages/Duration.png';
 import NOQ from '../../assets/Contestimages/NOQ.png';
 import TM from '../../assets/Contestimages/TM.png';
-import defaultimage from '../../assets/Contestimages/dumy1.png';
+// import defaultimage from '../../assets/Contestimages/dumy1.png';
 import { useNavigate } from 'react-router-dom';
 import Modal from 'react-modal';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import tr from '../../assets/Contestimages/tr.png'
 Modal.setAppElement('#root');
+import contestBanner from '../../assets/Contestimages/Online_Contest_svg_banner_dark.png';
 
 const Commoncd = ({ data, isRegistered, given }) => {
     const [timeRemaining, setTimeRemaining] = useState('');
@@ -54,7 +55,7 @@ const Commoncd = ({ data, isRegistered, given }) => {
 
     const isregis = async () => {
         const response = await axios.post(`/quiz/isRegistered/${data._id}`);
-        // console.log(response.data);
+        console.log(response.data);
         return response.data;
     }
 
@@ -127,23 +128,23 @@ const Commoncd = ({ data, isRegistered, given }) => {
                     <p>{data.title || 'No Title'}</p>
                 </div>
                 <div className='commoncd-left-details'>
-                    <span>
+                    <span style={{display:'flex', alignItems:'center'}}>
                         <img src={CD} alt='' />
                         Event date: <span>{eventDate}</span>
                     </span>
-                    <span>
+                    <span style={{display:'flex', alignItems:'center'}}>
                         <img src={CT} alt='' />
                         Event Time: <span>{eventTime}</span>
                     </span>
-                    <span>
+                    <span style={{display:'flex', alignItems:'center'}}>
                         <img src={NOQ} alt='' />
                         No of Questions: <span>{data.questions ? data.questions.length : 'N/A'}</span>
                     </span>
-                    <span>
+                    <span style={{display:'flex', alignItems:'center'}}>
                         <img src={TM} alt='' />
                         Total Marks:<span>{parseInt(data.questions.length)*10 || 'N/A'}</span>
                     </span>
-                    <span>
+                    <span style={{display:'flex', alignItems:'center'}}>
                         <img src={Duration} alt='' />
                         Duration: <span>{data.duration} {data.duration > 1 ? 'minutes' : 'minute'}</span>
                     </span>
@@ -175,7 +176,7 @@ const Commoncd = ({ data, isRegistered, given }) => {
                             {given ? 'Already Given' : 'Start Quiz'}
                         </button>
                     )}
-                    {Date.now() < new Date(data.startTime) && <button onClick={handleRegister} {...(isRegistered ? { disabled: true } : {})} > {isRegistered ? 'Already Registered !' : 'Register Now'} </button>}
+                    {Date.now() < new Date(data.startTime) && <button onClick={handleRegister} {...(isRegistered ? { disabled: true } : {})} > {isRegistered ? 'Already Registered!' : 'Register Now'} </button>}
 
                 </div>
             </div>
@@ -190,14 +191,14 @@ const Commoncd = ({ data, isRegistered, given }) => {
 
                 </div>
                 <div className='commoncd-right-image'>
-                    {data.image ? <img src={data.image} alt='' /> : <img src={defaultimage} alt='' />}
+                    {data.image ? <img src={data.image} alt='' /> : <img src={contestBanner} alt='' />}
                 </div>
 
             </div>
             <Modal isOpen={isStartModalOpen} onRequestClose={closeStartModal} className='modal' overlayClassName='overlay'>
                 <h2>Contest Started</h2>
                 <p>Please Click on Start now for start the Contest</p>
-                <img src={defaultimage} alt='Start Quiz' />
+                <img src={contestBanner} alt='Start Quiz' />
                 <button onClick={handleStartQuiz} style={{ backgroundColor: "#56AFB2" }}>Start Now</button>
             </Modal>
         </div>

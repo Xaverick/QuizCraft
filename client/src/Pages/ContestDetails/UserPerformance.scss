@@ -1,0 +1,90 @@
+.user-performance {
+    .performance-summary {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20px;
+
+        .performance-details {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+            width: 100%;
+
+            .performance-score {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                .score-circle {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 50%;
+                    border: 5px solid #00b0ff;
+
+                    .score {
+                        font-size: 24px;
+                        font-weight: bold;
+                    }
+                }
+
+                .score-text {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    margin-top: 10px;
+
+                    div {
+                        font-size: 16px;
+                    }
+                }
+            }
+
+            .performance-breakdown {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                h3 {
+                    margin-bottom: 10px;
+                }
+
+                ul {
+                    list-style-type: none;
+                    padding: 0;
+
+                    li {
+                        font-size: 16px;
+                        margin: 5px 0;
+                    }
+                }
+            }
+
+            .performance-time {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                h3 {
+                    margin-bottom: 10px;
+                }
+
+                div {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+}
+
+
+.performance-card{
+    backdrop-filter: blur(2px) saturate(200%);
+    -webkit-backdrop-filter: blur(2px) saturate(200%);
+    background-color: #a6f0fdbf;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}

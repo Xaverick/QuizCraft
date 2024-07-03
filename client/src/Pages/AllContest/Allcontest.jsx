@@ -27,6 +27,7 @@ const Allcont = () => {
         const response = await axios.get("/quiz/getAllQuizzes");
         if (response.status === 200) {
           const data = response.data;
+          console.log(data)
           const updatedQuizzes = data.map((quiz) => {
             const now = Date.now();
             const startTime = new Date(quiz.startTime).getTime();
@@ -199,7 +200,7 @@ const Allcont = () => {
           )}
         </div>
         <div className="AllContests">
-          {currentItems.map((quiz) => (
+          {currentItems.reverse().map((quiz) => (
             <ContestData key={quiz._id} contest={quiz} />
           ))}
         </div>

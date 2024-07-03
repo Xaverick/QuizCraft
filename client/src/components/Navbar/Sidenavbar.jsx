@@ -99,7 +99,7 @@ const SideNavbar = () => {
                             onClick={() => handleLinkClick('/comingsoon')}
                         >
                             {/* Pricing */}
-                            Coming Soon
+                            Blog
                         </Link>
                         <Link
                             to="/contact"

@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:5174', 'https://quizcraft-gfey.onrender.com'], credentials: true }));
+app.use(cors({ origin: ['http://localhost:5173', 'http://localhost:5174', 'https://www.admin.geekclash.in', 'https://geekclash.in', process.env.SITE_URL, process.env.ADMIN_URL], credentials: true }));
 // Allow requests from the specified origin(s)
 app.use(express.json());
 

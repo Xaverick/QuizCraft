@@ -3,14 +3,13 @@ import logo from "../../assets/homepageimages/GeekClash.svg";
 import Message from "../../assets/Topbar/Message.svg";
 import Notification from "../../assets/Topbar/Notification.svg";
 import './Topbar.scss';
-import { Link ,useNavigate } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import axios from "axios";
  
 const Topbar = () => {
   const [data,setdata] = useState([]);
   const [user,setuser] = useState('');
   const navigate = useNavigate();
-  
   useEffect(() => {
     const getDetails = async () => {
       const response = await axios.get('/user/profile');
@@ -19,7 +18,6 @@ const Topbar = () => {
     getDetails();
   },[])
 
-  //search user by get request
   const SearchUser = async () => {
     console.log("user details : "+user);
     const response = await axios.get('/user/getusers',{params:{name:user}});
@@ -58,13 +56,13 @@ const Topbar = () => {
  
         <div className="topbar-user-info">
           <span>{data.name}</span>
-          <span>{data.occupation}</span>
+          <span style={{fontSize:'small'}}>{data.occupation}</span>
         </div>
-        <select name="language" id="language-select" className="language-select">
+        {/* <select name="language" id="language-select" className="language-select">
           <option value="">{""}</option>
           <option value="English">English</option>
           <option value="Hindi">Hindi</option>
-        </select>
+        </select> */}
       </div>
     </nav>
   );

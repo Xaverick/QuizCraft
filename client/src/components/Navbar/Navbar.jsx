@@ -99,7 +99,7 @@ const Navbar = () => {
               onClick={() => handleLinkClick('/comingsoon')}
             >
               {/* Pricing */}
-              Blogs
+              Blog
             </Link>
             <Link
               to="/contact"

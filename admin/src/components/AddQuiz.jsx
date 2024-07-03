@@ -157,7 +157,7 @@ import { useSelector } from "react-redux";
 
 const AddQuiz = () => {
   const { user } = useSelector((state) => state.profile);
-  const apiUrl = "http://localhost:4000";
+  const apiUrl = import.meta.env.VITE_API_URL;
   const [quizData, setQuizData] = useState({
     title: "",
     description: "",

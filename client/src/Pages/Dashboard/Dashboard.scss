@@ -1,6 +1,6 @@
-.content{
-  border-left: 1px solid #ECECEE;
-}
+// .content{
+//   border-left: 1px solid #ECECEE;
+// }
 
 .top-heading {
   display: flex;
@@ -116,6 +116,7 @@
 .detail-box .previous-session {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.5rem;
   padding: 10px;
   border: 1px solid gray;

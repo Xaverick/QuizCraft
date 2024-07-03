@@ -22,8 +22,8 @@ const Comingsoon = () => {
         <div className="comingsoon">
             <div className="content">
                 <h1>We are Coming Soon</h1>
-                <p>Join our waitlist and be the first to know when the exclusive PHICSIT
-                    <br /> e-quiz Dashboard launches.</p>
+                <p>Join our waitlist and be the first to know when the exclusive
+                    <br /> Geek Clash leaderboard launches.</p>
                 <button className="coming-notify-button">Notify Me</button>
                 <div className="social-icons">
                     <a href='https://www.facebook.com/PHICSIT' target="_blank" rel="noopener noreferrer" className="social-icon"><FaFacebookF /></a>

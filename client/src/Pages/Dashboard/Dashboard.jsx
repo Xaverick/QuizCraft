@@ -21,11 +21,11 @@ import { Link } from "react-router-dom";
 import { FaArrowRight, FaCopy } from "react-icons/fa";
 
 const allBadges = [
-  { badgeimg: Beginner, badgeName: "Beginner", threshold: 0 },
+  { badgeimg: Beginner, badgeName: "Newbie", threshold: 50 },
   { badgeimg: Hustler, badgeName: "Hustler", threshold: 200 },
-  { badgeimg: Pro, badgeName: "Pro", threshold: 1200 },
-  { badgeimg: Scholar, badgeName: "Scholar", threshold: 700 },
-  { badgeimg: Champion, badgeName: "Champion", threshold: 400 },
+  { badgeimg: Champion, badgeName: "Maverick", threshold: 400 },
+  { badgeimg: Scholar, badgeName: "Wizard", threshold: 800 },
+  { badgeimg: Pro, badgeName: "Gladiator", threshold: 1200 },
 ];
 
 const Dashboard = () => {
@@ -52,6 +52,9 @@ const Dashboard = () => {
     setBadge(newBadge);
     if (newBadge.length !== 0) {
       dashboardData.title = newBadge[newBadge.length - 1].badgeName + " #" + dashboardData.rating;
+    }else{
+      dashboardData.title = "#unranked";
+
     }
   }, [dashboardData]);
 
@@ -84,27 +87,27 @@ const Dashboard = () => {
     {
       img: linkedin,
       name: "LinkedIn",
-      link: "https://www.linkedin.com/in/ritvikkhanna/",
+      link: "https://www.linkedin.com/in/",
     },
     {
       img: facebook,
       name: "Facebook",
-      link: "https://facebook.com/ritvik_xd",
+      link: "https://facebook.com/",
     },
     {
       img: twitter,
       name: "Twitter",
-      link: "https://twitter.com/ritvik_xd",
+      link: "https://twitter.com/",
     },
     {
       img: whatsapp,
       name: "whatsapp",
-      link: "https://whatsapp.com/ritvik_xd",
+      link: "https://whatsapp.com/",
     },
     {
       img: instagram,
       name: "Twitter",
-      link: "https://instagram.com/ritvik_xd",
+      link: "https://instagram.com/",
     },
   ];
 
@@ -137,12 +140,12 @@ const Dashboard = () => {
                 </div>
                 <div className="name-username">
                   <p className="name">{dashboardData.name} </p>
-                  <p className="username">{dashboardData.username || '@ritvik_xd'}</p>
+                  <p className="username">{dashboardData.username || '@username'}</p>
                 </div>
               </div>
               <div className="detail-box">
                 <p className="profile-title">{dashboardData.title}</p>
-                <p className="previous-session">view previous season <FaArrowRight /></p>
+                <p className="previous-session">View Previous Seasons <FaArrowRight /></p>
               </div>
               <p className="bio">{dashboardData.text || 'Write your Bio'}</p>
               <div className="skills">

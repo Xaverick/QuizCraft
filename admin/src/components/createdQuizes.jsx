@@ -25,7 +25,7 @@ const CreatedQuizes = () => {
   });
   const [editQuiz, setEditQuiz] = useState(false);
   const [addQuiz, setAddQuiz] = useState(false);
-  const apiUrl = "http://localhost:4000";
+  const apiUrl = import.meta.env.VITE_API_URL;
   const { user } = useSelector((state) => state.profile);
   const [userQuizes, setUserQuizes] = useState([]);
   const [selectedQuiz, setSelectedQuizes] = useState();
@@ -76,6 +76,9 @@ const CreatedQuizes = () => {
       fetchQuizDetails(quizId);
     }
   }, []);
+
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
   const handleDelete = async (quizId) => {
     try {
       const response = await fetch(`${apiUrl}/admin/deletequiz/${quizId}`, {
@@ -94,6 +97,8 @@ const CreatedQuizes = () => {
       }
     } catch (error) {
       console.error("Failed to delete quiz:", error);
+    } finally {
+      setShowConfirmation(false);
     }
   };
   const [noOfInputs, setNoOfInputs] = useState("0");
@@ -263,10 +268,36 @@ const CreatedQuizes = () => {
                   </div> */}
             </div>
 
+            {showConfirmation && (
+              <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+                <div className="bg-white p-4 rounded-lg shadow-lg w-[50vw] h-[vh] flex justify-center flex-col items-center">
+                  <p className="text-lg font-bold mb-4 text-black text-center ">Are you sure you want to delete this quiz? This will delete all <br /> 
+                  the responses, the Leaderboard related to it and all the questions</p>
+                  <div className="flex justify-end">
+                    <button
+                      className="text-white bg-red-500 px-4 py-2 rounded mr-2 hover:bg-red-600"
+                      onClick={() => setShowConfirmation(false)}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="text-white bg-green-500 px-4 py-2 rounded hover:bg-green-600"
+                      onClick={() => {
+                        handleDelete(quiz._id);
+                      }}
+                    >
+                      Confirm
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div
               className="text-black cursor-pointer"
               onClick={() => {
-                handleDelete(quiz._id);
+                setShowConfirmation(true);
+  
               }}
             >
               <MdDelete style={{ fontSize: "2rem", color: "orange"}} />

@@ -74,7 +74,7 @@ module.exports.register = async (req, res) => {
         });
         if(referrerExists){
             let userCountIncreased = 1;
-            let coinsIncreased = 50;
+            let coinsIncreased = 1;
             const referredUser = await Profile.findOneAndUpdate({referralCodeString:referralCode},
                 {$inc :{totalUsersReferred:userCountIncreased, coin:coinsIncreased}},{new:true});
         }
@@ -150,10 +150,12 @@ module.exports.forgotPassword = async (req, res) => {
         const token = jwt.sign({ id: user._id }, secret, { expiresIn: '5m' });
 
         let config = {
-            service: 'gmail',
+            host: 'smtp.hostinger.com', // Hostinger SMTP server
+            port: 465, // Port for secure SMTP
+            secure: true, // True for 465, false for other ports
             auth: {
-                user: `${process.env.EMAIL}`,
-                pass: `${process.env.PASSWORD}`
+                user: process.env.EMAIL, // Hostinger email user
+                pass: process.env.PASSWORD // Hostinger email password
             }
         };
         let transporter = nodemailer.createTransport(config);
@@ -186,7 +188,7 @@ module.exports.forgotPassword = async (req, res) => {
         var emailBody = MailGenerator.generate(response);
         let message = {
             from: `${process.env.EMAIL}`,
-            to: "kartikaggarwal2004@gmail.com",
+            to: `${email}`,
             subject: 'Password Reset Request',
             html: emailBody
         };
@@ -247,12 +249,15 @@ const sendVerificationEmail = async (email,user) => {
     const token = jwt.sign({ id: User._id } , secret , { expiresIn: '120m' });
 
     let config = {
-        service: 'gmail',
+        host: 'smtp.hostinger.com', // Hostinger SMTP server
+        port: 465, // Port for secure SMTP
+        secure: true, // True for 465, false for other ports
         auth: {
-            user: `${process.env.EMAIL}`,
-            pass: `${process.env.PASSWORD}`
+            user: process.env.EMAIL, // Hostinger email user
+            pass: process.env.PASSWORD // Hostinger email password
         }
     };
+
     let transporter = nodemailer.createTransport(config);
     let MailGenerator = new Mailgen({
         theme: 'default',
@@ -320,7 +325,8 @@ module.exports.contactUs = async (req, res) => {
         throw new ExpressError('missing fields', 400);
     }
     const emailBody = `Name: ${firstName} ${lastName}\nEmail: ${email}\nPhone Number: ${phoneNumber}\nMessage: ${message}`;
-    mailSender(email, subject, emailBody);
+    const receiver = process.env.CONTACT_EMAIL || email;
+    mailSender(receiver, subject, emailBody);
     res.status(200).json('contact us');
 }
 

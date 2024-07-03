@@ -31,8 +31,7 @@ module.exports.adminlogin = async (req, res) => {
     const payload = { adminId: user._id, email: user.email, username: user.username };
     const token = jwt.sign( payload, `${process.env.ADMIN_SECRET}`, { expiresIn: '3h' });
     res.cookie('adminjwt', token, { signed: true,httpOnly: false, sameSite: 'none', maxAge: 3 * 1000 * 60 * 60,secure: true })
-    res.status(200).json({token, user: user._id});
-    
+    res.status(200).json({token, user: user._id, expiresIn: new Date(Date.now() + 3 * 60 * 60 * 1000)});
 }
 
 
@@ -335,5 +334,18 @@ module.exports.compileResults = async (req, res) => {
 
 
 
-
+module.exports.referralDetails = async (req, res) => {
+    const referrers = await profile
+      .find({ totalUsersReferred: { $gt: 0 } })
+      .populate("userId");
+  //   console.log(referrers);
+    const arrayToSend = [];
+    for (let i = 0; i < referrers.length; i++) {
+      let objToPush = {};
+      objToPush.username = referrers[i].userId.username;
+      objToPush.totalUsersReffered = referrers[i].totalUsersReferred;
+      arrayToSend.push(objToPush);
+    }
+    res.status(200).json({referralDetails:arrayToSend});
+  };
 

@@ -20,12 +20,13 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { FaArrowRight, FaCopy } from "react-icons/fa";
 
+
 const allBadges = [
-  { badgeimg: Beginner, badgeName: "Beginner", threshold: 0 },
+  { badgeimg: Beginner, badgeName: "Newbie", threshold: 50 },
   { badgeimg: Hustler, badgeName: "Hustler", threshold: 200 },
-  { badgeimg: Pro, badgeName: "Pro", threshold: 1200 },
-  { badgeimg: Scholar, badgeName: "Scholar", threshold: 700 },
-  { badgeimg: Champion, badgeName: "Champion", threshold: 400 },
+  { badgeimg: Champion, badgeName: "Maverick", threshold: 400 },
+  { badgeimg: Scholar, badgeName: "Wizard", threshold: 800 },
+  { badgeimg: Pro, badgeName: "Gladiator", threshold: 1200 },
 ];
 
 const ReqProfile = () => {
@@ -44,9 +45,7 @@ const ReqProfile = () => {
     getDetails();
   }, [location.state.userData]);
   
-  
-  
-  
+
   useEffect(() => {
     let newBadge = [];
     allBadges.forEach(badge => {
@@ -57,6 +56,9 @@ const ReqProfile = () => {
     setBadge(newBadge);
     if (newBadge.length !== 0) {
       dashboardData.title = newBadge[newBadge.length - 1].badgeName + " #" + dashboardData.rating;
+    }else{
+      dashboardData.title = "#unranked";
+
     }
   }, [dashboardData]);
 
@@ -134,7 +136,7 @@ const ReqProfile = () => {
               </div>
               <div className="detail-box">
                 <p className="profile-title">{dashboardData.title}</p>
-                <p className="previous-session">view previous season <FaArrowRight /></p>
+                <p className="previous-session">view previous seasons <FaArrowRight /></p>
               </div>
               <p className="bio">{dashboardData.text || 'Write your Bio'}</p>
               <div className="skills">

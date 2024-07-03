@@ -1,11 +1,14 @@
 // MyProfile.scss
 
-.content{
-  h1{
+.content {
+  h1 {
     font-size: 2rem;
     font-weight: 500;
     margin-bottom: 1rem;
   }
+}
+em{
+  font-size: small;
 }
 
 .profile-form {
@@ -28,39 +31,38 @@
       margin-bottom: 0.5rem;
     }
 
-    .file-input{
+    .file-input {
       visibility: hidden;
     }
 
     button {
-
-      color: #4379EE;
+      color: #4379ee;
       font-size: 14px;
       font-weight: 500;
       background-color: white;
       border: none;
       cursor: pointer;
     }
-
-    .myprofile-btn {
-      border: 1px solid transparent;
-      background-color: #56AFB2;
-      color: #fff;
-      padding: 0.6rem 1.4rem;
-      font-size: 1.2rem;
-      border-radius: 8px;
-      cursor: pointer;
-      &:hover{
-        background-color: #4d9aa0;
-      }
-    }
   }
-
-
-  input{
+.bioProfile{
+  height: -webkit-fill-available;
+}
+  .myprofile-btn {
+    border: 1px solid transparent;
+    background-color: #56afb2;
+    color: #fff;
+    padding: 0.6rem 1.4rem;
+    font-size: 1.2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    &:hover {
+      background-color: #4d9aa0;
+    }
+    width: fit-content;
+  }
+  input {
     outline: none;
   }
-
 
   form {
     display: flex;
@@ -95,7 +97,6 @@
   width: 100%;
   border-radius: 10px;
 
-
   .profileinputslabel {
     color: #606060;
     font-size: 14px;
@@ -105,13 +106,14 @@
   .profileinputs {
     width: 100%;
     padding: 1rem 0.8rem;
-    border: 1px solid #D5D5D5;
+    border: 1px solid #d5d5d5;
     border-radius: 4px;
     box-sizing: border-box;
-    background-color: #FBFFFF;
+    height: -webkit-fill-available;
+    background-color: #fbffff;
 
     ::placeholder {
-      color: #A6A6A6;
+      color: #a6a6a6;
       font-size: 12px;
       text-align: center;
     }
@@ -123,7 +125,7 @@
   }
 }
 
-@media screen and (max-width:650px) {
+@media screen and (max-width: 650px) {
   .profile-form form .myprofile-row {
     flex-direction: column;
   }
@@ -132,10 +134,6 @@
     padding: 1rem;
   }
 }
-
-
-
-
 
 /* ProfileEditPage.css */
 

@@ -1,10 +1,25 @@
-import React from 'react';
+import React, { useEffect} from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom'; 
+import { Link } from 'react-router-dom';
+
 
 const Navbar = () => {
   const { user } = useSelector((state) => state.profile);
-  const apiUrl = "http://localhost:4000";
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+
+
+  useEffect(() => {
+    const expiresIn = localStorage.getItem("expiresIn");
+    if (expiresIn < Date.now()) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      localStorage.removeItem("expiresIn");
+
+      window.location.href = "/login";
+    }
+  }, []);
+
   const handleLogout = async () => {
     try {
       console.log(apiUrl);
@@ -26,6 +41,7 @@ const Navbar = () => {
  
         localStorage.removeItem("token"); 
         localStorage.removeItem("user"); 
+        localStorage.removeItem("expiresIn");
 
         window.location.href = "/login";
       } else {
@@ -48,11 +64,6 @@ const Navbar = () => {
               <li>
                 <Link to="/login" className="text-white hover:text-gray-300">
                   Login
-                </Link>
-              </li>
-              <li>
-                <Link to="/signup" className="text-white hover:text-gray-300">
-                  Signup
                 </Link>
               </li>
             </>

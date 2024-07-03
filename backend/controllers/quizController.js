@@ -15,11 +15,13 @@ const sendVerificationEmail = async (email,user) => {
   const token = jwt.sign({ id: User._id } , secret , { expiresIn: '120m' });
 
   let config = {
-      service: 'gmail',
-      auth: {
-          user: `${process.env.EMAIL}`,
-          pass: `${process.env.PASSWORD}`
-      }
+    host: 'smtp.hostinger.com', // Hostinger SMTP server
+    port: 465, // Port for secure SMTP
+    secure: true, // True for 465, false for other ports
+    auth: {
+        user: process.env.EMAIL, // Hostinger email user
+        pass: process.env.PASSWORD // Hostinger email password
+    }
   };
   let transporter = nodemailer.createTransport(config);
   let MailGenerator = new Mailgen({
@@ -70,68 +72,92 @@ module.exports.getAllQuizes= async (req, res) => {
 }
 
 module.exports.getQuiz = async (req, res) => {
-    const quiz = await Quiz.findById(req.params.quizid);
-    const quizId = req.params.quizid;
-    const userId = req.userId;
-    const response = await Submission.findOne({ quizId: quizId, userId: userId });
-    console.log(response);
-    if(!quiz){
-      throw new ExpressError('quiz not found', 400);
-    }
+  try {
+      const quiz = await Quiz.findById(req.params.quizid);
+      if (!quiz) {
+          throw new ExpressError('Quiz not found', 400);
+      }
 
-    res.json({quiz: quiz, response: response});
+      const quizId = req.params.quizid;
+      const userId = req.userId;
+      const userSubmission = await Submission.findOne({ quizId: quizId, userId: userId });
+      const allUserSubmissions = await Submission.find({ quizId: quizId });
+
+
+      // Sort all submissions by score in descending order
+      allUserSubmissions.sort((a, b) => b.score - a.score);
+
+      // Find the rank of the current user
+      const userRank = allUserSubmissions.findIndex(submission => submission.userId.toString() === userId.toString()) + 1;
+
+      // Calculate the percentage of users that the current user beat
+      const beatPercentage = ((allUserSubmissions.length - userRank) / allUserSubmissions.length) * 100;
+      console.log(allUserSubmissions.length,userRank)
+      console.log({
+        quiz: quiz,
+        response: userSubmission,
+        message: `You beat ${beatPercentage.toFixed(0)}% in this contest`
+    })
+      res.json({
+          quiz: quiz,
+          response: userSubmission,
+          message: `You beat ${beatPercentage.toFixed(2)}% in this contest`
+      });
+  } catch (error) {
+      console.error(error);
+      res.status(400).json({ message: error.message });
+  }
 }
 
 
+
 module.exports.registerQuiz = async (req, res) => {
-    const { quizId } = req.params;
-    const userId = req.userId;
-    if(!userId && !quizId) {
-        throw new ExpressError('quizId or userId not provided', 400);
-    }
+  const { quizId } = req.params;
+  const userId = req.userId;
+  if (!userId && !quizId) {
+      throw new ExpressError('quizId or userId not provided', 400);
+  }
 
-    const user = await User.findById(userId);
-    if(!user) {
-        throw new ExpressError('user not found', 400);
-    }
-    
-    if (!user.verified) {
-        await sendVerificationEmail(user.email, user);
-        throw new ExpressError('user not verified. Verification email sent', 400);
-    }
+  const user = await User.findById(userId);
+  if (!user) {
+      throw new ExpressError('user not found', 400);
+  }
+  
+  if (!user.verified) {
+      await sendVerificationEmail(user.email, user);
+      throw new ExpressError('User not verified. Verification email sent', 400);
+  }
 
-    if (user.registeredQuizzes.includes(quizId)) {
-        throw new ExpressError('You have already registered for this quiz', 400);
-    }
+  if (user.registeredQuizzes.includes(quizId)) {
+      throw new ExpressError('You have already registered for this quiz', 400);
+  }
 
-    const quiz = await Quiz.findById(quizId);
-    if(!quiz) {
-        throw new ExpressError('quiz not found', 400);
-    }
+  const quiz = await Quiz.findById(quizId);
+  if (!quiz) {
+      throw new ExpressError('quiz not found', 400);
+  }
 
-    console.log(Date.now(), quiz.startTime);
-    if(Date.now() > quiz.startTime) {
-        throw new ExpressError('Quiz has started No registration allowed', 400);
-    }
+  if (Date.now() > quiz.startTime) {
+      throw new ExpressError('Contest has started. No registration allowed', 400);
+  }
 
-    user.registeredQuizzes.push(quizId);
-    await user.save();
-    quiz.totalRegistered++;
-    // saves the recent joinee profile
-    const data = user.populate('profile');
-    if(data.profilePhoto){
-      if(quiz.User_profile_Image.length()<3){   
-        quiz.User_profile_Image.push(data.profilePhoto);
+  user.registeredQuizzes.push(quizId);
+  await user.save();
+  quiz.totalRegistered++;
+
+  // Add user profile picture to the quiz if it exists
+  if (user.picture) {
+      if (quiz.User_profile_Image.length < 3) {
+          quiz.User_profile_Image.push(user.picture);
+      } else if (quiz.User_profile_Image.length == 3) {
+          quiz.User_profile_Image.shift();
+          quiz.User_profile_Image.push(user.picture);
       }
-      else if(quiz.User_profile_Image.length()==3){
-        quiz.User_profile_Image.shift();
-        quiz.User_profile_Image.push(data.profilePhoto);
-      }
-    }
-    await quiz.save();
-    
-    res.status(200).json('Quiz registered');
-    
+  }
+
+  await quiz.save();
+  
+  res.status(200).json('Contest registered');
 }
 
 module.exports.isRegistered = async (req,res) => {
@@ -185,7 +211,7 @@ module.exports.getYourQuizzes = async (req, res) => {
 
       res.status(200).json(data);
   } catch (error) {
-      console.error("Error fetching quiz data:", error);
+      console.error("Error fetching Contest data:", error);
       res.status(500).json({ error: "Internal server error" });
   }
 }
@@ -193,6 +219,7 @@ module.exports.getYourQuizzes = async (req, res) => {
 
 module.exports.addResponseAndUpdateSubmission = async (req, res) => {
     const { answers } = req.body;
+    const { timeTaken } = req.body;
     const userId = req.userId;
     const { quizId } = req.params;
     if(!userId || !quizId ) {
@@ -216,7 +243,9 @@ module.exports.addResponseAndUpdateSubmission = async (req, res) => {
       userId,
       quizId,
       answers,
+      correctAnswers,
       totalQuestions: answers.length,
+      timeTaken
     })
 
     await submission.save();
@@ -250,7 +279,7 @@ module.exports.getQuestions = async (req, res) => {
   const registeredQuizzes = user.registeredQuizzes;
 
   if (!registeredQuizzes.includes(req.params.quizid)) {
-    throw new ExpressError('You are not registered for this quiz', 400);
+    throw new ExpressError('You are not registered for this Contest', 400);
   }
 
   const quizId = req.params.quizid;

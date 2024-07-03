@@ -41,8 +41,7 @@ router.route('/profile')
 router.route('/updateprofile')
     .post(isClient, upload.single('photo'), catchAsync(user.updateProfile));
 
-router.route('/getusers').get(isClient,catchAsync(user.getUsers));
-
-
+router.route('/getusers')
+    .get(isClient,catchAsync(user.getUsers));
 
 module.exports = router;
