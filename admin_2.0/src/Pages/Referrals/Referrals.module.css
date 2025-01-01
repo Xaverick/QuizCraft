@@ -1,0 +1,293 @@
+.container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 500;
+  color: black;
+  font-family: "Montserrat", sans-serif;
+}
+
+.totalUser {
+  font-size: 16px;
+  font-weight: 600;
+  color: #3C3C3C;
+  font-family: "Inter", sans-serif;
+  padding-left: 2px;
+}
+
+.searchBarAndFilter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 15px;
+}
+
+.searchBarandBtn {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+.searchBtn {
+  background-color: #2C62EE;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 90px;
+  height: 40px;
+  font-family: "Inter", sans-serif;
+  text-align: center;
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchContainer {
+  position: relative;
+  width: 379px;
+  height: 40px;
+}
+
+.searchIcon {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  color: #aaa;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.searchInput {
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 40px;
+  padding-left: 45px !important;
+  border-radius: 5px;
+}
+
+.searchInput:focus {
+  border: 1px solid #3498db;
+}
+
+.searchInput::placeholder {
+  color: #9E9E9E;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+}
+
+.filterContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-right: 10px;
+}
+
+/* Table css */
+.table {
+  width: 90%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  /* overflow: hidden; */
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 600px;
+
+  /* Hide scrollbar for WebKit browsers */
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  /* Hide scrollbar for Firefox */
+  scrollbar-width: none;
+
+  /* Hide scrollbar for Internet Explorer and Edge */
+  -ms-overflow-style: none;
+}
+
+.tableHeader {
+  color: black;
+  background-color: #E0E0E0 !important;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  height: 60px !important;
+}
+
+.tableHeaderItem {
+  background-color: transparent;
+  text-align: start;
+  /* padding-left: 30px; */
+  font-size: 20px !important;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  width: 100%;
+  text-transform: capitalize;
+  font-family: "Montserrat", sans-serif;
+}
+
+.tableHeaderItem.rank {
+  padding-left: 30px;
+}
+
+.tableHeaderItem.name {
+  transform: translateX(179px);
+  /* padding-left: 240px; */
+}
+
+.tableHeaderItem.referrals {
+  transform: translateX(70%);
+}
+
+.tableRow {
+  display: flex;
+  border-bottom: 2px solid #B3B3B3;
+  padding: 10px 0;
+}
+
+.tableRowItem {
+  text-align: center;
+  padding: 5px 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  /* padding-left: 30px; */
+}
+
+
+.tableRowItem.rank {
+  padding-left: 50px;
+  font-size: 18px;
+}
+
+
+
+.tableRowItem.username {
+  font-size: 18px;
+  transform: translateX(164px);
+  text-align: center !important;
+}
+
+.tableRowItem.referrals {
+  transform: translateX(70%);
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+
+  .tableHeaderItem,
+  .tableRowItem {
+    font-size: 15px !important;
+    /* padding: 8px; */
+  }
+
+  .tableHeaderItem.rank,
+  .tableRowItem.rank {
+    padding-left: 20px;
+  }
+
+  .tableHeaderItem.name,
+  .tableRowItem.username {
+    transform: translateX(30%);
+  }
+
+  .tableHeaderItem.referrals,
+  .tableRowItem.referrals {
+    transform: translateX(40%);
+  }
+}
+
+@media (max-width: 1400px) {
+
+  .tableHeaderItem,
+  .tableRowItem,
+  .tableRowItem.rank,
+  .tableRowItem.username,
+  .tableRowItem.referrals {
+    font-size: 15px !important;
+  }
+
+  .tableRowItem.username {
+    transform: translateX(116px);
+  }
+
+  .tableHeaderItem.name {
+    transform: translateX(130px);
+  }
+}
+
+@media (max-width: 1300px) {
+
+  .tableHeaderItem,
+  .tableRowItem,
+  .tableRowItem.rank,
+  .tableRowItem.username,
+  .tableRowItem.referrals {
+    font-size: 14px !important;
+  }
+
+  .tableRowItem.rank {
+    padding-left: 40px;
+  }
+
+  .tableRowItem.username {
+    transform: translateX(100px);
+  }
+
+  .tableRowItem.referrals {
+    transform: translateX(60%);
+  }
+
+  .tableHeaderItem.name {
+    transform: translateX(110px);
+  }
+
+  .tableHeaderItem.referrals {
+    transform: translateX(60%);
+  }
+
+}
+
+@media (max-width: 1024px) {
+
+  .tableRowItem,
+  .tableRowItem.rank,
+  .tableRowItem.username,
+  .tableRowItem.referrals {
+    font-size: 14px;
+  }
+
+  .tableRowItem.rank {
+    padding-left: 30px;
+  }
+
+  .tableRowItem.username {
+    transform: translateX(120px);
+  }
+
+  .tableRowItem.referrals {
+    transform: translateX(50%);
+  }
+}

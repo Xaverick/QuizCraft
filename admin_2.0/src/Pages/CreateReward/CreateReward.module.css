@@ -1,0 +1,159 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 97%;
+  margin: 20px auto;
+  padding: 45px 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background-color: #FAFAFA;
+  height: auto;
+}
+
+h2 {
+  text-align: left;
+  margin-bottom: 20px;
+  color: #333;
+  padding: 20px;
+  font-size: 30px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #FAFAFA;
+}
+
+.formGroup {
+  margin-bottom: 15px;
+  background: #FAFAFA;
+}
+
+label {
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 20px;
+  font-family: "Montserrat", sans-serif;
+  color: black;
+  background: #FAFAFA;
+}
+
+span {
+  background: #FAFAFA;
+  font-size: 18px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+}
+
+input[type="text"],
+input[type="file"] {
+  padding: 8px;
+  border-radius: 4px;
+  width: 100%;
+  border: 1px solid #D1D1D1;
+  background: #FFFFFF;
+}
+
+input[type="file"] {
+  cursor: pointer;
+}
+
+.submitButton {
+  width: 160px !important;
+  height: 42px;
+  padding: 10px 20px;
+  background-color: #2C62EE;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  font-size: 16px;
+}
+
+.submitButton:hover {
+  background-color: #2C62EE;
+}
+
+.message {
+  text-align: center;
+  margin-top: 20px;
+  color: #333;
+}
+
+
+
+
+@media (max-width: 1300px) {
+
+
+  label {
+    font-size: 16px;
+  }
+
+  span {
+    font-size: 14px;
+  }
+
+  .submitButton {
+    font-size: 14px;
+    width: 140px;
+    height: 38px;
+  }
+
+  .message {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 1200px) {
+
+
+  label {
+    font-size: 15px;
+  }
+
+  span {
+    font-size: 13px;
+  }
+
+  .submitButton {
+    font-size: 13px;
+    width: 130px;
+    height: 36px;
+  }
+
+  .message {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 1024px) {
+
+
+  label {
+    font-size: 14px;
+  }
+
+  span {
+    font-size: 12px;
+  }
+
+  .submitButton {
+    font-size: 12px;
+    width: 120px;
+    height: 34px;
+  }
+
+  .message {
+    font-size: 13px;
+  }
+}

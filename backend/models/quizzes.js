@@ -1,83 +1,92 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const schema = mongoose.Schema;
-const Question = require('./questions');
-const Admin = require('./adminModel');
-
-
+const Question = require("./questions");
+const Admin = require("./adminModel");
 
 const quizSchema = new schema({
-    title: {
-        type: String,
-        required: true,
-        min: 6,
-        max: 255,
+  title: {
+    type: String,
+    required: true,
+    min: 6,
+    max: 255,
+  },
+
+  description: {
+    type: String,
+    required: true,
+    min: 6,
+    max: 1024,
+  },
+
+  rules: [
+    {
+      type: String,
+      required: true,
+      min: 6,
+      max: 1024,
     },
+  ],
 
-    description: {
-        type: String,
-        required: true,
-        min: 6,
-        max: 1024,
+  startTime: {
+    type: Date,
+    required: true,
+  },
+
+  endTime: {
+    type: Date,
+    required: true,
+  },
+
+  duration: {
+    type: Number,
+    required: true,
+  },
+
+  questions: [
+    {
+      type: schema.Types.ObjectId,
+      ref: "Question",
     },
+  ],
 
-    rules: [
-        {
-            type: String,
-            required: true,
-            min: 6,
-            max: 1024,
-        }
-    ],
+  adminId: {
+    type: schema.Types.ObjectId,
+    ref: "Admin",
+  },
 
-    startTime: {
-        type: Date,
-        required: true,
+  totalRegistered: {
+    type: Number,
+    default: 0,
+  },
+
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+
+  category: {
+    type: String,
+    required: true,
+  },
+
+  User_profile_Image: [
+    {
+      type: String,
     },
+  ],
 
-    endTime: {
-        type: Date,
-        required: true,
+  rewards: [
+    {
+      type: schema.Types.ObjectId,
+      unique: true,
+      ref: "Reward",
     },
-
-    duration: {
-        type: Number,
-        required: true,
-    },
-
-    questions: [{
-        type: schema.Types.ObjectId,
-        ref: 'Question',
-    }],
-
-    adminId: {
-        type: schema.Types.ObjectId,
-        ref: 'Admin',
-    },
-
-    totalRegistered: {
-        type: Number,
-        default: 0,
-    }, 
-    
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-
-    updatedAt: {
-        type: Date,
-        default: Date.now,
-    },
-
-    category: {
-        type: String,
-        required: true,
-    },
-
-    User_profile_Image: [{
-        type: String,
-    }]
-
+  ],
 });
 
-module.exports = mongoose.model('Quiz', quizSchema);
+module.exports = mongoose.model("Quiz", quizSchema);

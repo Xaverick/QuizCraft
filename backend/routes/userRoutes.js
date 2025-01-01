@@ -4,6 +4,9 @@ const catchAsync = require('../utils/CatchAsync');
 const { isClient, upload } = require('../middleware.js');
 
 
+router.route('/sendProfileDetails')
+    .get(isClient,catchAsync(user.profile));
+    
 router.route('/login')
     .post(catchAsync(user.login));
     

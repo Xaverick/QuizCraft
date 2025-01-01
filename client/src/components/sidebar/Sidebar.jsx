@@ -6,12 +6,12 @@ import YourQuiz from "../../assets/sidebarImages/YourQuiz.svg";
 import Community from "../../assets/sidebarImages/Community.svg";
 import Setting from "../../assets/sidebarImages/Setting.svg";
 import Logout from "../../assets/sidebarImages/Logout.svg";
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { logout } from '../../store/slices/authSlice';
-import axios from 'axios';
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/slices/authSlice";
+import axios from "axios";
 
-import './Sidebar.scss';
+import "./Sidebar.scss";
 
 const Menu = [
   {
@@ -20,7 +20,7 @@ const Menu = [
     icon: Dashboard,
   },
   {
-    path: "/comingsoon",
+    path: "/leaderboard",
     link: "Leaderboard",
     icon: Leaderboard,
   },
@@ -30,8 +30,8 @@ const Menu = [
     icon: Subscription,
   },
   {
-    path: "/comingsoon",
-    link: "History",
+    path: "/my-contests",
+    link: "My Contests",
     icon: YourQuiz,
   },
   {
@@ -60,26 +60,31 @@ const Sidebar = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.get('/user/logout');
-      localStorage.removeItem('user');
-      localStorage.removeItem('expiresIn');
+      const response = await axios.get("/user/logout");
+      localStorage.removeItem("user");
+      localStorage.removeItem("expiresIn");
       dispatch(logout());
-      navigate('/');
+      navigate("/");
     } catch (error) {
-      localStorage.removeItem('user');
-      localStorage.removeItem('expiresIn');
+      localStorage.removeItem("user");
+      localStorage.removeItem("expiresIn");
       dispatch(logout());
-      navigate('/');
+      navigate("/");
     }
   };
 
   return (
     <aside className="sidebar">
-      <div className="menu"> 
+      <div className="menu">
         <h3 className="menu-title">Menu</h3>
-        <ul className="menu-list" >
+        <ul className="menu-list">
           {Menu.map((item, index) => (
-            <li key={index} className={`menu-item ${location.pathname === item.path ? 'active' : ''}`}>
+            <li
+              key={index}
+              className={`menu-item ${
+                location.pathname === item.path ? "active" : ""
+              }`}
+            >
               <Link to={item.path} className="menu-link">
                 <img src={item.icon} alt="icon" className="menu-icon" />
                 <span>{item.link}</span>
@@ -92,7 +97,13 @@ const Sidebar = () => {
         <h3 className="account-title">Account</h3>
         <ul className="account-list">
           {Account.map((item, index) => (
-            <li key={index} className={`account-item ${location.pathname === item.path ? 'active' : ''}`} style={{cursor:'pointer'}}>
+            <li
+              key={index}
+              className={`account-item ${
+                location.pathname === item.path ? "active" : ""
+              }`}
+              style={{ cursor: "pointer" }}
+            >
               {item.link === "Logout" ? (
                 <div className="account-link" onClick={handleLogout}>
                   <img src={item.icon} alt="icon" className="account-icon" />

@@ -13,10 +13,13 @@ import commentdata from "../../assets/data/commentdata.js";
 import Faqcompo from "../../components/faq/faq.jsx";
 import faqdata from "../../assets/data/faqs.js";
 import axios from "axios";
-import img1 from '../../assets/CommunityParters/img1.svg';
-import img2 from '../../assets/CommunityParters/img2.svg';
-import herobg from "../../assets/homepageimages/homebg.png"
+import img1 from "../../assets/CommunityParters/img1.svg";
+import img2 from "../../assets/CommunityParters/img2.svg";
+import herobg from "../../assets/homepageimages/homebg.png";
 import Marquee from "react-fast-marquee";
+import Categories from "../../components/Homepage/Categories/Categories.jsx";
+import Ranking from "../../components/Homepage/PlatformOfferingSec3/Ranking.jsx";
+import Challenge100 from "../../components/Homepage/PlatformOfferringSec2/Challenges100.jsx";
 
 const Question = ({ questionData, onSelect, isOpen }) => {
   const handleClick = () => {
@@ -75,7 +78,7 @@ const Home = () => {
   }, []);
 
   const handleViewAllClick = () => {
-    navigate("/contest");
+    navigate("/contests");
   };
   const handleQuestionSelect = (questionId) => {
     setOpenQuestionId(openQuestionId === questionId ? null : questionId);
@@ -130,10 +133,10 @@ const Home = () => {
                 <p> Community Partners</p>
               </div>
               <div className="home-phase3">
-              <Marquee className="h-16  " autoFill pauseOnHover gradient>
-              <img src={img1} height="100" width="250" alt="" />
-              <img src={img2} height="100" width="250" alt="" />
-              </Marquee>
+                <Marquee className="h-16  " autoFill pauseOnHover gradient>
+                  <img src={img1} height="100" width="250" alt="" />
+                  <img src={img2} height="100" width="250" alt="" />
+                </Marquee>
                 {/* <div className="slider">
                   <div className="slide-track">
                     <div className="slide">
@@ -171,31 +174,24 @@ const Home = () => {
               </div>
             </div>
           </div>
+
+          <div>
+            <Categories />
+          </div>
+
           <div className="homephase4" ref={whyChooseUsRef}>
             <div className="homephase4heading">
               <p>Platform Offerings</p>
             </div>
-            <div className="homephase4content">
-              <div className="homephase4contentquestions">
-                {questionsData.map((question) => (
-                  <Question
-                    key={question.id}
-                    questionData={question}
-                    isOpen={openQuestionId === question.id}
-                    onSelect={handleQuestionSelect}
-                  />
-                ))}
-              </div>
-              <div className="homephase4contentimg">
-                {selectedQuestion && (
-                  <img
-                    style={{ width: "100%", height: "100%" }}
-                    src={selectedQuestion.sideimage}
-                    alt="Side Image"
-                  />
-                )}
-              </div>
+
+            {/* **************************************************** */}
+            {/* Pending  */}
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <Challenge100 />
+              <Ranking />
             </div>
+            {/* **************************************************** */}
+
             <div className="homephase5">
               <div className="homephase5heading">
                 <p>Upcoming Contests</p>
@@ -211,7 +207,7 @@ const Home = () => {
             </div>
           </div>
           <div className="homephase6">
-            <div className="homephase6content">
+            {/* <div className="homephase6content">
               <div className="homephase6content1">
                 <p>Instant Results & Global Ranking</p>
               </div>
@@ -227,7 +223,7 @@ const Home = () => {
                   <img src={sample} alt="" />
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="homephase7">
             <div className="homephase7content">

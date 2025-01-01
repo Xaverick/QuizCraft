@@ -1,191 +1,266 @@
-import React from 'react'
-import './Contact.scss'
-import contactimage from '../../assets/Contactpage/Contactimage.svg'
-import tick from '../../assets/Contactpage/tick.svg'
-import Comment from '../../components/comment/Comment.jsx';
-import commentdata from '../../assets/data/commentdata.js';
-import rightside from '../../assets/Contactpage/rightside.svg'
 import { useState } from 'react'
 import axios from 'axios';
 import { toast } from 'react-toastify';
+
+//styles
+import styles from './Contact.module.css'
+
+//comoonents
+import Comment from '../../components/comment/Comment.jsx';
+import commentdata from '../../assets/data/commentdata.js';
+
+//icons
+import WEB from "./assets/Web.svg"
 import send from '../../assets/Contactpage/send.svg';
+import contactimage from '../../assets/Contactpage/Contactimage.svg'
+import tick from '../../assets/Contactpage/tick.svg'
+import rightside from '../../assets/Contactpage/rightside.svg'
+
+
 
 const Contact = () => {
-    const [formdata, setFormdata] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phoneNumber: '',
-        subject: '',
-        message: '',
+  const [formdata, setFormdata] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    subject: '',
+    message: '',
 
+  })
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormdata({
+      ...formdata,
+      [name]: value
     })
+  }
 
-    const handleChange = (e) => {
-        const { name, value } = e.target
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('/user/contact', formdata);
+
+      if (response.status === 200) {
+        toast.success("Thank you for contacting us", {
+          position: "top-left",
+          autoClose: 2000,
+          hideProgressBar: true,
+        });
         setFormdata({
-            ...formdata,
-            [name]: value
+          firstName: '',
+          lastName: '',
+          email: '',
+          phoneNumber: '',
+          subject: '',
+          message: '',
+
         })
+
+      }
+
     }
 
+    catch (error) {
+      toast.error(error.response.data, {
+        position: "top-left",
+        autoClose: 2000,
+        hideProgressBar: true,
+      })
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('/user/contact', formdata);
-
-            if (response.status === 200) {
-                toast.success("Thank you for contacting us", {
-                    position: "top-left",
-                    autoClose: 2000,
-                    hideProgressBar: true,
-                });
-                setFormdata({
-                    firstName: '',
-                    lastName: '',
-                    email: '',
-                    phoneNumber: '',
-                    subject: '',
-                    message: '',
-
-                })
-
-            }
-
-        }
-
-        catch (error) {
-            toast.error(error.response.data, {
-                position: "top-left",
-                autoClose: 2000,
-                hideProgressBar: true,
-            })
-
-        }
     }
+  }
 
 
-    return (
-        <>
-            <div className='contact'>
-                <div className='contactcontent'>
-                    <div className='contactmain'>
-                        <div className='contactmainimage'>
-                            <img src={contactimage} />
-                        </div>
-                        <div className='contactmainheading1'>Connect with Us Today!</div>
-                        <div className='contactmainheading2'>Have a question or interested in partnering with Geek Clash? Reach out to us for any queries, partnership opportunities, or collaboration ideas. We're here to help and excited to connect with you!</div>
-                        <div className='contactmainbox'>
-                            <div className='contactmainboxheading'>Our Commitment to You</div>
-                            <div className='contactmainboxpoints'>
-                                <div className='contactmainboxpoint'>
-                                    <span><img src={tick} /></span>
-                                    <p>Swift responses, dedicated support</p>
-                                </div>
-                                <div className='contactmainboxpoint'>
-                                    <span><img src={tick} /></span>
-                                    <p>Efficient and always here for you</p>
-                                </div>
-                                <div className='contactmainboxpoint'>
-                                    <span><img src={tick} /></span>
-                                    <p>We listen, understand, and act promptly</p>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div className='box'>
-                        <div className="box">
-                            <form className='form-contact-inputs'>
-                                <div className="name">
-                                    <label htmlFor="firstName">First Name</label>
-                                    <br />
-                                    <input className='contanctstyling' type="text" name='firstName' value={formdata.firstName} onChange={handleChange} id="firstName" placeholder='Enter first Name' required />
-                                </div>
-                                <div className="company">
-                                    <label htmlFor="lastName">Last Name </label>
-                                    <br />
-                                    <input className='contanctstyling' type="text" id="lastName" name='lastName' value={formdata.lastName} onChange={handleChange} placeholder='Enter Last Name' required />
-                                </div>
-                                <div className="email">
-                                    <label htmlFor="email">Email</label>
-                                    <br />
-                                    <input className='contanctstyling' type="email" id="email" name='email' value={formdata.email} onChange={handleChange} placeholder='Enter your Email' required />
-                                </div>
-                                <div className="tele">
-                                    <label htmlFor="phoneNumber">Phone </label>
-                                    <br />
-                                    <input className='contanctstyling' type="tel" id="phoneNumber" name='phoneNumber' value={formdata.phoneNumber} onChange={handleChange} pattern="[0-9]{10}" placeholder='Enter Phone Number' required />
-                                </div>
-                                <div className="message">
-                                    <label htmlFor="subject">Subject</label>
-                                    <br />
-
-                                    <textarea
-                                        id="subject"
-                                        name="subject"
-                                        value={formdata.subject}
-                                        onChange={handleChange}
-                                        placeholder="Enter your Subject"
-                                        cols="57"
-                                        className='contanctstyling'
-
-
-                                    ></textarea>
-                                </div>
-                                <div className="message">
-                                    <label htmlFor="message">Message</label>
-                                    <br />
-                                    <textarea id="message" name='message' value={formdata.message} onChange={handleChange} placeholder='Enter your Message'></textarea>
-                                </div>
-                                <div className="submit">
-                                    {/* <input type="submit" value="Send Your Message" onC/>  */}
-                                    <button onClick={handleSubmit} type='submit'><span>
-                                        <img src={send}></img>
-                                    </span>Send Your Message</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+  return (
+    <div className={styles.container}>
+      <div className={styles.mainContainer}>
+        <div className={styles.leftside}>
+          <div className={styles.topContainer}>
+            <div className={styles.icon}>
+              <img src={WEB} alt="web" />
             </div>
-            <div className='contactbtt'>
-                <div className='contactbtt1'>
-                    <div className='stylebtt'>
-                        <p>You can email us here</p>
-                        <p className='stylep'>support@phicsit.in</p>
-                    </div>
-                    <div className='stylebtt'>
-                        <img src={rightside} />
-                    </div>
-                </div>
-                <div className='contactbtt2'>
-                    <div className='stylebtt'>
-                        <p>Office Hours</p>
-                        <p className='stylep'>9:00 am - 6:00 pm</p>
-                    </div>
-                    <div className='stylebtt'>
-                        <img src={rightside} />
-                    </div>
-                </div>
+            <h1 className={styles.title}>Connect with Us Today!</h1>
+            <p className={styles.subtitle}>
+              Have a question or interested in partnering with Geek Clash? 
+              Reach out to us for any queries, partnership opportunities, or collaboration ideas. 
+              We're here to help and excited to connect with you!
+            </p>
+          </div>
+
+          <div className={styles.middleContainer}>
+            <div className={styles.heading}>
+              Our Commitment to You
             </div>
-            <div className='contactphase2'>
-                <div className='homephase7comments'>
-                    <div className="comment-slider first-row">
-                        {commentdata.concat(commentdata).map((c, index) => (
-                            <Comment key={index} ca={c} />
-                        ))}
-                    </div>
-                    <div className="comment-slider second-row">
-                        {commentdata.concat(commentdata).map((c, index) => (
-                            <Comment key={index} ca={c} />
-                        ))}
-                    </div>
-                </div>
+
+            <div className={styles.commitments}>
+              <div className={styles.commitmentText}>
+                <img src={tick} alt="tick" />
+                <p>Swift responses, dedicated support</p>
+              </div>
+
+              <div className={styles.commitmentText}>
+                <img src={tick} alt="tick" />
+                <p>Efficient and always here for you</p>
+              </div>
+
+              <div className={styles.commitmentText}>
+                <img src={tick} alt="tick" />
+                <p>We listen, understand, and act promptly</p>
+              </div>
             </div>
-        </>
-    )
+          </div>
+        </div>
+
+        <div className={styles.rightside}>
+          <div className={styles.formContainer}>
+            <form className={styles.form} onSubmit={handleSubmit}>
+              <div className={styles.formPart}>
+                <div className={styles.inputContainer}>
+
+                  <label className={styles.label}>First Name</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={formdata.firstName}
+                    onChange={handleChange}
+                    placeholder="Enter First Name"
+                    className={styles.input}
+                    required
+                  />
+                </div>
+
+                <div className={styles.inputContainer}>
+                  <label className={styles.label}>Last Name</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={formdata.lastName}
+                    onChange={handleChange}
+                    placeholder="Enter Last Name"
+                    className={styles.input}
+                    required
+                  />
+                </div>
+
+              </div>
+
+              <div className={styles.formPart}>
+                <div className={styles.inputContainer}>
+                  <label className={styles.label}>Email</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formdata.email}
+                    onChange={handleChange}
+                    placeholder="Enter Email"
+                    className={styles.input}
+                    required
+                  />
+                </div>
+
+                <div className={styles.inputContainer}>
+                  <label className={styles.label}>Phone Number</label>
+                  <input
+                    type="text"
+                    name="phoneNumber"
+                    value={formdata.phoneNumber}
+                    onChange={handleChange}
+                    placeholder="Enter Phone Number"
+                    className={styles.input}
+                    required
+                  />
+                </div>
+
+              </div>
+
+              <div className={styles.formPart}>
+                <div className={styles.inputContainer}>
+                  <label className={styles.label}>Subject</label>
+                  <input
+                    type="text"
+                    name="subject"
+                    value={formdata.subject}
+                    onChange={handleChange}
+                    placeholder="Enter Subject"
+                    className={styles.input}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className={styles.formPart}>
+                <div className={styles.inputContainer}>
+                  <label className={styles.label}>Message</label>
+                  <textarea
+                    name="message"
+                    value={formdata.message}
+                    onChange={handleChange}
+                    placeholder="Enter Your Message here..."
+                    className={styles.textarea}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className={styles.buttonContainer}>
+                <button type="submit" className={styles.button}>
+                  <img src={send} alt="send" />
+                  Send Your Message
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.mainContainer}>
+        <div className={styles.leftside}>
+          <div className={styles.bottomContainer}>
+            <div className={styles.info}>
+              <p className={styles.text}>You can email us here</p>
+              <p className={styles.email}>support@phicsit.in</p>
+            </div>
+
+            <div className={styles.rightIcon}>
+              <img src={rightside} alt="rightside"/>
+            </div>
+
+          </div>
+        </div>
+
+        <div className={styles.rightside}>
+          <div className={styles.bottomContainer}>
+            <div className={styles.info}>
+              <p className={styles.text}>Office Hours</p>
+              <p className={styles.email}>09:00 am - 06:00 pm</p>
+            </div>
+
+            <div className={styles.rightIcon}>
+              <img src={rightside} alt="rightside" />
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div className={styles.commentContainer}>
+        <div className={`${styles.commentSlider} ${styles.firstRow}`}>
+          {commentdata.concat(commentdata).map((comment, index) => (
+            <Comment key={index} ca={comment} />
+          ))}
+        </div>
+
+        <div className={`${styles.commentSlider} ${styles.secondRow}`}>
+          {commentdata.concat(commentdata).map((comment, index) => (
+            <Comment key={index} ca={comment} />
+          ))}
+        </div>
+      </div>
+    </div>
+  )
 }
 
 export default Contact

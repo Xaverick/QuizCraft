@@ -11,6 +11,32 @@ const uploadOnCloudinary = require('../utils/cloudinary');
 const cloudinary = require('cloudinary').v2;
 
 
+module.exports.sendProfileDetails = async (req, res) => {
+    const user = await User.findById(req.userId);
+    if (!user) {
+        throw new ExpressError('user not found', 400);
+    }
+    const userDetails = await user.populate('profile');
+    const userFullDetails = {
+        name: user.name,
+        username: user.username,
+        rating:userDetails.profile.rating,
+        text:userDetails.profile.bio,
+        professions: userDetails.profile.professions,
+        platformLink: userDetails.profile.platformLinks,
+        occupation:userDetails.profile.occupation,
+        phoneNo: userDetails.profile.phoneNumber,
+        dob: userDetails.profile.dateOfBirth,
+        profilePhoto: userDetails.profile.profilePhoto,
+        bio : userDetails.profile.bio,
+        referralCodeString: userDetails.profile.referralCodeString,
+        country: user.country,
+        coin:userDetails.profile.coin
+    }
+    //console.log(userFullDetails);
+    res.status(200).json(userFullDetails);
+}
+
 module.exports.login = async (req, res) => {
     console.log("Inside login");
     let { email, password } = req.body;
@@ -133,17 +159,20 @@ module.exports.profile = async (req, res) => {
         profilePhoto: userDetails.profile.profilePhoto,
         bio : userDetails.profile.bio,
         referralCodeString: userDetails.profile.referralCodeString,
-        country: user.country
-
-
+        country: user.country,
+        coin:userDetails.profile.coin,
+        bookmarks: userDetails.profile.bookmarks,
+        premiumBadge: userDetails.premiumBadge,
+        verificationBadge: userDetails.verificationBadge
     }
-
+    console.log(userFullDetails)
     res.status(200).json(userFullDetails);
 }
 
 
 module.exports.forgotPassword = async (req, res) => {
-    const { email } = req.body;
+    let { email } = req.body;
+    email = email.toLowerCase();
     const user = await User.findOne({ email: email });
     if (user) {
         const secret = `${process.env.USER_SECRET}${user.password}`;
@@ -163,20 +192,22 @@ module.exports.forgotPassword = async (req, res) => {
         let MailGenerator = new Mailgen({
             theme: 'default',
             product: {
-                name: 'MyApp',
-                link: 'https://mailgen.js/'
-            }
-
+                name: 'Geek Clash',
+                link: process.env.SITE_URL,
+                copyright: 'Copyright © 2024 Geek Clash. All rights reserved.',
+            },
+            logo: 'https://res.cloudinary.com/dwnw77ubt/image/upload/v1720155961/fav_ky1c7f.png'
+    
         });
 
         var response = {
             body: {
-                name: 'John Appleseed',
+                name: `${user.username}`,
                 intro: 'You have received this email because a password reset request for your account was received.',
                 action: {
                     instructions: 'Click the button below to reset your password:',
                     button: {
-                        color: '#DC4D2F',
+                        color: '#5cd7d1',
                         text: 'Click here',
                         link: `${process.env.BACKEND_DOMAIN}/user/resetpassword/${user._id}/${token}`
                     }
@@ -209,7 +240,7 @@ module.exports.resetPassword = async (req, res) => {
     const { id, token } = req.params;
     const { password } = req.body;
     const oldUser = await User.findById(id);
-    const redirectUrl = process.env.NODE_ENV === 'production' ? `${process.env.SITE_URL}/login` : 'http://localhost:5173/login';
+    const redirectUrl = `${process.env.SITE_URL}/login`;
     if(!oldUser){
         res.status(400).json('user not found');
     }
@@ -263,24 +294,28 @@ const sendVerificationEmail = async (email,user) => {
         theme: 'default',
         product: {
             name: 'Geek Clash',
-            link: 'https://mailgen.js/'
-        }
+            link: process.env.SITE_URL,
+            copyright: 'Copyright © 2024 Geek Clash. All rights reserved.',
+        },
+        logo: 'https://res.cloudinary.com/dwnw77ubt/image/upload/v1720155961/fav_ky1c7f.png'
 
     });
 
     var response = {
         body: {
             name: `${user.username}`,
-            intro: 'this is for the verification of the email you have provided',
+            intro: 'Thank you for registering on GeekClash. Please verify your email address by clicking on the link below:',
             action: {
-                instructions: 'Click the button below to verify the email:',
+                instructions: 'Click the button below to verify your email:',
                 button: {
-                    color: '#DC4D2F',
-                    text: 'Click here',
+                    color: '#5cd7d1',
+                    text: 'Continue to verification',
                     link: `${process.env.BACKEND_DOMAIN}/user/verifyEmail/${user._id}/${token}`
                 }
             },
+
             outro: 'If you did not request a verification email, no further action is required on your part.'
+
         }
     };
 
@@ -373,10 +408,11 @@ module.exports.updateProfile = async (req, res) => {
       if (req.file?.path) fs.unlinkSync(req.file?.path);
       throw new ExpressError('Profile not found', 404);
     }
-
     let photo = req.file?.path;
+    let profilePhotoUrl = req.body.photo
 
     if (photo) {
+        
         if (profile.profilePhoto) {
             const publicId = getCloudinaryPublicId(profile.profilePhoto);
             await cloudinary.uploader.destroy(publicId);
@@ -387,6 +423,9 @@ module.exports.updateProfile = async (req, res) => {
         photo = photo.secure_url;
         profile.profilePhoto = photo;
         user.picture = photo;
+    }else if(profilePhotoUrl){
+        profile.profilePhoto = profilePhotoUrl;
+        user.picture = profilePhotoUrl;
     }
 
     profile.bio = bio;
@@ -397,13 +436,16 @@ module.exports.updateProfile = async (req, res) => {
     profile.platformLinks = socialLinks;
     await user.save();
     await profile.save();
+    
     res.status(200).json({ message: 'Profile updated successfully', user });
   
 }
 
 module.exports.getUsers = async (req, res) => {
     const name = req.query.name;
-    const user = await User.findOne({ username : name });
+    console.log(name);
+    const user = await User.findOne({username: name});
+    console.log(user);
     const userDetails = await user.populate('profile');
     try {
         const userFullDetails = {

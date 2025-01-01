@@ -68,6 +68,15 @@ const userSchema = new schema({
         default: false,
     },
 
+    verificationBadge: {
+        type: Boolean,
+        default: false,
+    },
+
+    premiumBadge: {
+        type: Boolean,
+        default: false,
+    }
 });
 
 

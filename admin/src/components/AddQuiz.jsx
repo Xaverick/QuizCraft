@@ -233,7 +233,7 @@ const AddQuiz = () => {
               <Input id="title" onChange={(e) => handleInputChange("title", e.target.value)} />
             </div>
             <div className="w-[50%]">
-              <label htmlFor="Category" className="text-sm font-semibold">Category</label>
+              <label htmlFor="Category" className="text-sm font-semibold mb-2">Category</label>
               <Input
                 type="text"
                 id="category"

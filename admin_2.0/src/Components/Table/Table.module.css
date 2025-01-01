@@ -1,0 +1,304 @@
+.table {
+  width: 90%;
+  margin: 20px auto;
+  border-collapse: collapse;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  /* overflow: hidden; */
+  overflow-y: scroll;
+  overflow-x: hidden;
+  max-height: 600px;
+
+  /* Hide scrollbar for WebKit browsers */
+  ::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  /* Hide scrollbar for Firefox */
+  scrollbar-width: none;
+
+  /* Hide scrollbar for Internet Explorer and Edge */
+  -ms-overflow-style: none;
+}
+
+.tableHeader {
+  color: black;
+  background-color: #E0E0E0 !important;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  height: 60px !important;
+}
+
+.tableHeaderItem {
+  background-color: transparent;
+  text-align: start;
+  /* padding-left: 30px; */
+  font-size: 20px;
+  font-weight: 500;
+  flex: 1;
+  text-transform: capitalize;
+  font-family: "Montserrat", sans-serif;
+}
+
+.tableHeaderItem.id {
+  padding-left: 30px;
+}
+
+.tableHeaderItem.name {
+  transform: translateX(-14px);
+}
+
+.username {
+  font-size: 12px;
+}
+
+.tableHeaderItem.occupation {
+  padding-left: 30px;
+}
+
+.tableHeaderItem.isVerified {
+  transform: translateX(20px);
+}
+
+.tableHeaderItem.action {
+  transform: translateX(80px);
+}
+
+.tableRow {
+  display: flex;
+  border-bottom: 2px solid #B3B3B3;
+  padding: 0px 0;
+}
+
+.tableRowItem {
+  flex: 1;
+  text-align: start;
+  padding: 5px 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  padding-left: 30px;
+}
+
+.tableRowItem.name {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: 10px;
+  font-size: 18px;
+  text-transform: capitalize;
+}
+
+.userImg {
+  width: 35px;
+  height: 35px;
+  /* border: 3px solid black; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.userImg img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+.tableRowItem.email {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  width: 180px;
+}
+
+.tableRowItem.occupation {
+  padding-left: 80px;
+  text-transform: capitalize;
+  font-size: 18px;
+}
+
+
+.tableRowItem.isVerified {
+  display: flex;
+  justify-content: left;
+  gap: 2rem;
+  align-items: center;
+
+}
+
+.tableRowItem.deletBtn {
+  transform: translateX(40px);
+}
+
+.tableRow:last-child {
+  border-bottom: none;
+}
+
+/* .button {
+  width: 117px;
+  height: 26px;
+  border: none;
+  border-radius: 4px;
+  background-color: #3BA1FF;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 13px;
+  margin-right: 10px;
+} */
+
+.verifiedimg {
+  width: 40px;
+  height: 40px;
+
+}
+
+.unverifiedimg {
+  width: 40px;
+  height: 40px;
+  filter: grayscale(100%);
+}
+
+
+.delete {
+  transform: translateY(9px);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  width: 100px;
+  height: 30px;
+  border: none;
+  border-radius: 4px;
+  background-color: #FE6565;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 13px;
+  font-family: "Poppins", sans-serif;
+  margin-right: 10px;
+}
+
+.delete:hover {
+  background-color: #FF2020;
+  transition: all 0.5s;
+}
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 1024px) {
+
+  .tableHeaderItem,
+  .tableRowItem {
+    font-size: 12px;
+    padding: 8px;
+  }
+
+  .tableHeaderItem.name,
+  .tableRowItem.name {
+    transform: translateX(0);
+  }
+
+  .tableHeaderItem.occupation,
+  .tableRowItem.occupation {
+    padding-left: 20px;
+  }
+
+  .tableHeaderItem.isVerified,
+  .tableRowItem.isVerified {
+    transform: translateX(0);
+  }
+
+  .tableHeaderItem.action,
+  .tableRowItem.deletBtn {
+    transform: translateX(0);
+  }
+
+  .button,
+  .delete {
+    width: 90px;
+    height: 24px;
+    font-size: 12px;
+  }
+}
+
+
+@media (max-width: 1440px) {
+
+  .tableHeaderItem,
+  .tableRowItem {
+    font-size: 15px !important;
+    padding: 10px;
+  }
+
+  .tableRowItem.email {
+    font-size: 13px !important;
+  }
+
+  .button,
+  .delete {
+    width: 100px;
+    height: 24px;
+    font-size: 12px !important;
+  }
+}
+
+@media (max-width: 1300px) {
+
+  .tableHeaderItem,
+  .tableRowItem {
+    font-size: 14px !important;
+    padding: 8px;
+  }
+
+  .button,
+  .delete {
+    width: 90px;
+    height: 22px;
+    font-size: 11px !important;
+  }
+}
+
+@media (max-width: 1200px) {
+
+  .tableHeaderItem,
+  .tableRowItem {
+    font-size: 12px !important;
+    padding: 6px;
+  }
+
+  .tableRowItem.name {
+    font-size: 12px !important;
+  }
+
+  .button,
+  .delete {
+    width: 80px;
+    height: 20px;
+    font-size: 10px !important;
+  }
+}
+
+@media (max-width: 1024px) {
+
+  .tableHeaderItem,
+  .tableRowItem {
+    font-size: 11px !important;
+    padding: 4px;
+  }
+
+  .button,
+  .delete {
+    width: 70px;
+    height: 18px;
+    font-size: 9px !important;
+  }
+}

@@ -1,0 +1,135 @@
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0px;
+}
+
+.mainContainer {
+  max-width: 1200px;
+  width: 100%;
+  margin: 20px;
+}
+
+
+.cardContainer {
+  display: flex;
+  /* justify-content: flex-start; */
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+
+.navButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  color: #4db6ac;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navButton:disabled {
+  color: #c0c0c0;
+  cursor: not-allowed;
+}
+
+.pageNumber {
+  font-size: 14px;
+  font-weight: 600;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000000;
+  border: 1px solid #c0ded9;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.activePage {
+  background-color: #4db6ac;
+  color: white;
+  border: none;
+}
+
+.pageNumber:hover {
+  background-color: #e0f2f1;
+}
+
+.activePage:hover {
+  background-color: #4db6ac;
+}
+
+
+/* category dropdown */
+.dropdownContainer {
+  position: relative;
+  display: inline-block;
+  margin: 25px 15px;
+}
+
+.dropdownButton {
+  background-color: white;
+  border: 1px solid #B3B3B3;
+  border-radius: 10px;
+  padding: 0px 30px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #333333;
+  font-weight: 500;
+}
+
+.arrowDown {
+  margin-left: 8px;
+  font-size: 24px;
+  margin-top: 8px;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  margin-top: 15px;
+  left: -10px;
+  background-color: white;
+  border: 1px solid #B3B3B3;
+  width: 210px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  max-height: 350px;
+  overflow-y: auto;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333333;
+}
+
+.dropdownItem input[type="checkbox"] {
+  margin-right: 8px;
+}
+
+.dropdownItem:hover {
+  background-color: #f5f5f5;
+}
+
+.dropdownItem input[type="checkbox"]:checked+label {
+  background-color: #007BFF;
+  color: white;
+}

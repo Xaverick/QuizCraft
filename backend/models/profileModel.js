@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 const userDetail = require('./userModel');
+const Quiz = require('./quizzes');
 
 const profileSchema = new schema ({
 
@@ -57,10 +58,14 @@ const profileSchema = new schema ({
     
     platformLinks: [
     ],
-    professions: [],
+
+    professions: [],    
+
+    bookmarks: [{
+        type: schema.Types.ObjectId,
+        ref: 'Quiz',
+    }],
 })
-
-
 
 
 module.exports = mongoose.model('Profile', profileSchema);

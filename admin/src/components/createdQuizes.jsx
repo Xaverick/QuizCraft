@@ -15,6 +15,8 @@ import QuizSlected from "./selectedQuiz";
 import { MdDelete } from "react-icons/md";
 import { Edit } from "lucide-react";
 import EditQuiz from "./EditQuiz";
+
+
 const CreatedQuizes = () => {
   const [quesionData, setQuestionData] = useState({
     quizId: "",
@@ -238,75 +240,6 @@ const CreatedQuizes = () => {
 
   return (
     <div className=" flex items-start justify-between w-[100%] h-[100%]">
-      <div className="flex bg-white h-[100%] p-4 flex-col w-[25%] overflow-y-auto gap-4 text-white">
-        <div className="text-center">
-          <h1
-            onClick={() => {
-              setAddQuiz(true);
-              setSelectedQuizes(null);
-            }}
-            className="text-2xl text-black bg-yellow-300 p-4 rounded-lg font-bold mb-4 cursor-pointer hover:bg-yellow-400"
-          >
-            Create New Quiz
-          </h1>
-        </div>
-
-        {userQuizes.map((quiz) => (
-          <div
-            key={quiz._id}
-            className=" border-2 border-black  hover:border-yellow-400 rounded-xl p-2 flex gap-4 flex-row items-center justify-center"
-          >
-            <div
-              onClick={() => {
-                setEditQuiz(false), handleQuizClick(quiz._id);
-              }}
-              className=" p-4 cursor-pointer flex-row rounded-lg bg-white text-black w-[100%] h-[70px] flex items-center justify-between "
-            >
-              <p className="text-xl font-extrabold">{quiz.title}</p>
-              {/* <div>
-                {quiz.startTime.substring(5,10)} - {quiz.endTime.substring(5,10)}
-                  </div> */}
-            </div>
-
-            {showConfirmation && (
-              <div className="fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
-                <div className="bg-white p-4 rounded-lg shadow-lg w-[50vw] h-[vh] flex justify-center flex-col items-center">
-                  <p className="text-lg font-bold mb-4 text-black text-center ">Are you sure you want to delete this quiz? This will delete all <br /> 
-                  the responses, the Leaderboard related to it and all the questions</p>
-                  <div className="flex justify-end">
-                    <button
-                      className="text-white bg-red-500 px-4 py-2 rounded mr-2 hover:bg-red-600"
-                      onClick={() => setShowConfirmation(false)}
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      className="text-white bg-green-500 px-4 py-2 rounded hover:bg-green-600"
-                      onClick={() => {
-                        handleDelete(quiz._id);
-                      }}
-                    >
-                      Confirm
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <div
-              className="text-black cursor-pointer"
-              onClick={() => {
-                setShowConfirmation(true);
-  
-              }}
-            >
-              <MdDelete style={{ fontSize: "2rem", color: "orange"}} />
-
-            </div>
-          </div>
-        ))}
-      </div>
-
       <div className=" w-[75%] h-[100%] border-l-2 border-l-yellow-300 bg-white text-black ">
         {selectedQuiz ? (
           editQuiz ? (

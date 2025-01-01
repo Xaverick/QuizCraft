@@ -53,33 +53,98 @@
             }
         }
 
+        .contestdetailscontent {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #333333;
+        
+            border-radius: 20px;
+            padding: 2rem;
+            justify-content: space-around;
+            text-align: justify;
+            max-width: 85%;
+            margin: 2rem auto;
+        
+            span {
+                font-size: 20px;
+                font-weight: 600;
+                color: #333333;
+            }
+        
+            div {
+                font-size: 18px;
+                margin-left: 1rem;
+                ul {
+                    li {
+                        font-size: 18px;
+                        font-weight: 600;
+                        color: #333333;
+                    }
+                }
+        
+                p {
+                    font-size: 15px;
+                    color: #333333;
+                }
+        
+                ol {
+                    li {
+                        font-size: 15px;
+                        color: #333333;
+                    }
+                }
+            }       
+        
+        }
+
         .contesttotalregistered {
 
-
+            display: flex;
+            align-items: center;
+            margin-left: 1.3rem;
             div {
                 display: flex;
                 flex-direction: row;
-                // justify-content: center;
+                justify-content: center;
                 align-items: center;
-                margin: 10px;
-                gap: 5px;
+                margin: 20px;
+                gap: 0.5rem;
                 color: #6E6E73;
-
-                span {
-                    border: 1px solid white;
+                position: relative;
+                
+                .contestavatar{
+                    width: 25px;
+                    height: 25px;
                     border-radius: 50%;
-                    padding: 4px 6px;
-                    background-color: #D1D1D1;
-                    color: #6E6E73;
-
-
+                    border: #666666 solid 1px;
+                    position: absolute;
+                }
+                
+                img:nth-child(1) {
+                    left: -39px;
+                    z-index: 2;
                 }
 
-                p {
-                    color: #6E6E73;
+                img:nth-child(2) {
+                    left: -26px;
+                    z-index: 3;
                 }
+
+                img:nth-child(3) {
+                    left: -13px;
+                    z-index: 4;
+                }                
+
+            }
+
+            span{
+                font-size: 14px;
+                font-weight: 500;
+                margin-right: 20px;
+                color: #222224;
             }
         }
+
     }
 
 

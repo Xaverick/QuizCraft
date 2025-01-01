@@ -1,0 +1,346 @@
+.leaderboard {
+
+  margin-top: 20px;
+
+  .search-bar {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .filters {
+    display: flex;
+    justify-content: flex-end;
+    width: 35%;
+
+    button,
+    select {
+      padding: 10px 5px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background: #fff;
+      cursor: pointer;
+    }
+
+  }
+
+  .top-three {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 10px;
+
+    .top-card-upper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgb(206, 203, 203);
+    }
+
+    .image-username {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      box-sizing: border-box;
+      padding: 10px 0px;
+
+      img {
+        border-radius: 50%;
+        height: 45px;
+        width: 45px;
+      }
+
+      h3 {
+        font-size: 16px;
+        margin: 0;
+      }
+    }
+
+    .top-card {
+      border: 2px solid rgb(127, 127, 127);
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+      width: 30%;
+      position: relative;
+
+      img {
+        border-radius: 50%;
+      }
+
+      .details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        p {
+          padding: 0 20px 0 20px;
+          margin: 5px 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          color: #808080;
+          font-size: 12px;
+
+          &:nth-child(2) {
+            border-left: 1px solid rgb(209, 207, 207);
+            border-right: 1px solid rgb(209, 207, 207);
+            padding: 0 1.5rem 0 1.5rem;
+          }
+        }
+      }
+    }
+  }
+
+  .scrollable-table-container {
+    width: 100%;
+    max-height: 600px; 
+    overflow: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+
+    th,
+    td {
+      padding: 10px;
+      border: 1px solid #ccc;
+      text-align: center;
+
+      img {
+        height: 24px;
+        width: 24px;
+      }
+    }
+
+    th {
+      background-color: #f5f5f5;
+    }
+
+    @media screen and (max-width: 720px) {
+      overflow: visible;
+    }
+  }
+
+}
+
+.leaderboard .top-three-mobile {
+  display: none;
+}
+
+@media screen and (max-width: 720px) {
+  .search-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .leaderboard .filters {
+    width: 95%;
+  }
+
+  .leaderboard .top-three {
+    display: none;
+  }
+
+  .leaderboard .top-three-mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .top-card {
+      width: -webkit-fill-available;
+      border: 2px solid rgb(133, 133, 133);
+      border-radius: 10px;
+      text-align: center;
+      position: relative;
+      margin-bottom: 10px;
+      padding: 1rem;
+
+
+      .top-card-upper{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .top-card-upper .image-username{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .details{
+        border-top: 1px solid rgb(208, 204, 204);
+      }
+
+      img {
+        height: 45px;
+        width: 45px;
+        border-radius: 50%;
+      }
+
+
+
+      .details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        p {
+          padding: 0 20px 0 20px;
+          margin: 5px 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          color: #808080;
+          font-size: 12px;
+
+          &:nth-child(2) {
+            border-left: 1px solid rgb(209, 207, 207);
+            border-right: 1px solid rgb(209, 207, 207);
+            padding: 0 1.5rem 0 1.5rem;
+          }
+        }
+      }
+    }
+
+    .top-three-mobile-2nd-3rd {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .top-card-upper-2 {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .image-username-2 {
+      display: flex;
+      align-items: center;
+
+      img{
+        border-radius: 50%;
+        height: 45px;
+        width: 45px;
+      }
+    }
+
+    .top-card-2 {
+      width: 50%;
+      border: 1px solid rgb(117, 117, 117);
+      border-radius: 10px;
+      padding: 5px;
+      margin-bottom: 1rem;
+    }
+
+    .name-rating {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin: 0 5px;
+
+      p,
+      h3 {
+        font-size: 12px;
+        margin: 0;
+      }
+
+      .name-country {
+        display: flex;
+        gap: 10px;
+      }
+    }
+  }
+}
+
+.search{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #D6D6D6;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0px 1rem;
+  border-radius: 4px;
+
+  img{
+    width: 24px;
+    height: 24px;
+  }
+
+  input {
+    border: none;
+    padding: 0.8rem 1.1rem;
+    width: 100%;
+    outline: none;
+    font-size: 16px;
+  }
+} 
+
+//Pagination
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  color: #333;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.pagination button:hover {
+  background-color: #eee;
+}
+
+.pagination button:disabled {
+  background-color: #f0f0f0;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.pagination button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+/* Responsive styling for smaller screens (mobile) */
+@media (max-width: 600px) {
+  .pagination {
+    gap: 4px; 
+  }
+
+  .pagination button {
+    padding: 6px 10px; 
+    font-size: 14px; 
+  }
+
+  .pagination button.active {
+    background-color: #0056b3; 
+  }
+}
+

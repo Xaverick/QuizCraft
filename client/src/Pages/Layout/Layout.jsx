@@ -1,11 +1,8 @@
 // import './App.css'
-// import QuizPage from '../QuizPage/QuizPage.jsx'
-// import AllQuiz from '../Pages/AllQuiz/AllQuiz'
 import { Routes, Route } from 'react-router-dom'
 import Navbar from '../../components/Navbar/Navbar.jsx'
 import Login from '../Auth/Login/Login.jsx'
 import Signup from '../Auth/Signup/Signup.jsx'
-// import TakeQuiz from '../Pages/TakeQuiz/TakeQuiz'
 import PrivateRoutes from '../../utils/PrivateRoutes.jsx'
 import YourQuiz from '../YourQuiz/YourQuiz.jsx'
 // import Analytics from '../Analytics/Analytics.jsx'
@@ -13,6 +10,7 @@ import YourQuiz from '../YourQuiz/YourQuiz.jsx'
 import Home from '../HomePage/Home.jsx'
 import Footer from '../../components/footer/Footer'
 import Allcontest from '../AllContest/Allcontest.jsx'
+import Contest from '../Contests/Contest.jsx'
 import Pricing from '../Pricing/Pricing.jsx'
 import { plansdata } from '../../assets/data/plansdata.js'
 import Contact from '../Contact/Contact.jsx'
@@ -41,7 +39,7 @@ function Layout() {
     }
     return (
 
-        <>
+        <div className='main_app'>
             <ToastContainer />
             <div className="desktop-navbar">
                 <Navbar />
@@ -52,14 +50,14 @@ function Layout() {
             <Routes>
 
                 <Route path='/' element={<Home />} />
-                <Route path='/contest' element={<Allcontest />} />
+                <Route path='/contests' element={<Allcontest />} />
+                <Route path='/contests/:type' element={<Contest />} />
                 <Route path='/pricing' element={<Pricing plansdata={plansdata} />} />
                 <Route path='/forgotpassword' element={<ForgotPassword />} />
                 <Route path='/contact' element={<Contact />} />
                 <Route element={<PrivateRoutes />} >
-                    <Route path='/contest/:id' element={<ContestDetails />} />
-
                     {/* <Route path='/contestquestion/:id' element={<ContestQuestion />} /> */}
+                    <Route path='/contest/:id' element={<ContestDetails />} />
                     <Route path="/your-quizzes" element={<YourQuiz />} />
                     {/* <Route path="/analytics/:id" element={<Analytics />} /> */}
                 </Route>
@@ -73,7 +71,7 @@ function Layout() {
                 <Route path="/*" element={"page not found"} />
             </Routes>
             <Footer />
-        </>
+        </div>
     )
 }
 

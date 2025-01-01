@@ -152,9 +152,12 @@ const Commoncd = ({ data, isRegistered, given }) => {
                     <div className='contesttotalregistered'>
                         {/* <p><img src={tr}></img><span>{contest.totalRegistered}</span>joined</p> */}
                         <div>
-                            <img src={tr}></img>
-                            +{data.totalRegistered} Joined
+                            <img src={data.User_profile_Image[0] ? data.User_profile_Image[0] : "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"} alt="1" className="contestavatar"/>
+                            <img src={data.User_profile_Image[1] ? data.User_profile_Image[1] : "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"} alt="2" className="contestavatar"/>
+                            <img src={data.User_profile_Image[2] ? data.User_profile_Image[2] : "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"} alt="3" className="contestavatar"/>
                         </div>
+        
+                        +{data.totalRegistered} Joined
                     </div>
 
                 </div>
@@ -173,7 +176,7 @@ const Commoncd = ({ data, isRegistered, given }) => {
 
                             {...(given ? { disabled: true } : {})}
                         >
-                            {given ? 'Already Given' : 'Start Quiz'}
+                            {given ? 'Already Given' : 'Start '}
                         </button>
                     )}
                     {Date.now() < new Date(data.startTime) && <button onClick={handleRegister} {...(isRegistered ? { disabled: true } : {})} > {isRegistered ? 'Already Registered!' : 'Register Now'} </button>}
@@ -181,20 +184,28 @@ const Commoncd = ({ data, isRegistered, given }) => {
                 </div>
             </div>
             <div className='commoncd-right'>
-                <div className='commoncd-right-time'>
-
-                    <span>
-                        {new Date() >= new Date(data.startTime) && new Date() <= new Date(data.endTime) && `You can give Contest in: ${timeRemaining}`}
-                        {new Date() < new Date(data.startTime) && `Contest will start in: ${Math.max(0, Math.floor((new Date(data.startTime) - new Date()) / (1000 * 60 * 60)))}hr ${Math.max(0, Math.floor((new Date(data.startTime) - new Date()) / (1000 * 60)) % 60)}min  ${Math.max(0, Math.floor((new Date(data.startTime) - new Date()) / 1000) % 60)}s`}
-                        {new Date() > new Date(data.endTime) && 'Contest has ended'}
-                    </span>
-
+            <div className='commoncd-right-time'>
+                <span>
+                    {new Date() >= new Date(data.startTime) && new Date() <= new Date(data.endTime) && `You can give Contest in: ${timeRemaining}`}
+                    {new Date() < new Date(data.startTime) && (() => {
+                const diffInMs = new Date(data.startTime) - new Date();
+                const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+                const diffInHrs = Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const diffInMins = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
+                const diffInSecs = Math.floor((diffInMs % (1000 * 60)) / 1000);
+                
+                return diffInDays > 0
+                    ? `Contest will start in: ${diffInDays} day${diffInDays > 1 ? 's' : ''} ${diffInHrs}hr ${diffInMins}min ${diffInSecs}s`
+                    : `Contest will start in: ${diffInHrs}hr ${diffInMins}min ${diffInSecs}s`;
+            })()}
+            {new Date() > new Date(data.endTime) && 'Contest has ended'}
+                     </span>
                 </div>
                 <div className='commoncd-right-image'>
-                    {data.image ? <img src={data.image} alt='' /> : <img src={contestBanner} alt='' />}
+                     {data.image ? <img src={data.image} alt='' /> : <img src={contestBanner} alt='' />}
                 </div>
-
             </div>
+
             <Modal isOpen={isStartModalOpen} onRequestClose={closeStartModal} className='modal' overlayClassName='overlay'>
                 <h2>Contest Started</h2>
                 <p>Please Click on Start now for start the Contest</p>

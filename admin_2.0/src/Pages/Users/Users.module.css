@@ -1,0 +1,95 @@
+.container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  min-height: 100vh;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 500;
+  color: black;
+  font-family: "Montserrat", sans-serif;
+}
+
+.totalUser {
+  font-size: 16px;
+  font-weight: 600;
+  color: #3C3C3C;
+  font-family: "Inter", sans-serif;
+  padding-left: 2px;
+}
+
+.searchBarAndFilter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  margin-top: 15px;
+}
+
+.searchBarandBtn {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+.searchBtn {
+  background-color: #2C62EE;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 90px;
+  height: 40px;
+  font-family: "Inter", sans-serif;
+  text-align: center;
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.searchContainer {
+  position: relative;
+  width: 379px;
+  height: 40px;
+}
+
+.searchIcon {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  color: #aaa;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.searchInput {
+  border: none;
+  outline: none;
+  width: 100%;
+  height: 40px;
+  padding-left: 45px !important;
+  border-radius: 5px;
+}
+
+.searchInput:focus {
+  border: 1px solid #3498db;
+}
+
+.searchInput::placeholder {
+  color: #9E9E9E;
+  font-size: 14px;
+  font-family: "Poppins", sans-serif;
+}
+
+.filterContainer {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+  margin-right: 10px;
+}

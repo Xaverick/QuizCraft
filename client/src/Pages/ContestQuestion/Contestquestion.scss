@@ -1,9 +1,19 @@
+pre, code {
+    background: none;
+    padding: 0;
+    border: none;
+    margin: 0;
+    white-space: pre-wrap; /* This preserves the indentation and line breaks */
+    font-family: 'Roboto', sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 16px !important;
+  }
+  
+
 .container {
     background: #fff;
     padding: 0px 2rem;
     border-radius: 1rem;
-
-
     // gap: 1rem;
     display: flex;
 
@@ -74,6 +84,7 @@
         padding: 1rem;
         padding-top: 2rem;
         width: 70%;
+        border-left: 1px solid black;
         // border-left: 1px solid black;
 
         .question {
@@ -314,8 +325,8 @@
 
     .questions-nav-section {
         grid-area: questions-nav-section;
-        padding: 2rem 1rem 1rem 0rem;
-        border-right: 1px solid black;
+        padding: 2rem 0rem 1rem 1rem;
+   
         width: 30%;
         height: 80vh;
         // box-shadow: 0 7px 7px rgba(0, 0, 0, 0.1);

@@ -1,0 +1,9 @@
+pre, code {
+    background: none;
+    padding: 0;
+    border: none;
+    margin: 0;
+    white-space: pre-wrap; /* This preserves the indentation and line breaks */
+    font-family: 'Roboto', sans-serif !important
+  }
+  

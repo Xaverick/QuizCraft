@@ -10,6 +10,28 @@ import {
 } from "../components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { useState } from "react";
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { solarizedlight } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import './question.css'
+
+// const QuestionComponent = ({ question }) => {
+//   return (
+//     <div>
+//       <SyntaxHighlighter language="javascript" >
+//         {question.text}
+//       </SyntaxHighlighter>
+//     </div>
+//   );
+// };
+const RenderQuestion = ({question, formIndex}) => {
+  return (
+
+    <pre className="whitespace-pre-wrap" key={question._id}>
+       {formIndex + 1}. <code>{question.text}</code>
+    </pre>
+
+  );
+};
 
 const apiUrl = import.meta.env.VITE_API_URL;
 const QuizSlected = ({
@@ -195,7 +217,7 @@ const QuizSlected = ({
   //     console.error("Failed to calculate result:", error);
   //   }
   // };
-  const [showConfirmation, setShowConfirmation] = useState(false); // State to control the confirmation popup
+   // State to control the confirmation popup
 
   const calculateResult = async () => {
     if (!showConfirmation) {
@@ -209,7 +231,7 @@ const QuizSlected = ({
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include",
+        credentials:const [showConfirmation, setShowConfirmation] = useState(false); "include",
       });
 
       if (response.ok) {
@@ -237,7 +259,10 @@ const QuizSlected = ({
             <div>
               <p className="text-xl mb-3">
                 <span className="font-bold">Discription: </span>{" "}
+                <pre className="whitespace-pre-wrap">
                 {selectedQuiz ? selectedQuiz.description : "N/A"}
+                </pre>
+    
               </p>
 
               <div className="flex justify-between items-center">
@@ -433,7 +458,7 @@ const QuizSlected = ({
                       <form className="flex flex-col w-[80%]  gap-4 items-start justify-center mt-3">
                         <label className="" style={{ fontWeight: "bold" }}>
                           {" "}
-                          {formIndex + 1}. {question.text}
+                          <RenderQuestion question={question} formIndex={formIndex} />
                         </label>
                         {question.type === "text" && (
                           <input

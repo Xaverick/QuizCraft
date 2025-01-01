@@ -1,11 +1,26 @@
 import React, { useState, useEffect } from "react";
+import { toast, ToastContainer } from "react-toastify";
 import { TagsInput } from "react-tag-input-component";
 import axios from "axios";
+import { Link } from "react-router-dom";
+
+//components
 import Topbar from "../../components/topbar/Topbar";
 import Sidebar from "../../components/sidebar/Sidebar";
-// import "react-tag-input-component/dist/index.css";
+
+
+//css
 import "./MyProfile.scss";
-import { toast, ToastContainer } from "react-toastify";
+import styles from "./AvatarGrid.module.css";
+
+//avatar
+import { AVATAR } from "./Avatar";
+
+//images
+import dashboard from "../../assets/bottombar/dashboard.svg";
+import history from "../../assets/bottombar/history.svg";
+import setting from "../../assets/bottombar/settings2.svg";
+import leaderboard from "../../assets/bottombar/leaderboard0.svg";
 
 
 const MyProfile = () => {
@@ -14,6 +29,8 @@ const MyProfile = () => {
     "https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_1280.png"
   );
   const [filename, setFilename] = useState("No file selected");
+
+
   const [formData, setFormData] = useState({
     username: "",
     name: "",
@@ -30,11 +47,10 @@ const MyProfile = () => {
     axios
       .get("/user/profile")
       .then((response) => {
-        console.log("User data fetched successfully", response.data);
         response.data.dob
           ? (response.data.dob = new Date(response.data.dob)
-              .toISOString()
-              .slice(0, 10))
+            .toISOString()
+            .slice(0, 10))
           : (response.data.dob = "");
         setFormData({
           username: response.data.username,
@@ -78,6 +94,15 @@ const MyProfile = () => {
       setPreview(URL.createObjectURL(file));
       setFilename(file.name);
     }
+
+
+  };
+
+  const handleAvatarChange = (url) => {
+    if (url) {
+      setPhoto(url);
+      setPreview(url);
+    }
   };
 
   const handleChangelinks = (e, index) => {
@@ -104,6 +129,7 @@ const MyProfile = () => {
     formData.tags.forEach((tag, index) => {
       formDatatosend.append(`tags[${index}]`, tag);
     });
+
     formData.socialLinks.forEach((link, index) => {
       formDatatosend.append(`socialLinks[${index}]`, link);
     });
@@ -115,7 +141,7 @@ const MyProfile = () => {
         },
       });
 
-  
+
       if (response.status === 200) {
         console.log("Profile updated successfully");
         toast.success("Profile updated successfully", {
@@ -124,7 +150,7 @@ const MyProfile = () => {
           hideProgressBar: true,
         });
 
-      } 
+      }
     } catch (error) {
       console.error("Error:", error);
       toast.error("Profile update failed", {
@@ -144,22 +170,41 @@ const MyProfile = () => {
           <h1>My Profile</h1>
           <div className="profile-form">
             <div className="profile-photo">
-              <img src={preview} alt="Profile" />
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handlePhotoChange}
-                className="file-input"
-                style={{ display: "none" }}
-                id="upload-photo"
-              />
-              <p>{filename}</p>
-              <button
-                onClick={() => document.getElementById("upload-photo").click()}
-              >
-                {!preview?`Upload`:'Update'} Photo
-              </button>
+              <div className="image-container">
+                <div className="image-preview">
+                  <img src={preview} alt="Profile" />
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoChange}
+                  className="file-input"
+                  id="upload-photo"
+                />
+              </div>
+
+              {/* Avatar section */}
+              <div className={styles.avatarContainer}>
+                {Object.values(AVATAR).map((url, index) => (
+                  <div
+                    key={index}
+                    className={`${styles.avatar} ${preview === url ? styles.selected : ''}`}
+                  >
+                    <img
+                      src={url}
+                      alt="Avatar"
+                      onClick={() => handleAvatarChange(url)}
+                    />
+                  </div>
+                ))}
+                <div 
+                  className={styles.add}
+                  onClick={() => document.getElementById("upload-photo").click()}
+                >+</div>
+              </div>
+
             </div>
+
 
             <form onSubmit={handleSubmit}>
               <div className="myprofile-row">
@@ -184,15 +229,15 @@ const MyProfile = () => {
               <div className="myprofile-row">
                 <Input
                   label="Brief bio"
-                  type="text"
+                  type="textarea"
                   placeholder="Enter your message"
                   value={formData.bio}
                   onChange={handleChange}
                   name="bio"
                   required
-                className='bioProfile'
-                style={{height:'-webkit-fill-available'}}
-/>
+                  className='bioProfile'
+                  style={{ height: '-webkit-fill-available' }}
+                />
                 <div className="myprofile-row-2">
                   <Select
                     label="Country"
@@ -212,6 +257,299 @@ const MyProfile = () => {
                       "South Africa",
                       "United States",
                       "United Kingdom",
+                      //new 
+                      "Andorra",
+                      "United Arab Emirates",
+                      "Afghanistan",
+                      "Antigua And Barbuda",
+                      "Anguilla",
+                      "Albania",
+                      "Armenia",
+                      "Angola",
+                      "Antarctica",
+                      "Argentina",
+                      "American Samoa",
+                      "Austria",
+                      "Aruba",
+                      "Åland Islands",
+                      "Azerbaijan",
+                      "Bosnia And Herzegovina",
+                      "Barbados",
+                      "Bangladesh",
+                      "Belgium",
+                      "Burkina Faso",
+                      "Bulgaria",
+                      "Bahrain",
+                      "Burundi",
+                      "Benin",
+                      "Saint Barthélemy",
+                      "Bermuda",
+                      "Brunei",
+                      "Bolivia",
+                      "Caribbean Netherlands",
+                      "Brazil",
+                      "Bahamas",
+                      "Bhutan",
+                      "Bouvet Island",
+                      "Botswana",
+                      "Belarus",
+                      "Belize",
+                      "Cocos (Keeling) Islands",
+                      "DR Congo",
+                      "Central African Republic",
+                      "Republic Of The Congo",
+                      "Switzerland",
+                      "Côte D'Ivoire (Ivory Coast)",
+                      "Cook Islands",
+                      "Chile",
+                      "Cameroon",
+                      "China",
+                      "Colombia",
+                      "Costa Rica",
+                      "Cuba",
+                      "Cape Verde",
+                      "Curaçao",
+                      "Christmas Island",
+                      "Cyprus",
+                      "Czechia",
+                      "Germany",
+                      "Djibouti",
+                      "Denmark",
+                      "Dominica",
+                      "Dominican Republic",
+                      "Algeria",
+                      "Ecuador",
+                      "Estonia",
+                      "Western Sahara",
+                      "Eritrea",
+                      "Spain",
+                      "Ethiopia",
+                      "European Union",
+                      "Finland",
+                      "Fiji",
+                      "Falkland Islands",
+                      "Micronesia",
+                      "Faroe Islands",
+                      "France",
+                      "Gabon",
+                      "England",
+                      "Northern Ireland",
+                      "Scotland",
+                      "Wales",
+                      "Grenada",
+                      "Georgia",
+                      "French Guiana",
+                      "Guernsey",
+                      "Gibraltar",
+                      "Greenland",
+                      "Gambia",
+                      "Guinea",
+                      "Guadeloupe",
+                      "Equatorial Guinea",
+                      "Greece",
+                      "South Georgia",
+                      "Guatemala",
+                      "Guam",
+                      "Guinea-Bissau",
+                      "Guyana",
+                      "Hong Kong",
+                      "Heard Island And McDonald Islands",
+                      "Honduras",
+                      "Croatia",
+                      "Haiti",
+                      "Hungary",
+                      "Indonesia",
+                      "Ireland",
+                      "Israel",
+                      "Isle Of Man",
+                      "British Indian Ocean Territory",
+                      "Iraq",
+                      "Iran",
+                      "Iceland",
+                      "Italy",
+                      "Jersey",
+                      "Jamaica",
+                      "Jordan",
+                      "Japan",
+                      "Kenya",
+                      "Kyrgyzstan",
+                      "Cambodia",
+                      "Kiribati",
+                      "Comoros",
+                      "Saint Kitts And Nevis",
+                      "North Korea",
+                      "South Korea",
+                      "Kuwait",
+                      "Cayman Islands",
+                      "Kazakhstan",
+                      "Laos",
+                      "Lebanon",
+                      "Saint Lucia",
+                      "Liechtenstein",
+                      "Sri Lanka",
+                      "Liberia",
+                      "Lesotho",
+                      "Lithuania",
+                      "Luxembourg",
+                      "Latvia",
+                      "Libya",
+                      "Morocco",
+                      "Monaco",
+                      "Moldova",
+                      "Montenegro",
+                      "Saint Martin",
+                      "Madagascar",
+                      "Marshall Islands",
+                      "North Macedonia",
+                      "Mali",
+                      "Myanmar",
+                      "Mongolia",
+                      "Macau",
+                      "Northern Mariana Islands",
+                      "Martinique",
+                      "Mauritania",
+                      "Montserrat",
+                      "Malta",
+                      "Mauritius",
+                      "Maldives",
+                      "Malawi",
+                      "Mexico",
+                      "Mozambique",
+                      "Namibia",
+                      "New Caledonia",
+                      "Niger",
+                      "Norfolk Island",
+                      "Nicaragua",
+                      "Netherlands",
+                      "Norway",
+                      "Nepal",
+                      "Nauru",
+                      "Niue",
+                      "Oman",
+                      "Panama",
+                      "Peru",
+                      "French Polynesia",
+                      "Papua New Guinea",
+                      "Philippines",
+                      "Poland",
+                      "Saint Pierre And Miquelon",
+                      "Pitcairn Islands",
+                      "Puerto Rico",
+                      "Palestine",
+                      "Portugal",
+                      "Palau",
+                      "Paraguay",
+                      "Qatar",
+                      "Réunion",
+                      "Romania",
+                      "Serbia",
+                      "Russia",
+                      "Rwanda",
+                      "Saudi Arabia",
+                      "Solomon Islands",
+                      "Seychelles",
+                      "Sudan",
+                      "Sweden",
+                      "Saint Helena, Ascension And Tristan Da Cunha",
+                      "Slovenia",
+                      "Svalbard And Jan Mayen",
+                      "Slovakia",
+                      "Sierra Leone",
+                      "San Marino",
+                      "Senegal",
+                      "Somalia",
+                      "Suriname",
+                      "South Sudan",
+                      "São Tomé And Príncipe",
+                      "El Salvador",
+                      "Sint Maarten",
+                      "Syria",
+                      "Eswatini (Swaziland)",
+                      "Turks And Caicos Islands",
+                      "Chad",
+                      "French Southern And Antarctic Lands",
+                      "Togo",
+                      "Thailand",
+                      "Tajikistan",
+                      "Tokelau",
+                      "Timor-Leste",
+                      "Turkmenistan",
+                      "Tunisia",
+                      "Tonga",
+                      "Turkey",
+                      "Trinidad And Tobago",
+                      "Tuvalu",
+                      "Taiwan",
+                      "Tanzania",
+                      "Ukraine",
+                      "Uganda",
+                      "United States Minor Outlying Islands",
+                      "United Nations",
+                      "Alaska",
+                      "Alabama",
+                      "Arkansas",
+                      "Arizona",
+                      "California",
+                      "Colorado",
+                      "Connecticut",
+                      "Delaware",
+                      "Florida",
+                      "Hawaii",
+                      "Iowa",
+                      "Idaho",
+                      "Illinois",
+                      "Indiana",
+                      "Kansas",
+                      "Kentucky",
+                      "Louisiana",
+                      "Massachusetts",
+                      "Maryland",
+                      "Maine",
+                      "Michigan",
+                      "Minnesota",
+                      "Missouri",
+                      "Mississippi",
+                      "Montana",
+                      "North Carolina",
+                      "North Dakota",
+                      "Nebraska",
+                      "New Hampshire",
+                      "New Jersey",
+                      "New Mexico",
+                      "Nevada",
+                      "New York",
+                      "Ohio",
+                      "Oklahoma",
+                      "Oregon",
+                      "Pennsylvania",
+                      "Rhode Island",
+                      "South Carolina",
+                      "South Dakota",
+                      "Tennessee",
+                      "Texas",
+                      "Utah",
+                      "Virginia",
+                      "Vermont",
+                      "Washington",
+                      "Wisconsin",
+                      "West Virginia",
+                      "Wyoming",
+                      "Uruguay",
+                      "Uzbekistan",
+                      "Vatican City (Holy See)",
+                      "Saint Vincent And The Grenadines",
+                      "Venezuela",
+                      "British Virgin Islands",
+                      "United States Virgin Islands",
+                      "Vietnam",
+                      "Vanuatu",
+                      "Wallis And Futuna",
+                      "Samoa",
+                      "Kosovo",
+                      "Yemen",
+                      "Mayotte",
+                      "Zambia",
+                      "Zimbabwe"
                     ]}
                     value={formData.country}
                     onChange={handleChange}
@@ -251,7 +589,7 @@ const MyProfile = () => {
                 <h3 className="profileinputslabel">Profile Tags</h3>
                 <em >press enter or comma to add new tag</em>
                 <TagsInput
-                separators={['Enter', ',']}
+                  separators={['Enter', ',']}
                   value={formData.tags}
                   onChange={handleTagsChange}
                   name="tags"
@@ -309,6 +647,28 @@ const MyProfile = () => {
           </div>
         </div>
       </div>
+      
+      <div className="bottom-navbar">
+        <Link to="/dashboard">
+          <img src={dashboard} alt="" />
+          <span>Dashboard</span>
+        </Link>
+
+        <Link to="/leaderboard">
+          <img src={leaderboard} alt="" />
+          <span>Leaderboard</span>
+        </Link>
+
+        <Link to="/comingsoon">
+          <img src={history} alt="" />
+          <span>History</span>
+        </Link>
+        
+        <Link to="/my-profile">
+          <img src={setting} alt="" />
+          <span>Settings</span>
+        </Link>
+    </div>
     </main>
   );
 };

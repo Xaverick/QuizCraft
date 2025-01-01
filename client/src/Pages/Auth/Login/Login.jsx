@@ -6,9 +6,9 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import './Login.scss'
 import google from '../../../assets/Authpages/google.png'
-// import diagonal from '../../../assets/Authpages/diagonal.png'
 import image from '../../../assets/Authpages/Image.png'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import AuthSide from '../../../components/authSide/AuthSide'
 
 
 const Login = () => {
@@ -64,7 +64,7 @@ const Login = () => {
           setEmail('');
           setPassword('');
           setTimeout(() => {
-            Navigate('/contest');
+            Navigate('/contests');
           }, 1000);
         } else {
           throw new Error('Login failed');
@@ -95,7 +95,7 @@ const Login = () => {
         setEmail('');
         setPassword('');
         setTimeout(() => {
-          Navigate('/');
+          Navigate('/contests');
         }, 1000);
       }
       else {
@@ -119,6 +119,7 @@ const Login = () => {
   };
   return (
     <div className='lginformcontainer'>
+
       <div className='loginfrom'>
         <div className="card">
           <form onSubmit={handleSubmit}>
@@ -151,10 +152,6 @@ const Login = () => {
                   />
                 )}
               </div>
-              {/* <div className="remember-me">
-                <input type="checkbox" id="rememberMe" name="rememberMe" required />
-                <label htmlFor="rememberMe">Remember Me</label>
-              </div> */}
             </div>
             <button className="cta-btn" type="submit" style={{    background: 'linear-gradient(to right, #08AAA2, #5CD7D1)'}} >Login</button>
 
@@ -169,17 +166,9 @@ const Login = () => {
           <Link to='/forgotpassword' className="forget-pass">Forgot password?</Link>
           <p className="subtitle">Don't have an account? <Link to='/signup'>Sign Up </Link></p>
         </div>
+
         <div className='loginformphoto'>
-          <div className='loginformphotopht'>
-            <img src={image} style={{width:'-webkit-fill-available'}} />
-          </div>
-          <div className='loginformphotoquote'>
-            <p>Geek Clash is your launchpad to a world of friendly competition. Challenge yourself in diverse topics, battle it out with fellow geeks worldwide, and watch your name climb the leaderboards after each contest. Forge friendships with a supportive community. Join the Clash and unleash your inner champion!</p>
-            {/* <div className='sys'>
-              <p className='sys1'>Nathen Hopkins</p>
-              <p>Lead Product Designer, Netflix</p>
-            </div> */}
-          </div>
+            <AuthSide />
         </div>
       </div>
     </div>

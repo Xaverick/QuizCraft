@@ -1,0 +1,177 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+
+.container {
+  max-width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  justify-content: center;
+  align-items: center;
+  gap: 90px;
+  align-items: center;
+  margin: 30px auto;
+  margin-top: 60px;
+}
+
+@media (width <=954px) {
+  .container {
+    gap: 30px;
+  }
+}
+
+@media (width <=1250px) {
+  .container {
+    gap: 20px;
+  }
+}
+
+
+.leftContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.leftContainer div:nth-child(1) {
+  display: flex;
+  flex-wrap: wrap;
+  width: 400px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 40px;
+  color: #333333;
+}
+
+.leftContainer div:nth-child(2) {
+  font-family: "Poppins", sans-serif;
+  max-width: 500px;
+  font-weight: 300;
+  font-size: 25px;
+  color: #4C4C4C;
+  margin-top: 10px;
+}
+
+.leftContainer div:nth-child(3) {
+  width: 244px;
+  padding: 10px 37px;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 18px;
+  color: #4C4C4C;
+  margin-top: 20px;
+  border: 1px solid #4C4C4C;
+  border-radius: 50px;
+}
+
+.rightContainer {
+  position: relative;
+  /* width: 500px; */
+}
+
+.rightContainer img {
+  height: 100%;
+  width: 100%;
+}
+
+@media (width <=450px) {
+  .rightContainer img {
+    width: 400px;
+  }
+}
+
+@media (width <=320px) {
+  .rightContainer img {
+    width: 300px;
+  }
+
+  .leftContainer {
+    width: 300px;
+  }
+}
+
+@media (width <=1250px) {
+  .rightContainer img {
+    width: 470px;
+  }
+
+  .leftContainer {
+    width: 500px;
+  }
+
+  .leftContainer div:nth-child(1) {
+    font-size: 35px;
+  }
+
+  .leftContainer div:nth-child(2) {
+    font-size: 20px;
+  }
+
+}
+
+@media (width <=1150px) {
+  .rightContainer img {
+    width: 400px;
+  }
+
+  .leftContainer {
+    width: 400px;
+  }
+
+  .leftContainer div:nth-child(1) {
+    font-size: 29px;
+  }
+
+  .leftContainer div:nth-child(2) {
+    font-size: 17px;
+  }
+}
+
+@media (width <=1024px) {
+  .rightContainer img {
+    width: 350px;
+  }
+
+  .leftContainer {
+    width: 310px;
+  }
+
+  .leftContainer div:nth-child(1) {
+    font-size: 27px;
+  }
+
+  .leftContainer div:nth-child(2) {
+    font-size: 14px;
+  }
+}
+
+.cyanshadow {
+  position: absolute;
+  z-index: -1;
+  width: 20px;
+  height: 20px;
+  top: 100px;
+  left: 100px;
+  background: rgba(102, 214, 208, 0.23);
+  -webkit-box-shadow: -16px 16px 300px 112px rgba(102, 214, 208, 0.292);
+  -moz-box-shadow: -16px 16px 300px 112px rgba(102, 214, 209, 0.59);
+  box-shadow: -16px 16px 300px 112px rgba(102, 214, 208, 0.275);
+}
+
+.cyanshadow2 {
+  position: absolute;
+  z-index: -1;
+  width: 20px;
+  height: 20px;
+  right: 220px;
+  bottom: 220px;
+  -webkit-box-shadow: 200px 200px 300px 200px rgba(102, 214, 209, 0.59);
+  -moz-box-shadow: 200px 200px 300px 200px rgba(102, 214, 208, 0.245);
+  box-shadow: 200px 200px 300px 200px rgba(102, 214, 208, 0.196);
+}

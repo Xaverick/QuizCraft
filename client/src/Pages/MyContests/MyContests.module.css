@@ -1,0 +1,157 @@
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}
+
+.contestSection {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-left: 1px solid rgb(233, 231, 231);
+}
+
+.contestType {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin: 25px auto;
+  width: 100%;
+  font-size: 25px;
+  font-weight: medium;
+}
+
+.contestType div {
+  cursor: pointer;
+  text-align: center;
+}
+
+
+.line {
+  margin-top: 5px;
+  background-color: #24b2b4;
+  border-radius: 20px;
+  height: 3px;
+  width: 100%;
+  box-shadow: -3px 2px 19px 1px rgba(36, 178, 180, 1);
+}
+
+.tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  color: #333333;
+  position: relative;
+}
+
+.active {
+  color: #000000;
+}
+
+.yourContests {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* margin-top: 20px; */
+}
+
+.conteststatus {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  max-width: 996px;
+  width: 100%;
+  height: 48px;
+  padding-left: 20px;
+  /* column-gap: 260px; */
+  border: 1px solid #D1D1D1;
+  background-color: #E0E0E0;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: medium;
+  text-align: start;
+  margin-top: 15px;
+
+}
+
+.conteststatus div {
+  width: 40%;
+  /* border: 2px solid black; */
+}
+
+.contestlist {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  max-width: 996px;
+  width: 100%;
+  height: 48px;
+  padding-left: 20px;
+  /* column-gap: 260px; */
+  border: 1px solid #D1D1D1;
+  background-color: #FFFFFF;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: medium;
+  text-align: start;
+  margin-top: 15px;
+  position: relative;
+  cursor: pointer;
+}
+
+.borderBlue {
+  border: 1px solid #24b2b4;
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  max-width: 996px;
+  width: 100%;
+  height: 48px;
+  padding-left: 20px;
+  /* column-gap: 260px; */
+  background-color: #FFFFFF;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: medium;
+  text-align: start;
+  margin-top: 15px;
+  position: relative;
+  cursor: pointer;
+}
+
+.borderBlue div {
+  width: 40%;
+}
+
+.contestlist div {
+  width: 40%;
+  font-size: 18px;
+}
+
+.rightArrow {
+  position: absolute;
+  right: 20px;
+  color: #6E6E73;
+}
+
+.attempted {
+  color: #08AAA2;
+
+}
+
+.nonAttempted {
+  color: #6E6E73;
+}
+
+.contestName {
+  color: #000000;
+}

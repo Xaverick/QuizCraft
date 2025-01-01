@@ -6,7 +6,7 @@ import { logout } from '../../store/slices/authSlice';
 import { RxHamburgerMenu, RxCross1 } from 'react-icons/rx';
 import navbarlogo from '../../assets/GeekClash.svg';
 import axios from 'axios';
-
+import { CgLogOut } from "react-icons/cg";
 
 const SideNavbar = () => {
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
@@ -57,7 +57,7 @@ const SideNavbar = () => {
             <div className='side-navbar'>
                 <div className='side-navbar-content'>
                     <div className='side-navbar-logo ' style={{marginBottom:'-8px'}}>
-                        <img src={navbarlogo} alt='logo' />
+                        <Link to='/'><img src={navbarlogo} alt='logo' /></Link>
                     </div>
                     <div className='side-menu-icon' onClick={toggleMenu}>
                         {showMenu ? <RxCross1 size={24} color="black" /> : <RxHamburgerMenu size={24} color="black" />}
@@ -71,16 +71,16 @@ const SideNavbar = () => {
                             Home
                         </Link>
                         <Link
-                            to="/contest"
+                            to="/contests"
                             className={`side-navbar-link ${activeLink === '/contest' ? 'active' : ''}`}
                             onClick={() => handleLinkClick('/contest')}
                         >
                             Contests
                         </Link>
                         <Link
-                            to="/comingsoon"
-                            className={`side-navbar-link ${activeLink === '/comingsoon' ? 'active' : ''}`}
-                            onClick={() => handleLinkClick('/comingsoon')}
+                            to="/leaderboard"
+                            className={`side-navbar-link ${activeLink === '/leaderboard' ? 'active' : ''}`}
+                            onClick={() => handleLinkClick('/leaderboard')}
                         >
                             Leaderboard
                         </Link>
@@ -109,7 +109,20 @@ const SideNavbar = () => {
                             Contact
                         </Link>
                         {isLoggedIn ? (
-                            <button className="side-navbar-link " style={{ background: 'white', fontSize: '20px', border: 'none', fontWeight: "600" }} onClick={handleLogout}>
+                            <button 
+                                className="side-navbar-link " 
+                                style={{ 
+                                    background: 'white', 
+                                    fontSize: '16px', 
+                                    border: 'none', 
+                                    fontWeight: "500", 
+                                    color: 'red', 
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                }} 
+                                onClick={handleLogout}
+                            >
+                                <CgLogOut size={20} />
                                 Logout
                             </button>
                         ) : (

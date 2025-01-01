@@ -5,6 +5,7 @@ const multer = require('multer');
 const fs = require('fs');
 const path = require('path');
 
+
 const isClient = async (req, res, next) => {
     const cookie = req.signedCookies.userjwt;
 
@@ -66,6 +67,9 @@ const storage = multer.diskStorage({
 })
 
 
-const upload = multer({ storage: storage })
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 600 * 1024 }, // 600KB
+  });
 
 module.exports = { isAdmin, isClient, upload };

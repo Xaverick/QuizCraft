@@ -78,16 +78,16 @@ const Navbar = () => {
               Home
             </Link>
             <Link
-              to="/contest"
+              to="/contests"
               className={`navbar-link ${activeLink === '/contest' ? 'active' : ''}`}
               onClick={() => handleLinkClick('/contest')}
             >
               Contests
             </Link>
             <Link
-              to="/comingsoon"
-              className={`navbar-link ${activeLink === '/comingssoon' ? 'active' : ''}`}
-              onClick={() => handleLinkClick('/comingsson')}
+              to="/leaderboard"
+              className={`navbar-link ${activeLink === '/leaderboard' ? 'active' : ''}`}
+              onClick={() => handleLinkClick('/leaderboard')}
             >
               Leaderboard
             </Link>

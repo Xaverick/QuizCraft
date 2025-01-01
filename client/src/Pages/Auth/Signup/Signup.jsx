@@ -7,6 +7,7 @@ import './Signup.scss';
 import google from '../../../assets/Authpages/google.png';
 import image from '../../../assets/Authpages/Image.png';
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai';
+import AuthSide from '../../../components/authSide/AuthSide';
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -139,17 +140,8 @@ const Signup = () => {
               </button>
           </div>
         </div>
-        <div className='loginformphoto'>
-          <div className='loginformphotopht'>
-            <img src={image} style={{ width: '-webkit-fill-available' }} />
-          </div>
-          <div className='loginformphotoquote'>
-            <p>Geek Clash is your launchpad to a world of friendly competition. Challenge yourself in diverse topics, battle it out with fellow geeks worldwide, and watch your name climb the leaderboards after each contest. Forge friendships with a supportive community. Join the Clash and unleash your inner champion!</p>
-            <div className='sys'>
-              {/* <p className='sys1'>Nathen Hopkins</p>
-              <p>Lead Product Designer, Netflix</p> */}
-            </div>
-          </div>
+        <div className='loginformphoto'> 
+          <AuthSide />
         </div>
       </div>
     </div>

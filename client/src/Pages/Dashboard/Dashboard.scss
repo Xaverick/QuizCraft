@@ -1,6 +1,15 @@
-// .content{
-//   border-left: 1px solid #ECECEE;
-// }
+.mainDashboard {
+  display: flex;
+  width: 100%;
+
+  @media screen and (max-width: 720px) {
+    height: auto;
+  }
+}
+
+.contentDashboard {
+  border-left: 1px solid rgb(233, 231, 231);
+}
 
 .top-heading {
   display: flex;
@@ -10,15 +19,29 @@
   p {
     cursor: pointer;
   }
+
+  @media screen and (max-width: 720px) {
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+
+    margin: 10px 0px;
+  }
 }
-.edit-profile p{
-    padding: 10px 10px;
-    border: 1px solid gray;
-    // background: linear-gradient(90deg, #d2af59 0%, #76411b 100%);
-    border-radius: 10px;
-    font-size: 12px;
-    // color: white;
+
+.edit-profile p {
+  padding: 10px;
+  border: 1px solid gray;
+  border-radius: 4px;
+  font-size: 12px;
+
+  @media screen and (max-width: 720px) {
+    padding: 8px;
+  }
+
 }
+
 .upper {
   width: 100%;
   display: flex;
@@ -28,23 +51,42 @@
 }
 
 .upper-inner {
-  width: 60%;
   margin: 0 auto;
 
+  @media screen and (max-width: 720px) {
+    width: 100%;
+    margin: 0;
+  }
 
   .img-box {
     height: 9rem;
     width: 9rem;
     border-radius: 50%;
-    border: 1px solid #ffb800;
+    border: 3px solid #ffb800;
+    padding: 4px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    img{
+
+    img {
       height: 100%;
       width: 100%;
+      object-fit: cover;
       border-radius: 50%;
+    }
+
+    @media screen and (max-width: 720px) {
+      height: 100px;
+      width: 100px;
+      border: 1px solid #ffb800;
+
+      img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+      }
     }
   }
 
@@ -54,47 +96,115 @@
     align-items: center;
     justify-content: center;
 
+    @media screen and (max-width: 720px) {
+      flex-direction: row;
+      justify-content: start;
+      gap: 10px;
 
-   .name{
-    font-weight: 600;
-    font-size: 24px;
-    margin: 0;
-   }
-   .username{
-    margin: 0;
-    text-align: center;
-   }
+    }
 
-  }
-
-  
-
-  .bio {
-    text-align: center;
-  }
-
-  .platforms {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1rem;
-
-    a {
-      padding: 5px;
-      border: 1px solid gray;
-      border-radius: 10px;
-      // height: 1rem;
-      // width: 1rem;
+    .usernameContainer{
       display: flex;
+      flex-direction: column;
+
+      gap: 5px;
+      @media screen and (max-width: 720px) {
+        gap: 5px;
+      }
+    }
+
+    .name-username {
+      display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
 
-      img {
-        height: 2rem;
-        width: 2rem;
+      @media screen and (max-width: 720px) {
+        flex-direction: column;
+        align-items: start;
+        justify-content: center;
+      }
+
+      .name {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 24px;
+        margin: 0;
+
+        @media screen and (max-width: 720px) {
+          font-size: 20px;
+        }
+
+        .badge {
+          height: 32px;
+          width: 32px;
+          margin-left: 5px;
+
+          @media screen and (max-width: 720px) {
+            height: 24px;
+            width: 24px;
+          }
+        }
+
+      }
+    }
+
+    .username {
+      margin: 0;
+      text-align: center;
+
+      @media screen and (max-width: 720px) {
+        font-size: 14px;
       }
     }
   }
+}
+
+.bio {
+  text-align: center;
+  margin: 0;
+  @media screen and (max-width: 720px) {
+    font-size: 14px;
+    text-align: left;
+    margin: 0;
+  }
+}
+
+.platforms {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+
+  a {
+    height: 24px;
+    width: 24px;
+    padding: 3px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+  }
+
+  @media screen and (max-width: 720px) {
+    gap: 10px;
+    justify-content: start;
+  }
+}
+
+
+.bio-skills-2 {
+  display: none;
 }
 
 .detail-box {
@@ -103,6 +213,10 @@
   gap: 1rem;
   align-items: center;
   justify-content: center;
+
+  @media screen and (max-width: 720px) {
+    gap: 10px;
+  }
 }
 
 .detail-box .profile-title {
@@ -112,7 +226,13 @@
   border-radius: 999px;
   font-size: 12px;
   color: white;
+
+  @media screen and (max-width: 720px) {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
 }
+
 .detail-box .previous-session {
   display: flex;
   align-items: center;
@@ -120,30 +240,47 @@
   gap: 0.5rem;
   padding: 10px;
   border: 1px solid gray;
-  // background: linear-gradient(90deg, #d2af59 0%, #76411b 100%);
   border-radius: 999px;
   font-size: 12px;
-  // color: white;
   cursor: pointer;
+
+  @media screen and (max-width: 720px) {
+    padding: 4px 8px;
+    font-size: 10px;
+  }
 }
 
 .skills {
   display: flex;
-  // grid-template-columns: repeat(5, 1fr);
-  gap: 5px; /* Adds space between the grid items */
-  justify-content: center; /* Center items in the grid */
-  grid-auto-flow: dense; /* Fill rows with items in the order they appear */
+  padding: 0 5px;
+  gap: 5px;
+  /* Adds space between the grid items */
+  justify-content: center;
+  /* Center items in the grid */
+  flex-wrap: wrap;
+  // grid-template-columns: repeat(4, 1fr);
+  // grid-auto-flow: dense; /* Fill rows with items in the order they appear */ /* Fill rows with items in the order they appear */
 }
 
 .skill {
   padding: 5px 2rem;
   width: fit-content;
-  
+
   border: 1px solid gray;
   border-radius: 999px;
-  text-align: center; /* Centers text within each skill item */
+  text-align: center;
   font-size: 12px;
   text-wrap: nowrap;
+}
+
+.heading{
+  padding: 0px 6px;
+
+  @media screen and (max-width: 720px) {
+    font-size: 24px;
+    font-weight: 500;
+    margin: 10px 0px;
+  }
 }
 
 .badges {
@@ -152,28 +289,47 @@
   gap: 1rem;
   align-items: center;
   justify-content: space-evenly;
+  overflow-x: auto;
 
   img {
     height: 9.8rem;
     width: 9.8rem;
     pointer-events: none;
     user-select: none;
+    object-fit: contain;
   }
 
-  p {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  p{
+    text-align: center;
+  }
+
+  @media screen and (max-width: 720px) {
+    gap: 10px;
+    justify-content: space-around;
+    overflow-x: auto;
+
+    img {
+      height: 50px;
+      width: 50px;
+    }
+
+    p{
+      font-size: 12px;
+    }
   }
 }
 
 .refferal {
   display: flex;
   flex-direction: column;
-  margin: 1rem 0;
+  margin-top: 1rem;
+  padding: 0px 6px;
+  margin-bottom: 100px;
+  gap: 10px;
 
   p {
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 500;
   }
 
   .copy-referral {
@@ -183,6 +339,10 @@
     flex-direction: row;
     border: 1px solid gray;
     border-radius: 1rem;
+
+    @media screen and (max-width: 720px) {
+      width: 100%;
+    }
   }
 
   .copy-referral input {
@@ -190,49 +350,58 @@
     height: 100%;
     margin-top: 0;
     margin-bottom: 0;
-    border: none; /* Remove border */
-    outline: none; /* Remove outline */
-    border-radius: 1rem 0 0 1rem; /* Adjust border radius to fit within the container */
-    padding: 0 10px; /* Add padding for better appearance */
+    border: none;
+    outline: none;
+    border-radius: 1rem 0 0 1rem;
+    padding: 0 10px;
   }
+
+
 
   .copy-referral button {
     width: 20%;
-    height: 100%; /* Ensure the button height matches the input height */
+    height: 100%;
     background-color: #04b39f;
     color: white;
-    border: none; /* Remove border */
-    border-radius: 0 1rem 1rem 0; /* Adjust border radius to fit within the container */
-    cursor: pointer; /* Add pointer cursor */
+    border: none;
+    border-radius: 0 1rem 1rem 0;
+    cursor: pointer;
+  }
+
+  .name-username {
+    text-align: center;
   }
 
   .share-now {
     display: flex;
-    flex-direction: row;
-    gap: 1rem;
-    align-items: center;
-  }
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    justify-content: start;
 
-  .platforms {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-
-    a {
-      padding: 8px;
-      border: 1px solid gray;
-      border-radius: 10px;
-      height: 1rem;
-      width: 1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    p{
+      margin: 0;
+      width: 100%;
+      font-weight: 500;
+      font-size: 16px;
     }
   }
+
 }
 
-h3{
+
+
+h3 {
   font-size: 1.5rem;
   font-weight: 500;
   margin: 1rem 0;
+}
+
+
+.bottom-navbar{
+  display: none;
+
+  @media screen and (max-width: 720px) {
+    display: flex;
+  }
 }

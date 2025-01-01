@@ -45,10 +45,10 @@ const Footer = () => {
               <p>Quick Links</p>
             </div>
             <div className="content2points">
-              <a href="/contest" >
+              <a href="/contests" >
                 Contests
               </a>
-              <a href="/comingsoon" >
+              <a href="/leaderboard" >
                 Leaderboard
               </a>
               <Link to="/comingsoon">

@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
-import "./ForgotPassword.css";
+import { Link } from "react-router-dom";
+
+//styles
+import styles from "./ForgotPassword.module.css";
+
+//components
+import AuthSide from "../../../components/authSide/AuthSide";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -13,7 +19,7 @@ const ForgotPassword = () => {
     setError("");
 
     try {
-      const response = await axios.post("/user/forgotpassword", { email });
+      const response = await axios.post("/user/forgotpassword", { email: email.toLowerCase() });
 
       if (response.status === 201) {
         setMessage(
@@ -26,27 +32,37 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="forgot-password-container">
-      <div className="form-container">
-        <h2>Forgot Password</h2>
-        <form onSubmit={handleSubmit} className="form">
-          <div className="form-group">
-            <label htmlFor="email">Email Address</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+    <div className={styles.container}>
+      <div className={styles.formContainer}>
+        <div className={styles.header}>
+          <h2>Forgot Password?</h2>
+          <p>No worries, we will send an email with a verification code.</p>
+        </div>
+
+        <div className={styles.form}>
+          <form onSubmit={handleSubmit}>
+              <input
+                type="email"
+                name="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="Enter your email address"
+              />
+            <button type="submit">Send Reset Instructions</button>
+          </form>
+
+          <div className={styles.redirect}>
+            <Link to="/login">Back to login</Link>
           </div>
-          <button type="submit" className="btn" style={{    background: 'linear-gradient(to right, #08AAA2, #5CD7D1)'}}>
-            Send
-          </button>
-        </form>
-        {message && <p className="success-message">{message}</p>}
-        {error && <p className="error-message">{error}</p>}
+        </div>
+
+        {message && <p className={styles.successMessage}>{message}</p>}
+        {error && <p className={styles.errMessage}>{error}</p>}
+      </div>
+      <div className={styles.authSide}>
+        <AuthSide />
       </div>
     </div>
   );

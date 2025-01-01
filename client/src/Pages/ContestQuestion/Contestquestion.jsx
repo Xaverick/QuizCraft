@@ -2,11 +2,22 @@ import { useState, useEffect } from 'react';
 import './Contestquestion.scss';
 import { Link, useParams } from 'react-router-dom';
 import logo from '../../assets/GeekClash.svg'
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
+
+
+const RenderQuestion = ({question, index}) => {
+    return (
+  
+      <pre className="whitespace-pre-wrap" key={index}>
+         {index}. <code>{question?.text}</code>
+      </pre>
+  
+    );
+  };
 
 const ContestQuestion = () => {
     const { id } = useParams();
@@ -222,7 +233,8 @@ const ContestQuestion = () => {
                     </div>
                     <div className="question">
                         <h2 className="question-num">
-                            Question {currentIndex + 1}: {currentQuestion?.text}
+                            <RenderQuestion question={currentQuestion} index={currentIndex + 1} />
+                            {/* Question {currentIndex + 1}: {currentQuestion?.text} */}
                         </h2>
                     </div>
                     <div className="answer " >
@@ -291,7 +303,7 @@ const ContestQuestion = () => {
                     </div>
                 </section>
             </div>
-
+            <ToastContainer />
         </main>
     );
 };

@@ -24,9 +24,9 @@ import { FaArrowRight, FaCopy } from "react-icons/fa";
 const allBadges = [
   { badgeimg: Beginner, badgeName: "Newbie", threshold: 50 },
   { badgeimg: Hustler, badgeName: "Hustler", threshold: 200 },
-  { badgeimg: Champion, badgeName: "Maverick", threshold: 400 },
+  { badgeimg: Pro, badgeName: "Maverick", threshold: 400 },
   { badgeimg: Scholar, badgeName: "Wizard", threshold: 800 },
-  { badgeimg: Pro, badgeName: "Gladiator", threshold: 1200 },
+  { badgeimg: Champion, badgeName: "Gladiator", threshold: 1200 },
 ];
 
 const ReqProfile = () => {
