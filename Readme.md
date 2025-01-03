@@ -30,12 +30,14 @@ Welcome to QuizCraft, a dynamic contest giving platform that allows users to eng
 ## Project Structure
 
 ```arduino
-admin_2.0/
-    ├── backend/
+Quizcraft/
+    ├── admin/
+    │   └── .env
     ├── client/
-    ├── .env
-    ├── README.md
-    └── public/
+    │   └── .env
+    ├── backend/
+    │   └── .env
+    └── README.md
 ```
 
 - backend/: Contains the server-side logic including controllers, routes, and database models.
@@ -101,6 +103,19 @@ CLOUDINARY_API_SECRET="your-cloudinary-api-secret"
 
 ```
 
+Create a .env file in the admin directory with the following required variables:
+```makefile
+NEXT_PUBLIC_REACT_APP_API_URL=http://localhost:4000
+VITE_API_URL=http://localhost:4000
+```
+
+Create a .env file in the client directory with the following required variables:
+```makefile
+VITE_LOCALHOST=http://localhost:4000
+VITE_SERVER_URL=hosted-backend-url
+VITE_FRONTEND_URL=http://localhost:5173
+```
+
 4. Run the Project
 To start the backend server:
 ```bash
@@ -143,5 +158,3 @@ We welcome contributions! If you'd like to contribute to QuizCraft, please fork 
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-Thank you for using QuizCraft! We hope you enjoy participating in and organizing contests. Happy coding!
