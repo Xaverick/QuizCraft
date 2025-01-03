@@ -72,28 +72,56 @@ cd client
 npm install
 ```
 
+For the Admin:
+```bash
+cd admin
+npm install
+```
+
 3. Set up Environment Variables
 Create a .env file in the backend directory with the following required variables:
 ```makefile
-MONGO_URI=your_mongo_database_url
-JWT_SECRET=your_jwt_secret
-PORT=your_preferred_port
+DB_URL=mongodb+srv://<your-username>:<your-password>@cluster0.qaycstr.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+USER_SECRET="your-secret-key"
+SECRET="your-cookie-secret"
+ADMIN_SECRET="your-admin-key"
+EMAIL="your-email@example.com"
+PASSWORD="your-email-password"
+CONTACT_EMAIL="your-contact-email@example.com"
+BACKEND_DOMAIN="http://your-backend-domain"
+RAZORPAY_KEY_ID="your-razorpay-key-id"
+RAZORPAY_SECRET="your-razorpay-secret"
+SITE_URL="http://your-site-url"
+ADMIN_URL="http://your-admin-url"
+GOOGLE_CLIENT_ID="your-google-client-id"
+GOOGLE_CLIENT_SECRET="your-google-client-secret"
+CLOUDINARY_CLOUD_NAME="your-cloudinary-cloud-name"
+CLOUDINARY_API_KEY="your-cloudinary-api-key"
+CLOUDINARY_API_SECRET="your-cloudinary-api-secret"
+
 ```
 
 4. Run the Project
 To start the backend server:
 ```bash
 cd backend
-npm start
+nodemon index.js
 ```
 
 To start the frontend (client) application:
 ```bash
 cd client
-npm start
+npm run dev
 ```
 
-Visit http://localhost:3000 in your browser to start using the platform.
+To start the frontend (admin) application:
+```bash
+cd admin
+npm run dev
+```
+
+Visit http://localhost:5173 in your browser to start using the platform (Client).
+Visit http://localhost:5174 in your browser to start using the platform (Admin).
 
 ## Admin Panel Access
 Admins can log in using predefined credentials to access the admin dashboard. From here, you can:
