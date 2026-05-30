@@ -1,0 +1,44 @@
+# kube-prometheus-stack Helm values
+# Deploy with:
+#   helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+#   helm repo update
+#   helm upgrade --install monitoring prometheus-community/kube-prometheus-stack \
+#     -n monitoring --create-namespace \
+#     -f k8s/monitoring/prometheus-values.yaml
+
+grafana:
+  enabled: true
+  adminPassword: "changeme123"   # Change this
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+    hosts:
+      - grafana.geekclash.in
+    tls:
+      - secretName: grafana-tls
+        hosts:
+          - grafana.geekclash.in
+
+prometheus:
+  prometheusSpec:
+    retention: 15d
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 20Gi
+
+alertmanager:
+  enabled: true
+
+# Scrape the geekclash namespace too
+additionalScrapeConfigs:
+  - job_name: geekclash-backend
+    static_configs:
+      - targets:
+          - geekclash-backend-svc.geekclash.svc.cluster.local:80
+    metrics_path: /metrics

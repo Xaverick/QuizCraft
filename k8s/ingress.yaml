@@ -1,0 +1,54 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: geekclash-ingress
+  namespace: geekclash
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "120"
+    # cert-manager will issue a Let's Encrypt certificate automatically
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+    - hosts:
+        - geekclash.in
+        - api.geekclash.in
+        - admin.geekclash.in
+      secretName: geekclash-tls
+  rules:
+    # User-facing client app
+    - host: geekclash.in
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: geekclash-client-svc
+                port:
+                  name: http
+
+    # Backend API
+    - host: api.geekclash.in
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: geekclash-backend-svc
+                port:
+                  name: http
+
+    # Admin panel
+    - host: admin.geekclash.in
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: geekclash-admin-svc
+                port:
+                  name: http

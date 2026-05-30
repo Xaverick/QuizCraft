@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: geekclash-backend-config
+  namespace: geekclash
+data:
+  NODE_ENV: "production"
+  BACKEND_DOMAIN: "https://api.geekclash.in"
+  SITE_URL: "https://geekclash.in"
+  ADMIN_URL: "https://admin.geekclash.in"

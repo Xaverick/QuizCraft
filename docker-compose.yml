@@ -1,0 +1,110 @@
+services:
+  # ─────────────────────────────────────────
+  # MongoDB
+  # ─────────────────────────────────────────
+  mongo:
+    image: mongo:7
+    container_name: geekclash-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER:-admin}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD:-secret}
+      MONGO_INITDB_DATABASE: geekclash
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - geekclash-net
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  # ─────────────────────────────────────────
+  # Backend API (Node.js / Express)
+  # ─────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: geekclash-backend
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    depends_on:
+      mongo:
+        condition: service_healthy
+    environment:
+      NODE_ENV: development
+      DB_URL: mongodb://${MONGO_USER:-admin}:${MONGO_PASSWORD:-secret}@mongo:27017/geekclash?authSource=admin
+      SECRET: ${SECRET}
+      USER_SECRET: ${USER_SECRET}
+      ADMIN_SECRET: ${ADMIN_SECRET}
+      EMAIL: ${EMAIL}
+      PASSWORD: ${PASSWORD}
+      BACKEND_DOMAIN: ${BACKEND_DOMAIN:-http://localhost:4000}
+      SITE_URL: ${SITE_URL:-http://localhost:5173}
+      ADMIN_URL: ${ADMIN_URL:-http://localhost:5174}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+      RAZORPAY_KEY_ID: ${RAZORPAY_KEY_ID}
+      RAZORPAY_KEY_SECRET: ${RAZORPAY_KEY_SECRET}
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+    volumes:
+      - ./backend/public/temp:/app/public/temp
+    networks:
+      - geekclash-net
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:4000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+  # ─────────────────────────────────────────
+  # Client (user-facing React app → nginx)
+  # ─────────────────────────────────────────
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:4000}
+    container_name: geekclash-client
+    restart: unless-stopped
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+    networks:
+      - geekclash-net
+
+  # ─────────────────────────────────────────
+  # Admin Panel (React + Vite → nginx)
+  # ─────────────────────────────────────────
+  admin:
+    build:
+      context: ./admin
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:4000}
+    container_name: geekclash-admin
+    restart: unless-stopped
+    ports:
+      - "5174:80"
+    depends_on:
+      - backend
+    networks:
+      - geekclash-net
+
+networks:
+  geekclash-net:
+    driver: bridge
+
+volumes:
+  mongo-data:

@@ -62,6 +62,16 @@ app.use("/payments", payments);
 const reward = require("./routes/rewardRoute");
 app.use("/reward", reward);
 
+// Health check — used by Kubernetes liveness/readiness probes
+app.get("/health", (req, res) => {
+  const dbState = mongoose.connection.readyState;
+  // 1 = connected, 2 = connecting
+  if (dbState === 1 || dbState === 2) {
+    return res.status(200).json({ status: "ok", db: "connected" });
+  }
+  return res.status(503).json({ status: "error", db: "disconnected" });
+});
+
 app.use((err, req, res, next) => {
   const { statusCode = 500 } = err;
   if (!err.message) err.message = "Something went wrong!";

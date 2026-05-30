@@ -1,0 +1,9 @@
+node_modules
+npm-debug.log
+.env
+.env.*
+public/temp/*
+!public/temp/.gitkeep
+*.md
+.git
+.gitignore
