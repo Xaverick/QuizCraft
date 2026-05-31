@@ -104,7 +104,7 @@ const Home = () => {
           <div className="homephase1">
             <div className="homephase1left">
               <div className="homephase1left1">
-                <p>Compete with Geeks From All Over The World AND BECOME TOPPER</p>
+                <p>Compete with Geeks From All Over The World</p>
                 <span>
                   <img src={lightning} alt="Lightning Icon" />
                 </span>
