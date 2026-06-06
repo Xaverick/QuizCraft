@@ -24,6 +24,31 @@ app.use(cookieParser(process.env.SECRET));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+const { client, httpRequestDuration, httpRequestTotal } = require('./metrics');
+
+// Metrics middleware — add before your routes
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    const duration = (Date.now() - start) / 1000;
+    const route = req.route ? req.route.path : req.path;
+    httpRequestDuration
+      .labels(req.method, route, res.statusCode)
+      .observe(duration);
+    httpRequestTotal
+      .labels(req.method, route, res.statusCode)
+      .inc();
+  });
+  next();
+});
+
+// Metrics endpoint — add with your other routes
+app.get('/metrics', async (req, res) => {
+  res.set('Content-Type', client.register.contentType);
+  res.end(await client.register.metrics());
+});
+
 app.use(
   cors({
     origin: [
